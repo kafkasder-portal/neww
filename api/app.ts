@@ -6,22 +6,22 @@ import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 
 // Import routes
-import healthRoutes from './routes/health.js';
-import authRoutes from './routes/auth.js';
-import beneficiariesRoutes from './routes/beneficiaries.js';
-import meetingsRoutes from './routes/meetings.js';
-import messagesRoutes from './routes/messages.js';
-import tasksRoutes from './routes/tasks.js';
-import donationsRoutes from './routes/donations.js';
-import financialRoutes from './routes/financial.js';
-import paymentsRoutes from './routes/payments.js';
-import errorsRoutes from './routes/errors.js';
-import smsRoutes from './routes/sms.js';
-import emailRoutes from './routes/email.js';
-import whatsappRoutes from './routes/whatsapp.js';
+import healthRoutes from './routes/health.ts';
+import authRoutes from './routes/auth.ts';
+import beneficiariesRoutes from './routes/beneficiaries.ts';
+import meetingsRoutes from './routes/meetings.ts';
+import messagesRoutes from './routes/messages.ts';
+import tasksRoutes from './routes/tasks.ts';
+import donationsRoutes from './routes/donations.ts';
+import financialRoutes from './routes/financial.ts';
+import paymentsRoutes from './routes/payments.ts';
+import errorsRoutes from './routes/errors.ts';
+import smsRoutes from './routes/sms.ts';
+import emailRoutes from './routes/email.ts';
+import whatsappRoutes from './routes/whatsapp.ts';
 
 // Import middleware
-import { errorHandler } from './middleware/errorHandler.js';
+import { errorHandler } from './middleware/errorHandler.ts';
 
 const app = express();
 
