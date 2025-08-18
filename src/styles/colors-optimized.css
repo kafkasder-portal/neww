@@ -1,0 +1,178 @@
+/* OPTİMİZE EDİLMİŞ RENK SİSTEMİ - DERNEK YÖNETİM PANELİ */
+
+@layer base {
+  :root {
+    /* ========================================
+     * TEMEL RENK PALETİ - Optimized for WCAG AA
+     * ======================================== */
+    
+    /* Marka Renkleri - Güven ve Profesyonellik */
+    --brand-primary: 220 98% 29%;      /* #0F3A7A - Koyu mavi, %7.1 kontrast */
+    --brand-primary-50: 220 100% 95%;  /* #E6F0FF - Çok açık mavi */
+    --brand-primary-100: 220 95% 85%;  /* #B3D4FF - Açık mavi */
+    --brand-primary-200: 220 90% 75%;  /* #80B8FF - Orta açık mavi */
+    --brand-primary-300: 220 85% 65%;  /* #4D9CFF - Orta mavi */
+    --brand-primary-400: 220 80% 55%;  /* #1A80FF - Canlı mavi */
+    --brand-primary-500: 220 98% 29%;  /* #0F3A7A - Ana mavi */
+    --brand-primary-600: 220 100% 25%; /* #0D3066 - Koyu mavi */
+    --brand-primary-700: 220 100% 21%; /* #0A2652 - Çok koyu mavi */
+    --brand-primary-800: 220 100% 17%; /* #081C3E - Ultra koyu mavi */
+    --brand-primary-900: 220 100% 13%; /* #05122A - En koyu mavi */
+
+    /* Finansal Durum Renkleri - WCAG AA Uyumlu */
+    --financial-success: 142 71% 25%;     /* #1D8348 - Başarı yeşili %4.5 kontrast */
+    --financial-success-light: 142 68% 88%; /* #D5EFDB - Açık yeşil arka plan */
+    --financial-warning: 43 89% 35%;       /* #B7950B - Uyarı sarısı %4.6 kontrast */
+    --financial-warning-light: 43 84% 90%; /* #FCF3C4 - Açık sarı arka plan */
+    --financial-error: 0 87% 35%;          /* #C0392B - Hata kırmızısı %4.5 kontrast */
+    --financial-error-light: 0 84% 90%;    /* #FADBD8 - Açık kırmızı arka plan */
+    --financial-info: 207 89% 35%;         /* #2471A3 - Bilgi mavisi %4.6 kontrast */
+    --financial-info-light: 207 84% 90%;   /* #D6EAF8 - Açık mavi arka plan */
+
+    /* Neutral Gri Skalası - Optimize Edilmiş Kontrast */
+    --neutral-50: 210 20% 98%;    /* #FAFBFC - Çok açık gri */
+    --neutral-100: 210 18% 95%;   /* #F2F4F6 - Açık gri */
+    --neutral-200: 210 16% 88%;   /* #E1E6EA - Orta açık gri */
+    --neutral-300: 210 14% 78%;   /* #C5CDD6 - Açık gri */
+    --neutral-400: 210 12% 62%;   /* #9AA4B2 - Orta gri */
+    --neutral-500: 210 11% 46%;   /* #6C7A89 - Ana gri */
+    --neutral-600: 210 12% 35%;   /* #52606D - Koyu gri */
+    --neutral-700: 210 15% 24%;   /* #364047 - Çok koyu gri */
+    --neutral-800: 210 18% 16%;   /* #252D35 - Ultra koyu gri */
+    --neutral-900: 210 22% 9%;    /* #141A1F - En koyu gri */
+
+    /* Sidebar ve Navigasyon - Optimized Dark Theme */
+    --sidebar-bg: 220 22% 8%;           /* #111827 - Sidebar arka plan */
+    --sidebar-text: 210 20% 95%;        /* #F2F4F6 - Sidebar metin */
+    --sidebar-text-muted: 210 12% 62%;  /* #9AA4B2 - Sidebar alt metin */
+    --sidebar-hover: 220 18% 12%;       /* #1A2332 - Sidebar hover */
+    --sidebar-active: 220 98% 29%;      /* #0F3A7A - Aktif menü */
+    --sidebar-border: 210 12% 15%;      /* #1F2937 - Sidebar kenarlık */
+
+    /* Chart ve Grafik Renkleri - Farklılaştırılmış Palet */
+    --chart-primary: 220 98% 29%;    /* #0F3A7A - Ana mavi */
+    --chart-secondary: 142 71% 25%;  /* #1D8348 - Yeşil */
+    --chart-tertiary: 43 89% 35%;    /* #B7950B - Sarı */
+    --chart-quaternary: 0 87% 35%;   /* #C0392B - Kırmızı */
+    --chart-quinary: 285 89% 35%;    /* #7D3C98 - Mor */
+    --chart-senary: 195 89% 35%;     /* #1ABC9C - Turkuaz */
+    --chart-septenary: 15 89% 35%;   /* #E67E22 - Turuncu */
+    --chart-octonary: 340 89% 35%;   /* #E74C3C - Pembe */
+
+    /* Interactive States - Geliştirilmiş Kullanıcı Deneyimi */
+    --interactive-hover: 220 20% 93%;   /* Hover durumu */
+    --interactive-active: 220 30% 85%;  /* Active durumu */
+    --interactive-focus: 220 98% 50%;   /* Focus ring */
+    --interactive-disabled: 210 11% 46%; /* Disabled durumu */
+
+    /* Shadow ve Depth */
+    --shadow-light: 210 20% 20% / 0.05;
+    --shadow-medium: 210 20% 20% / 0.1;
+    --shadow-strong: 210 20% 20% / 0.15;
+    --shadow-focused: 220 98% 50% / 0.3;
+
+    /* Typography Hierarchy - Optimized Contrast */
+    --text-primary: var(--neutral-900);     /* Ana metin */
+    --text-secondary: var(--neutral-700);   /* İkincil metin */
+    --text-muted: var(--neutral-500);       /* Gri metin */
+    --text-placeholder: var(--neutral-400); /* Placeholder metin */
+    --text-inverse: var(--neutral-50);      /* Ters metin (koyu arka plan) */
+  }
+
+  /* ========================================
+   * DARK THEME - Optimized for Financial UI
+   * ======================================== */
+  .dark {
+    /* Arka plan ve temel renkler */
+    --background: var(--neutral-900);
+    --foreground: var(--neutral-50);
+    --muted: var(--neutral-800);
+    --muted-foreground: var(--neutral-400);
+
+    /* UI Elementleri */
+    --card: var(--neutral-800);
+    --card-foreground: var(--neutral-50);
+    --popover: var(--neutral-800);
+    --popover-foreground: var(--neutral-50);
+
+    /* Interactive Elements */
+    --primary: var(--brand-primary-400);
+    --primary-foreground: var(--neutral-50);
+    --secondary: var(--neutral-700);
+    --secondary-foreground: var(--neutral-100);
+
+    /* Borders and Inputs */
+    --border: var(--neutral-700);
+    --input: var(--neutral-700);
+    --ring: var(--brand-primary-400);
+
+    /* Destructive Actions */
+    --destructive: var(--financial-error);
+    --destructive-foreground: var(--neutral-50);
+
+    /* Typography in Dark Mode */
+    --text-primary: var(--neutral-50);
+    --text-secondary: var(--neutral-300);
+    --text-muted: var(--neutral-400);
+    --text-placeholder: var(--neutral-500);
+  }
+}
+
+/* ========================================
+ * SEMANTIC COLOR UTILITIES
+ * ======================================== */
+@layer utilities {
+  /* Status Badge Utilities */
+  .status-success {
+    background-color: hsl(var(--financial-success-light));
+    color: hsl(var(--financial-success));
+    border: 1px solid hsl(var(--financial-success) / 0.3);
+  }
+
+  .status-warning {
+    background-color: hsl(var(--financial-warning-light));
+    color: hsl(var(--financial-warning));
+    border: 1px solid hsl(var(--financial-warning) / 0.3);
+  }
+
+  .status-error {
+    background-color: hsl(var(--financial-error-light));
+    color: hsl(var(--financial-error));
+    border: 1px solid hsl(var(--financial-error) / 0.3);
+  }
+
+  .status-info {
+    background-color: hsl(var(--financial-info-light));
+    color: hsl(var(--financial-info));
+    border: 1px solid hsl(var(--financial-info) / 0.3);
+  }
+
+  /* Sidebar Navigation Utilities */
+  .sidebar-nav-item {
+    color: hsl(var(--sidebar-text-muted));
+    transition: all 0.2s ease-in-out;
+  }
+
+  .sidebar-nav-item:hover {
+    background-color: hsl(var(--sidebar-hover));
+    color: hsl(var(--sidebar-text));
+  }
+
+  .sidebar-nav-item.active {
+    background-color: hsl(var(--sidebar-active));
+    color: hsl(var(--neutral-50));
+    font-weight: 500;
+  }
+
+  /* Chart Color Variables for JS Access */
+  .chart-colors {
+    --chart-1: var(--chart-primary);
+    --chart-2: var(--chart-secondary);
+    --chart-3: var(--chart-tertiary);
+    --chart-4: var(--chart-quaternary);
+    --chart-5: var(--chart-quinary);
+    --chart-6: var(--chart-senary);
+    --chart-7: var(--chart-septenary);
+    --chart-8: var(--chart-octonary);
+  }
+}

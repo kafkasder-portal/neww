@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ Final Auth Test</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #218838;
+        }
+        #logs {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background: #f8f9fa;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .fix-applied {
+            background: #e8f5e8;
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ Final Authentication Test</h1>
+        <p>Testing authentication after fixing the trigger conflict</p>
+        
+        <div class="fix-applied">
+            <h3>🔧 Fix Applied:</h3>
+            <p>Updated <code>handle_new_user()</code> function to use <code>ON CONFLICT DO NOTHING</code> to prevent duplicate profile creation errors.</p>
+        </div>
+        
+        <h3>🔑 Login Test</h3>
+        <input type="email" id="testEmail" placeholder="Email" value="isahamid095@gmail.com">
+        <input type="password" id="testPassword" placeholder="Password" value="">
+        <br>
+        <button onclick="testCompleteAuthFlow()">🚀 Test Complete Authentication Flow</button>
+        <button onclick="clearLogs()">Clear Logs</button>
+        
+        <h3>📋 Test Results:</h3>
+        <div id="logs"></div>
+    </div>
+
+    <script>
+        const supabaseUrl = 'https://ibqhfgpdgzrhvyfpgjxx.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlicWhmZ3BkZ3pyaHZ5ZnBnanh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxMDk3NDcsImV4cCI6MjA3MDY4NTc0N30.1vSikm9_Dn978BctKWXhoOfPCKztLaBNgr8OEIVIXNg';
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'info';
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `test-result ${className}`;
+            logEntry.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+            
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            
+            console.log(`[FINAL AUTH TEST] ${message}`);
+        }
+        
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+
+        async function testCompleteAuthFlow() {
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+            
+            if (!password) {
+                log('⚠️ Please enter a password to test', 'warning');
+                return;
+            }
+            
+            try {
+                log('🚀 Starting complete authentication flow test...');
+                log(`Testing with email: ${email}`);
+                
+                // Step 1: Sign out any existing session
+                log('Step 1: Signing out existing session...');
+                await supabase.auth.signOut();
+                log('✅ Signed out (or no session existed)', 'success');
+                
+                // Step 2: Sign in
+                log('Step 2: Attempting sign in...');
+                const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (authError) {
+                    log(`❌ AUTHENTICATION FAILED: ${authError.message}`, 'error');
+                    log(`Error status: ${authError.status}`, 'error');
+                    log(`Error details: ${JSON.stringify(authError)}`, 'error');
+                    
+                    if (authError.status === 400) {
+                        log('💡 This might be an invalid credentials error', 'warning');
+                    } else if (authError.status === 500) {
+                        log('💡 This is a server error - trigger or database issue', 'warning');
+                    }
+                    return;
+                }
+                
+                log('✅ AUTHENTICATION SUCCESSFUL!', 'success');
+                log(`User ID: ${authData.user.id}`, 'success');
+                log(`Email: ${authData.user.email}`, 'success');
+                
+                // Step 3: Fetch user profile
+                log('Step 3: Fetching user profile...');
+                const { data: profile, error: profileError } = await supabase
+                    .from('user_profiles')
+                    .select('*')
+                    .eq('id', authData.user.id)
+                    .single();
+                
+                if (profileError) {
+                    log(`❌ PROFILE FETCH FAILED: ${profileError.message}`, 'error');
+                    log(`Profile error code: ${profileError.code}`, 'error');
+                    log(`Profile error details: ${JSON.stringify(profileError)}`, 'error');
+                    
+                    // Check if this is the original [object Object] error
+                    const errorStr = JSON.stringify(profileError);
+                    if (errorStr === '[object Object]') {
+                        log('���� Found the original [object Object] error!', 'warning');
+                    } else {
+                        log('🔍 Error is now properly serialized - good!', 'info');
+                    }
+                } else {
+                    log('✅ PROFILE FETCH SUCCESSFUL!', 'success');
+                    log(`Profile: ${JSON.stringify(profile, null, 2)}`, 'success');
+                    log(`User role: ${profile.role}`, 'success');
+                    log(`User status: ${profile.status} (active: ${profile.is_active})`, 'success');
+                }
+                
+                // Step 4: Test session
+                log('Step 4: Verifying session...');
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                
+                if (sessionError) {
+                    log(`❌ Session verification failed: ${sessionError.message}`, 'error');
+                } else if (session) {
+                    log('✅ Session verified successfully!', 'success');
+                    log(`Session expires at: ${new Date(session.expires_at * 1000).toLocaleString()}`, 'info');
+                } else {
+                    log('⚠️ No active session found', 'warning');
+                }
+                
+                log('🎉 AUTHENTICATION FLOW TEST COMPLETED!', 'success');
+                
+            } catch (err) {
+                log(`❌ Test failed with unexpected error: ${err.message}`, 'error');
+                log(`Error stack: ${err.stack}`, 'error');
+            }
+        }
+        
+        // Set up auth state change listener
+        supabase.auth.onAuthStateChange((event, session) => {
+            log(`📡 Auth event: ${event}`);
+            if (session) {
+                log(`Session user: ${session.user.email}`);
+            }
+        });
+        
+        // Initial setup
+        window.addEventListener('load', () => {
+            log('🚀 Final authentication test loaded');
+            log('🔧 Applied fix: Updated handle_new_user() trigger function');
+            log('👆 Enter your password and click "Test Complete Authentication Flow"');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 RLS Recursion Fix Test</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #218838;
+        }
+        #logs {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background: #f8f9fa;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .fix-info {
+            background: #e8f5e8;
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .error-code {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 RLS Recursion Fix Test</h1>
+        <p>Testing authentication after fixing infinite recursion in user_profiles RLS policies</p>
+        
+        <div class="fix-info">
+            <h3>🎯 Issue Identified & Fixed:</h3>
+            <p><strong>Problem:</strong> <code>infinite recursion detected in policy for relation "user_profiles"</code></p>
+            <p><strong>Root Cause:</strong> "Admins can view all profiles" policy was querying user_profiles FROM WITHIN user_profiles query</p>
+            <p><strong>Fix:</strong> Removed the recursive policy - "Users can view all profiles" with qual: true already provides necessary access</p>
+        </div>
+        
+        <h3>🔑 Complete Authentication Test</h3>
+        <input type="email" id="testEmail" placeholder="Email" value="isahamid095@gmail.com">
+        <input type="password" id="testPassword" placeholder="Enter your password" value="">
+        <br>
+        <button onclick="testCompleteAuthFlow()">🚀 Test Complete Auth Flow (Post RLS Fix)</button>
+        <button onclick="testProfileQueryOnly()">👤 Test Profile Query Only</button>
+        <button onclick="clearLogs()">Clear Logs</button>
+        
+        <h3>📋 Test Results:</h3>
+        <div id="logs"></div>
+    </div>
+
+    <script>
+        const supabaseUrl = 'https://ibqhfgpdgzrhvyfpgjxx.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlicWhmZ3BkZ3pyaHZ5ZnBnanh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxMDk3NDcsImV4cCI6MjA3MDY4NTc0N30.1vSikm9_Dn978BctKWXhoOfPCKztLaBNgr8OEIVIXNg';
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'info';
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `test-result ${className}`;
+            logEntry.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+            
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+        
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+
+        function logErrorDetails(error) {
+            const details = document.createElement('div');
+            details.className = 'error-code';
+            details.innerHTML = `
+<strong>Error Details:</strong>
+Message: ${error.message || 'N/A'}
+Code: ${error.code || 'N/A'}
+Details: ${error.details || 'N/A'}
+Hint: ${error.hint || 'N/A'}
+            `;
+            document.getElementById('logs').appendChild(details);
+        }
+
+        async function testProfileQueryOnly() {
+            try {
+                log('👤 Testing profile query without authentication...');
+                
+                const { data: profiles, error } = await supabase
+                    .from('user_profiles')
+                    .select('id, full_name, role, email, is_active')
+                    .eq('email', 'isahamid095@gmail.com');
+                
+                if (error) {
+                    log(`❌ Profile query failed: ${error.message}`, 'error');
+                    logErrorDetails(error);
+                    
+                    if (error.code === '42P17') {
+                        log('🚨 Still getting infinite recursion error!', 'error');
+                    } else {
+                        log('✅ No more recursion error - different issue now', 'success');
+                    }
+                } else {
+                    log('✅ Profile query successful without authentication!', 'success');
+                    log(`Found ${profiles.length} profile(s)`, 'success');
+                    if (profiles.length > 0) {
+                        log(`Profile: ${profiles[0].full_name} (${profiles[0].role})`, 'success');
+                    }
+                }
+            } catch (err) {
+                log(`❌ Profile query test failed: ${err.message}`, 'error');
+            }
+        }
+
+        async function testCompleteAuthFlow() {
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+            
+            if (!password) {
+                log('⚠️ Please enter a password to test', 'warning');
+                return;
+            }
+            
+            try {
+                log('🚀 Testing complete authentication flow after RLS fix...');
+                log('Expected: No more infinite recursion errors');
+                
+                // Clear any existing session
+                await supabase.auth.signOut();
+                log('🔄 Cleared existing session');
+                
+                // Step 1: Test profile query before authentication
+                log('Step 1: Testing profile query before auth...');
+                const { data: preAuthProfiles, error: preAuthError } = await supabase
+                    .from('user_profiles')
+                    .select('id, full_name, role')
+                    .eq('email', email);
+                
+                if (preAuthError) {
+                    if (preAuthError.code === '42P17') {
+                        log('❌ Still getting recursion error before auth!', 'error');
+                        logErrorDetails(preAuthError);
+                        return;
+                    } else {
+                        log(`⚠️ Pre-auth query failed (expected): ${preAuthError.message}`, 'warning');
+                    }
+                } else {
+                    log('✅ Pre-auth profile query successful', 'success');
+                }
+                
+                // Step 2: Authenticate
+                log('Step 2: Attempting authentication...');
+                const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (authError) {
+                    log(`❌ Authentication failed: ${authError.message}`, 'error');
+                    logErrorDetails(authError);
+                    return;
+                }
+                
+                log('✅ Authentication successful!', 'success');
+                log(`User ID: ${authData.user.id}`, 'success');
+                
+                // Step 3: Test profile query after authentication
+                log('Step 3: Testing profile query after auth...');
+                const { data: profile, error: profileError } = await supabase
+                    .from('user_profiles')
+                    .select('*')
+                    .eq('id', authData.user.id)
+                    .single();
+                
+                if (profileError) {
+                    log(`❌ Post-auth profile query failed: ${profileError.message}`, 'error');
+                    logErrorDetails(profileError);
+                    
+                    if (profileError.code === '42P17') {
+                        log('🚨 STILL GETTING INFINITE RECURSION AFTER FIX!', 'error');
+                    } else {
+                        log('✅ No more infinite recursion - RLS fix successful!', 'success');
+                    }
+                } else {
+                    log('✅ Profile fetch successful after authentication!', 'success');
+                    log(`Profile: ${profile.full_name} (${profile.role})`, 'success');
+                    log(`Status: ${profile.status}, Active: ${profile.is_active}`, 'success');
+                }
+                
+                // Step 4: Test session
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    log('✅ Session verified successfully!', 'success');
+                }
+                
+                log('🎉 COMPLETE AUTHENTICATION TEST FINISHED!', 'success');
+                
+            } catch (err) {
+                log(`❌ Unexpected error: ${err.message}`, 'error');
+                logErrorDetails(err);
+            }
+        }
+        
+        // Set up auth state change listener
+        supabase.auth.onAuthStateChange(async (event, session) => {
+            log(`📡 Auth event: ${event}`);
+            if (session) {
+                log(`Session user: ${session.user.email}`, 'info');
+                
+                // Test profile query on auth state change
+                log('🔄 Testing profile query in auth state change...');
+                const { data: profile, error: profileError } = await supabase
+                    .from('user_profiles')
+                    .select('*')
+                    .eq('id', session.user.id)
+                    .single();
+                
+                if (profileError) {
+                    log(`❌ Auth state change profile query failed: ${profileError.message}`, 'error');
+                    if (profileError.code === '42P17') {
+                        log('🚨 Recursion error in auth state change!', 'error');
+                    }
+                } else {
+                    log('✅ Auth state change profile query successful!', 'success');
+                }
+            }
+        });
+        
+        // Initial setup
+        window.addEventListener('load', () => {
+            log('🚀 RLS recursion fix test loaded');
+            log('🎯 Testing authentication after removing recursive RLS policy');
+            log('First, try "Test Profile Query Only" to verify basic query works');
+        });
+    </script>
+</body>
+</html>

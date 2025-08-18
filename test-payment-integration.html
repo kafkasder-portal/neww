@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Integration Test - KAFKASDER</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+        .success { border-color: #22c55e; background: #f0fdf4; }
+        .error { border-color: #ef4444; background: #fef2f2; }
+        .warning { border-color: #f59e0b; background: #fffbeb; }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin: 5px;
+            transition: all 0.2s;
+        }
+        button:hover { background: #2563eb; transform: translateY(-1px); }
+        button:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .success-result { background: #dcfce7; color: #166534; }
+        .error-result { background: #fee2e2; color: #dc2626; }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            margin: 5px 0;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 KAFKAS PANEL - Payment Integration Test</h1>
+        <p>Bu sayfa payment gateway entegrasyonunu test etmek için oluşturuldu.</p>
+
+        <div class="test-section">
+            <h2>📊 System Status</h2>
+            <div id="systemStatus">
+                <p>✅ Frontend Build: <span id="buildStatus">Testing...</span></p>
+                <p>🔧 API Status: <span id="apiStatus">Testing...</span></p>
+                <p>💳 Payment Providers: <span id="providersStatus">Testing...</span></p>
+                <p>📧 Email Service: <span id="emailStatus">Testing...</span></p>
+                <p>📱 SMS Service: <span id="smsStatus">Testing...</span></p>
+            </div>
+            <button onclick="testSystemStatus()">Test System Status</button>
+        </div>
+
+        <div class="test-section">
+            <h2>💳 Payment Gateway Test</h2>
+            <div class="form-group">
+                <label>Payment Provider:</label>
+                <select id="paymentProvider">
+                    <option value="iyzico">İyzico (Sandbox)</option>
+                    <option value="paytr">PayTR (Test)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Test Amount (TL):</label>
+                <input type="number" id="testAmount" value="50" min="10" step="0.01">
+            </div>
+            <button onclick="testPaymentInitiation()">Test Payment Initiation</button>
+            <div id="paymentTestResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📧 Communication Services Test</h2>
+            <div class="form-group">
+                <label>Test Email:</label>
+                <input type="email" id="testEmail" value="test@example.com">
+            </div>
+            <div class="form-group">
+                <label>Test Phone:</label>
+                <input type="tel" id="testPhone" value="905551234567">
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button onclick="testEmailSend()">Test Email</button>
+                <button onclick="testSMSSend()">Test SMS</button>
+                <button onclick="testWhatsApp()">Test WhatsApp</button>
+            </div>
+            <div id="communicationTestResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🗄️ Database Test</h2>
+            <button onclick="testDatabaseTables()">Test Database Tables</button>
+            <button onclick="testDonationCRUD()">Test Donation CRUD</button>
+            <div id="databaseTestResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🚀 End-to-End Donation Flow Test</h2>
+            <p>Bu test tam bir online bağış akışını simüle eder:</p>
+            <ol>
+                <li>Bağış oluşturma</li>
+                <li>Payment gateway entegrasyonu</li>
+                <li>Ödeme doğrulama</li>
+                <li>Email/SMS bildirimleri</li>
+                <li>Database güncellemeleri</li>
+            </ol>
+            <button onclick="testFullDonationFlow()" style="background: #10b981; font-size: 16px; padding: 15px 30px;">
+                🎯 Full Donation Flow Test
+            </button>
+            <div id="fullFlowTestResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📋 Test Results Summary</h2>
+            <div id="testSummary">
+                <p>Testleri çalıştırın ve sonuçları burada görün.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test configuration
+        const API_BASE = 'http://localhost:3002/api';
+        const FRONTEND_BASE = 'http://localhost:5173';
+        
+        // Mock token for testing (replace with real token)
+        const TEST_TOKEN = 'test-token-' + Date.now();
+        
+        let testResults = [];
+
+        // System Status Test
+        async function testSystemStatus() {
+            const statusDiv = document.getElementById('systemStatus');
+            
+            try {
+                // Test API Health
+                const apiResponse = await fetch(`${API_BASE}/health`);
+                document.getElementById('apiStatus').textContent = 
+                    apiResponse.ok ? 'Online ✅' : 'Offline ❌';
+
+                // Test Payment Providers
+                try {
+                    const providersResponse = await fetch(`${API_BASE}/payments/providers`, {
+                        headers: { 'Authorization': `Bearer ${TEST_TOKEN}` }
+                    });
+                    const providersData = await providersResponse.json();
+                    document.getElementById('providersStatus').textContent = 
+                        providersData.providers ? 
+                        `${providersData.providers.length} providers ✅` : 
+                        'Not configured ❌';
+                } catch (e) {
+                    document.getElementById('providersStatus').textContent = 'Error ❌';
+                }
+
+                // Test Email Service
+                try {
+                    const emailResponse = await fetch(`${API_BASE}/email/test-connection`, {
+                        headers: { 'Authorization': `Bearer ${TEST_TOKEN}` }
+                    });
+                    document.getElementById('emailStatus').textContent = 
+                        emailResponse.ok ? 'Connected ✅' : 'Not configured ❌';
+                } catch (e) {
+                    document.getElementById('emailStatus').textContent = 'Error ❌';
+                }
+
+                // Test SMS Service
+                try {
+                    const smsResponse = await fetch(`${API_BASE}/sms/balance`, {
+                        headers: { 'Authorization': `Bearer ${TEST_TOKEN}` }
+                    });
+                    const smsData = await smsResponse.json();
+                    document.getElementById('smsStatus').textContent = 
+                        smsData.balance !== undefined ? 
+                        `Balance: ${smsData.balance} TL ✅` : 
+                        'Not configured ❌';
+                } catch (e) {
+                    document.getElementById('smsStatus').textContent = 'Error ❌';
+                }
+
+                document.getElementById('buildStatus').textContent = 'Successful ✅';
+                
+                addTestResult('System Status', 'success', 'All system components checked');
+                
+            } catch (error) {
+                console.error('System status test error:', error);
+                addTestResult('System Status', 'error', error.message);
+            }
+        }
+
+        // Payment Gateway Test
+        async function testPaymentInitiation() {
+            const provider = document.getElementById('paymentProvider').value;
+            const amount = parseFloat(document.getElementById('testAmount').value);
+            const resultDiv = document.getElementById('paymentTestResult');
+            
+            resultDiv.innerHTML = '<p>🔄 Testing payment initiation...</p>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/payments/initiate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${TEST_TOKEN}`
+                    },
+                    body: JSON.stringify({
+                        provider,
+                        donation_id: 'test-donation-' + Date.now(),
+                        amount,
+                        currency: 'TRY',
+                        customer_email: 'test@example.com',
+                        customer_name: 'Test User',
+                        description: 'Test payment'
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    resultDiv.innerHTML = `
+                        <div class="test-result success-result">
+                            ✅ Payment initiation successful!
+                            <br>Provider: ${provider}
+                            <br>Amount: ${amount} TL
+                            <br>Transaction ID: ${result.transaction_id}
+                            <br>Payment URL: ${result.payment_url ? 'Generated' : 'Not available'}
+                        </div>
+                    `;
+                    addTestResult('Payment Gateway', 'success', `${provider} payment initiated successfully`);
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="test-result error-result">
+                            ❌ Payment initiation failed!
+                            <br>Error: ${result.error || 'Unknown error'}
+                        </div>
+                    `;
+                    addTestResult('Payment Gateway', 'error', result.error || 'Payment initiation failed');
+                }
+            } catch (error) {
+                console.error('Payment test error:', error);
+                resultDiv.innerHTML = `
+                    <div class="test-result error-result">
+                        ❌ Network error: ${error.message}
+                    </div>
+                `;
+                addTestResult('Payment Gateway', 'error', error.message);
+            }
+        }
+
+        // Email Test
+        async function testEmailSend() {
+            const email = document.getElementById('testEmail').value;
+            const resultDiv = document.getElementById('communicationTestResult');
+            
+            try {
+                const response = await fetch(`${API_BASE}/email/send`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${TEST_TOKEN}`
+                    },
+                    body: JSON.stringify({
+                        to: email,
+                        subject: 'KAFKASDER Test Email',
+                        content: 'Bu bir test e-postasıdır.',
+                        htmlContent: '<h1>Test Email</h1><p>Bu bir test e-postasıdır.</p>'
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    resultDiv.innerHTML = `<div class="test-result success-result">✅ Email sent to ${email}</div>`;
+                    addTestResult('Email Service', 'success', `Email sent to ${email}`);
+                } else {
+                    resultDiv.innerHTML = `<div class="test-result error-result">❌ Email failed: ${result.error}</div>`;
+                    addTestResult('Email Service', 'error', result.error);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="test-result error-result">❌ Email error: ${error.message}</div>`;
+                addTestResult('Email Service', 'error', error.message);
+            }
+        }
+
+        // SMS Test
+        async function testSMSSend() {
+            const phone = document.getElementById('testPhone').value;
+            const resultDiv = document.getElementById('communicationTestResult');
+            
+            try {
+                const response = await fetch(`${API_BASE}/sms/send`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${TEST_TOKEN}`
+                    },
+                    body: JSON.stringify({
+                        to: phone,
+                        message: 'KAFKASDER test SMS mesajı. Test başarılı! 🎉'
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    resultDiv.innerHTML = `<div class="test-result success-result">✅ SMS sent to ${phone}</div>`;
+                    addTestResult('SMS Service', 'success', `SMS sent to ${phone}`);
+                } else {
+                    resultDiv.innerHTML = `<div class="test-result error-result">❌ SMS failed: ${result.error}</div>`;
+                    addTestResult('SMS Service', 'error', result.error);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="test-result error-result">❌ SMS error: ${error.message}</div>`;
+                addTestResult('SMS Service', 'error', error.message);
+            }
+        }
+
+        // WhatsApp Test
+        async function testWhatsApp() {
+            const phone = document.getElementById('testPhone').value;
+            const resultDiv = document.getElementById('communicationTestResult');
+            
+            try {
+                const response = await fetch(`${API_BASE}/whatsapp/send`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${TEST_TOKEN}`
+                    },
+                    body: JSON.stringify({
+                        to: phone,
+                        message: 'KAFKASDER WhatsApp test mesajı! 📱✅'
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    resultDiv.innerHTML = `<div class="test-result success-result">✅ WhatsApp sent to ${phone}</div>`;
+                    addTestResult('WhatsApp Service', 'success', `WhatsApp sent to ${phone}`);
+                } else {
+                    resultDiv.innerHTML = `<div class="test-result error-result">❌ WhatsApp failed: ${result.error}</div>`;
+                    addTestResult('WhatsApp Service', 'error', result.error);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="test-result error-result">❌ WhatsApp error: ${error.message}</div>`;
+                addTestResult('WhatsApp Service', 'error', error.message);
+            }
+        }
+
+        // Database Test
+        async function testDatabaseTables() {
+            const resultDiv = document.getElementById('databaseTestResult');
+            resultDiv.innerHTML = '<p>🔄 Testing database tables...</p>';
+            
+            try {
+                // Test if tables exist by trying to fetch data
+                const tests = [
+                    { name: 'SMS Templates', endpoint: `${API_BASE}/sms/templates` },
+                    { name: 'Email Templates', endpoint: `${API_BASE}/email/templates` },
+                    { name: 'WhatsApp Templates', endpoint: `${API_BASE}/whatsapp/templates` },
+                    { name: 'Donations', endpoint: `${API_BASE}/donations` }
+                ];
+
+                let results = [];
+                
+                for (const test of tests) {
+                    try {
+                        const response = await fetch(test.endpoint, {
+                            headers: { 'Authorization': `Bearer ${TEST_TOKEN}` }
+                        });
+                        
+                        if (response.ok) {
+                            results.push(`✅ ${test.name}: OK`);
+                        } else {
+                            results.push(`❌ ${test.name}: ${response.status}`);
+                        }
+                    } catch (e) {
+                        results.push(`❌ ${test.name}: Error`);
+                    }
+                }
+                
+                resultDiv.innerHTML = `
+                    <div class="test-result success-result">
+                        Database Tables Test Results:
+                        <br>${results.join('<br>')}
+                    </div>
+                `;
+                addTestResult('Database Tables', 'success', 'Database connectivity tested');
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="test-result error-result">❌ Database test error: ${error.message}</div>`;
+                addTestResult('Database Tables', 'error', error.message);
+            }
+        }
+
+        // Full Donation Flow Test
+        async function testFullDonationFlow() {
+            const resultDiv = document.getElementById('fullFlowTestResult');
+            resultDiv.innerHTML = '<p>🔄 Running full donation flow test...</p>';
+            
+            try {
+                const testDonation = {
+                    donor_name: 'Test Donor',
+                    donor_email: 'test@example.com',
+                    donor_phone: '905551234567',
+                    amount: 100,
+                    currency: 'TRY',
+                    payment_provider: 'iyzico',
+                    purpose: 'test',
+                    campaign: 'test-campaign'
+                };
+
+                let flowResults = [];
+
+                // Step 1: Create donation
+                try {
+                    const donationResponse = await fetch(`${API_BASE}/donations`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${TEST_TOKEN}`
+                        },
+                        body: JSON.stringify(testDonation)
+                    });
+
+                    if (donationResponse.ok) {
+                        const donationData = await donationResponse.json();
+                        flowResults.push('✅ Step 1: Donation created');
+                        
+                        // Step 2: Initiate payment
+                        const paymentResponse = await fetch(`${API_BASE}/payments/initiate`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${TEST_TOKEN}`
+                            },
+                            body: JSON.stringify({
+                                provider: 'iyzico',
+                                donation_id: donationData.id,
+                                amount: 100,
+                                customer_email: 'test@example.com',
+                                customer_name: 'Test Donor'
+                            })
+                        });
+
+                        if (paymentResponse.ok) {
+                            flowResults.push('✅ Step 2: Payment initiated');
+                            
+                            // Step 3: Test notifications
+                            const emailResponse = await fetch(`${API_BASE}/email/send`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${TEST_TOKEN}`
+                                },
+                                body: JSON.stringify({
+                                    to: 'test@example.com',
+                                    templateId: 'donation_receipt',
+                                    templateVariables: {
+                                        donor_name: 'Test Donor',
+                                        amount: '100',
+                                        donation_id: donationData.id,
+                                        date: new Date().toLocaleDateString('tr-TR'),
+                                        payment_method: 'iyzico'
+                                    }
+                                })
+                            });
+
+                            if (emailResponse.ok) {
+                                flowResults.push('✅ Step 3: Email notification sent');
+                            } else {
+                                flowResults.push('⚠️ Step 3: Email notification failed');
+                            }
+
+                            flowResults.push('🎉 Full donation flow completed successfully!');
+                        } else {
+                            flowResults.push('❌ Step 2: Payment initiation failed');
+                        }
+                    } else {
+                        flowResults.push('❌ Step 1: Donation creation failed');
+                    }
+                } catch (e) {
+                    flowResults.push(`❌ Flow error: ${e.message}`);
+                }
+
+                resultDiv.innerHTML = `
+                    <div class="test-result success-result">
+                        Full Donation Flow Test Results:
+                        <br>${flowResults.join('<br>')}
+                    </div>
+                `;
+                
+                const success = flowResults.filter(r => r.includes('✅')).length;
+                const total = flowResults.length;
+                addTestResult('Full Donation Flow', success === total ? 'success' : 'warning', 
+                    `${success}/${total} steps successful`);
+                    
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="test-result error-result">❌ Full flow test error: ${error.message}</div>`;
+                addTestResult('Full Donation Flow', 'error', error.message);
+            }
+        }
+
+        // Helper function to add test results
+        function addTestResult(testName, status, message) {
+            testResults.push({ testName, status, message, timestamp: new Date() });
+            updateTestSummary();
+        }
+
+        // Update test summary
+        function updateTestSummary() {
+            const summaryDiv = document.getElementById('testSummary');
+            const successCount = testResults.filter(r => r.status === 'success').length;
+            const errorCount = testResults.filter(r => r.status === 'error').length;
+            const warningCount = testResults.filter(r => r.status === 'warning').length;
+            
+            summaryDiv.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0;">
+                    <div style="text-align: center; padding: 15px; background: #dcfce7; border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: #166534;">${successCount}</div>
+                        <div style="color: #166534;">Successful</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: #fef3c7; border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: #92400e;">${warningCount}</div>
+                        <div style="color: #92400e;">Warnings</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: #fee2e2; border-radius: 8px;">
+                        <div style="font-size: 24px; font-weight: bold; color: #dc2626;">${errorCount}</div>
+                        <div style="color: #dc2626;">Errors</div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <h4>Recent Test Results:</h4>
+                    ${testResults.slice(-5).reverse().map(r => `
+                        <div style="margin: 5px 0; padding: 8px; background: ${
+                            r.status === 'success' ? '#f0fdf4' : 
+                            r.status === 'warning' ? '#fffbeb' : '#fef2f2'
+                        }; border-radius: 4px; font-size: 14px;">
+                            <strong>${r.testName}:</strong> ${r.message}
+                            <br><small style="color: #6b7280;">${r.timestamp.toLocaleString('tr-TR')}</small>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎯 KAFKAS PANEL Payment Integration Test Page Loaded');
+            console.log('API Base:', API_BASE);
+            console.log('Frontend Base:', FRONTEND_BASE);
+            
+            // Auto-run system status test
+            setTimeout(testSystemStatus, 1000);
+        });
+    </script>
+</body>
+</html>

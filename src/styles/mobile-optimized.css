@@ -1,0 +1,284 @@
+/* =====================================================
+   Mobile-First Responsive Design System
+   Unified and Optimized for Modern React Applications
+   ===================================================== */
+
+/* =====================================================
+   Base Mobile Styles
+   ===================================================== */
+@media (max-width: 768px) {
+  /* Typography optimizations */
+  html {
+    font-size: 14px;
+  }
+
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.1rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.9rem; }
+
+  /* Touch-friendly interactive elements */
+  button, 
+  .btn,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px;
+    min-height: 44px;
+  }
+
+  /* Container spacing */
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* =====================================================
+   Sidebar Mobile Optimizations
+   ===================================================== */
+@media (max-width: 768px) {
+  .sidebar-nav-item {
+    @apply text-sm py-3 px-4;
+  }
+  
+  .sidebar-nav-item.active {
+    @apply bg-primary/10 text-primary border-r-2 border-primary;
+  }
+}
+
+/* =====================================================
+   Dashboard Mobile Improvements
+   ===================================================== */
+@media (max-width: 640px) {
+  .dashboard-card {
+    @apply p-4 space-y-3;
+  }
+  
+  .button-group {
+    @apply flex-col space-y-2 space-x-0;
+  }
+  
+  .button-group > * {
+    @apply w-full;
+  }
+  
+  .form-row {
+    @apply flex-col space-y-4 space-x-0;
+  }
+  
+  .grid-responsive {
+    @apply grid-cols-1;
+  }
+  
+  .page-header {
+    @apply p-4 space-y-3;
+  }
+  
+  .page-header h1 {
+    @apply text-xl;
+  }
+  
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+}
+
+/* =====================================================
+   Performance & Accessibility
+   ===================================================== */
+
+/* Hardware acceleration */
+.hardware-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Smooth scrolling */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .card {
+    @apply border-2 border-solid;
+  }
+  
+  .button {
+    @apply border-2 border-solid;
+  }
+}
+
+/* =====================================================
+   Touch Gestures & Interactions
+   ===================================================== */
+
+.touch-target {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.touch-feedback {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.touch-feedback:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+/* =====================================================
+   Safe Area Support (Notch Devices)
+   ===================================================== */
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  
+  .safe-area-left {
+    padding-left: max(1rem, env(safe-area-inset-left));
+  }
+  
+  .safe-area-right {
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* =====================================================
+   Mobile Forms
+   ===================================================== */
+.mobile-form {
+  @apply space-y-6;
+}
+
+.mobile-form .form-group {
+  @apply space-y-2;
+}
+
+.mobile-form label {
+  @apply text-base font-medium;
+}
+
+.mobile-form input,
+.mobile-form select,
+.mobile-form textarea {
+  @apply text-base p-4 rounded-lg border-2;
+}
+
+/* =====================================================
+   Responsive Tables
+   ===================================================== */
+@media (max-width: 640px) {
+  .table-responsive {
+    @apply overflow-x-auto -mx-4 px-4;
+  }
+  
+  .mobile-table thead {
+    @apply hidden;
+  }
+  
+  .mobile-table tr {
+    @apply block border-b mb-4 p-4 bg-card rounded-lg;
+  }
+  
+  .mobile-table td {
+    @apply block py-2;
+  }
+  
+  .mobile-table td:before {
+    content: attr(data-label) ": ";
+    @apply font-semibold inline-block w-24;
+  }
+}
+
+/* =====================================================
+   Mobile Modals
+   ===================================================== */
+@media (max-width: 640px) {
+  .mobile-modal {
+    @apply fixed inset-0 z-50 flex items-end justify-center;
+  }
+  
+  .mobile-modal-content {
+    @apply w-full bg-background rounded-t-lg shadow-xl transform;
+  }
+  
+  .modal-content {
+    @apply mx-4 max-w-none;
+  }
+}
+
+/* =====================================================
+   Loading States
+   ===================================================== */
+.loading-shimmer {
+  @apply animate-pulse bg-gradient-to-r from-muted via-muted-foreground/20 to-muted;
+  background-size: 200% 100%;
+}
+
+/* =====================================================
+   Utility Classes
+   ===================================================== */
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+  .mobile-hide {
+    display: none !important;
+  }
+}
+
+/* Show only on mobile */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* Responsive text sizing */
+.text-responsive {
+  @apply text-sm md:text-base lg:text-lg;
+}
+
+.heading-responsive {
+  @apply text-lg md:text-xl lg:text-2xl;
+}
+
+/* Touch-friendly sizing */
+.touch-friendly {
+  @apply min-h-[48px] min-w-[48px] p-3;
+}
+
+/* Mobile viewport height */
+.mobile-vh {
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height */
+}
