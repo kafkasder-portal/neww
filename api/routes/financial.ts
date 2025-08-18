@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { supabase } from '../config/supabase.js';
-import { authenticateUser } from '../middleware/auth.js';
-import { validateRequest } from '../middleware/validation.js';
+import { supabase } from '../config/supabase.ts';
+import { authenticateUser } from '../middleware/auth.ts';
+import { validateRequest } from '../middleware/validation.ts';
 
 const router = Router();
 

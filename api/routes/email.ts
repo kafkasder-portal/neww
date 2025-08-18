@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { authenticateUser } from '../middleware/auth.js';
-import { requirePermission } from '../middleware/rbac.js';
-import { validateRequest } from '../middleware/validation.js';
-import { supabase } from '../config/supabase.js';
+import { authenticateUser } from '../middleware/auth.ts';
+import { requirePermission } from '../middleware/rbac.ts';
+import { validateRequest } from '../middleware/validation.ts';
+import { supabase } from '../config/supabase.ts';
 import nodemailer from 'nodemailer';
 
 const router = Router();
