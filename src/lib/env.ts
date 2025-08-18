@@ -31,12 +31,12 @@ function getValidUrl(envVar: string, fallback: string): string {
 // Environment configuration helper
 export const env = {
   // Supabase
-  SUPABASE_URL: getValidUrl(
-    import.meta.env.VITE_SUPABASE_URL,
+  VITE_PUBLIC_SUPABASE_URL: getValidUrl(
+    import.meta.env.VITE_PUBLIC_SUPABASE_URL,
     'https://placeholder.supabase.co'
   ),
-  SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-anon-key',
-  SUPABASE_SERVICE_ROLE_KEY: import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY || '',
+  VITE_PUBLIC_SUPABASE_ANON_KEY: import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key',
+  SUPABASE_SERVICE_ROLE_KEY: import.meta.env.SUPABASE_SERVICE_ROLE_KEY || '',
   
   // App
   APP_NAME: import.meta.env.VITE_APP_NAME || 'Dernek Yönetim Paneli',
@@ -80,7 +80,7 @@ export const env = {
 
 // Validation function
 export const validateEnv = () => {
-  const missing = ['SUPABASE_URL', 'SUPABASE_ANON_KEY'].filter(k => {
+  const missing = ['VITE_PUBLIC_SUPABASE_URL', 'VITE_PUBLIC_SUPABASE_ANON_KEY'].filter(k => {
     const value = env[k as keyof typeof env] as string;
     return !value || value.includes('placeholder') || value.includes('your_');
   });
@@ -105,7 +105,7 @@ export const validateEnv = () => {
       APP_NAME: env.APP_NAME,
       APP_VERSION: env.APP_VERSION,
       APP_ENVIRONMENT: env.APP_ENVIRONMENT,
-      SUPABASE_CONFIGURED: !env.SUPABASE_URL.includes('placeholder'),
+      SUPABASE_CONFIGURED: !env.VITE_PUBLIC_SUPABASE_URL.includes('placeholder'),
       API_BASE_URL: env.API_BASE_URL
     });
   }
