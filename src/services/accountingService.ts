@@ -27,10 +27,16 @@ export class AccountingService {
       // If table doesn't exist or is empty, create default accounts
       if (!existingAccounts || existingAccounts.length === 0) {
         const accountsToInsert = STANDARD_CHART_OF_ACCOUNTS.map(account => ({
-          ...account,
-          currentBalance: 0,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
+          account_code: account.accountCode,
+          account_name: account.accountName,
+          account_name_tr: account.accountNameTR,
+          account_type: account.accountType,
+          account_type_en: account.accountTypeEN,
+          parent_account_id: account.parentAccountId || null,
+          is_active: account.isActive,
+          description: account.description || null,
+          balance_type: account.balanceType,
+          current_balance: 0
         }))
 
         const { error: insertError } = await supabase
