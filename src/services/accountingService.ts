@@ -48,8 +48,13 @@ export class AccountingService {
 
       return true
     } catch (error) {
-      console.error('Error initializing chart of accounts:', error)
-      toast.error('Hesap planı oluşturulamadı')
+      logError('Error initializing chart of accounts', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu mevcut değil. Lütfen sistem yöneticisine başvurun.')
+      } else {
+        toast.error(`Hesap planı oluşturulamadı: ${getErrorMessage(error)}`)
+      }
       return false
     }
   }
