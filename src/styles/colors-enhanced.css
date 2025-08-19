@@ -61,6 +61,13 @@
     --sidebar-accent-light: 220 85% 35%; /* Lighter Brand for Hover */
     --sidebar-border: 210 15% 15%;      /* #1F2937 - Subtle Borders */
 
+    /* Legacy compatibility mapping for sidebar */
+    --sidebar-background: var(--sidebar-bg);
+    --sidebar-foreground: var(--sidebar-text);
+    --sidebar-primary: var(--sidebar-accent);
+    --sidebar-primary-foreground: var(--sidebar-text-active);
+    --sidebar-ring: var(--sidebar-accent);
+
     /* Enhanced Chart Colors - Accessible & Distinct */
     --chart-color-1: 220 85% 25%;    /* Brand Primary Blue */
     --chart-color-2: 142 76% 22%;    /* Success Green */
