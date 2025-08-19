@@ -114,7 +114,7 @@ export class AccountingService {
       const { data, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .eq('accountCode', accountCode)
+        .eq('account_code', accountCode)
         .single()
 
       if (error) throw error
