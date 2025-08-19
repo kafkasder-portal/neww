@@ -1,3 +1,128 @@
 {
-    "git.blame.editorDecoration.enabled": true
+    "git.blame.editorDecoration.enabled": true,
+    // Terminal Performance Optimizations
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "terminal.integrated.shellArgs.windows": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass"
+    ],
+    "terminal.integrated.cursorBlinking": "solid",
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.lineHeight": 1.2,
+    "terminal.integrated.scrollback": 2000,
+    "terminal.integrated.fastScrollSensitivity": 10,
+    "terminal.integrated.mouseWheelScrollSensitivity": 2,
+    "terminal.integrated.enablePersistentSessions": false,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "terminal.integrated.enableConpty": true,
+    // Environment Variables for Node.js Performance
+    "terminal.integrated.env.windows": {
+        "NODE_OPTIONS": "--max-old-space-size=8192 --no-warnings --experimental-worker",
+        "NODE_ENV": "development",
+        "VITE_DISABLE_TELEMETRY": "1",
+        "NPM_CONFIG_UPDATE_NOTIFIER": "false",
+        "NPM_CONFIG_AUDIT": "false",
+        "NPM_CONFIG_FUND": "false",
+        "UV_THREADPOOL_SIZE": "16"
+    },
+    // Performance Settings
+    "files.watcherExclude": {
+        "**/node_modules/**": true,
+        "**/dist/**": true,
+        "**/.vite/**": true,
+        "**/coverage/**": true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/dist": true,
+        "**/.vite": true,
+        "**/coverage": true
+    },
+    // TypeScript Performance
+    "typescript.preferences.includePackageJsonAutoImports": "off",
+    "typescript.suggest.autoImports": false,
+    "typescript.updateImportsOnFileMove.enabled": "never",
+    // Auto Save and Format
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    // Memory and Performance
+    "workbench.enableExperiments": false,
+    "telemetry.telemetryLevel": "off",
+    "update.mode": "manual",
+    "extensions.autoUpdate": false,
+    // Git Performance
+    "git.enabled": true,
+    "git.autorefresh": false,
+    "git.autofetch": false,
+    // Editor Performance
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "none",
+    "editor.renderControlCharacters": false,
+    "editor.renderLineHighlight": "none",
+    "editor.smoothScrolling": false,
+    "editor.cursorBlinking": "solid",
+    "editor.cursorSmoothCaretAnimation": "off",
+    "accessibility.signals.terminalBell": {
+        "sound": "off"
+    },
+    "terminal.integrated.enableVisualBell": false,
+    // AI Agent High Performance Settings
+    "ai.agent.enableStreaming": true,
+    "ai.agent.maxTokens": 8000,
+    "ai.agent.temperature": 0.1,
+    "ai.agent.topP": 0.9,
+    "ai.agent.frequencyPenalty": 0.0,
+    "ai.agent.presencePenalty": 0.0,
+    // Model Selection for Speed
+    "ai.model": "claude-3.5-sonnet",
+    "ai.modelProvider": "anthropic",
+    // Memory and Cache Settings
+    "ai.cache.enabled": true,
+    "ai.cache.maxSize": "2GB",
+    "ai.cache.ttl": 3600,
+    // Code Generation Settings
+    "ai.codeGeneration.enableAutoComplete": true,
+    "ai.codeGeneration.enableInlineSuggestions": true,
+    "ai.codeGeneration.maxSuggestions": 10,
+    "ai.codeGeneration.suggestionDelay": 100,
+    // Editor Suggestions for AI
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggest.showKeywords": true,
+    "editor.suggest.showSnippets": true,
+    "editor.suggest.showClasses": true,
+    "editor.suggest.showFunctions": true,
+    "editor.suggest.showVariables": true,
+    "editor.suggest.showConstants": true,
+    "editor.suggest.showEnums": true,
+    "editor.suggest.showEnumMembers": true,
+    "editor.suggest.showWords": true,
+    "editor.suggest.showColors": true,
+    "editor.suggest.showFiles": true,
+    "editor.suggest.showReferences": true,
+    "editor.suggest.showFolders": true,
+    "editor.suggest.showTypeParameters": true,
+    "editor.suggest.showUnits": true,
+    "editor.suggest.showValues": true,
+    // Performance Optimizations
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": false
+    },
+    "editor.quickSuggestionsDelay": 10,
+    "editor.acceptSuggestionOnCommitCharacter": true,
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.tabCompletion": "on",
+    "editor.wordBasedSuggestions": "off",
+    "editor.parameterHints.enabled": true,
+    "editor.hover.enabled": true,
+    "editor.hover.delay": 300,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit"
+    }
 }

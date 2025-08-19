@@ -38,12 +38,32 @@ export default defineConfig({
   },
   server: {
     port: 5174,
+    host: true,
+    strictPort: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3002',
         changeOrigin: true,
         secure: false,
+        timeout: 30000,
+        proxyTimeout: 30000,
       },
     },
+    // Prevent hanging issues
+    hmr: {
+      timeout: 10000,
+    },
+    watch: {
+      usePolling: false,
+      interval: 1000,
+    },
   },
+  // Optimize for better performance
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+    exclude: ['@supabase/supabase-js'],
+  },
+  // Better error handling
+  logLevel: 'info',
+  clearScreen: false,
 })

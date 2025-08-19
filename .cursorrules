@@ -1,0 +1,100 @@
+# High-Performance Cursor Rules for Powerful Computers
+
+# AI Agent Performance Settings
+ai.agent.enableStreaming: true
+ai.agent.maxTokens: 8000
+ai.agent.temperature: 0.1
+ai.agent.topP: 0.9
+ai.agent.frequencyPenalty: 0.0
+ai.agent.presencePenalty: 0.0
+
+# Model Selection for Speed
+ai.model: "claude-3.5-sonnet"
+ai.modelProvider: "anthropic"
+
+# Memory and Cache Settings
+ai.cache.enabled: true
+ai.cache.maxSize: "2GB"
+ai.cache.ttl: 3600
+
+# Code Generation Settings
+ai.codeGeneration.enableAutoComplete: true
+ai.codeGeneration.enableInlineSuggestions: true
+ai.codeGeneration.maxSuggestions: 10
+ai.codeGeneration.suggestionDelay: 100
+
+# Terminal Configuration for High Performance
+terminal.integrated.shell.windows: "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+terminal.integrated.shellArgs.windows: ["-NoProfile", "-ExecutionPolicy", "Bypass"]
+terminal.integrated.cursorBlinking: "solid"
+terminal.integrated.cursorStyle: "line"
+terminal.integrated.fontSize: 14
+terminal.integrated.lineHeight: 1.2
+
+# Performance Settings
+terminal.integrated.scrollback: 2000
+terminal.integrated.fastScrollSensitivity: 10
+terminal.integrated.mouseWheelScrollSensitivity: 2
+
+# Memory Management
+terminal.integrated.enablePersistentSessions: false
+terminal.integrated.enableMultiLinePasteWarning: false
+terminal.integrated.enableBell: false
+terminal.integrated.enableConpty: true
+terminal.integrated.enableVisualBell: false
+
+# Node.js Specific for High Performance
+terminal.integrated.env.windows: {
+  "NODE_OPTIONS": "--max-old-space-size=8192 --no-warnings --experimental-worker",
+  "NODE_ENV": "development",
+  "VITE_DISABLE_TELEMETRY": "1",
+  "NPM_CONFIG_UPDATE_NOTIFIER": "false",
+  "NPM_CONFIG_AUDIT": "false",
+  "NPM_CONFIG_FUND": "false",
+  "UV_THREADPOOL_SIZE": "16"
+}
+
+# Prevent hanging
+terminal.integrated.enableBell: false
+terminal.integrated.enableConpty: true
+
+# Editor Performance for AI
+editor.suggest.snippetsPreventQuickSuggestions: false
+editor.suggest.showKeywords: true
+editor.suggest.showSnippets: true
+editor.suggest.showClasses: true
+editor.suggest.showFunctions: true
+editor.suggest.showVariables: true
+editor.suggest.showConstants: true
+editor.suggest.showEnums: true
+editor.suggest.showEnumMembers: true
+editor.suggest.showWords: true
+editor.suggest.showColors: true
+editor.suggest.showFiles: true
+editor.suggest.showReferences: true
+editor.suggest.showFolders: true
+editor.suggest.showTypeParameters: true
+editor.suggest.showUnits: true
+editor.suggest.showValues: true
+editor.suggest.showEnums: true
+editor.suggest.showEnumMembers: true
+editor.suggest.showKeywords: true
+editor.suggest.showWords: true
+editor.suggest.showColors: true
+editor.suggest.showFiles: true
+editor.suggest.showReferences: true
+editor.suggest.showFolders: true
+editor.suggest.showTypeParameters: true
+editor.suggest.showUnits: true
+editor.suggest.showValues: true
+editor.suggest.showEnums: true
+editor.suggest.showEnumMembers: true
+editor.suggest.showKeywords: true
+editor.suggest.showWords: true
+editor.suggest.showColors: true
+editor.suggest.showFiles: true
+editor.suggest.showReferences: true
+editor.suggest.showFolders: true
+editor.suggest.showTypeParameters: true
+editor.suggest.showUnits: true
+editor.suggest.showValues: true
