@@ -9,6 +9,153 @@ const window = new JSDOM('').window;
 const DOMPurifyInstance = DOMPurify(window as any);
 
 /**
+ * Rate Limiting Configuration
+ */
+export const createRateLimiter = (
+  windowMs: number = 15 * 60 * 1000,
+  max: number = 100,
+  skipSuccessfulRequests: boolean = false,
+  message: string = 'Too many requests, please try again later.'
+) => {
+  return rateLimit({
+    windowMs,
+    max,
+    skipSuccessfulRequests,
+    message: {
+      error: message,
+      retryAfter: Math.ceil(windowMs / 1000),
+      code: 'RATE_LIMIT_EXCEEDED'
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skip: (req: Request) => {
+      // Skip rate limiting for health checks
+      return req.path === '/api/health' || req.path === '/api/health/';
+    },
+    // Custom key generator for user-based rate limiting
+    keyGenerator: (req: Request): string => {
+      const userId = req.headers['x-user-id'] as string;
+      return userId ? `user:${userId}` : req.ip;
+    },
+    // Log rate limit hits
+    handler: (req: Request, res: Response) => {
+      console.warn(`Rate limit exceeded for IP: ${req.ip}, User: ${req.headers['x-user-id']}, Path: ${req.path}`);
+      res.status(429).json({
+        success: false,
+        error: message,
+        code: 'RATE_LIMIT_EXCEEDED',
+        retryAfter: Math.ceil(windowMs / 1000)
+      });
+    }
+  });
+};
+
+// Strict rate limiter for authentication endpoints
+export const authRateLimiter = createRateLimiter(
+  15 * 60 * 1000, // 15 minutes
+  5, // 5 attempts per 15 minutes
+  true, // Skip successful requests
+  'Too many login attempts, please try again later.'
+);
+
+// Progressive rate limiter for failed auth attempts
+export const failedAuthRateLimiter = createRateLimiter(
+  60 * 60 * 1000, // 1 hour
+  3, // 3 failed attempts per hour
+  false, // Don't skip any requests
+  'Too many failed login attempts, account temporarily locked.'
+);
+
+// General API rate limiter
+export const apiRateLimiter = createRateLimiter(
+  15 * 60 * 1000, // 15 minutes
+  100, // 100 requests per 15 minutes
+  false,
+  'API rate limit exceeded, please slow down.'
+);
+
+// Strict rate limiter for sensitive operations (financial, admin)
+export const sensitiveRateLimiter = createRateLimiter(
+  60 * 60 * 1000, // 1 hour
+  10, // 10 requests per hour
+  false,
+  'Sensitive operation rate limit exceeded.'
+);
+
+// File upload rate limiter
+export const uploadRateLimiter = createRateLimiter(
+  60 * 60 * 1000, // 1 hour
+  20, // 20 uploads per hour
+  false,
+  'File upload rate limit exceeded.'
+);
+
+/**
+ * Enhanced XSS Protection Middleware
+ */
+export const xssProtection = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Sanitize request body
+    if (req.body && typeof req.body === 'object') {
+      req.body = sanitizeObject(req.body);
+    }
+
+    // Sanitize query parameters
+    if (req.query && typeof req.query === 'object') {
+      req.query = sanitizeObject(req.query);
+    }
+
+    // Sanitize URL parameters
+    if (req.params && typeof req.params === 'object') {
+      req.params = sanitizeObject(req.params);
+    }
+
+    next();
+  } catch (error) {
+    console.error('XSS Protection Error:', error);
+    res.status(400).json({
+      success: false,
+      error: 'Invalid input detected',
+      code: 'INVALID_INPUT'
+    });
+  }
+};
+
+// Recursive object sanitization
+function sanitizeObject(obj: any): any {
+  if (obj === null || obj === undefined) {
+    return obj;
+  }
+
+  if (typeof obj === 'string') {
+    return DOMPurifyInstance.sanitize(obj, {
+      ALLOWED_TAGS: [],
+      ALLOWED_ATTR: [],
+      KEEP_CONTENT: true
+    });
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => sanitizeObject(item));
+  }
+
+  if (typeof obj === 'object') {
+    const sanitized: any = {};
+    for (const [key, value] of Object.entries(obj)) {
+      const sanitizedKey = DOMPurifyInstance.sanitize(key, {
+        ALLOWED_TAGS: [],
+        ALLOWED_ATTR: [],
+        KEEP_CONTENT: true
+      });
+      sanitized[sanitizedKey] = sanitizeObject(value);
+    }
+    return sanitized;
+  }
+
+  return obj;
+}
+
+/**
  * CSRF Protection Middleware
  */
 export const csrfProtection = (req: Request, res: Response, next: NextFunction) => {
