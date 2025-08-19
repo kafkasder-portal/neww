@@ -1,4 +1,4 @@
-import React, { memo, startTransition } from 'react'
+import { memo, startTransition } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   Sidebar,

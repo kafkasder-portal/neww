@@ -146,6 +146,28 @@ export interface BudgetApprovalStep {
   isRequired: boolean
 }
 
+// Legacy type aliases for backward compatibility
+export type Budget = AdvancedBudget
+export type BudgetCategory = AdvancedBudgetCategory
+export type BudgetApproval = BudgetApprovalWorkflow
+export type ApprovalStatus = 'pending' | 'approved' | 'rejected' | 'skipped' | 'waiting' | 'completed'
+export type ApprovalStep = BudgetApprovalStep
+export type ActualExpense = {
+  categoryId: string
+  amount: number
+  date: string
+  description?: string
+}
+export type BudgetRevision = {
+  id: string
+  budgetId: string
+  revisionNumber: number
+  changes: any
+  reason: string
+  createdBy: string
+  created_at: string
+}
+
 export interface BudgetVarianceAnalysis {
   id: string
   budgetId: string

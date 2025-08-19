@@ -172,6 +172,7 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
       // Enhanced AI processing
       let result
       if (enhancedMode) {
+        const sessionId = `session-${Date.now()}`
         const enhancedResult = await enhancedAIAssistantManager.processEnhancedCommand(
           userCommand,
           userId || 'anonymous',
