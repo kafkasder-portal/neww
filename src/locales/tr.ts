@@ -1,4 +1,48 @@
 export const tr = {
+  // Kimlik Doğrulama
+  auth: {
+    welcome: 'Hoş Geldiniz',
+    login: 'Giriş Yap',
+    register: 'Kayıt Ol',
+    forgotPassword: 'Şifremi Unuttum',
+    backToLogin: 'Giriş sayfasına dön',
+    emailAddress: 'Email Adresi',
+    password: 'Şifre',
+    confirmPassword: 'Şifre Tekrarı',
+    fullName: 'Ad Soyad',
+    department: 'Departman',
+    phone: 'Telefon',
+    resetPassword: 'Şifre Sıfırla',
+    sendResetEmail: 'Sıfırlama emaili gönder',
+    loginSuccess: 'Giriş başarılı',
+    registerSuccess: 'Kayıt başarılı',
+    resetEmailSent: 'Şifre sıfırlama emaili gönderildi',
+    invalidCredentials: 'Geçersiz email veya şifre',
+    emailExists: 'Bu email zaten kullanımda',
+    weakPassword: 'Şifre çok zayıf',
+    emailNotFound: 'Email bulunamadı',
+    tooManyRequests: 'Çok fazla deneme, lütfen bekleyin',
+    loggedIn: 'Zaten giriş yapmışsınız',
+    logout: 'Çıkış Yap',
+    signUp: 'Hesap Oluştur',
+    signIn: 'Oturum Aç',
+    pleaseWait: 'Lütfen bekleyin...',
+    processing: 'İşleniyor...'
+  },
+
+  // Form Doğrulama
+  validation: {
+    required: 'Bu alan zorunludur',
+    email: 'Geçerli bir email adresi giriniz',
+    minLength: 'En az {min} karakter olmalıdır',
+    maxLength: 'En fazla {max} karakter olmalıdır',
+    passwordMismatch: 'Şifreler eşleşmiyor',
+    invalidPhone: 'Geçerli bir telefon numarası giriniz',
+    invalidDate: 'Geçerli bir tarih giriniz',
+    passwordTooShort: 'Şifre en az 6 karakter olmalıdır',
+    nameMinLength: 'Ad soyad en az 2 karakter olmalıdır'
+  },
+
   // Genel
   common: {
     save: 'Kaydet',
@@ -223,7 +267,7 @@ export const tr = {
   // Raporlar
   reports: {
     title: 'Raporlar',
-    reportTitle: 'Rapor Başlığı',
+    reportTitle: 'Rapor Başlı��ı',
     subtitle: 'Alt Başlık',
     enterTitle: 'Rapor başlığını girin',
     enterSubtitle: 'Alt başlık girin (opsiyonel)',
