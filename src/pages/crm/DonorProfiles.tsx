@@ -154,7 +154,7 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
       setFilteredDonors(results)
     } catch (error) {
       console.error('Error searching donors:', error)
-      toast.error('Arama sırasında hata oluştu')
+      toast.error(`Bağışçı arama hatası: ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`)
     } finally {
       setLoading(false)
     }
