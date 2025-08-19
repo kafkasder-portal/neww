@@ -967,7 +967,7 @@ export default function PiggyBankTracking() {
             </div>
 
             {/* Durum Dağılımı */}
-            <div className="bg-white border rounded-lg p-6">
+            <div className="bg-card border rounded-lg p-6">
               <h3 className="text-lg font-medium mb-4">Kumbara Durum Dağılımı</h3>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div className="border rounded p-4">
