@@ -1,23 +1,16 @@
-@tailwind base;
-
-/* Import design system AFTER base for proper override order */
+/* All imports must come first */
 @import './styles/colors-enhanced.css';
 @import './styles/typography-enhanced.css';
-
-@tailwind components;
-
-/* UI patterns after components */
 @import './styles/ui-patterns.css';
 @import './styles/page-patterns.css';
-
-@tailwind utilities;
-
-/* Compatibility layer and mobile enhancements last */
 @import './styles/compatibility-layer.css';
 @import './styles/mobile-enhanced.css';
-
-/* Sidebar override to force expanded state */
 @import './styles/sidebar-override.css';
+
+/* Tailwind after imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   :root {
