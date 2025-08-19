@@ -545,11 +545,7 @@ export default function PiggyBankTracking() {
       key: 'condition', 
       header: 'Durum',
       render: (_, row: Collection) => (
-        <span className={`px-2 py-1 rounded text-xs ${
-          row.condition === 'iyi' ? 'bg-green-100 text-green-800' :
-          row.condition === 'hasarlı' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-red-100 text-red-800'
-        }`}>
+        <span className={getStatusBadgeClasses(row.condition === 'iyi' ? 'success' : row.condition === 'hasarlı' ? 'warning' : 'error', 'activity')}>
           {row.condition}
         </span>
       )
@@ -592,7 +588,7 @@ export default function PiggyBankTracking() {
         </div>
       )
     },
-    { key: 'purpose', header: 'Ama��' },
+    { key: 'purpose', header: 'Amaç' },
     { 
       key: 'status', 
       header: 'Durum',
