@@ -360,7 +360,13 @@ export class DonorCRMService {
       if (error) throw error
       return data || []
     } catch (error) {
-      console.error('Error fetching upcoming tasks:', error)
+      logError('Error fetching upcoming tasks', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Görev tablosu bulunamadı. Sistem kurulumu gerekli.')
+      } else {
+        toast.error(`Görevler yüklenemedi: ${getErrorMessage(error)}`)
+      }
       return []
     }
   }
