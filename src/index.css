@@ -1,14 +1,20 @@
-/* Import enhanced design system BEFORE Tailwind */
+@tailwind base;
+
+/* Import design system AFTER base for proper override order */
 @import './styles/colors-enhanced.css';
 @import './styles/typography-enhanced.css';
-@import './styles/compatibility-layer.css';
+
+@tailwind components;
+
+/* UI patterns after components */
 @import './styles/ui-patterns.css';
 @import './styles/page-patterns.css';
-@import './styles/mobile-enhanced.css';
 
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
+
+/* Compatibility layer and mobile enhancements last */
+@import './styles/compatibility-layer.css';
+@import './styles/mobile-enhanced.css';
 
 @layer base {
   :root {
@@ -55,22 +61,7 @@
     --grid-selected: 220 25% 92%;
     --grid-border: var(--border);
 
-    /* Sidebar Colors - Enhanced contrast */
-    --sidebar-bg: 220 13% 18%;
-    --sidebar-text: 220 9% 95%;
-    --sidebar-text-muted: 220 9% 70%;
-    --sidebar-hover: 220 14% 24%;
-    --sidebar-active: 217 91% 60%;
-    --sidebar-border: 220 13% 22%;
-
-    /* Legacy mapping for compatibility */
-    --sidebar-background: var(--sidebar-bg);
-    --sidebar-foreground: var(--sidebar-text);
-    --sidebar-primary: var(--sidebar-active);
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: var(--sidebar-hover);
-    --sidebar-accent-foreground: var(--sidebar-text);
-    --sidebar-ring: 217 91% 60%;
+    /* Remove duplicate sidebar variables - handled in colors-enhanced.css */
   }
 
   .dark {
@@ -94,15 +85,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
 
-    /* Dark Professional Sidebar Colors */
-    --sidebar-background: 220 13% 9%;
-    --sidebar-foreground: 220 9% 88%;
-    --sidebar-primary: 217 91% 65%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 14%;
-    --sidebar-accent-foreground: 220 9% 88%;
-    --sidebar-border: 220 13% 12%;
-    --sidebar-ring: 217 91% 65%;
+    /* Dark mode sidebar variables removed - handled in colors-enhanced.css */
   }
 }
 
