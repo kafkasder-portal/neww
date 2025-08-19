@@ -26,7 +26,7 @@ export const SECURITY_CONFIG = {
   // Safe URL patterns
   SAFE_URL_PATTERNS: [
     /^https?:\/\//i,
-    /^\/[^\/]/i,
+    /^\/(?!\/)/i,
     /^#/i,
     /^mailto:/i,
     /^tel:/i,

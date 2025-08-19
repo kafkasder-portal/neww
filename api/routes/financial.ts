@@ -2,28 +2,12 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { supabase } from '../config/supabase.js';
 import { authenticateUser } from '../middleware/auth.js';
+import { requirePermission } from '../middleware/rbac.js';
 import { validateRequest } from '../middleware/validation.js';
 
 const router = Router();
 
 // Validation schemas
-const financialRecordSchema = z.object({
-  transaction_type: z.enum(['income', 'expense', 'transfer']),
-  category_id: z.string().uuid(),
-  amount: z.number().positive(),
-  currency: z.string().length(3).default('TRY'),
-  description: z.string().min(1),
-  transaction_date: z.string().optional(),
-  reference_number: z.string().optional(),
-  account_from: z.string().optional(),
-  account_to: z.string().optional(),
-  payment_method: z.enum(['cash', 'bank_transfer', 'check', 'credit_card', 'online']).optional(),
-  related_donation_id: z.string().uuid().optional(),
-  related_aid_record_id: z.string().uuid().optional(),
-  receipt_url: z.string().url().optional(),
-  notes: z.string().optional()
-});
-
 const budgetCategorySchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
@@ -47,6 +31,16 @@ const grantSchema = z.object({
   reporting_requirements: z.string().optional(),
   conditions: z.string().optional(),
   manager_id: z.string().uuid().optional()
+});
+
+const financialRecordSchema = z.object({
+  category_id: z.string().uuid(),
+  amount: z.number().positive(),
+  currency: z.string().length(3).default('TRY'),
+  description: z.string().optional(),
+  date: z.string().optional(),
+  related_donation_id: z.string().uuid().optional(),
+  related_aid_id: z.string().uuid().optional(),
 });
 
 // GET /financial/records - List financial records
@@ -154,6 +148,10 @@ router.get('/records/:id', authenticateUser, async (req, res) => {
 // POST /financial/records - Create financial record
 router.post('/records', authenticateUser, validateRequest(financialRecordSchema), async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+
     const recordData = {
       ...req.body,
       created_by: req.user.id,
@@ -186,6 +184,10 @@ router.post('/records', authenticateUser, validateRequest(financialRecordSchema)
 // PUT /financial/records/:id/approve - Approve financial record
 router.put('/records/:id/approve', authenticateUser, async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+
     const { id } = req.params;
 
     const { data, error } = await supabase
@@ -206,7 +208,7 @@ router.put('/records/:id/approve', authenticateUser, async (req, res) => {
 
     if (error) {
       console.error('Error approving financial record:', error);
-      if (error.code === 'PGRST116') {
+      if ((error as { code?: string }).code === 'PGRST116') {
         return res.status(404).json({ error: 'Financial record not found' });
       }
       return res.status(400).json({ error: 'Failed to approve financial record' });
@@ -382,6 +384,10 @@ router.get('/grants', authenticateUser, async (req, res) => {
 // POST /financial/grants - Create grant
 router.post('/grants', authenticateUser, validateRequest(grantSchema), async (req, res) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+
     const grantData = {
       ...req.body,
       created_by: req.user.id,

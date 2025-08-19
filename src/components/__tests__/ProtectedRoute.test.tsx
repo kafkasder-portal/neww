@@ -53,6 +53,7 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
+/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports */
 describe('ProtectedRoute Component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -264,3 +265,4 @@ describe('ProtectedRoute Component', () => {
     })
   })
 })
+/* eslint-enable @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports */
