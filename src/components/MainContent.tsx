@@ -33,8 +33,7 @@ const MainContent = memo(function MainContent({
 
   return (
     <SidebarInset>
-      {/* Minimal Header */}
-      <MinimalHeader />
+      {/* MinimalHeader removed - using AppSidebar for navigation */}
 
       {/* Main Content */}
       <main className={cn("flex-1 overflow-auto bg-background", className)}>
