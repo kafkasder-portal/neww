@@ -369,12 +369,27 @@ export class AccountingService {
         periodEnd: endDate
       }
     } catch (error) {
+      console.error('Error generating income statement:', error)
       logError('Error generating income statement', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+        // Return sample income statement as fallback
+        const sampleRevenueAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'gelir')
+        const sampleExpenseAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'gider')
+        return {
+          totalRevenues: 0,
+          totalExpenses: 0,
+          netIncome: 0,
+          revenueAccounts: sampleRevenueAccounts.map(acc => ({ ...acc, currentBalance: 0 })),
+          expenseAccounts: sampleExpenseAccounts.map(acc => ({ ...acc, currentBalance: 0 })),
+          periodStart: startDate,
+          periodEnd: endDate
+        }
       } else {
-        toast.error(`Gelir tablosu oluşturulamadı: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Gelir tablosu oluşturulamadı: ${errorMsg}`)
       }
       return null
     }
@@ -382,7 +397,7 @@ export class AccountingService {
 
   static async generateBalanceSheet(asOfDate?: string): Promise<any> {
     const dateFilter = asOfDate || new Date().toISOString().split('T')[0]
-    
+
     try {
       const { data: accounts, error } = await supabase
         .from('chart_of_accounts')
@@ -414,12 +429,28 @@ export class AccountingService {
         equityAccounts: accounts.filter(acc => acc.accountType === 'öz_kaynak')
       }
     } catch (error) {
+      console.error('Error generating balance sheet:', error)
       logError('Error generating balance sheet', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+        // Return sample balance sheet as fallback
+        const sampleAssetAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'varlık')
+        const sampleLiabilityAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'borç')
+        const sampleEquityAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'öz_kaynak')
+        return {
+          totalAssets: 0,
+          totalLiabilities: 0,
+          totalEquity: 0,
+          asOfDate: dateFilter,
+          assetAccounts: sampleAssetAccounts.map(acc => ({ ...acc, currentBalance: 0 })),
+          liabilityAccounts: sampleLiabilityAccounts.map(acc => ({ ...acc, currentBalance: 0 })),
+          equityAccounts: sampleEquityAccounts.map(acc => ({ ...acc, currentBalance: 0 }))
+        }
       } else {
-        toast.error(`Bilanço oluşturulamadı: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Bilanço oluşturulamadı: ${errorMsg}`)
       }
       return null
     }
