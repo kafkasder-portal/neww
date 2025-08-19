@@ -12,7 +12,7 @@ import {
   BarChart3,
   MapPin
 } from 'lucide-react'
-import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDistributionCard } from '@components/FinancialCard'
+// FinancialCard components removed - files deleted
 import { Link } from 'react-router-dom'
 import { DashboardCharts } from '@components/DashboardCharts'
 import { DashboardCustomizer } from '@components/dashboard/DashboardCustomizer'
