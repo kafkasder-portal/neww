@@ -125,7 +125,6 @@ export default function Beneficiaries() {
   const [editingId, setEditingId] = useState<number | null>(null)
   
   // Advanced search states
-  const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false)
   const [activeFilters, setActiveFilters] = useState<Record<string, any>>({})
   const [savedFilters, setSavedFilters] = useState<SavedFilter[]>([])
   
@@ -675,7 +674,6 @@ export default function Beneficiaries() {
   }
 
   // Advanced search handlers
-  const handleAdvancedSearch = (filters: Record<string, any>) => {
     setActiveFilters(filters)
     setAdvancedSearchOpen(false)
   }
@@ -1949,9 +1947,7 @@ export default function Beneficiaries() {
 
       {/* Advanced Search Modal */}
       <AdvancedSearchModal
-        isOpen={advancedSearchOpen}
         onClose={() => setAdvancedSearchOpen(false)}
-        onApplyFilters={handleAdvancedSearch}
         onSaveFilter={handleSaveFilter}
         onLoadFilter={handleLoadFilter}
         pageType="beneficiaries"
