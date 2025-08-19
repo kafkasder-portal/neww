@@ -51,6 +51,7 @@ export const env = {
   ENABLE_REALTIME: import.meta.env.VITE_ENABLE_REALTIME !== 'false',
   ENABLE_NOTIFICATIONS: import.meta.env.VITE_ENABLE_NOTIFICATIONS !== 'false',
   ENABLE_OFFLINE_MODE: import.meta.env.VITE_ENABLE_OFFLINE_MODE === 'true',
+  MOCK_API: import.meta.env.VITE_MOCK_API === 'true',
   
   // External Services
   WHATSAPP_API_KEY: import.meta.env.VITE_WHATSAPP_API_KEY || '',
