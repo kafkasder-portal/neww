@@ -5,7 +5,7 @@
   "description": "Dernek Yönetim Paneli - Modern NGO Management System",
   "scripts": {
     "dev": "concurrently --kill-others-on-fail --prefix-colors \"blue,green\" \"npm run client:dev\" \"npm run server:dev\"",
-    "client:dev": "vite --host --port 5174",
+    "client:dev": "vite --host --port 5176",
     "server:dev": "cd api && npm run dev",
     "dev:safe": "npm run cleanup && npm run dev",
     "cleanup": "powershell -ExecutionPolicy Bypass -File \"./scripts/fix-terminal-hanging.ps1\"",

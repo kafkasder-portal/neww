@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import { resolve } from 'path'
+import { defineConfig } from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -42,7 +42,7 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3002',
+        target: 'http://localhost:3004',
         changeOrigin: true,
         secure: false,
         timeout: 30000,
@@ -60,8 +60,9 @@ export default defineConfig({
   },
   // Optimize for better performance
   optimizeDeps: {
-    include: ['react', 'react-dom'],
-    exclude: ['@supabase/supabase-js'],
+    include: ['react', 'react-dom', '@supabase/supabase-js'],
+    exclude: ['react-error-boundary', 'react-router-dom', 'sonner'],
+    force: true,
   },
   // Better error handling
   logLevel: 'info',
