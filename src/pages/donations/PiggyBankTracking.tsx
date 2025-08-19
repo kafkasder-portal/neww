@@ -762,8 +762,8 @@ export default function PiggyBankTracking() {
   const locations = [...new Set(piggyBanks.map(b => b.location))]
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow">
+    <div className="space-y-6 bg-background min-h-screen">
+      <div className="bg-card p-6 rounded-lg shadow border">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold">Kumbara Takibi</h2>
