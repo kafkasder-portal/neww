@@ -1,14 +1,15 @@
 import { supabase } from '@/lib/supabase'
-import type { 
-  ChartOfAccounts, 
-  GeneralLedgerEntry, 
-  JournalEntry, 
+import type {
+  ChartOfAccounts,
+  GeneralLedgerEntry,
+  JournalEntry,
   FinancialTransaction,
   Budget,
   Grant,
   STANDARD_CHART_OF_ACCOUNTS
 } from '@/types/accounting'
 import { toast } from 'sonner'
+import { getErrorMessage, logError, isTableNotFoundError, ErrorMessages } from '@/utils/errorHandler'
 
 export class AccountingService {
   // Chart of Accounts Management
