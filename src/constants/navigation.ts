@@ -218,26 +218,6 @@ export const supportItems: NavigationItem[] = [
       { title: "IP Engelleme", href: "/system/ip-blocking", description: "Güvenlik ayarları" },
       { title: "Sistem Ayarları", href: "/system/settings", description: "Genel sistem ayarları" }
     ]
-  },
-  {
-    title: "Tanımlamalar",
-    icon: Database,
-    badge: undefined,
-    subPages: [
-      { title: "Genel Tanımlar", href: "/definitions", description: "Sistem tanımlamaları" },
-      { title: "Kullanıcı Hesapları", href: "/definitions/user-accounts", description: "Hesap tanımları" },
-      { title: "Yetki Grupları", href: "/definitions/permission-groups", description: "Yetkilendirme" },
-      { title: "Genel Ayarlar", href: "/definitions/general-settings", description: "Genel ayarlar" },
-      { title: "Birimler", href: "/definitions/units", description: "Organizasyon birimleri" },
-      { title: "Binalar", href: "/definitions/buildings", description: "Bina tanımları" },
-      { title: "Ülke & Şehirler", href: "/definitions/countries-cities", description: "Lokasyon tanımları" },
-      { title: "Bağış Yöntemleri", href: "/definitions/donation-methods", description: "Bağış türü tanımları" },
-      { title: "Teslimat Türleri", href: "/definitions/delivery-types", description: "Teslimat seçenekleri" },
-      { title: "GSM Kodları", href: "/definitions/gsm-codes", description: "Telefon kodu tanımları" },
-      { title: "Pasaport Formatları", href: "/definitions/passport-formats", description: "Pasaport formatları" },
-      { title: "Süreç Akışları", href: "/definitions/process-flows", description: "İş süreçleri" },
-      { title: "Çeviriler", href: "/definitions/translations", description: "Dil çevirileri" }
-    ]
   }
 ]
 
