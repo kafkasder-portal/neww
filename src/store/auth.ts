@@ -4,6 +4,8 @@ import { supabase } from '../lib/supabase'
 import { toast } from 'sonner'
 import { startTransition } from 'react'
 import { logAuthError, logSystemError } from '../services/errorService'
+import { demoAuth, shouldUseDemoAuth, DEMO_CREDENTIALS } from '../lib/demoAuth'
+import { env } from '../lib/env'
 
 export type UserProfile = {
   id: string
