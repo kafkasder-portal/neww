@@ -6,7 +6,7 @@ export interface ValidationError {
   message: string;
 }
 
-export const validateRequest = (schema: z.ZodSchema<any>) => {
+export const validateRequest = (schema: z.ZodSchema<unknown>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const validatedData = schema.parse(req.body);
@@ -34,11 +34,11 @@ export const validateRequest = (schema: z.ZodSchema<any>) => {
   };
 };
 
-export const validateQuery = (schema: z.ZodSchema<any>) => {
+export const validateQuery = (schema: z.ZodSchema<unknown>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const validatedData = schema.parse(req.query);
-      req.query = validatedData;
+      (req as unknown as { query: Record<string, unknown> }).query = validatedData as Record<string, unknown>;
       next();
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -61,11 +61,11 @@ export const validateQuery = (schema: z.ZodSchema<any>) => {
   };
 };
 
-export const validateParams = (schema: z.ZodSchema<any>) => {
+export const validateParams = (schema: z.ZodSchema<unknown>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const validatedData = schema.parse(req.params);
-      req.params = validatedData;
+      (req as unknown as { params: Record<string, string> }).params = validatedData as Record<string, string>;
       next();
     } catch (error) {
       if (error instanceof z.ZodError) {

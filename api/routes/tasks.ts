@@ -13,7 +13,7 @@ const supabase = createClient(
 );
 
 // Middleware to extract user from authorization header
-const authenticateUser = async (req: Request, res: Response, next: any) => {
+const authenticateUser = async (req: Request & { user?: { id: string } }, res: Response, next: (err?: unknown) => void) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Authorization required' });
@@ -26,12 +26,17 @@ const authenticateUser = async (req: Request, res: Response, next: any) => {
     return res.status(401).json({ error: 'Invalid token' });
   }
 
-  req.user = user;
+  req.user = user as { id: string };
   next();
 };
 
 // Helper function to log task activity
-const logTaskActivity = async (taskId: string, userId: string, action: string, details: any = {}) => {
+const logTaskActivity = async (
+  taskId: string,
+  userId: string,
+  action: string,
+  details: Record<string, unknown> = {}
+) => {
   try {
     await supabase
       .from('task_activities')
@@ -224,7 +229,7 @@ router.put('/:id', authenticateUser, async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Task not found' });
     }
 
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
     if (title !== undefined) updateData.title = title;
     if (description !== undefined) updateData.description = description;
     if (priority !== undefined) updateData.priority = priority;

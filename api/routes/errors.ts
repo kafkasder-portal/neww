@@ -35,7 +35,7 @@ interface ErrorLogRequest {
     timestamp?: string
     userAgent?: string
     sessionId?: string
-    additionalData?: Record<string, any>
+    additionalData?: Record<string, unknown>
   }
   timestamp: string
   resolved: boolean

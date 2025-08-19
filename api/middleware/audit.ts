@@ -1,19 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { supabase } from '../config/supabase.js';
-import crypto from 'crypto';
-import DOMPurify from 'dompurify';
-import { JSDOM } from 'jsdom';
+// import crypto from 'crypto';
+// Note: DOMPurify not required here; sanitized logging handled in security middleware
 
-// Initialize DOMPurify with JSDOM for server-side usage
-const window = new JSDOM('').window;
-const DOMPurifyInstance = DOMPurify(window as any);
-
-/**
- * Utility to generate a stable hash for content
- */
-const hashContent = (content: string): string => {
-	return crypto.createHash('sha256').update(content).digest('hex');
-};
+// Removed unused hashing utility to satisfy lint rules
 
 // Interface for audit log data
 interface AuditLogData {
@@ -21,13 +11,13 @@ interface AuditLogData {
   action: string;
   resourceType: string;
   resourceId?: string;
-  oldValues?: any;
-  newValues?: any;
+  oldValues?: Record<string, unknown> | unknown[] | string | number | boolean | null;
+  newValues?: Record<string, unknown> | unknown[] | string | number | boolean | null;
   ipAddress?: string;
   userAgent?: string;
   sessionId?: string;
   severity?: 'info' | 'warning' | 'error' | 'critical';
-  metadata?: any;
+  metadata?: Record<string, unknown> | unknown[] | string | number | boolean | null;
 }
 
 // Helper function to log audit events
@@ -66,7 +56,7 @@ export const logSecurityEvent = async (
   ipAddress?: string,
   userAgent?: string,
   success: boolean = false,
-  details?: any,
+  details?: Record<string, unknown> | unknown[] | string | number | boolean | null,
   riskScore: number = 0
 ): Promise<string | null> => {
   try {
@@ -120,10 +110,10 @@ export const auditLogger = (options: {
     const originalSend = res.send;
 
     // Store original response body
-    let responseBody: any;
-    res.send = function(data: any) {
+    let responseBody: unknown;
+    res.send = function(data: unknown) {
       responseBody = data;
-      return originalSend.call(this, data);
+      return originalSend.call(this, data as never);
     };
 
     // Continue with request processing
@@ -199,11 +189,8 @@ export const auditResourceOperation = (
 ) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const originalSend = res.send;
-    let responseData: any;
-
-    res.send = function(data: any) {
-      responseData = data;
-      return originalSend.call(this, data);
+    res.send = function(data: unknown) {
+      return originalSend.call(this, data as never);
     };
 
     res.on('finish', async () => {
@@ -288,7 +275,7 @@ export const auditHighRiskOperation = (
     });
 
     const originalSend = res.send;
-    res.send = function(data: any) {
+    res.send = function(data: unknown) {
       // Log after operation
       (async () => {
         await logAuditEvent({

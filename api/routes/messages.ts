@@ -63,9 +63,10 @@ router.get('/conversations', authenticateUser, async (req: Request, res: Respons
     }
 
     // Filter to only show conversations where user is a participant
-    const filteredConversations = conversations?.filter(conv => 
-      conv.participants?.some((p: any) => p.user_id === req.user!.id)
-    ) || [];
+    const filteredConversations = (conversations || []).filter((conv) => {
+      const participants = (conv as { participants?: Array<{ user_id: string }> }).participants;
+      return participants?.some((p) => p.user_id === req.user!.id);
+    });
 
     res.json({ data: filteredConversations });
   } catch (error) {
