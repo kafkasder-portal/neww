@@ -2,16 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import { supabase } from '../config/supabase.js';
 
 // Extend Request interface to include user
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        id: string;
-        email?: string;
-        role?: string;
-        profile?: any;
-      };
-    }
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: {
+      id: string;
+      email?: string;
+      role?: string;
+      profile?: unknown;
+    };
   }
 }
 
@@ -60,8 +58,8 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
 
     next();
   } catch (error) {
-    console.error('Authentication middleware error:', error);
-    res.status(500).json({ error: 'Authentication failed' });
+    console.error('Authentication error:', error);
+    res.status(500).json({ error: 'Failed to authenticate user' });
   }
 };
 
