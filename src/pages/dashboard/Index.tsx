@@ -104,23 +104,50 @@ export default function DashboardIndex() {
 
       {/* Finansal İstatistik Kartları */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <TotalDonationsCard 
-          totalDonations={45230}
-          monthlyChange={8.2}
-          trend={[42000, 43500, 44200, 45230]}
-        />
-        <ActiveBeneficiariesCard 
-          count={1234}
-          monthlyChange={12}
-        />
-        <MonthlyGrowthCard 
-          growthRate={15.4}
-          period="Son 30 gün"
-        />
-        <FundDistributionCard 
-          distributionRate={87}
-          target={85}
-        />
+        {/* Financial cards replaced with simple placeholders */}
+        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Toplam Bağışlar</p>
+              <p className="text-2xl font-bold text-gray-900">₺45,230</p>
+              <p className="text-sm text-green-600">+8.2%</p>
+            </div>
+            <Coins className="h-8 w-8 text-blue-600" />
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Aktif Yararlanıcılar</p>
+              <p className="text-2xl font-bold text-gray-900">1,234</p>
+              <p className="text-sm text-green-600">+12%</p>
+            </div>
+            <Activity className="h-8 w-8 text-green-600" />
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Aylık Büyüme</p>
+              <p className="text-2xl font-bold text-gray-900">+15.4%</p>
+              <p className="text-sm text-gray-500">Son 30 gün</p>
+            </div>
+            <TrendingUp className="h-8 w-8 text-orange-600" />
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Fon Dağılımı</p>
+              <p className="text-2xl font-bold text-gray-900">87%</p>
+              <p className="text-sm text-gray-500">Hedef: 85%</p>
+            </div>
+            <PieChart className="h-8 w-8 text-purple-600" />
+          </div>
+        </div>
       </div>
 
       {/* Hızlı Erişim Kartları */}
