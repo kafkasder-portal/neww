@@ -1,0 +1,327 @@
+/* Import enhanced design system BEFORE Tailwind */
+@import './styles/colors-enhanced.css';
+@import './styles/typography-enhanced.css';
+@import './styles/compatibility-layer.css';
+@import './styles/ui-patterns.css';
+@import './styles/page-patterns.css';
+@import './styles/mobile-enhanced.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Core Tailwind variables - Enhanced background */
+    --background: 210 20% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+
+    /* Financial Status Colors - Map from enhanced system */
+    --financial-success: 142 76% 22%;
+    --financial-success-light: 142 70% 92%;
+    --financial-warning: 38 92% 30%;
+    --financial-warning-light: 38 80% 90%;
+    --financial-error: 0 84% 30%;
+    --financial-error-light: 0 75% 90%;
+    --financial-info: 207 85% 30%;
+    --financial-info-light: 207 75% 90%;
+
+    /* Grid & Chart Colors */
+    --chart-primary: var(--brand-primary);
+    --chart-secondary: var(--financial-success);
+    --chart-tertiary: var(--financial-warning);
+    --chart-quaternary: var(--financial-error);
+
+    /* Interactive States for Grids */
+    --grid-hover: 220 15% 96%;
+    --grid-selected: 220 25% 92%;
+    --grid-border: var(--border);
+
+    /* Sidebar Colors - Fallback values */
+    --sidebar-background: 220 13% 18%;
+    --sidebar-foreground: 220 9% 88%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 24%;
+    --sidebar-accent-foreground: 220 9% 88%;
+    --sidebar-border: 220 13% 22%;
+    --sidebar-ring: 217 91% 60%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
+    /* Dark Professional Sidebar Colors */
+    --sidebar-background: 220 13% 9%;
+    --sidebar-foreground: 220 9% 88%;
+    --sidebar-primary: 217 91% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 14%;
+    --sidebar-accent-foreground: 220 9% 88%;
+    --sidebar-border: 220 13% 12%;
+    --sidebar-ring: 217 91% 65%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { @apply bg-background; }
+  body { @apply bg-background text-foreground min-h-screen; }
+
+  /* Ensure all main containers have consistent background */
+  #root { @apply bg-background min-h-screen; }
+}
+
+@layer utilities {
+  /* ========================================
+   * STATUS COLOR UTILITIES - Consistent across all components
+   * ======================================== */
+
+  /* Success Status */
+  .status-success {
+    @apply bg-financial-success/10 text-financial-success border-financial-success/20;
+  }
+  .status-success-solid {
+    @apply bg-financial-success text-white;
+  }
+
+  /* Warning Status */
+  .status-warning {
+    @apply bg-financial-warning/10 text-financial-warning border-financial-warning/20;
+  }
+  .status-warning-solid {
+    @apply bg-financial-warning text-white;
+  }
+
+  /* Error Status */
+  .status-error {
+    @apply bg-financial-error/10 text-financial-error border-financial-error/20;
+  }
+  .status-error-solid {
+    @apply bg-financial-error text-white;
+  }
+
+  /* Info Status */
+  .status-info {
+    @apply bg-financial-info/10 text-financial-info border-financial-info/20;
+  }
+  .status-info-solid {
+    @apply bg-financial-info text-white;
+  }
+
+  /* Pending/Neutral Status */
+  .status-pending {
+    @apply bg-neutral-100 text-neutral-700 border-neutral-200;
+  }
+  .status-pending-solid {
+    @apply bg-neutral-500 text-white;
+  }
+
+  /* ========================================
+   * GRID & TABLE UTILITIES
+   * ======================================== */
+
+  /* Grid hover states */
+  .grid-hover {
+    @apply hover:bg-grid-hover transition-colors duration-150;
+  }
+
+  /* Grid selected states */
+  .grid-selected {
+    @apply bg-grid-selected border-brand-primary/50;
+  }
+
+  /* Table row hover */
+  .table-row-hover {
+    @apply hover:bg-muted/50 transition-colors duration-150;
+  }
+
+  /* Card grid patterns */
+  .grid-card {
+    @apply bg-card border border-border rounded-lg shadow-sm;
+  }
+
+  .grid-card-hover {
+    @apply grid-card hover:shadow-md hover:border-brand-primary/20 transition-all duration-200;
+  }
+
+  /* Animation delays */
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+  .animation-delay-6000 {
+    animation-delay: 6s;
+  }
+  
+  /* Custom animations for Login page */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.4s ease-out;
+  }
+  
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulseSlow 2s ease-in-out infinite;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-2px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(2px);
+    }
+  }
+  
+  @keyframes pulseSlow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  /* Mobile Touch-Friendly Classes */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+
+  .swipeable-card {
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .mobile-button {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px 16px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-input {
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    touch-action: manipulation;
+  }
+
+  .mobile-nav-item {
+    min-height: 56px;
+    padding: 16px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Mobile-specific responsive utilities */
+  @media (max-width: 640px) {
+    .mobile-padding {
+      padding: 16px;
+    }
+    
+    .mobile-margin {
+      margin: 8px;
+    }
+    
+    .mobile-text {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .mobile-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+}

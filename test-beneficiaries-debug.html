@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İhtiyaç Sahipleri Debug Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .log { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e9; color: #2e7d32; }
+        .info { background: #e3f2fd; color: #1565c0; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .demo-btn { background: #6f42c1; }
+        .demo-btn:hover { background: #5a32a3; }
+    </style>
+</head>
+<body>
+    <h1>İhtiyaç Sahipleri Sayfa Debug Testi</h1>
+    
+    <div>
+        <button onclick="testConnection()">Supabase Bağlantısını Test Et</button>
+        <button onclick="testBeneficiariesTable()">Beneficiaries Tablosunu Test Et</button>
+        <button onclick="createDemoData()" class="demo-btn">Demo Data Oluştur</button>
+        <button onclick="clearLogs()">Logları Temizle</button>
+    </div>
+
+    <div id="logs"></div>
+
+    <script>
+        // Supabase configuration
+        const SUPABASE_URL = 'https://igirzsfljmvykzgacsxp.supabase.co'
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlnaXJ6c2Zsam12eWt6Z2Fjc3hwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUxNDY4ODUsImV4cCI6MjA1MDcyMjg4NX0.h3yBQn6T7Pr4nYQN5kOCjEhxLNWaGJCJQyNUKlIgYSk'
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs')
+            const logDiv = document.createElement('div')
+            logDiv.className = `log ${type}`
+            logDiv.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong> - ${message}`
+            logsDiv.appendChild(logDiv)
+            logsDiv.scrollTop = logsDiv.scrollHeight
+            console.log(`[${type.toUpperCase()}] ${message}`)
+        }
+
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = ''
+        }
+
+        async function testConnection() {
+            log('Supabase bağlantısı test ediliyor...', 'info')
+            
+            try {
+                const { data, error } = await supabase
+                    .from('beneficiaries')
+                    .select('count')
+                    .limit(1)
+
+                if (error) {
+                    log(`Bağlantı hatası: ${JSON.stringify(error)}`, 'error')
+                    
+                    // Specific error analysis
+                    if (error.code === 'PGRST116' || error.message?.includes('relation "beneficiaries" does not exist')) {
+                        log('❌ Beneficiaries tablosu bulunamadı!', 'error')
+                        log('📝 Çözüm: Supabase dashboard\'dan tablo oluşturulmalı', 'info')
+                    } else if (error.message?.includes('permission denied')) {
+                        log('❌ Yetki hatası - RLS politikaları problemi', 'error')
+                        log('📝 Çözüm: RLS politikalarını kontrol edin', 'info')
+                    }
+                } else {
+                    log('✅ Supabase bağlantısı başarılı!', 'success')
+                    log(`Bağlantı detayları: ${JSON.stringify(data)}`, 'info')
+                }
+            } catch (err) {
+                log(`JavaScript hatası: ${err.message}`, 'error')
+            }
+        }
+
+        async function testBeneficiariesTable() {
+            log('Beneficiaries tablosu test ediliyor...', 'info')
+            
+            try {
+                // Test select query similar to the component
+                const { data, error, count } = await supabase
+                    .from('beneficiaries')
+                    .select('*', { count: 'exact' })
+                    .order('created_at', { ascending: false })
+                    .limit(5)
+
+                if (error) {
+                    log(`Tablo hatası: ${JSON.stringify(error)}`, 'error')
+                    
+                    if (error.code === 'PGRST116') {
+                        log('❌ Beneficiaries tablosu mevcut değil', 'error')
+                        log('🔧 Tablo oluşturma SQL\'i gerekli', 'info')
+                        showCreateTableSQL()
+                    }
+                } else {
+                    log(`✅ Tablo başarıyla okundu! Toplam kayıt: ${count}`, 'success')
+                    log(`İlk 5 kayıt: ${JSON.stringify(data, null, 2)}`, 'info')
+                    
+                    if (count === 0) {
+                        log('ℹ️ Tablo boş - demo data oluşturabilirsiniz', 'info')
+                    }
+                }
+            } catch (err) {
+                log(`Test hatası: ${err.message}`, 'error')
+            }
+        }
+
+        async function createDemoData() {
+            log('Demo data oluşturuluyor...', 'info')
+            
+            const currentTime = Date.now()
+            const demoData = [
+                {
+                    name: 'Ahmet',
+                    surname: 'Yılmaz',
+                    category: 'Yetim Ailesi',
+                    nationality: 'T.C.',
+                    birth_date: '1985-03-15',
+                    identity_no: `${currentTime}001`,
+                    phone: '0532 123 45 67',
+                    status: 'active'
+                },
+                {
+                    name: 'Fatma',
+                    surname: 'Demir',
+                    category: 'Yaşlı',
+                    nationality: 'T.C.',
+                    birth_date: '1950-08-22',
+                    identity_no: `${currentTime}002`,
+                    phone: '0533 234 56 78',
+                    status: 'active'
+                },
+                {
+                    name: 'Mehmet',
+                    surname: 'Kaya',
+                    category: 'Engelli',
+                    nationality: 'T.C.',
+                    birth_date: '1978-12-10',
+                    identity_no: `${currentTime}003`,
+                    phone: '0534 345 67 89',
+                    status: 'active'
+                }
+            ]
+
+            try {
+                const { data, error } = await supabase
+                    .from('beneficiaries')
+                    .insert(demoData)
+                    .select()
+
+                if (error) {
+                    log(`Demo data hatası: ${JSON.stringify(error)}`, 'error')
+                    
+                    if (error.code === 'PGRST116') {
+                        log('❌ Tablo bulunamadı - önce tablo oluşturun', 'error')
+                        showCreateTableSQL()
+                    } else if (error.message?.includes('duplicate key')) {
+                        log('⚠️ Duplicate kayıt hatası', 'error')
+                    }
+                } else {
+                    log(`✅ ${data.length} demo kayıt başarıyla oluşturuldu!`, 'success')
+                    log(`Oluşturulan kayıtlar: ${JSON.stringify(data, null, 2)}`, 'info')
+                    
+                    // Verify by reading back
+                    testBeneficiariesTable()
+                }
+            } catch (err) {
+                log(`Demo data JavaScript hatası: ${err.message}`, 'error')
+            }
+        }
+
+        function showCreateTableSQL() {
+            log(`
+📝 Beneficiaries tablosu oluşturma SQL:
+
+CREATE TABLE IF NOT EXISTS public.beneficiaries (
+    id bigserial PRIMARY KEY,
+    created_at timestamptz DEFAULT now(),
+    updated_at timestamptz DEFAULT now(),
+    name text NOT NULL,
+    surname text NOT NULL,
+    category text,
+    nationality text,
+    birth_date date,
+    identity_no text UNIQUE,
+    phone text,
+    email text,
+    address text,
+    city text,
+    district text,
+    status text DEFAULT 'active'
+);
+
+-- RLS Policies
+ALTER TABLE public.beneficiaries ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Enable read access for all users" ON public.beneficiaries
+    FOR SELECT USING (true);
+
+CREATE POLICY "Enable insert for authenticated users" ON public.beneficiaries
+    FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Enable update for authenticated users" ON public.beneficiaries
+    FOR UPDATE USING (true);
+            `, 'info')
+        }
+
+        // Auto-run connection test on page load
+        window.addEventListener('load', () => {
+            log('Sayfa yüklendi - otomatik test başlatılıyor...', 'info')
+            setTimeout(testConnection, 1000)
+        })
+    </script>
+</body>
+</html>

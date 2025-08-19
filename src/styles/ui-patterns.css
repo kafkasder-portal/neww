@@ -1,0 +1,537 @@
+/* ========================================
+ * GLOBAL UI PATTERN STYLES
+ * Standardized Grid, Card, Window Colors
+ * ======================================== */
+
+@layer utilities {
+  /* ========================================
+   * CARD PATTERNS - Standardized Cards
+   * ======================================== */
+
+  /* Main Card Pattern */
+  .card-pattern {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px hsl(var(--neutral-900) / 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-pattern:hover {
+    box-shadow: 0 4px 6px hsl(var(--neutral-900) / 0.07), 0 2px 4px hsl(var(--neutral-900) / 0.05);
+    transform: translateY(-1px);
+  }
+
+  /* Interactive Card Pattern */
+  .card-interactive {
+    @apply card-pattern cursor-pointer;
+  }
+
+  .card-interactive:hover {
+    border-color: hsl(var(--brand-primary) / 0.3);
+    box-shadow: 0 8px 25px hsl(var(--neutral-900) / 0.1);
+    transform: translateY(-2px);
+  }
+
+  .card-interactive:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px hsl(var(--neutral-900) / 0.05);
+  }
+
+  /* Status Cards */
+  .card-success {
+    @apply card-pattern;
+    background: hsl(var(--semantic-success) / 0.05);
+    border-color: hsl(var(--semantic-success) / 0.2);
+  }
+
+  .card-warning {
+    @apply card-pattern;
+    background: hsl(var(--semantic-warning) / 0.05);
+    border-color: hsl(var(--semantic-warning) / 0.2);
+  }
+
+  .card-danger {
+    @apply card-pattern;
+    background: hsl(var(--semantic-danger) / 0.05);
+    border-color: hsl(var(--semantic-danger) / 0.2);
+  }
+
+  .card-info {
+    @apply card-pattern;
+    background: hsl(var(--semantic-info) / 0.05);
+    border-color: hsl(var(--semantic-info) / 0.2);
+  }
+
+  /* Financial Cards */
+  .card-financial {
+    @apply card-pattern;
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted) / 0.3) 100%);
+    border-color: hsl(var(--border));
+  }
+
+  .card-financial-primary {
+    @apply card-pattern;
+    background: linear-gradient(135deg, hsl(var(--brand-primary) / 0.03) 0%, hsl(var(--brand-primary) / 0.08) 100%);
+    border-color: hsl(var(--brand-primary) / 0.2);
+  }
+
+  /* ========================================
+   * GRID PATTERNS - Responsive Grid Layouts
+   * ======================================== */
+
+  /* Standard Grid Layouts */
+  .grid-pattern-1 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .grid-pattern-2 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .grid-pattern-2 {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .grid-pattern-3 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .grid-pattern-3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-pattern-3 {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .grid-pattern-4 {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .grid-pattern-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-pattern-4 {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  /* Dashboard Grid Patterns */
+  .grid-dashboard-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .grid-dashboard-main {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .grid-dashboard-main {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Financial Grid Pattern */
+  .grid-financial {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .grid-financial {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-financial {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .grid-financial {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  /* ========================================
+   * WINDOW PATTERNS - Modal & Overlay Styles
+   * ======================================== */
+
+  /* Standard Modal Window */
+  .window-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: hsl(var(--neutral-900) / 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .window-modal-content {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 25px hsl(var(--neutral-900) / 0.15), 0 10px 10px hsl(var(--neutral-900) / 0.04);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: modal-appear 0.2s ease-out;
+  }
+
+  @keyframes modal-appear {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Modal Header */
+  .window-modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+    display: flex;
+    align-items: center;
+    justify-content: between;
+    background: hsl(var(--muted) / 0.3);
+  }
+
+  .window-modal-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+
+  /* Modal Body */
+  .window-modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    color: hsl(var(--foreground));
+  }
+
+  /* Drawer Window (Mobile) */
+  .window-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: hsl(var(--neutral-900) / 0.6);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .window-drawer-content {
+    background: hsl(var(--card));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: drawer-slide-up 0.3s ease-out;
+  }
+
+  @keyframes drawer-slide-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* ========================================
+   * TABLE PATTERNS - Data Table Styles
+   * ======================================== */
+
+  /* Standard Table Container */
+  .table-container {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 1px 3px hsl(var(--neutral-900) / 0.05);
+  }
+
+  /* Table Header */
+  .table-header {
+    background: hsl(var(--muted) / 0.3);
+    border-bottom: 1px solid hsl(var(--border));
+    padding: 1rem 1.5rem;
+  }
+
+  .table-header-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+
+  /* Table Body */
+  .table-body {
+    background: hsl(var(--card));
+  }
+
+  .table-row {
+    border-bottom: 1px solid hsl(var(--border));
+    transition: background-color 0.2s ease;
+  }
+
+  .table-row:hover {
+    background: hsl(var(--muted) / 0.3);
+  }
+
+  .table-row:last-child {
+    border-bottom: none;
+  }
+
+  .table-cell {
+    padding: 0.875rem 1.5rem;
+    color: hsl(var(--foreground));
+    font-size: 0.875rem;
+  }
+
+  .table-cell-header {
+    font-weight: 600;
+    color: hsl(var(--muted-foreground));
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+  }
+
+  /* ========================================
+   * FORM PATTERNS - Form Container Styles
+   * ======================================== */
+
+  /* Form Container */
+  .form-container {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 1px 3px hsl(var(--neutral-900) / 0.05);
+  }
+
+  /* Form Section */
+  .form-section {
+    margin-bottom: 2rem;
+  }
+
+  .form-section:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Form Header */
+  .form-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .form-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+    margin-bottom: 0.5rem;
+  }
+
+  .form-description {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+  }
+
+  /* ========================================
+   * NAVIGATION PATTERNS - Navigation Styles
+   * ======================================== */
+
+  /* Navigation Container */
+  .nav-container {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    box-shadow: 0 1px 3px hsl(var(--neutral-900) / 0.05);
+  }
+
+  /* Navigation Item */
+  .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    color: hsl(var(--muted-foreground));
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .nav-item:hover {
+    background: hsl(var(--muted) / 0.5);
+    color: hsl(var(--foreground));
+    transform: translateX(2px);
+  }
+
+  .nav-item.active {
+    background: hsl(var(--brand-primary) / 0.1);
+    color: hsl(var(--brand-primary));
+    border-color: hsl(var(--brand-primary) / 0.2);
+    font-weight: 500;
+  }
+
+  /* Navigation Grid */
+  .nav-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .nav-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .nav-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* ========================================
+   * STATUS PATTERNS - Status Indicator Styles
+   * ======================================== */
+
+  /* Status Badge */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+
+  .status-success {
+    background: hsl(var(--semantic-success-light));
+    color: hsl(var(--semantic-success));
+    border: 1px solid hsl(var(--semantic-success) / 0.3);
+  }
+
+  .status-warning {
+    background: hsl(var(--semantic-warning-light));
+    color: hsl(var(--semantic-warning));
+    border: 1px solid hsl(var(--semantic-warning) / 0.3);
+  }
+
+  .status-danger {
+    background: hsl(var(--semantic-danger-light));
+    color: hsl(var(--semantic-danger));
+    border: 1px solid hsl(var(--semantic-danger) / 0.3);
+  }
+
+  .status-info {
+    background: hsl(var(--semantic-info-light));
+    color: hsl(var(--semantic-info));
+    border: 1px solid hsl(var(--semantic-info) / 0.3);
+  }
+
+  /* ========================================
+   * METRIC PATTERNS - Metric Display Styles
+   * ======================================== */
+
+  /* Metric Card */
+  .metric-card {
+    @apply card-pattern;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: hsl(var(--foreground));
+    font-family: var(--font-family-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .metric-label {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+    margin-top: 0.5rem;
+  }
+
+  .metric-trend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .metric-trend.positive {
+    color: hsl(var(--semantic-success));
+  }
+
+  .metric-trend.negative {
+    color: hsl(var(--semantic-danger));
+  }
+
+  /* ========================================
+   * DARK MODE ADJUSTMENTS
+   * ======================================== */
+
+  .dark .card-pattern {
+    background: hsl(var(--card));
+    border-color: hsl(var(--border));
+    box-shadow: 0 1px 3px hsl(0 0% 0% / 0.1);
+  }
+
+  .dark .window-modal {
+    background: hsl(0 0% 0% / 0.8);
+  }
+
+  .dark .table-row:hover {
+    background: hsl(var(--muted) / 0.5);
+  }
+}

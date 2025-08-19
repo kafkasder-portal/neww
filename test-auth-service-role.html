@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Service Role Auth Test</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #logs {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background: #f8f9fa;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Service Role Authentication Test</h1>
+        <p>Testing authentication bypassing RLS to isolate the issue</p>
+        
+        <button onclick="testWithServiceRole()">Test with Service Role</button>
+        <button onclick="testWithAnonKey()">Test with Anon Key</button>
+        <button onclick="testDirectLogin()">Test Direct Login</button>
+        <button onclick="clearLogs()">Clear Logs</button>
+        
+        <h3>Test Results:</h3>
+        <div id="logs"></div>
+    </div>
+
+    <script>
+        const supabaseUrl = 'https://ibqhfgpdgzrhvyfpgjxx.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlicWhmZ3BkZ3pyaHZ5ZnBnanh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxMDk3NDcsImV4cCI6MjA3MDY4NTc0N30.1vSikm9_Dn978BctKWXhoOfPCKztLaBNgr8OEIVIXNg';
+        const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlicWhmZ3BkZ3pyaHZ5ZnBnanh4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTEwOTc0NywiZXhwIjoyMDcwNjg1NzQ3fQ.pdtymoazJOqnW4pjfBFEApFBQmmouAB-5eyCpSZv07g';
+        
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = `test-result ${className}`;
+            logEntry.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+            
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            
+            console.log(`[AUTH TEST] ${message}`);
+        }
+        
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+
+        async function testWithServiceRole() {
+            try {
+                log('🔧 Testing with Service Role (bypasses RLS)...');
+                
+                const supabaseService = window.supabase.createClient(supabaseUrl, supabaseServiceKey);
+                
+                const { data: profiles, error } = await supabaseService
+                    .from('user_profiles')
+                    .select('*')
+                    .eq('email', 'isahamid095@gmail.com');
+                
+                if (error) {
+                    log(`❌ Service role query failed: ${error.message}`, 'error');
+                    log(`Error details: ${JSON.stringify(error)}`, 'error');
+                } else {
+                    log('✅ Service role query successful!', 'success');
+                    log(`Found ${profiles.length} profile(s)`, 'success');
+                    if (profiles.length > 0) {
+                        log(`Profile: ${JSON.stringify(profiles[0], null, 2)}`, 'info');
+                    }
+                }
+            } catch (err) {
+                log(`❌ Service role test failed: ${err.message}`, 'error');
+            }
+        }
+
+        async function testWithAnonKey() {
+            try {
+                log('👤 Testing with Anonymous Key (subject to RLS)...');
+                
+                const supabaseAnon = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+                
+                const { data: profiles, error } = await supabaseAnon
+                    .from('user_profiles')
+                    .select('*')
+                    .eq('email', 'isahamid095@gmail.com');
+                
+                if (error) {
+                    log(`❌ Anonymous query failed: ${error.message}`, 'error');
+                    log(`Error code: ${error.code}`, 'error');
+                    log(`Error details: ${JSON.stringify(error)}`, 'error');
+                } else {
+                    log('✅ Anonymous query successful!', 'success');
+                    log(`Found ${profiles.length} profile(s)`, 'success');
+                }
+            } catch (err) {
+                log(`❌ Anonymous test failed: ${err.message}`, 'error');
+            }
+        }
+
+        async function testDirectLogin() {
+            try {
+                log('🔑 Testing direct login process...');
+                
+                const supabaseAnon = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+                
+                // Step 1: Try to sign in
+                log('Step 1: Attempting sign in...');
+                const { data: authData, error: authError } = await supabaseAnon.auth.signInWithPassword({
+                    email: 'isahamid095@gmail.com',
+                    password: 'vadalov95'
+                });
+                
+                if (authError) {
+                    log(`❌ Sign in failed: ${authError.message}`, 'error');
+                    log(`Auth error code: ${authError.status}`, 'error');
+                    log(`Auth error details: ${JSON.stringify(authError)}`, 'error');
+                    return;
+                }
+                
+                log('✅ Sign in successful!', 'success');
+                log(`User ID: ${authData.user.id}`, 'success');
+                
+                // Step 2: Try to fetch profile
+                log('Step 2: Fetching user profile...');
+                const { data: profile, error: profileError } = await supabaseAnon
+                    .from('user_profiles')
+                    .select('*')
+                    .eq('id', authData.user.id)
+                    .single();
+                
+                if (profileError) {
+                    log(`❌ Profile fetch failed: ${profileError.message}`, 'error');
+                    log(`Profile error code: ${profileError.code}`, 'error');
+                    log(`Profile error details: ${JSON.stringify(profileError)}`, 'error');
+                    
+                    // This is where the original error should occur
+                    log('🎯 This is likely where the [object Object] error occurs!', 'info');
+                } else {
+                    log('✅ Profile fetch successful!', 'success');
+                    log(`Profile: ${JSON.stringify(profile, null, 2)}`, 'success');
+                }
+                
+            } catch (err) {
+                log(`❌ Direct login test failed: ${err.message}`, 'error');
+            }
+        }
+        
+        // Initial log
+        log('🚀 Service role test page loaded');
+        log('This will help isolate whether the issue is RLS-related or authentication-related');
+    </script>
+</body>
+</html>
