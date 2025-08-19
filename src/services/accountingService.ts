@@ -70,7 +70,13 @@ export class AccountingService {
       if (error) throw error
       return data || []
     } catch (error) {
-      console.error('Error fetching chart of accounts:', error)
+      logError('Error fetching chart of accounts', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu bulunamadı. Sistem yöneticisine başvurun.')
+      } else {
+        toast.error(`Hesap planı yüklenemedi: ${getErrorMessage(error)}`)
+      }
       return []
     }
   }
