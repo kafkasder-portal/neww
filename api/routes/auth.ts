@@ -434,7 +434,7 @@ router.post('/change-password', authRateLimiter, xssProtection, asyncHandler(asy
  * Request Password Reset
  * POST /api/auth/forgot-password
  */
-router.post('/forgot-password', asyncHandler(async (req: Request, res: Response): Promise<void> => {
+router.post('/forgot-password', failedAuthRateLimiter, xssProtection, asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { email } = req.body;
 
   if (!email) {
