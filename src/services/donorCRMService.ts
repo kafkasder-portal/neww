@@ -146,7 +146,13 @@ export class DonorCRMService {
         totalCount: count || 0
       }
     } catch (error) {
-      console.error('Error searching donors:', error)
+      logError('Error searching donors', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Bağışçı tablosu bulunamadı. Sistem kurulumu gerekli.')
+      } else {
+        toast.error(`Bağışçı arama hatası: ${getErrorMessage(error)}`)
+      }
       return { donors: [], totalCount: 0 }
     }
   }
