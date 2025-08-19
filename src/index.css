@@ -80,7 +80,11 @@
 
 @layer base {
   * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+  html { @apply bg-background; }
+  body { @apply bg-background text-foreground min-h-screen; }
+
+  /* Ensure all main containers have consistent background */
+  #root { @apply bg-background min-h-screen; }
 }
 
 @layer utilities {
