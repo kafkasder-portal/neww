@@ -1,9 +1,6 @@
-import React, { memo, useMemo, useCallback, Suspense, lazy } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-
-// Lazy loading example
-const LazyComponent = lazy(() => import('./LazyComponent'));
 
 // Memoized component example
 const MemoizedCard = memo(({ title, content, onClick }: {
@@ -69,7 +66,7 @@ const PerformanceOptimized = () => {
     { id: '3', title: 'Item 3', content: 'This is the third item content' },
   ]);
 
-  const [showLazy, setShowLazy] = React.useState(false);
+
 
   // Memoize expensive calculations
   const totalWordCount = useMemo(() => {
@@ -95,14 +92,12 @@ const PerformanceOptimized = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Performance Optimized Components</h1>
-      
+
       <div className="mb-6">
         <Button onClick={handleAddItem} className="mr-4">
           Add Item
         </Button>
-        <Button onClick={() => setShowLazy(!showLazy)} variant="outline">
-          {showLazy ? 'Hide' : 'Show'} Lazy Component
-        </Button>
+
       </div>
 
       <div className="mb-6">
@@ -113,11 +108,7 @@ const PerformanceOptimized = () => {
 
       <OptimizedList items={items} onItemClick={handleItemClick} />
 
-      {showLazy && (
-        <Suspense fallback={<div>Loading lazy component...</div>}>
-          <LazyComponent />
-        </Suspense>
-      )}
+
     </div>
   );
 };

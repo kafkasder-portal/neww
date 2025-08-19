@@ -1,0 +1,45 @@
+-- Cleanup Script for Old Migrations
+-- This file documents the consolidation of 31 migration files into organized groups
+-- Run this before applying new consolidated migrations
+
+-- Previous migration files (now consolidated):
+-- 001_complete_database_setup.sql
+-- 002_additional_permissions.sql
+-- 003_add_collaboration_modules.sql
+-- 003_create_admin_user.sql
+-- 030_enhanced_ai_systems.sql
+-- 20241201000001_initial_setup.sql
+-- 20241201000002_rls_policies.sql
+-- 20241201000003_storage_setup.sql
+-- 20241201000004_seed_data.sql
+-- 20241201000005_error_logging.sql
+-- 20241201000006_notifications_system.sql
+-- 20241212_add_collaboration_modules.sql
+-- 20241215000001_grant_permissions.sql
+-- 20241216000001_donations_module.sql
+-- 20241216000002_scholarship_module.sql
+-- 20241216000004_add_missing_student_columns.sql
+-- 20241221000001_communications_module.sql
+-- 20241221000002_donation_stats_function.sql
+-- 999_create_ai_compliance_checks.sql
+-- create_initial_admin.sql
+-- create_missing_meeting_tables.sql
+-- create_missing_tables.sql
+-- create_system_admin.sql
+-- create_test_user.sql
+-- fix_column_names.sql
+-- fix_conversations_table.sql
+-- fix_permissions.sql
+-- fix_rls_policies.sql
+-- fix_rls_recursion.sql
+-- fix_seed_data.sql
+-- fix_user_profiles_status.sql
+
+-- These have been reorganized into:
+-- 01_core_database_setup.sql - Core tables and extensions
+-- 02_collaboration_modules.sql - Meetings, tasks, messages
+-- 03_financial_modules.sql - Donations, payments, scholarships
+-- 04_communication_modules.sql - SMS, Email, WhatsApp
+-- 05_rls_and_permissions.sql - All RLS policies and permissions
+-- 06_functions_and_triggers.sql - Database functions and triggers
+-- 07_seed_data.sql - Initial data and test users
