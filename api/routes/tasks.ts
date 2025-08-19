@@ -1,16 +1,10 @@
 import { Router, type Request, type Response } from 'express';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../config/supabase';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const router = Router();
-
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
 
 // Middleware to extract user from authorization header
 const authenticateUser = async (req: Request, res: Response, next: any) => {
