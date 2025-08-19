@@ -148,11 +148,11 @@ export default function LocalIPs() {
       header: 'Tip',
       render: (value: unknown) => {
         const colors = {
-          'Office': 'bg-blue-100 text-blue-700',
-          'Home': 'bg-green-100 text-green-700',
-          'Branch': 'bg-purple-100 text-purple-700',
-          'Data Center': 'bg-orange-100 text-orange-700',
-          'VPN': 'bg-gray-100 text-gray-700'
+          'Office': 'bg-semantic-info/10 text-semantic-info',
+          'Home': 'bg-semantic-success/10 text-semantic-success',
+          'Branch': 'bg-brand-secondary/10 text-brand-secondary',
+          'Data Center': 'bg-semantic-warning/10 text-semantic-warning',
+          'VPN': 'bg-muted/50 text-muted-foreground'
         } as const
         const labels = {
           'Office': 'Ofis',
@@ -174,9 +174,9 @@ export default function LocalIPs() {
       header: 'Durum',
       render: (value: unknown) => {
         const colors = {
-          'Active': 'bg-green-100 text-green-700',
-          'Inactive': 'bg-yellow-100 text-yellow-700',
-          'Blocked': 'bg-red-100 text-red-700'
+          'Active': 'bg-semantic-success/10 text-semantic-success',
+          'Inactive': 'bg-semantic-warning/10 text-semantic-warning',
+          'Blocked': 'bg-semantic-danger/10 text-semantic-danger'
         } as const
         const labels = {
           'Active': 'Aktif',
@@ -198,13 +198,13 @@ export default function LocalIPs() {
       header: 'İşlemler',
       render: () => (
         <div className="flex gap-2">
-          <button className="rounded p-1 text-blue-600 hover:bg-blue-50" title="Düzenle">
+          <button className="rounded p-1 text-semantic-info hover:bg-semantic-info/10" title="Düzenle">
             <Edit className="h-4 w-4" />
           </button>
-          <button className="rounded p-1 text-green-600 hover:bg-green-50" title="Haritada Göster">
+          <button className="rounded p-1 text-semantic-success hover:bg-semantic-success/10" title="Haritada Göster">
             <MapPin className="h-4 w-4" />
           </button>
-          <button className="rounded p-1 text-red-600 hover:bg-red-50" title="Sil">
+          <button className="rounded p-1 text-semantic-danger hover:bg-semantic-danger/10" title="Sil">
             <Trash2 className="h-4 w-4" />
           </button>
         </div>
@@ -226,7 +226,7 @@ export default function LocalIPs() {
       <div className="flex items-center gap-2 overflow-x-auto rounded border p-2">
         <button 
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 rounded bg-green-600 px-3 py-1 text-sm text-white"
+          className="flex items-center gap-2 rounded bg-semantic-success px-3 py-1 text-sm text-white"
         >
           <Plus className="h-4 w-4" />
           Yeni IP
@@ -265,10 +265,10 @@ export default function LocalIPs() {
           className="min-w-64 flex-1 rounded border px-2 py-1 text-sm" 
           placeholder="IP adresi, cihaz veya kullanıcı ara..." 
         />
-        <button className="rounded bg-blue-600 px-3 py-1 text-sm text-white">Ara</button>
+        <button className="rounded bg-semantic-info px-3 py-1 text-sm text-white">Ara</button>
         <button 
           onClick={() => exportToCsv('yerel-ip-adresleri.csv', filtered)} 
-          className="rounded bg-gray-600 px-3 py-1 text-sm text-white"
+          className="rounded bg-muted px-3 py-1 text-sm text-white"
         >
           İndir
         </button>
@@ -281,31 +281,31 @@ export default function LocalIPs() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <Network className="h-5 w-5 text-blue-600" />
+            <Network className="h-5 w-5 text-semantic-info" />
             <h3 className="text-sm font-medium text-muted-foreground">Toplam IP</h3>
           </div>
           <p className="text-2xl font-bold">{filtered.length}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-green-600" />
+            <Shield className="h-5 w-5 text-semantic-success" />
             <h3 className="text-sm font-medium text-muted-foreground">Aktif</h3>
           </div>
-          <p className="text-2xl font-bold text-green-600">{activeCount}</p>
+          <p className="text-2xl font-bold text-semantic-success">{activeCount}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-red-600" />
+            <Shield className="h-5 w-5 text-semantic-danger" />
             <h3 className="text-sm font-medium text-muted-foreground">Engellenmiş</h3>
           </div>
-          <p className="text-2xl font-bold text-red-600">{blockedCount}</p>
+          <p className="text-2xl font-bold text-semantic-danger">{blockedCount}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <MapPin className="h-5 w-5 text-purple-600" />
+            <MapPin className="h-5 w-5 text-brand-secondary" />
             <h3 className="text-sm font-medium text-muted-foreground">Lokasyon</h3>
           </div>
-          <p className="text-2xl font-bold text-purple-600">{uniqueLocations}</p>
+          <p className="text-2xl font-bold text-brand-secondary">{uniqueLocations}</p>
         </div>
       </div>
 
@@ -326,9 +326,9 @@ export default function LocalIPs() {
                 <div key={type} className="flex items-center justify-between">
                   <span className="text-sm">{label}</span>
                   <div className="flex items-center gap-2">
-                    <div className="h-2 w-20 rounded bg-gray-200">
-                      <div 
-                        className="h-full rounded bg-blue-500"
+                    <div className="h-2 w-20 rounded bg-muted">
+                  <div
+                    className="h-full rounded bg-semantic-info"
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
@@ -348,14 +348,14 @@ export default function LocalIPs() {
               const percentage = filtered.length > 0 ? (count / filtered.length * 100).toFixed(1) : 0
               const label = status === 'Active' ? 'Aktif' : 
                            status === 'Inactive' ? 'Pasif' : 'Engellenmiş'
-              const color = status === 'Active' ? 'bg-green-500' : 
-                           status === 'Inactive' ? 'bg-yellow-500' : 'bg-red-500'
+              const color = status === 'Active' ? 'bg-semantic-success' :
+                status === 'Inactive' ? 'bg-semantic-warning' : 'bg-semantic-danger'
               
               return (
                 <div key={status} className="flex items-center justify-between">
                   <span className="text-sm">{label}</span>
                   <div className="flex items-center gap-2">
-                    <div className="h-2 w-20 rounded bg-gray-200">
+                    <div className="h-2 w-20 rounded bg-muted">
                       <div 
                         className={`h-full rounded ${color}`}
                         style={{ width: `${percentage}%` }}
@@ -441,7 +441,7 @@ export default function LocalIPs() {
                 </button>
                 <button 
                   type="submit"
-                  className="flex-1 rounded bg-green-600 px-4 py-2 text-sm text-white"
+                  className="flex-1 rounded bg-semantic-success px-4 py-2 text-sm text-white"
                 >
                   Kaydet
                 </button>

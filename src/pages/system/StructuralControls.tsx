@@ -133,9 +133,9 @@ export default function StructuralControls() {
       render: (value: unknown) => {
         const colors = {
           'Database': 'bg-brand-primary/10 text-brand-primary',
-    'API': 'bg-semantic-success/10 text-semantic-success',
-          'Service': 'bg-purple-100 text-purple-700',
-          'File System': 'bg-orange-100 text-orange-700'
+          'API': 'bg-semantic-success/10 text-semantic-success',
+          'Service': 'bg-semantic-info/10 text-semantic-info',
+          'File System': 'bg-semantic-warning/10 text-semantic-warning'
         } as const
         const type = value as keyof typeof colors
         return (
@@ -291,7 +291,7 @@ export default function StructuralControls() {
         </div>
         <div className="rounded border bg-card p-4">
           <h3 className="text-sm font-medium text-muted-foreground">Toplam Hata</h3>
-          <p className="text-2xl font-bold text-orange-600">{totalErrors}</p>
+          <p className="text-2xl font-bold text-semantic-warning">{totalErrors}</p>
         </div>
       </div>
 

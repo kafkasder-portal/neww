@@ -103,8 +103,8 @@ export default function PerformancePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Performans İzleme</h1>
-          <p className="text-gray-600">
+          <h1 className="text-2xl font-bold text-foreground">Performans İzleme</h1>
+          <p className="text-muted-foreground">
             Sistem performansı ve optimizasyon metrikleri
           </p>
         </div>
@@ -165,14 +165,14 @@ export default function PerformancePage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-blue-500" />
+                  <TrendingUp className="h-4 w-4 text-semantic-info" />
                   Genel Durum
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
                   {getStatusBadge('good')}
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-muted-foreground">
                     Sistem normal çalışıyor
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export default function PerformancePage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <Zap className="h-4 w-4 text-yellow-500" />
+                  <Zap className="h-4 w-4 text-semantic-warning" />
                   API Performansı
                 </CardTitle>
               </CardHeader>
@@ -190,15 +190,15 @@ export default function PerformancePage() {
                 <div className="space-y-2">
                   {apiSummary ? (
                     <>
-                      <div className="text-lg font-bold text-blue-600">
+                      <div className="text-lg font-bold text-semantic-info">
                         {apiSummary.averageDuration}ms
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-muted-foreground">
                         %{apiSummary.successRate} başarı
                       </div>
                     </>
                   ) : (
-                    <div className="text-sm text-gray-500">Yükleniyor...</div>
+                    <div className="text-sm text-muted-foreground">Yükleniyor...</div>
                   )}
                 </div>
               </CardContent>
@@ -207,7 +207,7 @@ export default function PerformancePage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <Database className="h-4 w-4 text-green-500" />
+                  <Database className="h-4 w-4 text-semantic-success" />
                   Cache Durumu
                 </CardTitle>
               </CardHeader>
@@ -215,15 +215,15 @@ export default function PerformancePage() {
                 <div className="space-y-2">
                   {cacheStats ? (
                     <>
-                      <div className="text-lg font-bold text-green-600">
+                      <div className="text-lg font-bold text-semantic-success">
                         {cacheStats.total.entries}
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-muted-foreground">
                         {formatBytes(cacheStats.total.size)}
                       </div>
                     </>
                   ) : (
-                    <div className="text-sm text-gray-500">Yükleniyor...</div>
+                    <div className="text-sm text-muted-foreground">Yükleniyor...</div>
                   )}
                 </div>
               </CardContent>
@@ -232,17 +232,17 @@ export default function PerformancePage() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium flex items-center gap-2">
-                  <Monitor className="h-4 w-4 text-purple-500" />
+                  <Monitor className="h-4 w-4 text-brand-secondary" />
                   İzleme Durumu
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <CheckCircle className="h-4 w-4 text-semantic-success" />
                     <span className="text-sm">Aktif</span>
                   </div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-muted-foreground">
                     Gerçek zamanlı
                   </div>
                 </div>
@@ -255,7 +255,7 @@ export default function PerformancePage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                  <AlertTriangle className="h-5 w-5 text-semantic-warning" />
                   Performans Önerileri
                 </CardTitle>
                 <CardDescription>
@@ -266,19 +266,19 @@ export default function PerformancePage() {
                 <div className="space-y-3">
                   {apiSummary.recommendations.map((rec: any, index: number) => (
                     <div key={index} className={`p-3 rounded-lg border-l-4 ${
-                      rec.priority === 'high' ? 'border-red-500 bg-red-50' :
-                      rec.priority === 'medium' ? 'border-yellow-500 bg-yellow-50' :
-                      'border-blue-500 bg-blue-50'
+                      rec.priority === 'high' ? 'border-semantic-danger bg-semantic-danger/10' :
+                      rec.priority === 'medium' ? 'border-semantic-warning bg-semantic-warning/10' :
+                      'border-semantic-info bg-semantic-info/10'
                     }`}>
                       <div className="flex items-start gap-2">
                         <AlertTriangle className={`h-4 w-4 mt-0.5 ${
-                          rec.priority === 'high' ? 'text-red-500' :
-                          rec.priority === 'medium' ? 'text-yellow-500' :
-                          'text-blue-500'
+                          rec.priority === 'high' ? 'text-semantic-danger' :
+                          rec.priority === 'medium' ? 'text-semantic-warning' :
+                          'text-semantic-info'
                         }`} />
                         <div className="flex-1">
                           <div className="text-sm font-medium">{rec.message}</div>
-                          <div className="text-xs text-gray-600 mt-1">
+                          <div className="text-xs text-muted-foreground mt-1">
                             Öncelik: {rec.priority === 'high' ? 'Yüksek' : rec.priority === 'medium' ? 'Orta' : 'Düşük'}
                           </div>
                         </div>
@@ -315,25 +315,25 @@ export default function PerformancePage() {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <div className="text-sm font-medium">Toplam İstek</div>
-                        <div className="text-lg font-bold text-blue-600">
-                          {apiSummary.totalRequests.toLocaleString()}
-                        </div>
+                        <div className="text-lg font-bold text-semantic-info">
+                        {apiSummary.totalRequests.toLocaleString()}
+                      </div>
                       </div>
                       <div className="space-y-1">
                         <div className="text-sm font-medium">Ortalama Süre</div>
-                        <div className="text-lg font-bold text-blue-600">
+                        <div className="text-lg font-bold text-semantic-info">
                           {apiSummary.averageDuration}ms
                         </div>
                       </div>
                       <div className="space-y-1">
                         <div className="text-sm font-medium">Başarı Oranı</div>
-                        <div className="text-lg font-bold text-green-600">
+                        <div className="text-lg font-bold text-semantic-success">
                           %{apiSummary.successRate}
                         </div>
                       </div>
                       <div className="space-y-1">
                         <div className="text-sm font-medium">Yavaş İstekler</div>
-                        <div className="text-lg font-bold text-yellow-600">
+                        <div className="text-lg font-bold text-semantic-warning">
                           {apiSummary.slowRequests}
                         </div>
                       </div>
@@ -370,37 +370,37 @@ export default function PerformancePage() {
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1">
                           <div className="text-sm font-medium">Memory Cache</div>
-                          <div className="text-lg font-bold text-purple-600">
+                          <div className="text-lg font-bold text-brand-secondary">
                             {cacheStats.memory.entries}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-muted-foreground">
                             {formatBytes(cacheStats.memory.size)}
                           </div>
                         </div>
                         <div className="space-y-1">
                           <div className="text-sm font-medium">LocalStorage</div>
-                          <div className="text-lg font-bold text-blue-600">
+                          <div className="text-lg font-bold text-semantic-info">
                             {cacheStats.localStorage.entries}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-muted-foreground">
                             {formatBytes(cacheStats.localStorage.size)}
                           </div>
                         </div>
                         <div className="space-y-1">
                           <div className="text-sm font-medium">SessionStorage</div>
-                          <div className="text-lg font-bold text-green-600">
+                          <div className="text-lg font-bold text-semantic-success">
                             {cacheStats.sessionStorage.entries}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-muted-foreground">
                             {formatBytes(cacheStats.sessionStorage.size)}
                           </div>
                         </div>
                         <div className="space-y-1">
                           <div className="text-sm font-medium">Kullanım Oranı</div>
-                          <div className="text-lg font-bold text-orange-600">
+                          <div className="text-lg font-bold text-semantic-warning">
                             %{cacheStats.memory.utilization.toFixed(1)}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-muted-foreground">
                             Memory
                           </div>
                         </div>
@@ -441,19 +441,19 @@ export default function PerformancePage() {
               <CardContent>
                 <div className="space-y-2">
                   {apiSummary.slowestEndpoints.map(([endpoint, stats]: any, index: number) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                    <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded">
                       <div className="flex-1">
                         <div className="font-medium">{endpoint}</div>
-                        <div className="text-sm text-gray-600">
+                        <div className="text-sm text-muted-foreground">
                           {stats.count} istek
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold text-red-600">
+                        <div className="font-bold text-semantic-destructive">
                           {Math.round(stats.averageDuration)}ms
                         </div>
                         {stats.errorRate > 0 && (
-                          <div className="text-sm text-red-500">
+                          <div className="text-sm text-semantic-destructive">
                             %{Math.round(stats.errorRate * 100)} hata
                           </div>
                         )}

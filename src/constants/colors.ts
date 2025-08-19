@@ -107,25 +107,25 @@ export const ACTIVITY_COLORS = {
   info: 'hsl(207 89% 45%)',      // Mavi - Bilgilendirme
 } as const;
 
-// Tailwind class mappings - Optimized semantic classes
-export const TAILWIND_STATUS_CLASSES = {
-  success: 'bg-green-50 text-green-700 border-green-200',
-  warning: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-  error: 'bg-red-50 text-red-700 border-red-200',
-  info: 'bg-blue-50 text-blue-700 border-blue-200',
-  neutral: 'bg-gray-50 text-gray-700 border-gray-200',
+// Semantic class mappings - Using CSS custom properties
+export const SEMANTIC_STATUS_CLASSES = {
+  success: 'bg-semantic-success/10 text-semantic-success border-semantic-success/20',
+  warning: 'bg-semantic-warning/10 text-semantic-warning border-semantic-warning/20',
+  error: 'bg-semantic-danger/10 text-semantic-danger border-semantic-danger/20',
+  info: 'bg-semantic-info/10 text-semantic-info border-semantic-info/20',
+  neutral: 'bg-neutral-50 text-neutral-700 border-neutral-200',
 } as const;
 
-// Icon renkleri - Consistent color mapping
-export const ICON_COLORS = {
-  primary: 'text-blue-600',
-  success: 'text-green-600', 
-  warning: 'text-yellow-600',
-  error: 'text-red-600',
-  info: 'text-blue-600',
-  muted: 'text-gray-500',
-  purple: 'text-purple-600',
-  orange: 'text-orange-600',
+// Icon renkleri - Semantic color mapping
+export const SEMANTIC_ICON_COLORS = {
+  primary: 'text-brand-primary',
+  success: 'text-semantic-success', 
+  warning: 'text-semantic-warning',
+  error: 'text-semantic-danger',
+  info: 'text-semantic-info',
+  muted: 'text-neutral-500',
+  secondary: 'text-brand-secondary',
+  accent: 'text-brand-accent',
 } as const;
 
 // CSS Custom Properties Helper

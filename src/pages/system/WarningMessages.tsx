@@ -141,7 +141,7 @@ export default function WarningMessages() {
       header: 'URL',
       render: (value: unknown) => (
         <div className="max-w-xs">
-          <p className="text-sm text-blue-600 truncate" title={String(value || '')}>
+          <p className="text-sm text-semantic-info truncate" title={String(value || '')}>
             {String(value || '')}
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function WarningMessages() {
         const count = Number(value) || 0;
         return (
           <span className={`font-medium ${
-            count > 5 ? 'text-red-600' : count > 2 ? 'text-yellow-600' : 'text-gray-600'
+            count > 5 ? 'text-semantic-danger' : count > 2 ? 'text-semantic-warning' : 'text-muted-foreground'
           }`}>
             {count}
           </span>
@@ -168,10 +168,10 @@ export default function WarningMessages() {
       header: 'Önem',
       render: (value: unknown) => {
         const colors = {
-          'Low': 'bg-gray-100 text-gray-700',
-          'Medium': 'bg-yellow-100 text-yellow-700',
-          'High': 'bg-orange-100 text-orange-700',
-          'Critical': 'bg-red-100 text-red-700'
+          'Low': 'bg-muted/50 text-muted-foreground',
+          'Medium': 'bg-semantic-warning/10 text-semantic-warning',
+          'High': 'bg-semantic-danger/10 text-semantic-danger',
+          'Critical': 'bg-semantic-destructive/10 text-semantic-destructive'
         } as const
         const labels = {
           'Low': 'Düşük',
@@ -192,7 +192,7 @@ export default function WarningMessages() {
       header: 'İşlemler',
       render: () => (
         <div className="flex gap-2">
-          <button className="rounded p-1 text-red-600 hover:bg-red-50" title="Sil">
+          <button className="rounded p-1 text-semantic-danger hover:bg-semantic-danger/10" title="Sil">
             <Trash2 className="h-4 w-4" />
           </button>
         </div>
@@ -260,7 +260,7 @@ export default function WarningMessages() {
         </Button>
         <button 
           onClick={() => exportToCsv('uyari-mesajlari.csv', filtered)} 
-          className="rounded bg-gray-600 px-3 py-1 text-sm text-white"
+          className="rounded bg-muted px-3 py-1 text-sm text-white"
         >
           İndir
         </button>
@@ -273,25 +273,25 @@ export default function WarningMessages() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-yellow-600" />
+            <AlertTriangle className="h-5 w-5 text-semantic-warning" />
             <h3 className="text-sm font-medium text-muted-foreground">Toplam Uyarı</h3>
           </div>
           <p className="text-2xl font-bold">{totalWarnings}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-red-600" />
+            <AlertTriangle className="h-5 w-5 text-semantic-danger" />
             <h3 className="text-sm font-medium text-muted-foreground">Kritik Uyarılar</h3>
           </div>
-          <p className="text-2xl font-bold text-red-600">{criticalWarnings}</p>
+          <p className="text-2xl font-bold text-semantic-danger">{criticalWarnings}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <h3 className="text-sm font-medium text-muted-foreground">Toplam Tekrar</h3>
-          <p className="text-2xl font-bold text-orange-600">{totalRepeats}</p>
+          <p className="text-2xl font-bold text-semantic-warning">{totalRepeats}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <h3 className="text-sm font-medium text-muted-foreground">Benzersiz IP</h3>
-          <p className="text-2xl font-bold text-blue-600">
+          <p className="text-2xl font-bold text-semantic-info">
             {new Set(filtered.map(w => w.ipAddress)).size}
           </p>
         </div>
@@ -307,9 +307,9 @@ export default function WarningMessages() {
             const label = severity === 'Low' ? 'Düşük' : 
                          severity === 'Medium' ? 'Orta' : 
                          severity === 'High' ? 'Yüksek' : 'Kritik'
-            const color = severity === 'Low' ? 'text-gray-600' : 
-                         severity === 'Medium' ? 'text-yellow-600' : 
-                         severity === 'High' ? 'text-orange-600' : 'text-red-600'
+            const color = severity === 'Low' ? 'text-muted-foreground' :
+                severity === 'Medium' ? 'text-semantic-warning' :
+                severity === 'High' ? 'text-semantic-warning' : 'text-semantic-danger'
             
             return (
               <div key={severity} className="rounded border p-3">

@@ -131,26 +131,26 @@ export default function TrackingCategories() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'success':
-        return <CheckCircle className="h-4 w-4 text-green-600" />
+        return <CheckCircle className="h-4 w-4 text-semantic-success" />
       case 'warning':
-        return <AlertCircle className="h-4 w-4 text-yellow-600" />
-      case 'error':
-        return <AlertCircle className="h-4 w-4 text-red-600" />
-      default:
-        return <Clock className="h-4 w-4 text-gray-600" />
+          return <AlertCircle className="h-4 w-4 text-semantic-warning" />
+        case 'danger':
+          return <AlertCircle className="h-4 w-4 text-semantic-danger" />
+        case 'pending':
+          return <Clock className="h-4 w-4 text-muted-foreground" />
     }
   }
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'Yüksek':
-        return 'bg-red-100 text-red-800'
+        return 'bg-semantic-danger/10 text-semantic-danger'
       case 'Orta':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-semantic-warning/10 text-semantic-warning'
       case 'Düşük':
-        return 'bg-green-100 text-green-800'
+        return 'bg-semantic-success/10 text-semantic-success'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-muted/50 text-muted-foreground'
     }
   }
 

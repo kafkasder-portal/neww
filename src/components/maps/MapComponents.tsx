@@ -286,21 +286,21 @@ export const MapControls: React.FC<MapControlsProps> = ({
       <div className="flex flex-col space-y-1">
         <button
           onClick={onZoomIn}
-          className="w-8 h-8 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center"
+          className="w-8 h-8 bg-semantic-info text-white rounded hover:bg-semantic-info/80 flex items-center justify-center"
           title="Yakınlaştır"
         >
           +
         </button>
         <button
           onClick={onZoomOut}
-          className="w-8 h-8 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center"
+          className="w-8 h-8 bg-semantic-info text-white rounded hover:bg-semantic-info/80 flex items-center justify-center"
           title="Uzaklaştır"
         >
           -
         </button>
         <button
           onClick={onReset}
-          className="w-8 h-8 bg-gray-500 text-white rounded hover:bg-gray-600 flex items-center justify-center"
+          className="w-8 h-8 bg-neutral-500 text-white rounded hover:bg-neutral-600 flex items-center justify-center"
           title="Sıfırla"
         >
           ⌂

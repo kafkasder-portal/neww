@@ -333,14 +333,14 @@ export default function IPBlocking() {
         </div>
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-orange-600" />
+            <AlertTriangle className="h-5 w-5 text-semantic-warning" />
             <h3 className="text-sm font-medium text-muted-foreground">Kritik Tehditler</h3>
           </div>
-          <p className="text-2xl font-bold text-orange-600">{criticalBlocks}</p>
+          <p className="text-2xl font-bold text-semantic-warning">{criticalBlocks}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <h3 className="text-sm font-medium text-muted-foreground">Toplam Deneme</h3>
-          <p className="text-2xl font-bold text-purple-600">{totalAttempts}</p>
+          <p className="text-2xl font-bold text-brand-secondary">{totalAttempts}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <h3 className="text-sm font-medium text-muted-foreground">Ülke Sayısı</h3>
@@ -359,9 +359,9 @@ export default function IPBlocking() {
               const label = severity === 'Low' ? 'Düşük' : 
                            severity === 'Medium' ? 'Orta' : 
                            severity === 'High' ? 'Yüksek' : 'Kritik'
-              const color = severity === 'Low' ? 'bg-muted-foreground' :
+              const color = severity === 'Low' ? 'bg-muted' :
           severity === 'Medium' ? 'bg-semantic-warning' :
-          severity === 'High' ? 'bg-semantic-warning' : 'bg-semantic-destructive'
+          severity === 'High' ? 'bg-semantic-danger' : 'bg-semantic-danger'
               
               return (
                 <div key={severity} className="flex items-center justify-between">

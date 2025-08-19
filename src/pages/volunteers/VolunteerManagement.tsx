@@ -1,25 +1,22 @@
 import { useState, useEffect } from 'react'
-import { Card } from '@components/ui/card'
-import { Button } from '@components/ui/button'
-import { Modal } from '@components/Modal'
-import { DataTable } from '@components/DataTable'
-import type { Column } from '@components/DataTable'
-import { VolunteerService } from '@services/volunteerService'
+import { Card } from '../../components/ui/card'
+import { Button } from '../../components/ui/button'
+import { Modal } from '../../components/Modal'
+import { DataTable } from '../../components/DataTable'
+import type { Column } from '../../components/DataTable'
+import { VolunteerService } from '../../services/volunteerService'
 import type { 
   Volunteer, 
   VolunteerApplication, 
-  VolunteerShift,
   VolunteerDashboard,
   VolunteerSearchFilters 
-} from '@/types/volunteers'
+} from '../../types/volunteers'
 import { toast } from 'sonner'
 import { 
   Users, 
   UserPlus, 
   Calendar, 
   Clock, 
-  Award, 
-  MapPin,
   Plus,
   Search,
   Filter,
@@ -35,27 +32,24 @@ import {
   BookOpen,
   Activity,
   BarChart3,
-  Settings,
   FileText
 } from 'lucide-react'
 
 export default function VolunteerManagement() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'volunteers' | 'applications' | 'shifts' | 'training' | 'events'>('dashboard')
   const [loading, setLoading] = useState(true)
-  const [volunteers, setVolunteers] = useState<Volunteer[]>([])
-  const [applications, setApplications] = useState<VolunteerApplication[]>([])
-  const [shifts, setShifts] = useState<VolunteerShift[]>([])
+  const [volunteers, setVolunteers] = useState<Volunteer[]>([])  
+  const [applications, setApplications] = useState<VolunteerApplication[]>([])  
   const [dashboardData, setDashboardData] = useState<VolunteerDashboard | null>(null)
   
   // Modal states
   const [showVolunteerModal, setShowVolunteerModal] = useState(false)
-  const [showApplicationModal, setShowApplicationModal] = useState(false)
-  const [showShiftModal, setShowShiftModal] = useState(false)
+  const [, setShowShiftModal] = useState(false)
   const [selectedVolunteer, setSelectedVolunteer] = useState<Volunteer | null>(null)
-  const [selectedApplication, setSelectedApplication] = useState<VolunteerApplication | null>(null)
+  const [, setSelectedApplication] = useState<VolunteerApplication | null>(null)
   
   // Filter states
-  const [filters, setFilters] = useState<VolunteerSearchFilters>({})
+  const [filters] = useState<VolunteerSearchFilters>({})
   const [searchQuery, setSearchQuery] = useState('')
   const [showFilters, setShowFilters] = useState(false)
 
@@ -78,9 +72,7 @@ export default function VolunteerManagement() {
       const applicationData = await VolunteerService.getApplications()
       setApplications(applicationData)
 
-      // Load shifts
-      const shiftData = await VolunteerService.getShifts()
-      setShifts(shiftData)
+      // Shifts functionality will be implemented later
 
     } catch (error) {
       console.error('Error loading volunteer data:', error)
@@ -112,12 +104,6 @@ export default function VolunteerManagement() {
     }
   }
 
-  const formatTime = (timeString: string) => {
-    return new Date(`2000-01-01T${timeString}`).toLocaleTimeString('tr-TR', {
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  }
 
   const DashboardTab = () => (
     <div className="space-y-6">
@@ -530,7 +516,7 @@ export default function VolunteerManagement() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold">Gönüllü Başvuruları</h2>
-          <Button onClick={() => setShowApplicationModal(true)}>
+          <Button onClick={() => toast.info('Başvuru formu yakında eklenecek')}>
             <Plus className="w-4 h-4 mr-2" />
             Yeni Başvuru
           </Button>

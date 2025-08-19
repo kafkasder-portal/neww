@@ -66,23 +66,23 @@ function UserTable({
             <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
               Kullanıcı
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
               Rol
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
               Departman
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
               Durum
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
               Son Giriş
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
               Kayıt Tarihi
             </th>
             {canManageUsers && (
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 İşlemler
               </th>
             )}
@@ -94,8 +94,8 @@ function UserTable({
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center">
                   <div className="h-10 w-10 flex-shrink-0">
-                    <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                      <span className="text-indigo-600 font-medium">
+                    <div className="h-10 w-10 rounded-full bg-brand-primary/10 flex items-center justify-center">
+                      <span className="text-brand-primary font-medium">
                         {user.full_name?.charAt(0) || user.email.charAt(0).toUpperCase()}
                       </span>
                     </div>
@@ -144,14 +144,14 @@ function UserTable({
                   <div className="flex items-center justify-end space-x-2">
                     <button
                       onClick={() => onProfileEdit(user)}
-                      className="text-indigo-600 hover:text-indigo-900"
+                      className="text-semantic-info hover:text-semantic-info/80"
                       title="Profil Düzenle"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => onRoleChange(user)}
-                      className="text-purple-600 hover:text-purple-900"
+                      className="text-brand-secondary hover:text-brand-secondary/80"
                       title="Rol Değiştir"
                     >
                       <Shield className="h-4 w-4" />
@@ -356,7 +356,7 @@ export default function UserManagement() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value as 'all' | 'active' | 'inactive')}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full rounded-md border border-border px-3 py-2 text-sm focus:border-semantic-info focus:ring-semantic-info"
             >
               <option value="all">Tüm Durumlar</option>
               <option value="active">Aktif</option>
