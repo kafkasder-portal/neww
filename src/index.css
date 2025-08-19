@@ -16,6 +16,9 @@
 @import './styles/compatibility-layer.css';
 @import './styles/mobile-enhanced.css';
 
+/* Sidebar override to force expanded state */
+@import './styles/sidebar-override.css';
+
 @layer base {
   :root {
     /* Core Tailwind variables - Enhanced background */
