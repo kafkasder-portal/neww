@@ -1011,7 +1011,7 @@ export default function PiggyBankTracking() {
             </div>
 
             {/* Lokasyon Performansı */}
-            <div className="bg-white border rounded-lg p-6">
+            <div className="bg-card border rounded-lg p-6">
               <h3 className="text-lg font-medium mb-4">Lokasyon Performansı</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
