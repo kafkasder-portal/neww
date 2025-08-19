@@ -4,13 +4,11 @@ import { toast } from 'sonner'
 import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
 import { Modal } from '@components/Modal'
-import { AdvancedSearchModal } from '@components/AdvancedSearchModal'
 import { PaymentModal } from '@components/donations/PaymentModal'
 import { exportToCsv } from '@lib/exportToCsv'
 import { FileSpreadsheet, FileText, Filter, Plus, TrendingUp, CreditCard, Globe } from 'lucide-react'
 import { exportDonationsToExcel } from '@utils/excelExport'
 import { exportDonationsToPDF } from '@utils/pdfExport'
-import { TotalDonationsCard, MonthlyDonationsCard, DonorCountCard, OnlineDonationsCard } from '@/components/DonationCard'
 import { 
   createDonationsFilterConfig, 
   createDonationsURLConfig, 
@@ -18,7 +16,6 @@ import {
   getDonationsQuickFilters 
 } from '@utils/donationsFilterConfig'
 import { donationService } from '@/services/donationService'
-import type { SavedFilter } from '@components/AdvancedSearchModal'
 
 export interface OnlineDonation {
   id: string
@@ -1025,19 +1022,19 @@ function OnlineDonations() {
 
       {/* Gelişmiş Arama Modal */}
       <AdvancedSearchModal
-          isOpen={advancedSearchOpen}
-          onClose={() => setAdvancedSearchOpen(false)}
-          onApplyFilters={handleAdvancedSearch}
-          onSaveFilter={handleSaveFilter}
-          onLoadFilter={handleLoadFilter}
-          fields={filterConfig.fields}
-          pageType="donations"
-          urlConfig={urlConfig}
-          savedFiltersConfig={savedFiltersConfig}
-          quickFilters={quickFilters}
-          savedFilters={savedFilters}
-          initialFilters={activeFilters}
-        />
+        isOpen={advancedSearchOpen}
+        onClose={() => setAdvancedSearchOpen(false)}
+        onApplyFilters={handleAdvancedSearch}
+        onSaveFilter={handleSaveFilter}
+        onLoadFilter={handleLoadFilter}
+        fields={filterConfig.fields}
+        pageType="donations"
+        urlConfig={urlConfig}
+        savedFiltersConfig={savedFiltersConfig}
+        quickFilters={quickFilters}
+        savedFilters={savedFilters}
+        initialFilters={activeFilters}
+      />
     </div>
   )
 }

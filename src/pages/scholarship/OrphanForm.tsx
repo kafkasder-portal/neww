@@ -106,13 +106,13 @@ export default function OrphanForm() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Tamamlandı':
-        return 'bg-green-100 text-green-800'
+        return 'bg-semantic-success/10 text-semantic-success'
       case 'İnceleniyor':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-semantic-warning/10 text-semantic-warning'
       case 'Eksik Belge':
-        return 'bg-red-100 text-red-800'
+        return 'bg-semantic-destructive/10 text-semantic-destructive'
       default:
-        return 'bg-gray-100 text-gray-800'
+          return 'bg-muted text-muted-foreground'
     }
   }
 
@@ -137,34 +137,34 @@ export default function OrphanForm() {
               <p className="text-sm text-muted-foreground">Toplam Form</p>
               <p className="text-2xl font-bold">{stats.totalForms}</p>
             </div>
-            <FileText className="h-8 w-8 text-blue-600" />
+            <FileText className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Tamamlanan</p>
-              <p className="text-2xl font-bold text-green-600">{stats.completedForms}</p>
+              <p className="text-2xl font-bold text-semantic-success">{stats.completedForms}</p>
             </div>
-            <Calendar className="h-8 w-8 text-green-600" />
+            <Calendar className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">İncelenen</p>
-              <p className="text-2xl font-bold text-yellow-600">{stats.pendingForms}</p>
+              <p className="text-2xl font-bold text-semantic-warning">{stats.pendingForms}</p>
             </div>
-            <Upload className="h-8 w-8 text-yellow-600" />
+            <Upload className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Eksik Belge</p>
-              <p className="text-2xl font-bold text-red-600">{stats.incompleteforms}</p>
+              <p className="text-2xl font-bold text-semantic-destructive">{stats.incompleteforms}</p>
             </div>
-            <User className="h-8 w-8 text-red-600" />
+            <User className="h-8 w-8 text-semantic-destructive" />
           </div>
         </Card>
       </div>
@@ -243,7 +243,7 @@ export default function OrphanForm() {
                       </div>
 
                       <div className="flex items-center gap-4 text-xs">
-                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                        <span className="bg-semantic-info/10 text-semantic-info px-2 py-1 rounded">
                           {form.orphanType}
                         </span>
                         <span className="text-muted-foreground">

@@ -153,9 +153,9 @@ export default function IPBlocking() {
       header: 'Engelleme Tipi',
       render: (value: unknown) => {
         const colors = {
-          'Manual': 'bg-blue-100 text-blue-700',
-          'Automatic': 'bg-green-100 text-green-700',
-          'Temporary': 'bg-yellow-100 text-yellow-700'
+          'Manual': 'bg-brand-primary/10 text-brand-primary',
+    'Automatic': 'bg-semantic-success/10 text-semantic-success',
+    'Temporary': 'bg-semantic-warning/10 text-semantic-warning'
         } as const
         const labels = {
           'Manual': 'Manuel',
@@ -175,10 +175,10 @@ export default function IPBlocking() {
       header: 'Önem',
       render: (value: unknown) => {
         const colors = {
-          'Low': 'bg-gray-100 text-gray-700',
-          'Medium': 'bg-yellow-100 text-yellow-700',
-          'High': 'bg-orange-100 text-orange-700',
-          'Critical': 'bg-red-100 text-red-700'
+          'Low': 'bg-muted text-muted-foreground',
+    'Medium': 'bg-semantic-warning/10 text-semantic-warning',
+    'High': 'bg-semantic-warning text-white',
+    'Critical': 'bg-semantic-destructive/10 text-semantic-destructive'
         } as const
         const labels = {
           'Low': 'Düşük',
@@ -202,9 +202,9 @@ export default function IPBlocking() {
       header: 'Durum',
       render: (value: unknown) => {
         const colors = {
-          'Active': 'bg-red-100 text-red-700',
-          'Expired': 'bg-gray-100 text-gray-700',
-          'Whitelist': 'bg-green-100 text-green-700'
+          'Active': 'bg-semantic-destructive/10 text-semantic-destructive',
+    'Expired': 'bg-muted text-muted-foreground',
+    'Whitelist': 'bg-semantic-success/10 text-semantic-success'
         } as const
         const labels = {
           'Active': 'Aktif',
@@ -224,19 +224,19 @@ export default function IPBlocking() {
       header: 'İşlemler',
       render: (_, row) => (
         <div className="flex gap-2">
-          <button className="rounded p-1 text-gray-600 hover:bg-gray-50" title="Detay">
+          <button className="rounded p-1 text-muted-foreground hover:bg-muted" title="Detay">
             <Eye className="h-4 w-4" />
           </button>
           {row.status === 'Active' ? (
-            <button className="rounded p-1 text-green-600 hover:bg-green-50" title="Engeli Kaldır">
+            <button className="rounded p-1 text-semantic-success hover:bg-semantic-success/10" title="Engeli Kaldır">
               <Unlock className="h-4 w-4" />
             </button>
           ) : (
-            <button className="rounded p-1 text-red-600 hover:bg-red-50" title="Engelle">
+            <button className="rounded p-1 text-semantic-destructive hover:bg-semantic-destructive/10" title="Engelle">
               <Lock className="h-4 w-4" />
             </button>
           )}
-          <button className="rounded p-1 text-red-600 hover:bg-red-50" title="Sil">
+          <button className="rounded p-1 text-semantic-destructive hover:bg-semantic-destructive/10" title="Sil">
             <Trash2 className="h-4 w-4" />
           </button>
         </div>
@@ -259,7 +259,7 @@ export default function IPBlocking() {
       <div className="flex items-center gap-2 overflow-x-auto rounded border p-2">
         <button 
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 rounded bg-red-600 px-3 py-1 text-sm text-white"
+          className="flex items-center gap-2 rounded bg-semantic-destructive px-3 py-1 text-sm text-white"
         >
           <Plus className="h-4 w-4" />
           IP Engelle
@@ -310,10 +310,10 @@ export default function IPBlocking() {
           className="min-w-64 flex-1 rounded border px-2 py-1 text-sm" 
           placeholder="IP adresi, neden veya ülke ara..." 
         />
-        <button className="rounded bg-blue-600 px-3 py-1 text-sm text-white">Ara</button>
+        <button className="rounded bg-brand-primary px-3 py-1 text-sm text-white">Ara</button>
         <button 
           onClick={() => exportToCsv('ip-engelleme-savunma.csv', filtered)} 
-          className="rounded bg-gray-600 px-3 py-1 text-sm text-white"
+          className="rounded bg-muted-foreground px-3 py-1 text-sm text-white"
         >
           İndir
         </button>
@@ -324,12 +324,12 @@ export default function IPBlocking() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="rounded border bg-card dark:bg-gray-800 p-4">
+        <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-red-600" />
+            <Shield className="icon h-5 w-5 text-semantic-destructive" />
             <h3 className="text-sm font-medium text-muted-foreground">Aktif Engeller</h3>
           </div>
-          <p className="text-2xl font-bold text-red-600">{activeBlocks}</p>
+          <p className="text-2xl font-bold text-semantic-destructive">{activeBlocks}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
@@ -344,7 +344,7 @@ export default function IPBlocking() {
         </div>
         <div className="rounded border bg-card p-4">
           <h3 className="text-sm font-medium text-muted-foreground">Ülke Sayısı</h3>
-          <p className="text-2xl font-bold text-blue-600">{uniqueCountries}</p>
+          <p className="text-2xl font-bold text-brand-primary">{uniqueCountries}</p>
         </div>
       </div>
 
@@ -359,15 +359,15 @@ export default function IPBlocking() {
               const label = severity === 'Low' ? 'Düşük' : 
                            severity === 'Medium' ? 'Orta' : 
                            severity === 'High' ? 'Yüksek' : 'Kritik'
-              const color = severity === 'Low' ? 'bg-gray-500' : 
-                           severity === 'Medium' ? 'bg-yellow-500' : 
-                           severity === 'High' ? 'bg-orange-500' : 'bg-red-500'
+              const color = severity === 'Low' ? 'bg-muted-foreground' :
+          severity === 'Medium' ? 'bg-semantic-warning' :
+          severity === 'High' ? 'bg-semantic-warning' : 'bg-semantic-destructive'
               
               return (
                 <div key={severity} className="flex items-center justify-between">
                   <span className="text-sm">{label}</span>
                   <div className="flex items-center gap-2">
-                    <div className="h-2 w-20 rounded bg-gray-200">
+                    <div className="h-2 w-20 rounded bg-muted">
                       <div 
                         className={`h-full rounded ${color}`}
                         style={{ width: `${percentage}%` }}
@@ -389,14 +389,14 @@ export default function IPBlocking() {
               const percentage = filtered.length > 0 ? (count / filtered.length * 100).toFixed(1) : 0
               const label = type === 'Manual' ? 'Manuel' : 
                            type === 'Automatic' ? 'Otomatik' : 'Geçici'
-              const color = type === 'Manual' ? 'bg-blue-500' : 
-                           type === 'Automatic' ? 'bg-green-500' : 'bg-yellow-500'
+              const color = type === 'Manual' ? 'bg-brand-primary' :
+          type === 'Automatic' ? 'bg-semantic-success' : 'bg-semantic-warning'
               
               return (
                 <div key={type} className="flex items-center justify-between">
                   <span className="text-sm">{label}</span>
                   <div className="flex items-center gap-2">
-                    <div className="h-2 w-20 rounded bg-gray-200">
+                    <div className="h-2 w-20 rounded bg-muted">
                       <div 
                         className={`h-full rounded ${color}`}
                         style={{ width: `${percentage}%` }}
@@ -416,21 +416,21 @@ export default function IPBlocking() {
       {/* Add Block Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-lg rounded-lg bg-white dark:bg-gray-800 p-6">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">IP Adresi Engelle</h2>
+          <div className="w-full max-w-lg rounded-lg bg-card p-6">
+            <h2 className="mb-4 text-lg font-semibold text-foreground">IP Adresi Engelle</h2>
             <form className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">IP Adresi</label>
-                <input type="text" className="mt-1 w-full rounded border px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600" placeholder="192.168.1.10" />
+                <label className="block text-sm font-medium text-foreground">IP Adresi</label>
+            <input type="text" className="mt-1 w-full rounded border px-3 py-2 text-sm bg-background text-foreground border-border" placeholder="192.168.1.10" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Engelleme Nedeni</label>
-                <textarea className="mt-1 w-full rounded border px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600" rows={3} placeholder="Engelleme nedenini açıklayın..."></textarea>
+                <label className="block text-sm font-medium text-foreground">Engelleme Nedeni</label>
+            <textarea className="mt-1 w-full rounded border px-3 py-2 text-sm bg-background text-foreground border-border" rows={3} placeholder="Engelleme nedenini açıklayın..."></textarea>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Engelleme Tipi</label>
-                  <select className="mt-1 w-full rounded border px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600">
+                  <label className="block text-sm font-medium text-foreground">Engelleme Tipi</label>
+            <select className="mt-1 w-full rounded border px-3 py-2 text-sm bg-background text-foreground border-border">
                     <option value="Manual">Manuel</option>
                     <option value="Automatic">Otomatik</option>
                     <option value="Temporary">Geçici</option>
@@ -476,7 +476,7 @@ export default function IPBlocking() {
                 </button>
                 <button 
                   type="submit"
-                  className="flex-1 rounded bg-red-600 px-4 py-2 text-sm text-white"
+                  className="flex-1 rounded bg-semantic-destructive px-4 py-2 text-sm text-white"
                 >
                   Engelle
                 </button>

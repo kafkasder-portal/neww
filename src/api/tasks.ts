@@ -753,23 +753,23 @@ export const tasksApi = {
 
   getPriorityColor(priority: Task['priority']): string {
     const colorMap = {
-      'low': 'bg-blue-100 text-blue-800',
-      'medium': 'bg-yellow-100 text-yellow-800',
-      'high': 'bg-orange-100 text-orange-800',
-      'urgent': 'bg-red-100 text-red-800'
+      'low': 'bg-brand-primary/10 text-brand-primary',
+      'medium': 'bg-semantic-warning/10 text-semantic-warning',
+      'high': 'bg-semantic-warning text-white',
+      'urgent': 'bg-semantic-destructive text-white'
     }
-    return colorMap[priority] || 'bg-gray-100 text-gray-800'
+    return colorMap[priority] || 'bg-muted text-muted-foreground'
   },
 
   getStatusColor(status: Task['status']): string {
     const colorMap = {
-      'pending': 'bg-gray-100 text-gray-800',
-      'in_progress': 'bg-blue-100 text-blue-800',
-      'completed': 'bg-green-100 text-green-800',
-      'cancelled': 'bg-gray-100 text-gray-800',
-      'overdue': 'bg-red-100 text-red-800'
+      'pending': 'bg-muted text-muted-foreground',
+      'in_progress': 'bg-brand-primary/10 text-brand-primary',
+      'completed': 'bg-semantic-success/10 text-semantic-success',
+      'cancelled': 'bg-muted text-muted-foreground',
+      'overdue': 'bg-semantic-destructive/10 text-semantic-destructive'
     }
-    return colorMap[status] || 'bg-gray-100 text-gray-800'
+    return colorMap[status] || 'bg-muted text-muted-foreground'
   }
 }
 

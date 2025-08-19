@@ -36,34 +36,34 @@ export default function AddressLabels() {
               <p className="text-sm text-muted-foreground">Etiket Şablonu</p>
               <p className="text-2xl font-bold">{labelTemplates.length}</p>
             </div>
-            <FileText className="h-8 w-8 text-blue-600" />
+            <FileText className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Alıcı Sayısı</p>
-              <p className="text-2xl font-bold text-green-600">{recipients.length}</p>
+              <p className="text-2xl font-bold text-semantic-success">{recipients.length}</p>
             </div>
-            <MapPin className="h-8 w-8 text-green-600" />
+            <MapPin className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Seçilen</p>
-              <p className="text-2xl font-bold text-purple-600">{recipients.filter(r => r.selected).length}</p>
+              <p className="text-2xl font-bold text-semantic-info">{recipients.filter(r => r.selected).length}</p>
             </div>
-            <Mail className="h-8 w-8 text-purple-600" />
+            <Mail className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Yazdırılacak</p>
-              <p className="text-2xl font-bold text-orange-600">0</p>
+              <p className="text-2xl font-bold text-semantic-warning">0</p>
             </div>
-            <Printer className="h-8 w-8 text-orange-600" />
+            <Printer className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
       </div>

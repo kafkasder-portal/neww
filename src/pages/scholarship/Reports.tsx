@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import StatCard from '@components/StatCard'
+import StatCard from '../../components/StatCard'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts'
 import { Users, GraduationCap, DollarSign, TrendingUp, Download } from 'lucide-react'
 import { exportToCsv } from '@lib/exportToCsv'

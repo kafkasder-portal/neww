@@ -18,13 +18,13 @@ export const ThemeToggle = () => {
   const getIcon = () => {
     switch (theme) {
       case 'light':
-        return <Sun className="h-4 w-4" />
+        return <Sun className="icon h-4 w-4" />
       case 'dark':
-        return <Moon className="h-4 w-4" />
+        return <Moon className="icon h-4 w-4" />
       case 'system':
-        return <Monitor className="h-4 w-4" />
+        return <Monitor className="icon h-4 w-4" />
       default:
-        return <Sun className="h-4 w-4" />
+        return <Sun className="icon h-4 w-4" />
     }
   }
 
@@ -65,9 +65,9 @@ export const ThemeToggleDropdown = () => {
         size="icon"
         className="h-9 w-9 transition-colors hover:bg-accent hover:text-accent-foreground"
       >
-        {theme === 'light' && <Sun className="h-4 w-4" />}
-        {theme === 'dark' && <Moon className="h-4 w-4" />}
-        {theme === 'system' && <Monitor className="h-4 w-4" />}
+        {theme === 'light' && <Sun className="icon h-4 w-4" />}
+        {theme === 'dark' && <Moon className="icon h-4 w-4" />}
+        {theme === 'system' && <Monitor className="icon h-4 w-4" />}
       </Button>
       
       <div className="absolute right-0 top-full mt-2 w-48 bg-popover border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -78,7 +78,7 @@ export const ThemeToggleDropdown = () => {
               theme === 'light' ? 'bg-accent text-accent-foreground' : ''
             }`}
           >
-            <Sun className="h-4 w-4" />
+            <Sun className="icon h-4 w-4" />
             Açık Tema
           </button>
           <button
@@ -87,7 +87,7 @@ export const ThemeToggleDropdown = () => {
               theme === 'dark' ? 'bg-accent text-accent-foreground' : ''
             }`}
           >
-            <Moon className="h-4 w-4" />
+            <Moon className="icon h-4 w-4" />
             Koyu Tema
           </button>
           <button
@@ -96,7 +96,7 @@ export const ThemeToggleDropdown = () => {
               theme === 'system' ? 'bg-accent text-accent-foreground' : ''
             }`}
           >
-            <Monitor className="h-4 w-4" />
+            <Monitor className="icon h-4 w-4" />
             Sistem Teması
           </button>
         </div>

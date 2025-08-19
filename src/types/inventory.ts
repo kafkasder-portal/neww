@@ -131,6 +131,22 @@ export interface AlertRule {
   updatedAt: string
 }
 
+export interface StockAlertRule {
+  id: string
+  name: string
+  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
+  threshold: number
+  isActive: boolean
+  description?: string
+  categoryId?: string
+  locationId?: string
+  supplierId?: string
+  conditions?: Record<string, any>
+  createdAt: string
+  updatedAt: string
+  createdBy: string
+}
+
 export interface AlertRuleForm {
   name: string
   type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'

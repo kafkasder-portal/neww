@@ -40,7 +40,7 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Optimized Brand Colors
+        // Brand Colors
         'brand': {
           50: "hsl(var(--brand-primary-50))",
           100: "hsl(var(--brand-primary-100))",
@@ -54,43 +54,23 @@ export default {
           900: "hsl(var(--brand-primary-900))",
           DEFAULT: "hsl(var(--brand-primary))",
         },
-
-        // Financial Status Colors - WCAG AA Compliant
-        'financial': {
-          'primary': "hsl(var(--brand-primary))",
-          'success': "hsl(var(--financial-success))",
-          'success-light': "hsl(var(--financial-success-light))",
-          'warning': "hsl(var(--financial-warning))",
-          'warning-light': "hsl(var(--financial-warning-light))",
-          'error': "hsl(var(--financial-error))",
-          'error-light': "hsl(var(--financial-error-light))",
-          'info': "hsl(var(--financial-info))",
-          'info-light': "hsl(var(--financial-info-light))",
+        // Semantic Colors
+        'semantic': {
+          'success': "hsl(var(--semantic-success))",
+          'success-light': "hsl(var(--semantic-success-light))",
+          'success-bg': "hsl(var(--semantic-success-bg))",
+          'warning': "hsl(var(--semantic-warning))",
+          'warning-light': "hsl(var(--semantic-warning-light))",
+          'warning-bg': "hsl(var(--semantic-warning-bg))",
+          'danger': "hsl(var(--semantic-danger))",
+          'danger-light': "hsl(var(--semantic-danger-light))",
+          'danger-bg': "hsl(var(--semantic-danger-bg))",
+          'destructive': "hsl(var(--semantic-destructive))",
+          'info': "hsl(var(--semantic-info))",
+          'info-light': "hsl(var(--semantic-info-light))",
+          'info-bg': "hsl(var(--semantic-info-bg))",
         },
-
-        // Backward compatibility - Legacy financial gray colors
-        'financial-gray': {
-          50: "hsl(var(--neutral-50))",
-          100: "hsl(var(--neutral-100))",
-          200: "hsl(var(--neutral-200))",
-          300: "hsl(var(--neutral-300))",
-          400: "hsl(var(--neutral-400))",
-          500: "hsl(var(--neutral-500))",
-          600: "hsl(var(--neutral-600))",
-          700: "hsl(var(--neutral-700))",
-          800: "hsl(var(--neutral-800))",
-          900: "hsl(var(--neutral-900))",
-        },
-
-        // Status Colors - Legacy support
-        'status': {
-          'success': "hsl(var(--financial-success))",
-          'warning': "hsl(var(--financial-warning))",
-          'error': "hsl(var(--financial-error))",
-          'info': "hsl(var(--financial-info))",
-        },
-
-        // Neutral Color Scale
+        // Neutral Colors
         'neutral': {
           50: "hsl(var(--neutral-50))",
           100: "hsl(var(--neutral-100))",
@@ -103,59 +83,113 @@ export default {
           800: "hsl(var(--neutral-800))",
           900: "hsl(var(--neutral-900))",
         },
-
-        // Sidebar Navigation Colors
+        // Sidebar Colors
         'sidebar': {
           'bg': "hsl(var(--sidebar-bg))",
           'text': "hsl(var(--sidebar-text))",
           'text-muted': "hsl(var(--sidebar-text-muted))",
-          'hover': "hsl(var(--sidebar-hover))",
-          'active': "hsl(var(--sidebar-active))",
+          'text-active': "hsl(var(--sidebar-text-active))",
+          'accent': "hsl(var(--sidebar-accent))",
+          'accent-light': "hsl(var(--sidebar-accent-light))",
           'border': "hsl(var(--sidebar-border))",
+          'bg-hover': "hsl(var(--sidebar-bg-hover))",
         },
-
+        // Interactive Colors
+        'interactive': {
+          'hover': "hsl(var(--interactive-hover))",
+          'active': "hsl(var(--interactive-active))",
+          'focus': "hsl(var(--interactive-focus))",
+          'disabled': "hsl(var(--interactive-disabled))",
+        },
         // Chart Colors
         'chart': {
-          1: "hsl(var(--chart-primary))",
-          2: "hsl(var(--chart-secondary))",
-          3: "hsl(var(--chart-tertiary))",
-          4: "hsl(var(--chart-quaternary))",
-          5: "hsl(var(--chart-quinary))",
-          6: "hsl(var(--chart-senary))",
-          7: "hsl(var(--chart-septenary))",
-          8: "hsl(var(--chart-octonary))",
+          1: "hsl(var(--chart-color-1))",
+          2: "hsl(var(--chart-color-2))",
+          3: "hsl(var(--chart-color-3))",
+          4: "hsl(var(--chart-color-4))",
+          5: "hsl(var(--chart-color-5))",
+          6: "hsl(var(--chart-color-6))",
+          7: "hsl(var(--chart-color-7))",
+          8: "hsl(var(--chart-color-8))",
         },
-
-
+        // Financial Colors
+        'financial': {
+          'income': "hsl(var(--financial-income))",
+          'expense': "hsl(var(--financial-expense))",
+          'transfer': "hsl(var(--financial-transfer))",
+          'pending': "hsl(var(--financial-pending))",
+        },
+        // Status Colors
+        'status': {
+          'active': "hsl(var(--status-active))",
+          'inactive': "hsl(var(--status-inactive))",
+          'pending': "hsl(var(--status-pending))",
+          'error': "hsl(var(--status-error))",
+          'processing': "hsl(var(--status-processing))",
+        },
       },
       fontFamily: {
-        'financial': 'var(--font-financial-primary)',
-        'financial-mono': 'var(--font-financial-mono)',
+        'sans': 'var(--font-family-sans)',
+        'mono': 'var(--font-family-mono)',
+        'display': 'var(--font-family-display)',
       },
       fontSize: {
-        'financial-xs': 'var(--text-financial-xs)',
-        'financial-sm': 'var(--text-financial-sm)',
-        'financial-base': 'var(--text-financial-base)',
-        'financial-lg': 'var(--text-financial-lg)',
-        'financial-xl': 'var(--text-financial-xl)',
-        'financial-2xl': 'var(--text-financial-2xl)',
-        'financial-3xl': 'var(--text-financial-3xl)',
-        'financial-4xl': 'var(--text-financial-4xl)',
+        'xs': 'var(--font-size-xs)',
+        'sm': 'var(--font-size-sm)',
+        'base': 'var(--font-size-base)',
+        'lg': 'var(--font-size-lg)',
+        'xl': 'var(--font-size-xl)',
+        '2xl': 'var(--font-size-2xl)',
+        '3xl': 'var(--font-size-3xl)',
+        '4xl': 'var(--font-size-4xl)',
+        '5xl': 'var(--font-size-5xl)',
       },
       lineHeight: {
-        'financial-tight': 'var(--leading-financial-tight)',
-        'financial-normal': 'var(--leading-financial-normal)',
-        'financial-relaxed': 'var(--leading-financial-relaxed)',
+        'none': 'var(--line-height-none)',
+        'tight': 'var(--line-height-tight)',
+        'snug': 'var(--line-height-snug)',
+        'normal': 'var(--line-height-normal)',
+        'relaxed': 'var(--line-height-relaxed)',
+        'loose': 'var(--line-height-loose)',
       },
-      letterSpacing: {
-        'financial-tight': 'var(--tracking-financial-tight)',
-        'financial-normal': 'var(--tracking-financial-normal)',
-        'financial-wide': 'var(--tracking-financial-wide)',
+      fontWeight: {
+        'light': 'var(--font-weight-light)',
+        'normal': 'var(--font-weight-normal)',
+        'medium': 'var(--font-weight-medium)',
+        'semibold': 'var(--font-weight-semibold)',
+        'bold': 'var(--font-weight-bold)',
+        'extrabold': 'var(--font-weight-extrabold)',
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        'xs': 'var(--radius-xs)',
+        'sm': 'var(--radius-sm)',
+        'md': 'var(--radius-md)',
+        'lg': 'var(--radius-lg)',
+        'xl': 'var(--radius-xl)',
+        '2xl': 'var(--radius-2xl)',
+        'full': 'var(--radius-full)',
+      },
+      spacing: {
+        '1': 'var(--space-1)',
+        '2': 'var(--space-2)',
+        '3': 'var(--space-3)',
+        '4': 'var(--space-4)',
+        '5': 'var(--space-5)',
+        '6': 'var(--space-6)',
+        '8': 'var(--space-8)',
+        '10': 'var(--space-10)',
+        '12': 'var(--space-12)',
+        '16': 'var(--space-16)',
+        '20': 'var(--space-20)',
+        '24': 'var(--space-24)',
+      },
+      boxShadow: {
+        'xs': 'var(--shadow-xs)',
+        'sm': 'var(--shadow-sm)',
+        'md': 'var(--shadow-md)',
+        'lg': 'var(--shadow-lg)',
+        'xl': 'var(--shadow-xl)',
+        'focus': 'var(--shadow-focus)',
       },
     },
   },

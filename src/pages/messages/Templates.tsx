@@ -189,12 +189,12 @@ export default function Templates() {
 
   const getCategoryBadge = (category: string) => {
     const colors = {
-      general: 'bg-gray-100 text-gray-800',
-      welcome: 'bg-blue-100 text-blue-800',
-      reminder: 'bg-yellow-100 text-yellow-800',
-      notification: 'bg-purple-100 text-purple-800',
-      promotion: 'bg-green-100 text-green-800',
-      emergency: 'bg-red-100 text-red-800'
+      general: 'bg-muted text-muted-foreground',
+    welcome: 'bg-brand-primary/10 text-brand-primary',
+    reminder: 'bg-semantic-warning/10 text-semantic-warning',
+    notification: 'bg-brand-secondary/10 text-brand-secondary',
+    promotion: 'bg-semantic-success/10 text-semantic-success',
+    emergency: 'bg-semantic-destructive/10 text-semantic-destructive'
     }
     const categoryLabel = categories.find(c => c.value === category)?.label || category
     return (
@@ -206,9 +206,9 @@ export default function Templates() {
 
   const getTypeBadge = (type: string) => {
     const colors = {
-      sms: 'bg-green-100 text-green-800',
-      email: 'bg-blue-100 text-blue-800',
-      notification: 'bg-purple-100 text-purple-800'
+      sms: 'bg-semantic-success/10 text-semantic-success',
+    email: 'bg-brand-primary/10 text-brand-primary',
+    notification: 'bg-brand-secondary/10 text-brand-secondary'
     }
     return (
       <span className={`px-2 py-1 rounded-full text-xs font-medium ${colors[type as keyof typeof colors]}`}>
@@ -306,17 +306,17 @@ export default function Templates() {
           <p className="text-gray-600 mt-1">Hazır mesaj şablonlarını yönetin</p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+          <button className="flex items-center gap-2 bg-muted-foreground text-white px-4 py-2 rounded-lg hover:bg-muted-foreground/80 transition-colors">
             <Upload className="h-4 w-4" />
             İçe Aktar
           </button>
-          <button className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+          <button className="flex items-center gap-2 bg-semantic-success text-white px-4 py-2 rounded-lg hover:bg-semantic-success/80 transition-colors">
             <Download className="h-4 w-4" />
             Dışa Aktar
           </button>
           <button
             onClick={handleNewTemplate}
-            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg hover:bg-brand-primary/80 transition-colors"
           >
             <Plus className="h-4 w-4" />
             Yeni Şablon
@@ -482,7 +482,7 @@ export default function Templates() {
                   setIsViewModalOpen(false)
                   handleEditTemplate(selectedTemplate)
                 }}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-primary/80 transition-colors"
               >
                 Düzenle
               </button>
@@ -589,7 +589,7 @@ export default function Templates() {
             >
               İptal
             </button>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            <button className="px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-primary/80 transition-colors">
               Kaydet
             </button>
           </div>
@@ -694,7 +694,7 @@ export default function Templates() {
             >
               İptal
             </button>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            <button className="px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-primary/80 transition-colors">
               Oluştur
             </button>
           </div>

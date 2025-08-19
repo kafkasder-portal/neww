@@ -1,6 +1,11 @@
 /**
  * local server entry file, for local development
  */
+import { config } from 'dotenv';
+
+// Load environment variables
+config();
+
 import app from './app.ts';
 
 /**

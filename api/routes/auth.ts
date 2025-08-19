@@ -1,28 +1,27 @@
 import { Router, type Request, type Response } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
-import { validateRequest } from '../middleware/validation.js';
+import { validateRequest, validationSchemas, preventSQLInjection } from '../middleware/validation';
 import { z } from 'zod';
-import { generateCSRFToken, authRateLimiter, failedAuthRateLimiter, xssProtection } from '../middleware/security.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
+import { generateCSRFToken, authRateLimiter, failedAuthRateLimiter } from '../middleware/security';
+import { xssProtection, csrfProtection, getCSRFToken } from '../middleware/xss-protection';
+import { asyncHandler } from '../middleware/errorHandler';
 
 dotenv.config();
 
 const router = Router();
 
-// Validation schemas
-const registerSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-  full_name: z.string().min(1),
-  department: z.string().optional(),
-  phone: z.string().optional()
-});
+// Apply security middleware
+router.use(authRateLimiter);
+router.use(xssProtection);
+router.use(preventSQLInjection);
+router.use(csrfProtection);
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1)
-});
+// CSRF token endpoint
+router.get('/csrf-token', getCSRFToken);
+
+// Use validation schemas from middleware
+// Schemas are now imported from validation middleware
 
 // Initialize Supabase client with service role key for admin operations
 const supabaseAdmin = createClient(
@@ -60,7 +59,8 @@ router.get('/csrf-token', (req: Request, res: Response): void => {
  * User Registration
  * POST /api/auth/register
  */
-router.post('/register', authRateLimiter, xssProtection, validateRequest(registerSchema), asyncHandler(async (req: Request, res: Response): Promise<void> => {
+router.post('/register', validateRequest(validationSchemas.register), asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  // Input is already validated by middleware
   const { email, password, full_name, department, phone } = req.body;
 
   // Validate required fields
@@ -158,7 +158,8 @@ router.post('/register', authRateLimiter, xssProtection, validateRequest(registe
  * User Login
  * POST /api/auth/login
  */
-router.post('/login', authRateLimiter, xssProtection, validateRequest(loginSchema), asyncHandler(async (req: Request, res: Response): Promise<void> => {
+router.post('/login', validateRequest(validationSchemas.login), asyncHandler(async (req: Request, res: Response): Promise<void> => {
+  // Input is already validated by middleware
   const { email, password } = req.body;
 
   // Validate required fields

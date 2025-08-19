@@ -7,30 +7,27 @@ const router = Router()
  * Health check endpoint
  * Used by monitoring services and deployment pipelines
  */
-router.get('/health', async (_req: Request, res: Response) => {
+router.get('/', async (_req: Request, res: Response) => {
   try {
-    const healthCheck = {
-      status: 'healthy',
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      environment: process.env.NODE_ENV || 'development',
-      version: process.env.npm_package_version || '1.0.0',
-      memory: {
-        used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100,
-        total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024 * 100) / 100,
-        external: Math.round(process.memoryUsage().external / 1024 / 1024 * 100) / 100,
-        rss: Math.round(process.memoryUsage().rss / 1024 / 1024 * 100) / 100
-      },
-      services: {
-        database: 'connected', // Could be checked with actual DB ping
-        redis: 'not_configured',
-        external_apis: 'available'
-      }
-    }
-
     res.status(200).json({
       success: true,
-      data: healthCheck
+      message: 'Service is healthy',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      system: {
+        platform: process.platform,
+        arch: process.arch,
+        node_version: process.version,
+        memory: {
+          used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100,
+          total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024 * 100) / 100,
+          external: Math.round(process.memoryUsage().external / 1024 / 1024 * 100) / 100,
+          rss: Math.round(process.memoryUsage().rss / 1024 / 1024 * 100) / 100
+        }
+      },
+      dependencies: {
+        supabase: process.env.VITE_SUPABASE_URL ? 'configured' : 'not_configured'
+      }
     })
   } catch (error) {
     res.status(500).json({

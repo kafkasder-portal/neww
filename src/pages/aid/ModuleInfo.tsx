@@ -25,7 +25,7 @@ import {
   Phone,
   Mail
 } from 'lucide-react'
-import StatCard from '@components/StatCard'
+import StatCard from '../../components/StatCard'
 
 interface ModuleGuide {
   id: string

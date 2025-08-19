@@ -1,18 +1,19 @@
-/* Import enhanced design system BEFORE Tailwind */
-@import './styles/colors-enhanced.css';
-@import './styles/typography-enhanced.css';
-@import './styles/compatibility-layer.css';
-@import './styles/ui-patterns.css';
-@import './styles/page-patterns.css';
-@import './styles/mobile-enhanced.css';
+/* ========================================
+ * OPTIMIZED MAIN STYLES - DERNEK YÖNETİM PANELİ
+ * Unified and optimized CSS system
+ * ======================================== */
 
+/* Import optimized design system */
+@import './styles/optimized-system.css';
+
+/* Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Core Tailwind variables - Enhanced background */
+    /* Core Tailwind variables - Mapped to design system */
     --background: 210 20% 98%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -33,37 +34,6 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
-
-    /* Financial Status Colors - Map from enhanced system */
-    --financial-success: 142 76% 22%;
-    --financial-success-light: 142 70% 92%;
-    --financial-warning: 38 92% 30%;
-    --financial-warning-light: 38 80% 90%;
-    --financial-error: 0 84% 30%;
-    --financial-error-light: 0 75% 90%;
-    --financial-info: 207 85% 30%;
-    --financial-info-light: 207 75% 90%;
-
-    /* Grid & Chart Colors */
-    --chart-primary: var(--brand-primary);
-    --chart-secondary: var(--financial-success);
-    --chart-tertiary: var(--financial-warning);
-    --chart-quaternary: var(--financial-error);
-
-    /* Interactive States for Grids */
-    --grid-hover: 220 15% 96%;
-    --grid-selected: 220 25% 92%;
-    --grid-border: var(--border);
-
-    /* Sidebar Colors - Fallback values */
-    --sidebar-background: 220 13% 18%;
-    --sidebar-foreground: 220 9% 88%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 24%;
-    --sidebar-accent-foreground: 220 9% 88%;
-    --sidebar-border: 220 13% 22%;
-    --sidebar-ring: 217 91% 60%;
   }
 
   .dark {
@@ -86,16 +56,6 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-
-    /* Dark Professional Sidebar Colors */
-    --sidebar-background: 220 13% 9%;
-    --sidebar-foreground: 220 9% 88%;
-    --sidebar-primary: 217 91% 65%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 14%;
-    --sidebar-accent-foreground: 220 9% 88%;
-    --sidebar-border: 220 13% 12%;
-    --sidebar-ring: 217 91% 65%;
   }
 }
 
@@ -103,52 +63,49 @@
   * { @apply border-border; }
   html { @apply bg-background; }
   body { @apply bg-background text-foreground min-h-screen; }
-
-  /* Ensure all main containers have consistent background */
   #root { @apply bg-background min-h-screen; }
 }
 
 @layer utilities {
   /* ========================================
-   * STATUS COLOR UTILITIES - Consistent across all components
+   * ENHANCED STATUS UTILITIES
    * ======================================== */
-
-  /* Success Status */
   .status-success {
-    @apply bg-financial-success/10 text-financial-success border-financial-success/20;
+    @apply bg-semantic-success/10 text-semantic-success border-semantic-success/20;
   }
+  
   .status-success-solid {
-    @apply bg-financial-success text-white;
+    @apply bg-semantic-success text-white;
   }
 
-  /* Warning Status */
   .status-warning {
-    @apply bg-financial-warning/10 text-financial-warning border-financial-warning/20;
+    @apply bg-semantic-warning/10 text-semantic-warning border-semantic-warning/20;
   }
+  
   .status-warning-solid {
-    @apply bg-financial-warning text-white;
+    @apply bg-semantic-warning text-white;
   }
 
-  /* Error Status */
   .status-error {
-    @apply bg-financial-error/10 text-financial-error border-financial-error/20;
+    @apply bg-semantic-danger/10 text-semantic-danger border-semantic-danger/20;
   }
+  
   .status-error-solid {
-    @apply bg-financial-error text-white;
+    @apply bg-semantic-danger text-white;
   }
 
-  /* Info Status */
   .status-info {
-    @apply bg-financial-info/10 text-financial-info border-financial-info/20;
+    @apply bg-semantic-info/10 text-semantic-info border-semantic-info/20;
   }
+  
   .status-info-solid {
-    @apply bg-financial-info text-white;
+    @apply bg-semantic-info text-white;
   }
 
-  /* Pending/Neutral Status */
   .status-pending {
     @apply bg-neutral-100 text-neutral-700 border-neutral-200;
   }
+  
   .status-pending-solid {
     @apply bg-neutral-500 text-white;
   }
@@ -156,23 +113,18 @@
   /* ========================================
    * GRID & TABLE UTILITIES
    * ======================================== */
-
-  /* Grid hover states */
   .grid-hover {
-    @apply hover:bg-grid-hover transition-colors duration-150;
+    @apply hover:bg-interactive-hover transition-colors duration-150;
   }
 
-  /* Grid selected states */
   .grid-selected {
-    @apply bg-grid-selected border-brand-primary/50;
+    @apply bg-interactive-active border-brand-primary/50;
   }
 
-  /* Table row hover */
   .table-row-hover {
     @apply hover:bg-muted/50 transition-colors duration-150;
   }
 
-  /* Card grid patterns */
   .grid-card {
     @apply bg-card border border-border rounded-lg shadow-sm;
   }
@@ -181,18 +133,22 @@
     @apply grid-card hover:shadow-md hover:border-brand-primary/20 transition-all duration-200;
   }
 
-  /* Animation delays */
+  /* ========================================
+   * ANIMATION UTILITIES
+   * ======================================== */
   .animation-delay-2000 {
     animation-delay: 2s;
   }
+  
   .animation-delay-4000 {
     animation-delay: 4s;
   }
+  
   .animation-delay-6000 {
     animation-delay: 6s;
   }
   
-  /* Custom animations for Login page */
+  /* Enhanced animations */
   .animate-fade-in {
     animation: fadeIn 0.5s ease-in-out;
   }
@@ -267,7 +223,9 @@
     }
   }
   
-  /* Mobile Touch-Friendly Classes */
+  /* ========================================
+   * MOBILE ENHANCED UTILITIES
+   * ======================================== */
   .touch-target {
     min-height: 44px;
     min-width: 44px;
@@ -293,7 +251,7 @@
   .mobile-input {
     min-height: 48px;
     padding: 12px 16px;
-    font-size: 16px; /* Prevents zoom on iOS */
+    font-size: 16px;
     touch-action: manipulation;
   }
 

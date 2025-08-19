@@ -132,8 +132,8 @@ export default function StructuralControls() {
       header: 'Tip',
       render: (value: unknown) => {
         const colors = {
-          'Database': 'bg-blue-100 text-blue-700',
-          'API': 'bg-green-100 text-green-700',
+          'Database': 'bg-brand-primary/10 text-brand-primary',
+    'API': 'bg-semantic-success/10 text-semantic-success',
           'Service': 'bg-purple-100 text-purple-700',
           'File System': 'bg-orange-100 text-orange-700'
         } as const
@@ -150,10 +150,10 @@ export default function StructuralControls() {
       header: 'Durum',
       render: (value: unknown) => {
         const config = {
-          'Healthy': { icon: <CheckCircle className="h-4 w-4" />, color: 'bg-green-100 text-green-700' },
-          'Warning': { icon: <AlertTriangle className="h-4 w-4" />, color: 'bg-yellow-100 text-yellow-700' },
-          'Error': { icon: <XCircle className="h-4 w-4" />, color: 'bg-red-100 text-red-700' },
-          'Unknown': { icon: <Database className="h-4 w-4" />, color: 'bg-gray-100 text-gray-700' }
+          'Healthy': { icon: <CheckCircle className="icon h-4 w-4" />, color: 'bg-semantic-success/10 text-semantic-success' },
+    'Warning': { icon: <AlertTriangle className="icon h-4 w-4" />, color: 'bg-semantic-warning/10 text-semantic-warning' },
+    'Error': { icon: <XCircle className="icon h-4 w-4" />, color: 'bg-semantic-destructive/10 text-semantic-destructive' },
+    'Unknown': { icon: <Database className="icon h-4 w-4" />, color: 'bg-muted text-muted-foreground' }
         } as const
         const statusValue = String(value || 'Unknown');
         const { icon, color } = config[statusValue as keyof typeof config] || config['Unknown']
@@ -182,8 +182,8 @@ export default function StructuralControls() {
         const num = parseFloat(String(value || '0'));
         return (
           <span className={`font-medium ${
-            num > 99 ? 'text-green-600' : 
-            num > 95 ? 'text-yellow-600' : 'text-red-600'
+            num > 99 ? 'text-semantic-success' :
+      num > 95 ? 'text-semantic-warning' : 'text-semantic-destructive'
           }`}>
             {String(value || '')}
           </span>
@@ -197,10 +197,10 @@ export default function StructuralControls() {
       header: 'İşlemler',
       render: () => (
         <div className="flex gap-2">
-          <button className="rounded p-1 text-green-600 hover:bg-green-50" title="Şimdi Kontrol Et">
+          <button className="rounded p-1 text-semantic-success hover:bg-semantic-success/10" title="Şimdi Kontrol Et">
             <Play className="h-4 w-4" />
           </button>
-          <button className="rounded p-1 text-blue-600 hover:bg-blue-50" title="Ayarlar">
+          <button className="rounded p-1 text-brand-primary hover:bg-brand-primary/10" title="Ayarlar">
             <Settings className="h-4 w-4" />
           </button>
         </div>
@@ -220,7 +220,7 @@ export default function StructuralControls() {
     <div className="space-y-4">
       {/* Header Controls */}
       <div className="flex items-center gap-2 overflow-x-auto rounded border p-2">
-        <button className="flex items-center gap-2 rounded bg-green-600 px-3 py-1 text-sm text-white">
+        <button className="flex items-center gap-2 rounded bg-semantic-success px-3 py-1 text-sm text-white">
           <Play className="h-4 w-4" />
           Tümünü Kontrol Et
         </button>
@@ -254,10 +254,10 @@ export default function StructuralControls() {
           className="min-w-64 flex-1 rounded border px-2 py-1 text-sm" 
           placeholder="Kontrol ara..." 
         />
-        <button className="rounded bg-blue-600 px-3 py-1 text-sm text-white">Ara</button>
+        <button className="rounded bg-brand-primary px-3 py-1 text-sm text-white">Ara</button>
         <button 
           onClick={() => exportToCsv('yapisal-kontroller.csv', filtered)} 
-          className="rounded bg-gray-600 px-3 py-1 text-sm text-white"
+          className="rounded bg-muted-foreground px-3 py-1 text-sm text-white"
         >
           İndir
         </button>
@@ -270,24 +270,24 @@ export default function StructuralControls() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <CheckCircle className="h-5 w-5 text-green-600" />
+            <CheckCircle className="icon h-5 w-5 text-semantic-success" />
             <h3 className="text-sm font-medium text-muted-foreground">Sağlıklı</h3>
           </div>
-          <p className="text-2xl font-bold text-green-600">{healthyCount}</p>
+          <p className="text-2xl font-bold text-semantic-success">{healthyCount}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-yellow-600" />
+            <AlertTriangle className="icon h-5 w-5 text-semantic-warning" />
             <h3 className="text-sm font-medium text-muted-foreground">Uyarı</h3>
           </div>
-          <p className="text-2xl font-bold text-yellow-600">{warningCount}</p>
+          <p className="text-2xl font-bold text-semantic-warning">{warningCount}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <div className="flex items-center gap-2">
-            <XCircle className="h-5 w-5 text-red-600" />
+            <XCircle className="icon h-5 w-5 text-semantic-destructive" />
             <h3 className="text-sm font-medium text-muted-foreground">Hata</h3>
           </div>
-          <p className="text-2xl font-bold text-red-600">{errorCount}</p>
+          <p className="text-2xl font-bold text-semantic-destructive">{errorCount}</p>
         </div>
         <div className="rounded border bg-card p-4">
           <h3 className="text-sm font-medium text-muted-foreground">Toplam Hata</h3>
@@ -305,9 +305,9 @@ export default function StructuralControls() {
             const label = status === 'Healthy' ? 'Sağlıklı' : 
                          status === 'Warning' ? 'Uyarı' : 
                          status === 'Error' ? 'Hata' : 'Bilinmiyor'
-            const color = status === 'Healthy' ? 'text-green-600' : 
-                         status === 'Warning' ? 'text-yellow-600' : 
-                         status === 'Error' ? 'text-red-600' : 'text-gray-600'
+            const color = status === 'Healthy' ? 'text-semantic-success' :
+          status === 'Warning' ? 'text-semantic-warning' :
+          status === 'Error' ? 'text-semantic-destructive' : 'text-muted-foreground'
             
             return (
               <div key={status} className="rounded border p-3">
@@ -316,12 +316,12 @@ export default function StructuralControls() {
                   <span className={`text-lg font-bold ${color}`}>{count}</span>
                 </div>
                 <div className="mt-1 text-xs text-muted-foreground">%{percentage}</div>
-                <div className="mt-2 h-2 w-full rounded bg-gray-200">
+                <div className="mt-2 h-2 w-full rounded bg-muted">
                   <div 
                     className={`h-full rounded ${
-                      status === 'Healthy' ? 'bg-green-500' : 
-                      status === 'Warning' ? 'bg-yellow-500' : 
-                      status === 'Error' ? 'bg-red-500' : 'bg-gray-500'
+                      status === 'Healthy' ? 'bg-semantic-success' :
+              status === 'Warning' ? 'bg-semantic-warning' :
+              status === 'Error' ? 'bg-semantic-destructive' : 'bg-muted-foreground'
                     }`}
                     style={{ width: `${percentage}%` }}
                   />
@@ -362,7 +362,7 @@ export default function StructuralControls() {
             </div>
             <div className="flex justify-between">
               <span className="text-sm">Ortalama Çalışma Süresi</span>
-              <span className="font-medium text-green-600">
+              <span className="font-medium text-semantic-success">
                 {(filtered.reduce((sum, c) => sum + parseFloat(c.uptime), 0) / filtered.length).toFixed(1)}%
               </span>
             </div>

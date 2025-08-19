@@ -125,18 +125,18 @@ export type ActivityType = TaskActivity['activity_type']
 export type NotificationType = TaskNotification['type']
 
 export const TASK_PRIORITY_COLORS = {
-  low: 'bg-blue-100 text-blue-800',
-  medium: 'bg-yellow-100 text-yellow-800',
-  high: 'bg-orange-100 text-orange-800',
-  urgent: 'bg-red-100 text-red-800'
+  low: 'bg-brand-primary/10 text-brand-primary',
+  medium: 'bg-semantic-warning/10 text-semantic-warning',
+  high: 'bg-semantic-warning text-white',
+  urgent: 'bg-semantic-destructive/10 text-semantic-destructive'
 }
 
 export const TASK_STATUS_COLORS = {
-  pending: 'bg-gray-100 text-gray-800',
-  in_progress: 'bg-blue-100 text-blue-800',
-  completed: 'bg-green-100 text-green-800',
-  cancelled: 'bg-red-100 text-red-800',
-  overdue: 'bg-red-100 text-red-800'
+  pending: 'bg-muted text-muted-foreground',
+  in_progress: 'bg-brand-primary/10 text-brand-primary',
+  completed: 'bg-semantic-success/10 text-semantic-success',
+  cancelled: 'bg-semantic-destructive/10 text-semantic-destructive',
+  overdue: 'bg-semantic-destructive/10 text-semantic-destructive'
 }
 
 export const TASK_PRIORITY_LABELS = {

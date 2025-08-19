@@ -7,27 +7,31 @@ import { Eye, EyeOff, Loader2, Mail, Lock, User, Phone, Building } from 'lucide-
 import { useAuthStore } from '../store/auth'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { DevelopmentNotice } from '../components/DevelopmentNotice'
+// DevelopmentNotice removed - component deleted
+import { useLanguage } from '../hooks/useLanguage'
 
-const loginSchema = z.object({
-  email: z.string().email('Geçerli bir email adresi giriniz'),
-  password: z.string().min(6, 'Şifre en az 6 karakter olmalıdır')
-})
+// These will be created dynamically with translations
+const createValidationSchemas = (t: (key: string) => string) => ({
+  loginSchema: z.object({
+    email: z.string().email(t('validation.email')),
+    password: z.string().min(6, t('validation.passwordTooShort'))
+  }),
 
-const registerSchema = z.object({
-  email: z.string().email('Geçerli bir email adresi giriniz'),
-  password: z.string().min(6, 'Şifre en az 6 karakter olmalıdır'),
-  confirmPassword: z.string().min(6, 'Şifre tekrarı gereklidir'),
-  full_name: z.string().min(2, 'Ad soyad en az 2 karakter olmalıdır'),
-  department: z.string().optional(),
-  phone: z.string().optional()
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Şifreler eşleşmiyor",
-  path: ["confirmPassword"],
-})
+  registerSchema: z.object({
+    email: z.string().email(t('validation.email')),
+    password: z.string().min(6, t('validation.passwordTooShort')),
+    confirmPassword: z.string().min(6, t('validation.required')),
+    full_name: z.string().min(2, t('validation.nameMinLength')),
+    department: z.string().optional(),
+    phone: z.string().optional()
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: t('validation.passwordMismatch'),
+    path: ["confirmPassword"],
+  }),
 
-const forgotPasswordSchema = z.object({
-  email: z.string().email('Geçerli bir email adresi giriniz')
+  forgotPasswordSchema: z.object({
+    email: z.string().email(t('validation.email'))
+  })
 })
 
 type LoginForm = z.infer<typeof loginSchema>
@@ -38,10 +42,14 @@ export default function Login() {
   const [mode, setMode] = useState<'login' | 'register' | 'forgot'>('login')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  
+
   const navigate = useNavigate()
   const location = useLocation()
   const { user, session, loading, error, signIn, signUp, resetPassword, clearError } = useAuthStore()
+  const { t } = useLanguage()
+
+  // Create validation schemas with current translations
+  const { loginSchema, registerSchema, forgotPasswordSchema } = createValidationSchemas(t)
 
   const loginForm = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -120,18 +128,18 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md">
-        <DevelopmentNotice />
+        {/* DevelopmentNotice removed */}
         <Card className="p-8 shadow-xl border bg-card/95 backdrop-blur-sm">
         <div className="text-center mb-8">
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center mb-4">
             <Building className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            {mode === 'login' && 'Hoş Geldiniz'}
-            {mode === 'register' && 'Hesap Oluşturun'}
-            {mode === 'forgot' && 'Şifre Sıfırlama'}
+          <h1 className="text-2xl font-bold text-foreground">
+            {mode === 'login' && t('auth.welcome')}
+            {mode === 'register' && t('auth.signUp')}
+            {mode === 'forgot' && t('auth.resetPassword')}
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-muted-foreground mt-2">
             {mode === 'login' && 'Dernek Yönetim Paneli'}
             {mode === 'register' && 'Yeni hesap oluşturmak için bilgilerinizi giriniz'}
             {mode === 'forgot' && 'Email adresinizi girerek şifrenizi sıfırlayın'}
@@ -148,7 +156,7 @@ export default function Login() {
           <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Adresi
+                {t('auth.emailAddress')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -166,7 +174,7 @@ export default function Login() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Şifre
+                {t('auth.password')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -382,7 +390,7 @@ export default function Login() {
           <form onSubmit={forgotForm.handleSubmit(onForgotPassword)} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Adresi
+                {t('auth.emailAddress')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />

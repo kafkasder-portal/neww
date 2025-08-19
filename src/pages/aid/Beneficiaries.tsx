@@ -6,17 +6,10 @@ import { exportBeneficiariesToExcel } from '@utils/excelExport'
 import { exportBeneficiariesToPDF } from '@utils/pdfExport'
 import { Link } from 'react-router-dom'
 import { Modal } from '@components/Modal'
-import LazyQRScannerModal from '@components/LazyQRScannerModal'
-import { CameraScanner } from '@components/CameraScanner'
 import { supabase, type Database } from '@lib/supabase'
 import { QrCode, FileSpreadsheet, FileText, Download, Filter, ChevronDown, ChevronUp, Camera } from 'lucide-react'
-import { AdvancedSearchModal } from '@components/AdvancedSearchModal'
 import { toast } from 'sonner'
 import { getErrorMessage, logErrorSafely } from '../../utils/errorMessageUtils'
-import { createBeneficiariesFilterConfig } from '@utils/filterManager'
-import { createBeneficiariesURLConfig } from '@utils/urlFilterManager'
-import { createBeneficiariesSavedFiltersConfig, getBeneficiariesQuickFilters } from '@utils/tempFix'
-import type { SavedFilter } from '@components/AdvancedSearchModal'
 
 type BeneficiaryRow = Database['public']['Tables']['beneficiaries']['Row']
 
@@ -121,14 +114,7 @@ export default function Beneficiaries() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [rows, setRows] = useState<BeneficiaryRow[]>([])
-  const [qrScannerOpen, setQrScannerOpen] = useState(false)
-  const [cameraScannerOpen, setCameraScannerOpen] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
-  
-  // Advanced search states
-  const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false)
-  const [activeFilters, setActiveFilters] = useState<Record<string, any>>({})
-  const [savedFilters, setSavedFilters] = useState<SavedFilter[]>([])
   
   // Form bölümlerinin açık/kapalı durumu
   const [expandedSections, setExpandedSections] = useState({
@@ -141,11 +127,7 @@ export default function Beneficiaries() {
     system: false
   })
   
-  // Filter configurations
-  const filterConfig = createBeneficiariesFilterConfig()
-  const urlConfig = createBeneficiariesURLConfig()
-  const savedFiltersConfig = createBeneficiariesSavedFiltersConfig()
-  const quickFilters = getBeneficiariesQuickFilters()
+
   const [formData, setFormData] = useState<FormData>({
     // Temel Bilgiler
     name: '',
@@ -236,32 +218,7 @@ export default function Beneficiaries() {
       )
     }
     
-    // Apply advanced filters
-    Object.entries(activeFilters).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        if (Array.isArray(value) && value.length > 0) {
-          // Multi-select filter
-          query = query.in(key, value)
-        } else if (typeof value === 'object' && value.min !== undefined && value.max !== undefined) {
-          // Number range filter
-          if (value.min !== null) query = query.gte(key, value.min)
-          if (value.max !== null) query = query.lte(key, value.max)
-        } else if (typeof value === 'object' && value.start && value.end) {
-          // Date range filter
-          query = query.gte(key, value.start).lte(key, value.end)
-        } else if (typeof value === 'string') {
-          // Text filter
-          if (key === 'name' || key === 'surname' || key === 'city' || key === 'district') {
-            query = query.ilike(key, `%${value}%`)
-          } else {
-            query = query.eq(key, value)
-          }
-        } else {
-          // Exact match
-          query = query.eq(key, value)
-        }
-      }
-    })
+
     
     const { data, error } = await query
     if (error) {
@@ -281,7 +238,7 @@ export default function Beneficiaries() {
       setRows(data || [])
     }
     setLoading(false)
-  }, [q, activeFilters])
+  }, [q])
 
   useEffect(() => {
     loadBeneficiaries()
@@ -432,94 +389,9 @@ export default function Beneficiaries() {
     }
   }
 
-  const handleQRScanSuccess = (scanData: { identity_no?: string; name?: string; surname?: string; birth_date?: string }) => {
-    // QR kod tarama başarılı olduğunda kimlik bilgilerini form'a doldur
-    if (scanData.identity_no) {
-      setFormData(prev => ({
-        ...prev,
-        identity_no: scanData.identity_no || '',
-        name: scanData.name || prev.name,
-        surname: scanData.surname || prev.surname,
-        birth_date: scanData.birth_date || prev.birth_date
-      }))
-      toast.success('Kimlik bilgileri QR koddan okundu')
-    }
-    setQrScannerOpen(false)
-  }
 
-  const handleCameraScanSuccess = (scanData: Record<string, unknown>) => {
-    // Kamera ile belge tarama başarılı olduğunda form alanlarını doldur
-    console.log('Kamera tarama sonucu:', scanData)
-    
-    const updates: Partial<FormData> = {}
-    const tempUpdates: Partial<TempFormData> = {}
-    
-    // OCR'dan gelen verileri form alanlarına eşle
-    if (scanData.firstName) {
-      updates.name = String(scanData.firstName)
-      tempUpdates.name = String(scanData.firstName)
-    }
-    if (scanData.lastName) {
-      updates.surname = String(scanData.lastName)
-      tempUpdates.surname = String(scanData.lastName)
-    }
-    if (scanData.idNumber) {
-      updates.identity_no = String(scanData.idNumber)
-      tempUpdates.identity_no = String(scanData.idNumber)
-    }
-    if (scanData.birthDate) updates.birth_date = String(scanData.birthDate)
-    if (scanData.address) updates.address = String(scanData.address)
-    if (scanData.phone) updates.phone = String(scanData.phone)
-    if (scanData.nationality) updates.nationality = String(scanData.nationality)
-    if (scanData.passportNumber) {
-      updates.identity_no = String(scanData.passportNumber)
-      tempUpdates.identity_no = String(scanData.passportNumber)
-      updates.nationality = 'Yabancı'
-    }
-    
-    // QR kod verilerini de kontrol et
-    if (scanData.donorId) {
-      // QR kod formatındaki veriler
-      if (String(scanData.donorId).startsWith('TC')) {
-        const tcNo = String(scanData.donorId).substring(2)
-        updates.identity_no = tcNo
-        tempUpdates.identity_no = tcNo
-        updates.nationality = 'TC'
-      }
-    }
-    if (scanData.donorName) {
-      const nameParts = String(scanData.donorName).split(' ')
-      if (nameParts.length >= 2) {
-        updates.name = nameParts[0]
-        tempUpdates.name = nameParts[0]
-        updates.surname = nameParts.slice(1).join(' ')
-        tempUpdates.surname = nameParts.slice(1).join(' ')
-      }
-    }
-    
-    // Hangi formun açık olduğuna göre güncelleme yap
-    if (tempOpen) {
-      // Geçici form açıksa
-      if (Object.keys(tempUpdates).length > 0) {
-        setTempFormData(prev => ({ ...prev, ...tempUpdates }))
-        const filledFields = Object.keys(tempUpdates).join(', ')
-        toast.success(`Belge tarandı! Doldurulan alanlar: ${filledFields}`)
-      } else {
-        toast.info('Belge tarandı ancak tanınabilir veri bulunamadı')
-      }
-    } else {
-      // Ana form açıksa
-      if (Object.keys(updates).length > 0) {
-        setFormData(prev => ({ ...prev, ...updates }))
-        const filledFields = Object.keys(updates).join(', ')
-        toast.success(`Belge tarandı! Doldurulan alanlar: ${filledFields}`)
-      } else {
-        toast.info('Belge tarandı ancak tanınabilir veri bulunamadı')
-      }
-    }
-    
-    setCameraScannerOpen(false)
-  }
+
+
 
   const handleInputChange = (field: keyof FormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -674,35 +546,6 @@ export default function Beneficiaries() {
     setEditingId(Number(row.id))
     setOpen(true)
   }
-
-  // Advanced search handlers
-  const handleAdvancedSearch = (filters: Record<string, any>) => {
-    setActiveFilters(filters)
-    setAdvancedSearchOpen(false)
-  }
-
-  const handleClearFilters = () => {
-    setActiveFilters({})
-  }
-
-  const handleSaveFilter = (filter: Omit<SavedFilter, 'id' | 'createdAt'>) => {
-    const newFilter: SavedFilter = {
-      ...filter,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString()
-    }
-    setSavedFilters(prev => [...prev, newFilter])
-    toast.success('Filtre kaydedildi')
-  }
-
-  const handleLoadFilter = (filter: SavedFilter) => {
-    setActiveFilters(filter.filters)
-    toast.success('Filtre yüklendi')
-  }
-
-
-
-
 
   // Demo kayıt veri setleri - UUID'ler Supabase tarafından otomatik oluşturulacak
   const createDemoDataSets = () => {
@@ -979,30 +822,7 @@ export default function Beneficiaries() {
       <div className="flex items-center gap-2 overflow-x-auto rounded border p-2">
         <input value={q} onChange={(e) => setQ(e.target.value)} className="min-w-64 flex-1 rounded border px-2 py-1 text-sm" placeholder="Ad, Soyad, Kimlik No, Telefon, Şehir, İlçe..." />
         <button className="rounded bg-green-600 px-3 py-1 text-sm text-white">Ara</button>
-        <button 
-          onClick={() => setAdvancedSearchOpen(true)}
-          className={`rounded border px-3 py-1 text-sm flex items-center gap-1 ${
-            Object.keys(activeFilters).length > 0 
-              ? 'bg-blue-50 border-blue-300 text-blue-700' 
-              : 'hover:bg-gray-50'
-          }`}
-        >
-          <Filter className="w-3 h-3" />
-          Gelişmiş Filtre
-          {Object.keys(activeFilters).length > 0 && (
-            <span className="bg-blue-600 text-white text-xs rounded-full px-1.5 py-0.5 ml-1">
-              {Object.keys(activeFilters).length}
-            </span>
-          )}
-        </button>
-        {Object.keys(activeFilters).length > 0 && (
-          <button 
-            onClick={handleClearFilters}
-            className="rounded bg-red-100 border border-red-300 text-red-700 px-3 py-1 text-sm hover:bg-red-200"
-          >
-            Filtreleri Temizle
-          </button>
-        )}
+
         <button onClick={() => setOpen(true)} className="rounded border px-3 py-1 text-sm">Ekle</button>
         <button onClick={() => setTempOpen(true)} className="rounded bg-orange-600 px-3 py-1 text-sm text-white">Geçici Kayıt</button>
         <button
@@ -1054,23 +874,7 @@ export default function Beneficiaries() {
 
       <Modal isOpen={open} onClose={() => { setOpen(false); resetForm(); }} title={editingId ? "İhtiyaç Sahibi Bilgilerini Tamamla" : "Yeni İhtiyaç Sahibi"}>
         <div className="p-4 space-y-4">
-          {/* Tarama Butonları */}
-          <div className="flex justify-center gap-4">
-            <button
-              onClick={() => setQrScannerOpen(true)}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 flex items-center gap-2 shadow-md transition-all duration-200 hover:shadow-lg"
-            >
-              <QrCode className="w-5 h-5" />
-              QR Kod Tara
-            </button>
-            <button
-              onClick={() => setCameraScannerOpen(true)}
-              className="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-lg hover:from-green-700 hover:to-green-800 flex items-center gap-2 shadow-md transition-all duration-200 hover:shadow-lg"
-            >
-              <Camera className="w-5 h-5" />
-              Belge Tara
-            </button>
-          </div>
+
 
           {/* Temel Bilgiler Bölümü */}
           <FormSection 
@@ -1816,16 +1620,7 @@ export default function Beneficiaries() {
             </p>
           </div>
 
-          {/* Hızlı Tarama Butonu */}
-          <div className="flex justify-center">
-            <button
-              onClick={() => setCameraScannerOpen(true)}
-              className="bg-gradient-to-r from-orange-600 to-orange-700 text-white px-6 py-3 rounded-lg hover:from-orange-700 hover:to-orange-800 flex items-center gap-2 shadow-md transition-all duration-200 hover:shadow-lg"
-            >
-              <Camera className="w-5 h-5" />
-              Hızlı Belge Tara
-            </button>
-          </div>
+
 
           <div className="grid gap-3">
             <Field label="Ad *">
@@ -1903,69 +1698,7 @@ export default function Beneficiaries() {
         </div>
       </Modal>
 
-      {/* QR Scanner Modal */}
-      <LazyQRScannerModal
-        isOpen={qrScannerOpen}
-        onClose={() => setQrScannerOpen(false)}
-        onScanSuccess={handleQRScanSuccess}
-      />
 
-      {/* Camera Scanner Modal */}
-      <Modal
-        isOpen={cameraScannerOpen}
-        onClose={() => setCameraScannerOpen(false)}
-        title="Belge Tarama"
-      >
-        <div className="p-4">
-          <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <h4 className="font-medium text-blue-900 mb-2">📋 Tarama Talimatları</h4>
-            <div className="text-sm text-blue-800 space-y-1">
-              <p><strong>Desteklenen belgeler:</strong></p>
-              <ul className="list-disc list-inside ml-2 space-y-1">
-                <li>Türk Kimlik Kartı (TC No, Ad Soyad, Doğum Tarihi)</li>
-                <li>Türk Pasaportu (Pasaport No, Kişisel Bilgiler)</li>
-                <li>Yabancı Pasaport (Pasaport No, Ad Soyad)</li>
-                <li>QR kodlu belgeler</li>
-              </ul>
-              <p className="mt-2"><strong>Öneriler:</strong></p>
-              <ul className="list-disc list-inside ml-2 space-y-1">
-                <li>Belgeyi iyi aydınlatılmış ortamda tutun</li>
-                <li>Kamerayı belgeye yaklaştırın (15-20 cm)</li>
-                <li>Belgeyi sabit tutun ve net görüntü alın</li>
-                <li>OCR modunda "Fotoğraf Çek ve Oku" butonunu kullanın</li>
-              </ul>
-            </div>
-          </div>
-          
-          <CameraScanner
-            onScanResult={handleCameraScanSuccess}
-            onError={(error) => {
-              console.error('Camera scanner error:', error)
-              toast.error(`Tarama hatası: ${error}`)
-            }}
-            mode="ocr"
-          />
-        </div>
-      </Modal>
-
-      {/* Advanced Search Modal */}
-      <AdvancedSearchModal
-        isOpen={advancedSearchOpen}
-        onClose={() => setAdvancedSearchOpen(false)}
-        onApplyFilters={handleAdvancedSearch}
-        onSaveFilter={handleSaveFilter}
-        onLoadFilter={handleLoadFilter}
-        pageType="beneficiaries"
-        fields={filterConfig.fields}
-        dependencies={filterConfig.dependencies}
-        groups={filterConfig.groups}
-        validationRules={filterConfig.validationRules}
-        urlConfig={urlConfig}
-        savedFiltersConfig={savedFiltersConfig}
-        quickFilters={quickFilters}
-        savedFilters={savedFilters}
-        initialFilters={activeFilters}
-      />
     </div>
   )
 }

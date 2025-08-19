@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { describe, it, expect, beforeAll, afterAll, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from '@jest/globals';
 import app from '../app';
 
 describe('Auth Routes', () => {
@@ -13,9 +13,7 @@ describe('Auth Routes', () => {
 
   beforeEach(() => {
     // Reset mocks before each test
-    if (vi && vi.clearAllMocks) {
-      vi.clearAllMocks();
-    }
+    jest.clearAllMocks();
   });
   describe('POST /api/auth/login', () => {
     it('should return 400 for missing email', async () => {

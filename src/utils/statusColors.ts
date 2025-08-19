@@ -214,10 +214,10 @@ export function getInstitutionTypeColors(type: string): string {
     'company': 'status-info',
     'vakıf': 'status-success',
     'foundation': 'status-success',
-    'dernek': 'bg-brand-100 text-brand-800 border-brand-200',
-    'association': 'bg-brand-100 text-brand-800 border-brand-200',
-    'okul': 'bg-neutral-100 text-neutral-700 border-neutral-200',
-    'school': 'bg-neutral-100 text-neutral-700 border-neutral-200'
+    'dernek': 'bg-brand-primary/10 text-brand-primary border-brand-primary/20',
+    'association': 'bg-brand-primary/10 text-brand-primary border-brand-primary/20',
+    'okul': 'bg-muted text-muted-foreground border-border',
+    'school': 'bg-muted text-muted-foreground border-border'
   }
   
   return typeColorMap[type.toLowerCase()] || 'status-pending'

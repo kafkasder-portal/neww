@@ -33,7 +33,6 @@ import {
   TrendingUp,
   AlertCircle,
   BookOpen,
-  UserCheck,
   Activity,
   BarChart3,
   Settings,
@@ -127,29 +126,29 @@ export default function VolunteerManagement() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Aktif Gönüllü</p>
-              <p className="text-2xl font-bold text-blue-600">{dashboardData?.totalActiveVolunteers || 0}</p>
-              <p className="text-xs text-green-600">+{dashboardData?.newApplicationsThisWeek || 0} yeni başvuru</p>
+              <p className="text-sm text-muted-foreground">Aktif Gönüllü</p>
+        <p className="text-2xl font-bold text-semantic-info">{dashboardData?.totalActiveVolunteers || 0}</p>
+        <p className="text-xs text-semantic-success">+{dashboardData?.newApplicationsThisWeek || 0} yeni başvuru</p>
             </div>
-            <Users className="h-8 w-8 text-blue-600" />
+            <Users className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Bu Ay Saat</p>
-              <p className="text-2xl font-bold text-green-600">{dashboardData?.hoursWorkedThisMonth || 0}</p>
-              <p className="text-xs text-gray-600">gönüllü saati</p>
+              <p className="text-sm text-muted-foreground">Bu Ay Saat</p>
+        <p className="text-2xl font-bold text-semantic-success">{dashboardData?.hoursWorkedThisMonth || 0}</p>
+        <p className="text-xs text-muted-foreground">gönüllü saati</p>
             </div>
-            <Clock className="h-8 w-8 text-green-600" />
+            <Clock className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
 
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Yaklaşan Vardiya</p>
+              <p className="text-sm text-muted-foreground">Yaklaşan Vardiya</p>
               <p className="text-2xl font-bold text-purple-600">{dashboardData?.upcomingShifts || 0}</p>
             </div>
             <Calendar className="h-8 w-8 text-purple-600" />
@@ -159,10 +158,10 @@ export default function VolunteerManagement() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Tutma Oranı</p>
-              <p className="text-2xl font-bold text-orange-600">%{dashboardData?.retentionRate || 0}</p>
+              <p className="text-sm text-muted-foreground">Tutma Oranı</p>
+        <p className="text-2xl font-bold text-semantic-warning">%{dashboardData?.retentionRate || 0}</p>
             </div>
-            <TrendingUp className="h-8 w-8 text-orange-600" />
+            <TrendingUp className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
       </div>
@@ -173,15 +172,15 @@ export default function VolunteerManagement() {
           <h3 className="text-lg font-semibold mb-4">Genel İstatistikler</h3>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-gray-600">Ortalama Yaş</span>
+              <span className="text-muted-foreground">Ortalama Yaş</span>
               <span className="font-medium">{dashboardData?.averageVolunteerAge || 0} yaş</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">En Popüler Rol</span>
+              <span className="text-muted-foreground">En Popüler Rol</span>
               <span className="font-medium">{dashboardData?.mostPopularRole || '-'}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">En Başarılı Departman</span>
+              <span className="text-muted-foreground">En Başarılı Departman</span>
               <span className="font-medium">{dashboardData?.highestRatedDepartment || '-'}</span>
             </div>
           </div>
@@ -191,15 +190,15 @@ export default function VolunteerManagement() {
           <h3 className="text-lg font-semibold mb-4">Son Başvurular</h3>
           <div className="space-y-3">
             {dashboardData?.recentApplications.slice(0, 3).map((app) => (
-              <div key={app.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+              <div key={app.id} className="flex items-center justify-between p-2 bg-muted rounded">
                 <div>
                   <p className="font-medium text-sm">{app.name}</p>
-                  <p className="text-xs text-gray-600">{app.appliedDate}</p>
+                  <p className="text-xs text-muted-foreground">{app.appliedDate}</p>
                 </div>
                 <span className={`px-2 py-1 rounded text-xs font-medium ${
-                  app.status === 'approved' ? 'bg-green-100 text-green-800' :
-                  app.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                  'bg-yellow-100 text-yellow-800'
+                  app.status === 'approved' ? 'bg-semantic-success/10 text-semantic-success' :
+            app.status === 'rejected' ? 'bg-semantic-destructive/10 text-semantic-destructive' :
+            'bg-semantic-warning/10 text-semantic-warning'
                 }`}>
                   {app.status === 'approved' ? 'Onaylandı' :
                    app.status === 'rejected' ? 'Reddedildi' : 'Bekliyor'}
@@ -207,7 +206,7 @@ export default function VolunteerManagement() {
               </div>
             ))}
             {(!dashboardData?.recentApplications || dashboardData.recentApplications.length === 0) && (
-              <p className="text-sm text-gray-500 text-center py-4">Son başvuru bulunamadı</p>
+              <p className="text-sm text-muted-foreground text-center py-4">Son başvuru bulunamadı</p>
             )}
           </div>
         </Card>
@@ -215,14 +214,14 @@ export default function VolunteerManagement() {
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Uyarılar</h3>
-            <AlertCircle className="h-5 w-5 text-orange-500" />
+            <AlertCircle className="h-5 w-5 text-semantic-warning" />
           </div>
           <div className="space-y-3">
             {dashboardData?.alerts.map((alert, index) => (
               <div key={index} className={`p-3 rounded text-sm ${
-                alert.severity === 'critical' ? 'bg-red-50 text-red-800' :
-                alert.severity === 'high' ? 'bg-orange-50 text-orange-800' :
-                'bg-yellow-50 text-yellow-800'
+                alert.severity === 'critical' ? 'bg-semantic-destructive/10 text-semantic-destructive' :
+          alert.severity === 'high' ? 'bg-semantic-warning/10 text-semantic-warning' :
+          'bg-semantic-warning/10 text-semantic-warning'
               }`}>
                 <p className="font-medium">{alert.message}</p>
                 {alert.count > 1 && (
@@ -231,7 +230,7 @@ export default function VolunteerManagement() {
               </div>
             ))}
             {(!dashboardData?.alerts || dashboardData.alerts.length === 0) && (
-              <div className="text-center py-4 text-gray-500">
+              <div className="text-center py-4 text-muted-foreground">
                 <CheckCircle className="h-8 w-8 mx-auto mb-2" />
                 <p className="text-sm">Herhangi bir uyarı yok</p>
               </div>
@@ -291,12 +290,12 @@ export default function VolunteerManagement() {
         header: 'Gönüllü',
         render: (_, volunteer) => (
           <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold mr-3">
+            <div className="w-8 h-8 rounded-full bg-semantic-info flex items-center justify-center text-white text-sm font-bold mr-3">
               {volunteer.firstName.charAt(0)}{volunteer.lastName.charAt(0)}
             </div>
             <div>
               <p className="font-medium">{volunteer.firstName} {volunteer.lastName}</p>
-              <p className="text-sm text-gray-600">{volunteer.email}</p>
+              <p className="text-sm text-muted-foreground">{volunteer.email}</p>
             </div>
           </div>
         )
@@ -328,7 +327,7 @@ export default function VolunteerManagement() {
         header: 'Ortalama Puan',
         render: (_, volunteer) => (
           <div className="flex items-center">
-            <Star className="w-4 h-4 text-yellow-400 mr-1" />
+            <Star className="w-4 h-4 text-semantic-warning mr-1" />
             <span>{(volunteer.averageRating || 0).toFixed(1)}</span>
           </div>
         )
@@ -338,10 +337,10 @@ export default function VolunteerManagement() {
         header: 'Durum',
         render: (_, volunteer) => (
           <span className={`px-2 py-1 rounded text-xs font-medium ${
-            volunteer.status === 'active' ? 'bg-green-100 text-green-800' :
-            volunteer.status === 'inactive' ? 'bg-gray-100 text-gray-800' :
-            volunteer.status === 'on_leave' ? 'bg-yellow-100 text-yellow-800' :
-            'bg-red-100 text-red-800'
+            volunteer.status === 'active' ? 'bg-semantic-success/10 text-semantic-success' :
+          volunteer.status === 'inactive' ? 'bg-muted text-muted-foreground' :
+          volunteer.status === 'on_leave' ? 'bg-semantic-warning/10 text-semantic-warning' :
+          'bg-semantic-destructive/10 text-semantic-destructive'
           }`}>
             {volunteer.status === 'active' ? 'Aktif' :
              volunteer.status === 'inactive' ? 'Pasif' :
@@ -462,7 +461,7 @@ export default function VolunteerManagement() {
         render: (_, app) => (
           <div>
             <p className="font-medium">{app.firstName} {app.lastName}</p>
-            <p className="text-sm text-gray-600">{app.email}</p>
+            <p className="text-sm text-muted-foreground">{app.email}</p>
           </div>
         )
       },
@@ -481,10 +480,10 @@ export default function VolunteerManagement() {
         header: 'Durum',
         render: (_, app) => (
           <span className={`px-2 py-1 rounded text-xs font-medium ${
-            app.status === 'approved' ? 'bg-green-100 text-green-800' :
-            app.status === 'rejected' ? 'bg-red-100 text-red-800' :
-            app.status === 'under_review' ? 'bg-blue-100 text-blue-800' :
-            'bg-yellow-100 text-yellow-800'
+            app.status === 'approved' ? 'bg-semantic-success/10 text-semantic-success' :
+          app.status === 'rejected' ? 'bg-semantic-destructive/10 text-semantic-destructive' :
+          app.status === 'under_review' ? 'bg-semantic-info/10 text-semantic-info' :
+          'bg-semantic-warning/10 text-semantic-warning'
           }`}>
             {app.status === 'approved' ? 'Onaylandı' :
              app.status === 'rejected' ? 'Reddedildi' :
@@ -552,7 +551,7 @@ export default function VolunteerManagement() {
     return (
       <div className="flex items-center justify-center min-h-96">
         <div className="text-center">
-          <Users className="h-12 w-12 text-blue-600 mx-auto mb-4 animate-pulse" />
+          <Users className="h-12 w-12 text-semantic-info mx-auto mb-4 animate-pulse" />
           <p>Gönüllü verileri yükleniyor...</p>
         </div>
       </div>
@@ -565,7 +564,7 @@ export default function VolunteerManagement() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Gönüllü Yönetimi</h1>
-          <p className="text-gray-600">Gönüllü koordinasyonu ve program yönetimi</p>
+          <p className="text-muted-foreground">Gönüllü koordinasyonu ve program yönetimi</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setShowShiftModal(true)}>
@@ -595,8 +594,8 @@ export default function VolunteerManagement() {
               onClick={() => setActiveTab(key as any)}
               className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === key
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  ? 'border-semantic-info text-semantic-info'
+        : 'border-transparent text-muted-foreground hover:text-foreground'
               }`}
             >
               <Icon className="h-4 w-4" />
@@ -612,20 +611,20 @@ export default function VolunteerManagement() {
       {activeTab === 'applications' && <ApplicationsTab />}
       {activeTab === 'shifts' && (
         <div className="text-center py-12">
-          <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600">Vardiya yönetimi modülü yakında...</p>
+          <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+      <p className="text-muted-foreground">Vardiya yönetimi modülü yakında...</p>
         </div>
       )}
       {activeTab === 'training' && (
         <div className="text-center py-12">
-          <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600">Eğitim yönetimi modülü yakında...</p>
+          <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+      <p className="text-muted-foreground">Eğitim yönetimi modülü yakında...</p>
         </div>
       )}
       {activeTab === 'events' && (
         <div className="text-center py-12">
-          <Activity className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600">Etkinlik yönetimi modülü yakında...</p>
+          <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+      <p className="text-muted-foreground">Etkinlik yönetimi modülü yakında...</p>
         </div>
       )}
 
@@ -651,35 +650,35 @@ export default function VolunteerManagement() {
         >
           <div className="p-4 space-y-4">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+              <div className="w-12 h-12 bg-semantic-info rounded-full flex items-center justify-center text-white font-bold">
                 {selectedVolunteer.firstName.charAt(0)}{selectedVolunteer.lastName.charAt(0)}
               </div>
               <div>
                 <h3 className="text-lg font-semibold">
                   {selectedVolunteer.firstName} {selectedVolunteer.lastName}
                 </h3>
-                <p className="text-gray-600">{selectedVolunteer.email}</p>
+                <p className="text-muted-foreground">{selectedVolunteer.email}</p>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-600">Toplam Saat</p>
+                <p className="text-sm text-muted-foreground">Toplam Saat</p>
                 <p className="font-semibold">{selectedVolunteer.totalHoursWorked || 0} saat</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Tamamlanan Vardiya</p>
+                <p className="text-sm text-muted-foreground">Tamamlanan Vardiya</p>
                 <p className="font-semibold">{selectedVolunteer.totalShiftsCompleted || 0}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Ortalama Puan</p>
+                <p className="text-sm text-muted-foreground">Ortalama Puan</p>
                 <div className="flex items-center">
-                  <Star className="w-4 h-4 text-yellow-400 mr-1" />
+                  <Star className="w-4 h-4 text-semantic-warning mr-1" />
                   <span className="font-semibold">{(selectedVolunteer.averageRating || 0).toFixed(1)}</span>
                 </div>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Durum</p>
+                <p className="text-sm text-muted-foreground">Durum</p>
                 <p className="font-semibold">{selectedVolunteer.status}</p>
               </div>
             </div>

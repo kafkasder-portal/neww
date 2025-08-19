@@ -78,10 +78,10 @@ export default function PerformancePage() {
 
   const getStatusBadge = (status: string) => {
     const variants = {
-      good: 'bg-green-100 text-green-800',
-      warning: 'bg-yellow-100 text-yellow-800',
-      poor: 'bg-red-100 text-red-800',
-      unknown: 'bg-gray-100 text-gray-800',
+      good: 'bg-semantic-success/10 text-semantic-success',
+    warning: 'bg-semantic-warning/10 text-semantic-warning',
+    poor: 'bg-semantic-destructive/10 text-semantic-destructive',
+    unknown: 'bg-muted text-muted-foreground',
     }
 
     const labels = {
@@ -412,11 +412,11 @@ export default function PerformancePage() {
                           <span>Memory Kullanımı</span>
                           <span>%{cacheStats.memory.utilization.toFixed(1)}</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-muted rounded-full h-2">
                           <div
                             className={`h-2 rounded-full ${
-                              cacheStats.memory.utilization > 80 ? 'bg-red-500' :
-                              cacheStats.memory.utilization > 60 ? 'bg-yellow-500' : 'bg-green-500'
+                              cacheStats.memory.utilization > 80 ? 'bg-semantic-destructive' :
+            cacheStats.memory.utilization > 60 ? 'bg-semantic-warning' : 'bg-semantic-success'
                             }`}
                             style={{ width: `${Math.min(cacheStats.memory.utilization, 100)}%` }}
                           />

@@ -10,7 +10,7 @@ import {
   Clock,
   Calendar
 } from 'lucide-react'
-import StatCard from '@components/StatCard'
+import StatCard from '../../components/StatCard'
 import { supabase } from '@lib/supabase'
 import { Link } from 'react-router-dom'
 

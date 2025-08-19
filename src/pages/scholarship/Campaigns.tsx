@@ -106,28 +106,28 @@ export default function ScholarshipCampaigns() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Aktif':
-        return 'bg-green-100 text-green-800'
+        return 'bg-semantic-success/10 text-semantic-success'
       case 'Beklemede':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-semantic-warning/10 text-semantic-warning'
       case 'Tamamlandı':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-semantic-info/10 text-semantic-info'
       case 'İptal':
-        return 'bg-red-100 text-red-800'
+        return 'bg-semantic-destructive/10 text-semantic-destructive'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-muted text-muted-foreground'
     }
   }
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'Yüksek':
-        return 'bg-red-100 text-red-800'
+        return 'bg-semantic-destructive/10 text-semantic-destructive'
       case 'Orta':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-semantic-warning/10 text-semantic-warning'
       case 'Düşük':
-        return 'bg-green-100 text-green-800'
+        return 'bg-semantic-success/10 text-semantic-success'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-muted text-muted-foreground'
     }
   }
 
@@ -156,34 +156,34 @@ export default function ScholarshipCampaigns() {
               <p className="text-sm text-muted-foreground">Toplam Kampanya</p>
               <p className="text-2xl font-bold">{stats.totalCampaigns}</p>
             </div>
-            <Star className="h-8 w-8 text-blue-600" />
+            <Star className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Kampanya</p>
-              <p className="text-2xl font-bold text-green-600">{stats.activeCampaigns}</p>
+              <p className="text-2xl font-bold text-semantic-success">{stats.activeCampaigns}</p>
             </div>
-            <Play className="h-8 w-8 text-green-600" />
+            <Play className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Hedef Tutar</p>
-              <p className="text-2xl font-bold text-purple-600">₺{stats.totalTarget.toLocaleString('tr-TR')}</p>
+              <p className="text-2xl font-bold text-semantic-info">₺{stats.totalTarget.toLocaleString('tr-TR')}</p>
             </div>
-            <Target className="h-8 w-8 text-purple-600" />
+            <Target className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplanan</p>
-              <p className="text-2xl font-bold text-orange-600">₺{stats.totalRaised.toLocaleString('tr-TR')}</p>
+              <p className="text-2xl font-bold text-semantic-warning">₺{stats.totalRaised.toLocaleString('tr-TR')}</p>
             </div>
-            <DollarSign className="h-8 w-8 text-orange-600" />
+            <DollarSign className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
       </div>
@@ -240,7 +240,7 @@ export default function ScholarshipCampaigns() {
                   <span>Toplanan: ₺{campaign.raisedAmount.toLocaleString('tr-TR')}</span>
                   <span>Hedef: ₺{campaign.targetAmount.toLocaleString('tr-TR')}</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-muted rounded-full h-2">
                   <div 
                     className="bg-primary h-2 rounded-full transition-all duration-300"
                     style={{ width: `${getProgressPercentage(campaign.raisedAmount, campaign.targetAmount)}%` }}
@@ -274,7 +274,7 @@ export default function ScholarshipCampaigns() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                   <span>{campaign.participantCount} katılımc��</span>
                 </div>
-                <div className="bg-gray-100 px-2 py-1 rounded text-xs">
+                <div className="bg-muted px-2 py-1 rounded text-xs">
                   {campaign.category}
                 </div>
               </div>

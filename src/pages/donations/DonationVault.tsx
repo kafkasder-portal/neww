@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
-import { TotalDonationsCard, MonthlyDonationsCard, DonorCountCard } from '@components/DonationCard'
 import { Plus, History } from 'lucide-react'
 
 interface VaultTransaction {
@@ -77,7 +76,6 @@ export default function DonationVault() {
       <div className="bg-white p-6 rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-4">Bağış Kabul Veznesi</h2>
         
-        {/* Kasa Durumu - Modernized with DonationCard */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <TotalDonationsCard 
             title="Mevcut Bakiye"

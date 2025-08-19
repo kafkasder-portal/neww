@@ -1,390 +1,211 @@
 import { Request, Response, NextFunction } from 'express';
-import crypto from 'crypto';
 import rateLimit from 'express-rate-limit';
-import DOMPurify from 'dompurify';
-import { JSDOM } from 'jsdom';
+import helmet from 'helmet';
+import cors from 'cors';
+// Express-validator temporarily removed due to compatibility issues
+import * as DOMPurify from 'isomorphic-dompurify';
+import * as crypto from 'crypto';
 
-// Initialize DOMPurify with JSDOM for server-side usage
-const window = new JSDOM('').window;
-const DOMPurifyInstance = DOMPurify(window as any);
+// Type definitions
+declare global {
+  namespace Express {
+    interface Request {
+      user?: {
+        id: string;
+        email: string;
+      };
+    }
+    interface Session {
+      csrfToken?: string;
+    }
+  }
+}
 
-/**
- * Rate Limiting Configuration
- */
-export const createRateLimiter = (
-  windowMs: number = 15 * 60 * 1000,
-  max: number = 100,
-  skipSuccessfulRequests: boolean = false,
-  message: string = 'Too many requests, please try again later.'
-) => {
+// Environment validation
+export const validateEnvironment = () => {
+  const requiredEnvVars = [
+    'SUPABASE_URL',
+    'SUPABASE_ANON_KEY',
+    'SUPABASE_SERVICE_ROLE_KEY',
+    'SUPABASE_JWT_SECRET',
+    'JWT_SECRET',
+    'ENCRYPTION_KEY',
+    'SESSION_SECRET'
+  ];
+
+  const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+  
+  if (missingVars.length > 0) {
+    throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+  }
+
+  // Validate key lengths
+  if (process.env.JWT_SECRET && process.env.JWT_SECRET.length < 32) {
+    throw new Error('JWT_SECRET must be at least 32 characters long');
+  }
+
+  if (process.env.ENCRYPTION_KEY && process.env.ENCRYPTION_KEY.length < 32) {
+    throw new Error('ENCRYPTION_KEY must be at least 32 characters long');
+  }
+};
+
+// Rate limiting configuration
+export const createRateLimit = (windowMs: number = 15 * 60 * 1000, max: number = 100) => {
   return rateLimit({
     windowMs,
     max,
-    skipSuccessfulRequests,
     message: {
-      error: message,
-      retryAfter: Math.ceil(windowMs / 1000),
-      code: 'RATE_LIMIT_EXCEEDED'
+      error: 'Too many requests from this IP, please try again later.',
+      retryAfter: Math.ceil(windowMs / 1000)
     },
     standardHeaders: true,
     legacyHeaders: false,
-    skip: (req: Request) => {
+    skip: (req) => {
       // Skip rate limiting for health checks
-      return req.path === '/api/health' || req.path === '/api/health/';
-    },
-    // Custom key generator for user-based rate limiting
-    keyGenerator: (req: Request): string => {
-      const userId = req.headers['x-user-id'] as string;
-      return userId ? `user:${userId}` : req.ip;
-    },
-    // Log rate limit hits
-    handler: (req: Request, res: Response) => {
-      console.warn(`Rate limit exceeded for IP: ${req.ip}, User: ${req.headers['x-user-id']}, Path: ${req.path}`);
-      res.status(429).json({
-        success: false,
-        error: message,
-        code: 'RATE_LIMIT_EXCEEDED',
-        retryAfter: Math.ceil(windowMs / 1000)
-      });
+      return req.path === '/health' || req.path === '/api/health';
     }
   });
 };
 
-// Strict rate limiter for authentication endpoints
-export const authRateLimiter = createRateLimiter(
-  15 * 60 * 1000, // 15 minutes
-  5, // 5 attempts per 15 minutes
-  true, // Skip successful requests
-  'Too many login attempts, please try again later.'
+// Strict rate limiting for authentication endpoints
+export const authRateLimit = createRateLimit(15 * 60 * 1000, 5); // 5 attempts per 15 minutes
+export const authRateLimiter = authRateLimit; // Alias for compatibility
+export const failedAuthRateLimiter = createRateLimit(15 * 60 * 1000, 3); // 3 attempts per 15 minutes for failed auth
+
+// General API rate limiting
+export const apiRateLimit = createRateLimit(
+  parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000'),
+  parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100')
 );
 
-// Progressive rate limiter for failed auth attempts
-export const failedAuthRateLimiter = createRateLimiter(
-  60 * 60 * 1000, // 1 hour
-  3, // 3 failed attempts per hour
-  false, // Don't skip any requests
-  'Too many failed login attempts, account temporarily locked.'
-);
+// Payment endpoints rate limiting
+export const paymentRateLimit = createRateLimit(60 * 1000, 3); // 3 attempts per minute
 
-// General API rate limiter
-export const apiRateLimiter = createRateLimiter(
-  15 * 60 * 1000, // 15 minutes
-  100, // 100 requests per 15 minutes
-  false,
-  'API rate limit exceeded, please slow down.'
-);
-
-// Strict rate limiter for sensitive operations (financial, admin)
-export const sensitiveRateLimiter = createRateLimiter(
-  60 * 60 * 1000, // 1 hour
-  10, // 10 requests per hour
-  false,
-  'Sensitive operation rate limit exceeded.'
-);
-
-// File upload rate limiter
-export const uploadRateLimiter = createRateLimiter(
-  60 * 60 * 1000, // 1 hour
-  20, // 20 uploads per hour
-  false,
-  'File upload rate limit exceeded.'
-);
-
-/**
- * Enhanced XSS Protection Middleware
- */
-export const xssProtection = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    // Sanitize request body
-    if (req.body && typeof req.body === 'object') {
-      req.body = sanitizeObject(req.body);
-    }
-
-    // Sanitize query parameters
-    if (req.query && typeof req.query === 'object') {
-      req.query = sanitizeObject(req.query);
-    }
-
-    // Sanitize URL parameters
-    if (req.params && typeof req.params === 'object') {
-      req.params = sanitizeObject(req.params);
-    }
-
-    next();
-  } catch (error) {
-    console.error('XSS Protection Error:', error);
-    res.status(400).json({
-      success: false,
-      error: 'Invalid input detected',
-      code: 'INVALID_INPUT'
-    });
+// Security headers middleware
+export const securityHeaders = helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      imgSrc: ["'self'", 'data:', 'https:'],
+      scriptSrc: ["'self'"],
+      connectSrc: ["'self'", 'https://*.supabase.co'],
+      frameSrc: ["'none'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
   }
+});
+
+// CORS configuration
+export const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://yourdomain.com'] // Replace with your production domain
+    : ['http://localhost:5173', 'http://localhost:3000'],
+  credentials: true,
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token']
 };
 
-// Recursive object sanitization
-function sanitizeObject(obj: any): any {
-  if (obj === null || obj === undefined) {
-    return obj;
-  }
-
-  if (typeof obj === 'string') {
-    return DOMPurifyInstance.sanitize(obj, {
-      ALLOWED_TAGS: [],
-      ALLOWED_ATTR: [],
-      KEEP_CONTENT: true
-    });
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map(item => sanitizeObject(item));
-  }
-
-  if (typeof obj === 'object') {
-    const sanitized: any = {};
-    for (const [key, value] of Object.entries(obj)) {
-      const sanitizedKey = DOMPurifyInstance.sanitize(key, {
-        ALLOWED_TAGS: [],
-        ALLOWED_ATTR: [],
-        KEEP_CONTENT: true
-      });
-      sanitized[sanitizedKey] = sanitizeObject(value);
-    }
-    return sanitized;
-  }
-
-  return obj;
-}
-
-/**
- * CSRF Protection Middleware
- */
-export const csrfProtection = (req: Request, res: Response, next: NextFunction) => {
-  // Skip CSRF for GET, HEAD, OPTIONS requests
-  if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
-    return next();
-  }
-  
-  // Skip CSRF for health check endpoints
-  if (req.path === '/api/health' || req.path === '/api/health/') {
-    return next();
-  }
-  
-  const token = req.headers['x-csrf-token'] as string;
-  const sessionToken = req.headers['x-session-token'] as string;
-  
-  if (!token || !sessionToken) {
-    return res.status(403).json({
-      success: false,
-      error: 'CSRF token required'
-    });
-  }
-  
-  // CSRF validation with required environment variable
-  const csrfSecret = process.env.CSRF_SECRET;
-  if (!csrfSecret) {
-    console.error('CSRF_SECRET environment variable is required');
-    return res.status(500).json({
-      success: false,
-      error: 'Server configuration error'
-    });
-  }
-
-  const expectedToken = crypto
-    .createHmac('sha256', csrfSecret)
-    .update(sessionToken)
-    .digest('hex');
-  
-  if (token !== expectedToken) {
-    return res.status(403).json({
-      success: false,
-      error: 'Invalid CSRF token'
-    });
-  }
-  
-  next();
-};
-
-/**
- * Generate CSRF token
- */
-export const generateCSRFToken = (sessionToken: string): string => {
-  const csrfSecret = process.env.CSRF_SECRET;
-  if (!csrfSecret) {
-    throw new Error('CSRF_SECRET environment variable is required');
-  }
-
-  return crypto
-    .createHmac('sha256', csrfSecret)
-    .update(sessionToken)
-    .digest('hex');
-};
-
-/**
- * Enhanced SQL Injection Protection Middleware
- */
-export const sqlInjectionProtection = (req: Request, res: Response, next: NextFunction) => {
-  const suspiciousPatterns = [
-    // SQL Injection patterns
-    /('|--|;|\||\*|\*\*)/i,
-    /(union|select|insert|delete|update|drop|create|alter|exec|execute)/i,
-    /(information_schema|sys\.tables|pg_tables|sqlite_master)/i,
-    /(or\s+1\s*=\s*1|and\s+1\s*=\s*1)/i,
-    /(\/\*|\*\/|\/\*\!\d+)/i,
-
-    // XSS patterns
-    /(script|javascript|vbscript|onload|onerror|onclick|onmouseover)/i,
-    /(<|>|&lt;|&gt;)/i,
-    /(eval\s*\(|expression\s*\()/i,
-    /(document\.|window\.|alert\s*\()/i,
-
-    // Path traversal patterns
-    /(\.\.\/|\.\.\\|%2e%2e%2f|%2e%2e%5c)/i,
-
-    // Command injection patterns
-    /(\||&|;|`|\$\(|backtick)/i,
-    /(rm\s|cat\s|ls\s|ps\s|kill\s|wget\s|curl\s)/i
-  ];
-
-  const checkForMaliciousInput = (obj: any, path: string = ''): string | null => {
+// Input sanitization middleware
+export const sanitizeInput = (req: Request, res: Response, next: NextFunction) => {
+  const sanitizeObject = (obj: any): any => {
     if (typeof obj === 'string') {
-      for (const pattern of suspiciousPatterns) {
-        if (pattern.test(obj)) {
-          return `${path}: ${pattern.toString()}`;
-        }
-      }
-      return null;
+      return DOMPurify.sanitize(obj);
     }
-
     if (Array.isArray(obj)) {
-      for (let i = 0; i < obj.length; i++) {
-        const result = checkForMaliciousInput(obj[i], `${path}[${i}]`);
-        if (result) return result;
-      }
-      return null;
+      return obj.map(sanitizeObject);
     }
-
     if (obj && typeof obj === 'object') {
-      for (const [key, value] of Object.entries(obj)) {
-        const result = checkForMaliciousInput(value, `${path}.${key}`);
-        if (result) return result;
+      const sanitized: any = {};
+      for (const key in obj) {
+        sanitized[key] = sanitizeObject(obj[key]);
       }
-      return null;
+      return sanitized;
     }
-
-    return null;
+    return obj;
   };
 
-  // Check request body
   if (req.body) {
-    const bodyResult = checkForMaliciousInput(req.body, 'body');
-    if (bodyResult) {
-      console.warn(`Malicious input detected in body from IP: ${req.ip}, Pattern: ${bodyResult}`);
-      return res.status(400).json({
-        success: false,
-        error: 'Suspicious input detected in request body',
-        code: 'MALICIOUS_INPUT'
-      });
-    }
+    req.body = sanitizeObject(req.body);
   }
-
-  // Check query parameters
   if (req.query) {
-    const queryResult = checkForMaliciousInput(req.query, 'query');
-    if (queryResult) {
-      console.warn(`Malicious input detected in query from IP: ${req.ip}, Pattern: ${queryResult}`);
-      return res.status(400).json({
-        success: false,
-        error: 'Suspicious query parameters detected',
-        code: 'MALICIOUS_QUERY'
-      });
-    }
+    req.query = sanitizeObject(req.query);
   }
-
-  // Check URL parameters
   if (req.params) {
-    const paramsResult = checkForMaliciousInput(req.params, 'params');
-    if (paramsResult) {
-      console.warn(`Malicious input detected in params from IP: ${req.ip}, Pattern: ${paramsResult}`);
-      return res.status(400).json({
-        success: false,
-        error: 'Suspicious URL parameters detected',
-        code: 'MALICIOUS_PARAMS'
-      });
-    }
+    req.params = sanitizeObject(req.params);
   }
 
   next();
 };
 
-/**
- * Request size limiter
- */
-export const requestSizeLimiter = (req: Request, res: Response, next: NextFunction) => {
-  const maxSize = parseInt(process.env.MAX_REQUEST_SIZE || '10485760'); // 10MB default
-  
-  if (req.headers['content-length']) {
-    const contentLength = parseInt(req.headers['content-length']);
-    if (contentLength > maxSize) {
-      return res.status(413).json({
-        success: false,
-        error: 'Request entity too large'
-      });
-    }
+// CSRF token generation and validation
+export const generateCSRFToken = (): string => {
+  return crypto.randomBytes(32).toString('hex');
+};
+
+export const validateCSRFToken = (req: Request, res: Response, next: NextFunction) => {
+  if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') {
+    return next();
   }
-  
+
+  const token = req.headers['x-csrf-token'] as string;
+  const sessionToken = req.session?.csrfToken;
+
+  if (!token || !sessionToken || token !== sessionToken) {
+    return res.status(403).json({ error: 'Invalid CSRF token' });
+  }
+
   next();
 };
 
-/**
- * IP Whitelist Middleware (optional)
- */
-export const ipWhitelist = (req: Request, res: Response, next: NextFunction) => {
-  const allowedIPs = process.env.ALLOWED_IPS?.split(',') || [];
+// Input validation helpers temporarily removed due to express-validator compatibility issues
+// TODO: Re-implement with proper express-validator v7 syntax or use Zod
+
+// Key rotation utilities
+export const rotateKeys = async () => {
+  // This would typically integrate with your key management service
+  console.log('Key rotation process initiated');
   
-  if (allowedIPs.length === 0) {
-    return next(); // No IP restriction if not configured
-  }
+  // Generate new keys
+  const newJWTSecret = crypto.randomBytes(64).toString('hex');
+  const newEncryptionKey = crypto.randomBytes(32).toString('hex');
+  const newSessionSecret = crypto.randomBytes(64).toString('hex');
   
-  const clientIP = req.ip || (req.connection as any).remoteAddress || req.headers['x-forwarded-for'];
+  // In production, you would:
+  // 1. Store new keys in secure key management service
+  // 2. Update environment variables
+  // 3. Gracefully restart services
+  // 4. Invalidate old sessions if necessary
   
-  if (!clientIP || !allowedIPs.includes(clientIP as string)) {
-    return res.status(403).json({
-      success: false,
-      error: 'Access denied from this IP address'
-    });
-  }
-  
-  next();
+  return {
+    jwtSecret: newJWTSecret,
+    encryptionKey: newEncryptionKey,
+    sessionSecret: newSessionSecret,
+    rotatedAt: new Date().toISOString()
+  };
 };
 
-/**
- * Request ID middleware for tracking
- */
-export const requestId = (req: Request, res: Response, next: NextFunction) => {
-  const id = crypto.randomUUID();
-  req.headers['x-request-id'] = id;
-  res.setHeader('X-Request-ID', id);
-  next();
-};
-
-/**
- * Security headers middleware (additional to helmet)
- */
-export const additionalSecurityHeaders = (_req: Request, res: Response, next: NextFunction) => {
-  // Prevent clickjacking
-  res.setHeader('X-Frame-Options', 'DENY');
+// Security audit logging
+export const securityLogger = (event: string, details: any, req?: Request) => {
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    event,
+    details,
+    ip: req?.ip,
+    userAgent: req?.get('User-Agent'),
+    userId: req?.user?.id
+  };
   
-  // Prevent MIME type sniffing
-  res.setHeader('X-Content-Type-Options', 'nosniff');
+  console.log('SECURITY_EVENT:', JSON.stringify(logEntry));
   
-  // Enable XSS protection
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  
-  // Referrer policy
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  
-  // Permissions policy
-  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
-  
-  next();
+  // In production, send to security monitoring service
 };

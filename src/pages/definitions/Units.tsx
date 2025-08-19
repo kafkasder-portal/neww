@@ -85,30 +85,30 @@ export default function Units() {
     <div className="p-6">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <Building className="h-8 w-8 text-green-600" />
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Birimler</h1>
+          <Building className="h-8 w-8 text-semantic-success" />
+          <h1 className="text-3xl font-bold text-foreground">Birimler</h1>
         </div>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-muted-foreground">
           Organizasyon birimlerini ve hiyerarşik yapıyı yönetin
         </p>
       </div>
 
       <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-6 border-b border-border">
           <div className="flex flex-col sm:flex-row gap-4 justify-between">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
               <input
                 type="text"
                 placeholder="Birim ara..."
-                className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800 dark:text-gray-100"
+                className="pl-10 pr-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-semantic-success focus:border-semantic-success bg-background text-foreground"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <button
               onClick={handleAdd}
-              className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              className="flex items-center gap-2 bg-semantic-success text-white px-4 py-2 rounded-lg hover:bg-semantic-success/90 transition-colors"
             >
               <Plus className="h-5 w-5" />
               Yeni Birim Ekle

@@ -27,7 +27,7 @@ export interface OrphanRow {
 }
 
 type Row = OrphanRow;
-import StatCard from '@components/StatCard'
+import StatCard from '../../components/StatCard'
 import { Modal } from '@components/Modal'
 import { Users, GraduationCap, DollarSign, FileText, Filter, Plus, Download, Search, Eye, Edit, Trash2 } from 'lucide-react'
 
@@ -80,19 +80,19 @@ export default function OrphansStudents() {
               setSelectedStudent(r)
               setShowDetailModal(true)
             }}
-            className="rounded p-1 text-blue-600 hover:bg-blue-50"
+            className="rounded p-1 text-semantic-info hover:bg-semantic-info/10"
             title="Detay Görüntüle"
           >
             <Eye size={16} />
           </button>
           <button
-            className="rounded p-1 text-green-600 hover:bg-green-50"
+            className="rounded p-1 text-semantic-success hover:bg-semantic-success/10"
             title="Düzenle"
           >
             <Edit size={16} />
           </button>
           <button
-            className="rounded p-1 text-red-600 hover:bg-red-50"
+            className="rounded p-1 text-semantic-destructive hover:bg-semantic-destructive/10"
             title="Sil"
           >
             <Trash2 size={16} />
@@ -130,9 +130,9 @@ export default function OrphansStudents() {
 
       {/* Arama ve Filtre Bölümü */}
       <div className="space-y-3">
-        <div className="flex items-center gap-2 overflow-x-auto rounded border p-3 bg-white dark:bg-gray-800">
+        <div className="flex items-center gap-2 overflow-x-auto rounded border p-3 bg-card">
           <div className="flex items-center gap-2 flex-1">
-            <Search size={16} className="text-gray-400" />
+            <Search size={16} className="text-muted-foreground" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
@@ -143,7 +143,7 @@ export default function OrphansStudents() {
           <button
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center gap-2 rounded px-3 py-2 text-sm border ${
-              showFilters ? 'bg-blue-50 border-blue-200 text-blue-700' : 'hover:bg-gray-50'
+              showFilters ? 'bg-semantic-info/10 border-semantic-info/20 text-semantic-info' : 'hover:bg-muted/50'
             }`}
           >
             <Filter size={16} />
@@ -151,14 +151,14 @@ export default function OrphansStudents() {
           </button>
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 rounded bg-green-600 px-3 py-2 text-sm text-white hover:bg-green-700"
+            className="flex items-center gap-2 rounded bg-semantic-success px-3 py-2 text-sm text-white hover:bg-semantic-success/90"
           >
             <Plus size={16} />
             Yeni Öğrenci
           </button>
           <button
             onClick={() => exportToCsv('yetimler.csv', filtered)}
-            className="flex items-center gap-2 rounded bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700"
+            className="flex items-center gap-2 rounded bg-semantic-info px-3 py-2 text-sm text-white hover:bg-semantic-info/90"
           >
             <Download size={16} />
             Dışa Aktar
@@ -167,10 +167,10 @@ export default function OrphansStudents() {
 
         {/* Filtre Paneli */}
         {showFilters && (
-          <div className="rounded border bg-gray-50 dark:bg-gray-700 p-4">
+          <div className="rounded border bg-muted p-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
                   Durum
                 </label>
                 <select
@@ -214,14 +214,14 @@ export default function OrphansStudents() {
           </div>
         )}
 
-        <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400">
+        <div className="flex justify-between items-center text-sm text-muted-foreground">
           <span>{filtered.length} kayıt gösteriliyor</span>
           <span>Sayfa 1 / {Math.ceil(filtered.length / 10)}</span>
         </div>
       </div>
 
       {/* Veri Tablosu */}
-      <div className="bg-white dark:bg-gray-800 rounded border">
+      <div className="bg-card rounded border">
         <DataTable columns={columns} data={filtered} />
       </div>
 
@@ -248,11 +248,11 @@ export default function OrphansStudents() {
 
 function StatusBadge({ v }: { v: Row['status'] }) {
   const map: Record<Row['status'], string> = {
-    'Hazırlanıyor': 'bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200',
-    Aktif: 'bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200',
-    Kontrol: 'bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200',
-    Pasif: 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200',
-    Beklemede: 'bg-orange-100 dark:bg-orange-800 text-orange-800 dark:text-orange-200',
+    'Hazırlanıyor': 'bg-semantic-warning/10 text-semantic-warning',
+        Aktif: 'bg-semantic-success/10 text-semantic-success',
+        Kontrol: 'bg-semantic-info/10 text-semantic-info',
+        Pasif: 'bg-muted text-muted-foreground',
+        Beklemede: 'bg-semantic-warning/10 text-semantic-warning',
   }
   return <span className={`rounded px-2 py-0.5 text-xs ${map[v]}`}>{v}</span>
 }
@@ -315,7 +315,7 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-foreground mb-1">
             Dosya No *
           </label>
           <input
@@ -424,13 +424,13 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
         <button
           type="button"
           onClick={onClose}
-          className="rounded border px-4 py-2 text-sm hover:bg-gray-50"
+          className="rounded border px-4 py-2 text-sm hover:bg-muted/50"
         >
           İptal
         </button>
         <button
           type="submit"
-          className="rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
+          className="rounded bg-semantic-success px-4 py-2 text-sm text-white hover:bg-semantic-success/90"
         >
           Kaydet
         </button>
@@ -445,48 +445,48 @@ function StudentDetail({ student }: { student: Row }) {
       {/* Temel Bilgiler */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-3">
-          <h3 className="font-semibold text-gray-900">Kişisel Bilgiler</h3>
+          <h3 className="font-semibold text-foreground">Kişisel Bilgiler</h3>
           <div className="space-y-2">
             <div>
-              <span className="text-sm text-gray-500">Dosya No:</span>
+              <span className="text-sm text-muted-foreground">Dosya No:</span>
               <p className="font-medium">{student.fileNo}</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">İsim (Tercüme):</span>
+              <span className="text-sm text-muted-foreground">İsim (Tercüme):</span>
               <p className="font-medium">{student.nameTr}</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">İsim (Orijinal):</span>
+              <span className="text-sm text-muted-foreground">İsim (Orijinal):</span>
               <p className="font-medium">{student.nameOrig}</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Yaş:</span>
+              <span className="text-sm text-muted-foreground">Yaş:</span>
               <p className="font-medium">{student.age}</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Cinsiyet:</span>
+              <span className="text-sm text-muted-foreground">Cinsiyet:</span>
               <p className="font-medium">{student.gender}</p>
             </div>
           </div>
         </div>
         
         <div className="space-y-3">
-          <h3 className="font-semibold text-gray-900">Konum Bilgileri</h3>
+          <h3 className="font-semibold text-foreground">Konum Bilgileri</h3>
           <div className="space-y-2">
             <div>
-              <span className="text-sm text-gray-500">Uyruk:</span>
+              <span className="text-sm text-muted-foreground">Uyruk:</span>
               <p className="font-medium">{student.nationality}</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Ülke:</span>
+              <span className="text-sm text-muted-foreground">Ülke:</span>
               <p className="font-medium">{student.country}</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Partner & Şube:</span>
+              <span className="text-sm text-muted-foreground">Partner & Şube:</span>
               <p className="font-medium">{student.partner}</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Durum:</span>
+              <span className="text-sm text-muted-foreground">Durum:</span>
               <StatusBadge v={student.status} />
             </div>
           </div>
@@ -495,19 +495,19 @@ function StudentDetail({ student }: { student: Row }) {
       
       {/* Burs Bilgileri */}
       <div className="border-t pt-4">
-        <h3 className="font-semibold text-gray-900 mb-3">Burs Bilgileri</h3>
-        <div className="bg-gray-50 rounded p-4">
+        <h3 className="font-semibold text-foreground mb-3">Burs Bilgileri</h3>
+        <div className="bg-muted rounded p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <span className="text-sm text-gray-500">Burs Türü:</span>
+              <span className="text-sm text-muted-foreground">Burs Türü:</span>
               <p className="font-medium">Eğitim Bursu</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Aylık Miktar:</span>
+              <span className="text-sm text-muted-foreground">Aylık Miktar:</span>
               <p className="font-medium">₺2,500</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Başlangıç Tarihi:</span>
+              <span className="text-sm text-muted-foreground">Başlangıç Tarihi:</span>
               <p className="font-medium">01.09.2024</p>
             </div>
           </div>
@@ -516,23 +516,23 @@ function StudentDetail({ student }: { student: Row }) {
       
       {/* Akademik Bilgiler */}
       <div className="border-t pt-4">
-        <h3 className="font-semibold text-gray-900 mb-3">Akademik Bilgiler</h3>
-        <div className="bg-blue-50 rounded p-4">
+        <h3 className="font-semibold text-foreground mb-3">Akademik Bilgiler</h3>
+        <div className="bg-semantic-info/10 rounded p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <span className="text-sm text-gray-500">Okul:</span>
+              <span className="text-sm text-muted-foreground">Okul:</span>
               <p className="font-medium">İstanbul Üniversitesi</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Bölüm:</span>
+              <span className="text-sm text-muted-foreground">Bölüm:</span>
               <p className="font-medium">Bilgisayar Mühendisliği</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Sınıf:</span>
+              <span className="text-sm text-muted-foreground">Sınıf:</span>
               <p className="font-medium">2. Sınıf</p>
             </div>
             <div>
-              <span className="text-sm text-gray-500">Not Ortalaması:</span>
+              <span className="text-sm text-muted-foreground">Not Ortalaması:</span>
               <p className="font-medium">3.45 / 4.00</p>
             </div>
           </div>

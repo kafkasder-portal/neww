@@ -78,13 +78,13 @@ export default function Schools() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Aktif':
-        return 'bg-green-100 text-green-800'
-      case 'Beklemede':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'Pasif':
-        return 'bg-red-100 text-red-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
+      return 'bg-semantic-success/10 text-semantic-success'
+    case 'Beklemede':
+      return 'bg-semantic-warning/10 text-semantic-warning'
+    case 'İptal':
+      return 'bg-semantic-destructive/10 text-semantic-destructive'
+    default:
+      return 'bg-muted text-muted-foreground'
     }
   }
 
@@ -109,34 +109,34 @@ export default function Schools() {
               <p className="text-sm text-muted-foreground">Toplam Okul</p>
               <p className="text-2xl font-bold">{stats.totalSchools}</p>
             </div>
-            <Building className="h-8 w-8 text-blue-600" />
+            <Building className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Anlaşma</p>
-              <p className="text-2xl font-bold text-green-600">{stats.activeContracts}</p>
+              <p className="text-2xl font-bold text-semantic-success">{stats.activeContracts}</p>
             </div>
-            <CheckCircle className="h-8 w-8 text-green-600" />
+            <CheckCircle className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Öğrenci Sayısı</p>
-              <p className="text-2xl font-bold text-purple-600">{stats.totalStudents}</p>
+              <p className="text-2xl font-bold text-semantic-info">{stats.totalStudents}</p>
             </div>
-            <Users className="h-8 w-8 text-purple-600" />
+            <Users className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Şehir Sayısı</p>
-              <p className="text-2xl font-bold text-orange-600">{stats.cities}</p>
+              <p className="text-2xl font-bold text-semantic-warning">{stats.cities}</p>
             </div>
-            <MapPin className="h-8 w-8 text-orange-600" />
+            <MapPin className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
       </div>

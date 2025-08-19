@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { supabase } from '../config/supabase.js';
+import { supabase } from '../config/supabase';
 
 // Permission checking middleware
 export const requirePermission = (resource: string, action: string) => {

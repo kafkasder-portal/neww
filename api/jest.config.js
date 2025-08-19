@@ -1,5 +1,5 @@
 /** @type {import('jest').Config} */
-module.exports = {
+export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>', '<rootDir>/tests'],
@@ -8,7 +8,9 @@ module.exports = {
     '**/?(*.)+(spec|test).ts'
   ],
   transform: {
-    '^.+\.ts$': 'ts-jest'
+    '^.+\.ts$': ['ts-jest', {
+      useESM: true
+    }]
   },
   collectCoverageFrom: [
     '**/*.ts',
@@ -29,9 +31,7 @@ module.exports = {
   verbose: true,
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   extensionsToTreatAsEsm: ['.ts'],
-  globals: {
-    'ts-jest': {
-      useESM: true
-    }
+  moduleNameMapping: {
+    '^express-validator$': 'express-validator/lib/index.js'
   }
 };

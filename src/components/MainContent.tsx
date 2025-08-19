@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { SidebarInset } from './ui/sidebar'
-import { MinimalHeader } from './MinimalHeader'
+// MinimalHeader removed - file deleted
 import { useLocation } from 'react-router-dom'
 import { allPages } from '../constants/navigation'
 import { cn } from '../lib/utils'
@@ -33,8 +33,7 @@ const MainContent = memo(function MainContent({
 
   return (
     <SidebarInset>
-      {/* Minimal Header */}
-      <MinimalHeader />
+      {/* MinimalHeader removed - using AppSidebar for navigation */}
 
       {/* Main Content */}
       <main className={cn("flex-1 overflow-auto bg-background", className)}>

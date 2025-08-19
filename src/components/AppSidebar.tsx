@@ -66,7 +66,7 @@ const AppSidebar = memo(function AppSidebar() {
             <SidebarMenuItem>
               <SidebarMenuButton size="sm" className="h-10">
                 <div className="flex aspect-square size-6 items-center justify-center rounded bg-brand-primary text-white">
-                  <Building2 className="size-3" />
+                  <Building2 className="icon size-3" />
                 </div>
                 {!isCollapsed && (
                   <div className="grid flex-1 text-left text-xs leading-tight">
@@ -101,7 +101,7 @@ const AppSidebar = memo(function AppSidebar() {
                                 className="w-full"
                                 tooltip={isCollapsed ? item.title : undefined}
                               >
-                                <Icon className="size-4 flex-shrink-0" />
+                                <Icon className="icon size-4 flex-shrink-0" />
                                 {!isCollapsed && (
                                   <>
                                     <span className="flex-1 truncate">{item.title}</span>

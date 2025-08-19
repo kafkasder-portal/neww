@@ -31,34 +31,34 @@ export default function PriceDefinitions() {
               <p className="text-sm text-muted-foreground">Fiyat Tanımı</p>
               <p className="text-2xl font-bold">{priceDefinitions.length}</p>
             </div>
-            <Calculator className="h-8 w-8 text-blue-600" />
+            <Calculator className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Ortalama Tutar</p>
-              <p className="text-2xl font-bold text-green-600">₺{Math.round(priceDefinitions.reduce((sum, p) => sum + p.amount, 0) / priceDefinitions.length)}</p>
+              <p className="text-2xl font-bold text-semantic-success">₺{Math.round(priceDefinitions.reduce((sum, p) => sum + p.amount, 0) / priceDefinitions.length)}</p>
             </div>
-            <TrendingUp className="h-8 w-8 text-green-600" />
+            <TrendingUp className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">En Yüksek</p>
-              <p className="text-2xl font-bold text-purple-600">₺{Math.max(...priceDefinitions.map(p => p.amount))}</p>
+              <p className="text-2xl font-bold text-semantic-info">₺{Math.max(...priceDefinitions.map(p => p.amount))}</p>
             </div>
-            <DollarSign className="h-8 w-8 text-purple-600" />
+            <DollarSign className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">En Düşük</p>
-              <p className="text-2xl font-bold text-orange-600">₺{Math.min(...priceDefinitions.map(p => p.amount))}</p>
+              <p className="text-2xl font-bold text-semantic-warning">₺{Math.min(...priceDefinitions.map(p => p.amount))}</p>
             </div>
-            <PieChart className="h-8 w-8 text-orange-600" />
+            <PieChart className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
       </div>
@@ -84,7 +84,7 @@ export default function PriceDefinitions() {
                   <div className="flex gap-4 mt-1 text-sm text-muted-foreground">
                     <span>₺{price.amount} / {price.period}</span>
                     <span>{price.category}</span>
-                    <span className="text-green-600">{price.status}</span>
+                    <span className="text-semantic-success">{price.status}</span>
                   </div>
                 </div>
                 <div className="flex gap-2">

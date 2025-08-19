@@ -31,7 +31,7 @@ export const Loading = ({
 
   return (
     <div className={containerClass}>
-      <Loader2 className={`animate-spin text-primary ${sizeClasses[size]}`} />
+      <Loader2 className={`icon animate-spin text-primary ${sizeClasses[size]}`} />
       {text && (
         <p className={`text-muted-foreground ${textSizeClasses[size]}`}>
           {text}

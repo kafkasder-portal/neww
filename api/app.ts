@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 // Import routes
 import healthRoutes from './routes/health';
@@ -22,42 +24,66 @@ import whatsappRoutes from './routes/whatsapp';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler';
+import {
+  validateEnvironment,
+  securityHeaders,
+  corsOptions,
+  sanitizeInput,
+  generateCSRFToken,
+  validateCSRFToken,
+  apiRateLimit,
+  authRateLimit,
+  paymentRateLimit,
+  securityLogger
+} from './middleware/security';
 
 const app = express();
 
-// Security middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https://api.supabase.co", "wss://realtime.supabase.co"]
-    }
-  }
+// Validate environment variables on startup
+try {
+  validateEnvironment();
+  console.log('✅ Environment validation passed');
+} catch (error) {
+  console.error('❌ Environment validation failed:', error.message);
+  process.exit(1);
+}
+
+// Security headers
+app.use(securityHeaders);
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET!,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  },
+  store: process.env.NODE_ENV === 'production' 
+    ? MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
+    : undefined
 }));
 
-// CORS configuration
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://dernek-panel.vercel.app', 'https://dernek-panel.netlify.app']
-    : ['http://localhost:5173', 'http://localhost:3000'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
-
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // Limit each IP to 100 requests per windowMs in production
-  message: 'Too many requests from this IP, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false
+// CSRF token endpoint
+app.get('/api/csrf-token', (req, res) => {
+  const token = generateCSRFToken();
+  req.session.csrfToken = token;
+  res.json({ csrfToken: token });
 });
 
-app.use(limiter);
+// CORS configuration
+app.use(cors(corsOptions));
+
+// General rate limiting
+app.use('/api', apiRateLimit);
+
+// Input sanitization
+app.use(sanitizeInput);
+
+// CSRF protection for state-changing operations
+app.use(validateCSRFToken);
 
 // Compression and parsing middleware
 app.use(compression());
@@ -71,14 +97,14 @@ if (process.env.NODE_ENV !== 'test') {
 
 // API Routes
 app.use('/api/health', healthRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRateLimit, authRoutes);
 app.use('/api/beneficiaries', beneficiariesRoutes);
 app.use('/api/meetings', meetingsRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/tasks', tasksRoutes);
 app.use('/api/donations', donationsRoutes);
 app.use('/api/financial', financialRoutes);
-app.use('/api/payments', paymentsRoutes);
+app.use('/api/payments', paymentRateLimit, paymentsRoutes);
 app.use('/api/errors', errorsRoutes);
 app.use('/api/sms', smsRoutes);
 app.use('/api/email', emailRoutes);

@@ -138,15 +138,15 @@ export default function OrphanLetters() {
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'Teşekkür':
-        return 'bg-green-100 text-green-800'
+        return 'bg-semantic-success/10 text-semantic-success'
       case 'Günlük Hayat':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-semantic-info/10 text-semantic-info'
       case 'Hedefler':
-        return 'bg-purple-100 text-purple-800'
+        return 'bg-semantic-info/10 text-semantic-info'
       case 'Sorun':
-        return 'bg-red-100 text-red-800'
+        return 'bg-semantic-destructive/10 text-semantic-destructive'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-muted text-muted-foreground'
     }
   }
 
@@ -177,34 +177,34 @@ export default function OrphanLetters() {
               <p className="text-sm text-muted-foreground">Gelen Mektup</p>
               <p className="text-2xl font-bold">{stats.totalReceived}</p>
             </div>
-            <Mail className="h-8 w-8 text-blue-600" />
+            <Mail className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Gönderilen</p>
-              <p className="text-2xl font-bold text-green-600">{stats.totalSent}</p>
+              <p className="text-2xl font-bold text-semantic-success">{stats.totalSent}</p>
             </div>
-            <Send className="h-8 w-8 text-green-600" />
+            <Send className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Yanıt Bekleyen</p>
-              <p className="text-2xl font-bold text-orange-600">{stats.pendingResponse}</p>
+              <p className="text-2xl font-bold text-semantic-warning">{stats.pendingResponse}</p>
             </div>
-            <Reply className="h-8 w-8 text-orange-600" />
+            <Reply className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Şablon</p>
-              <p className="text-2xl font-bold text-purple-600">{stats.templates}</p>
+              <p className="text-2xl font-bold text-semantic-info">{stats.templates}</p>
             </div>
-            <FileText className="h-8 w-8 text-purple-600" />
+            <FileText className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
       </div>
@@ -304,7 +304,7 @@ export default function OrphanLetters() {
                           {letter.type}
                         </span>
                         {!letter.hasResponse && (
-                          <span className="px-2 py-1 rounded-full text-xs bg-orange-100 text-orange-800">
+                          <span className="px-2 py-1 rounded-full text-xs bg-semantic-warning/10 text-semantic-warning">
                             Yanıt Bekliyor
                           </span>
                         )}
@@ -325,7 +325,7 @@ export default function OrphanLetters() {
                           {new Date(letter.date).toLocaleDateString('tr-TR')}
                         </span>
                         {letter.attachments.length > 0 && (
-                          <span className="flex items-center gap-1 text-blue-600">
+                          <span className="flex items-center gap-1 text-semantic-info">
                             <FileText className="h-4 w-4" />
                             {letter.attachments.length} ek
                           </span>
@@ -360,7 +360,7 @@ export default function OrphanLetters() {
                         <p className="text-sm text-muted-foreground">Gönderen: {letter.sentBy}</p>
                       </div>
                       <span className={`px-2 py-1 rounded-full text-xs ${
-                        letter.status === 'Read' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                        letter.status === 'Read' ? 'bg-semantic-success/10 text-semantic-success' : 'bg-semantic-info/10 text-semantic-info'
                       }`}>
                         {letter.status === 'Read' ? 'Okundu' : 'Teslim Edildi'}
                       </span>
@@ -396,7 +396,7 @@ export default function OrphanLetters() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold">{template.name}</h3>
-                    <span className="px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-800">
+                    <span className="px-2 py-1 rounded-full text-xs bg-muted text-muted-foreground">
                       {template.category}
                     </span>
                   </div>

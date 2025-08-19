@@ -105,11 +105,11 @@ export default function TasksIndex() {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'urgent': return 'bg-red-100 text-red-800'
-      case 'high': return 'bg-orange-100 text-orange-800'
-      case 'medium': return 'bg-yellow-100 text-yellow-800'
-      case 'low': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'urgent': return 'bg-semantic-destructive/10 text-semantic-destructive'
+    case 'high': return 'bg-semantic-warning text-white'
+    case 'medium': return 'bg-semantic-warning/10 text-semantic-warning'
+    case 'low': return 'bg-brand-primary/10 text-brand-primary'
+    default: return 'bg-muted text-muted-foreground'
     }
   }
 
@@ -125,11 +125,11 @@ export default function TasksIndex() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'bg-green-100 text-green-800'
-      case 'in_progress': return 'bg-blue-100 text-blue-800'
-      case 'overdue': return 'bg-red-100 text-red-800'
-      case 'cancelled': return 'bg-gray-100 text-gray-800'
-      default: return 'bg-yellow-100 text-yellow-800'
+      case 'completed': return 'bg-semantic-success/10 text-semantic-success'
+    case 'in_progress': return 'bg-brand-primary/10 text-brand-primary'
+    case 'overdue': return 'bg-semantic-destructive/10 text-semantic-destructive'
+    case 'cancelled': return 'bg-muted text-muted-foreground'
+    default: return 'bg-semantic-warning/10 text-semantic-warning'
     }
   }
 
@@ -213,7 +213,7 @@ export default function TasksIndex() {
               <p className="text-sm font-medium text-muted-foreground">Toplam Görev</p>
               <p className="text-2xl font-bold">{stats.total}</p>
             </div>
-            <CheckCircle className="h-8 w-8 text-blue-500" />
+            <CheckCircle className="icon h-8 w-8 text-brand-primary" />
           </div>
         </Card>
         <Card className="p-6">
@@ -231,7 +231,7 @@ export default function TasksIndex() {
               <p className="text-sm font-medium text-muted-foreground">Tamamlanan</p>
               <p className="text-2xl font-bold">{stats.completed}</p>
             </div>
-            <CheckCircle className="h-8 w-8 text-green-500" />
+            <CheckCircle className="icon h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-6">
@@ -240,7 +240,7 @@ export default function TasksIndex() {
               <p className="text-sm font-medium text-muted-foreground">Süresi Geçen</p>
               <p className="text-2xl font-bold">{stats.overdue}</p>
             </div>
-            <AlertTriangle className="h-8 w-8 text-red-500" />
+            <AlertTriangle className="icon h-8 w-8 text-semantic-destructive" />
           </div>
         </Card>
         <Card className="p-6">
