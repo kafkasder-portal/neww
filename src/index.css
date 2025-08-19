@@ -1,11 +1,13 @@
-/* Import enhanced design system BEFORE Tailwind */
+/* All imports must come first */
 @import './styles/colors-enhanced.css';
 @import './styles/typography-enhanced.css';
-@import './styles/compatibility-layer.css';
 @import './styles/ui-patterns.css';
 @import './styles/page-patterns.css';
+@import './styles/compatibility-layer.css';
 @import './styles/mobile-enhanced.css';
+@import './styles/sidebar-override.css';
 
+/* Tailwind after imports */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -55,15 +57,7 @@
     --grid-selected: 220 25% 92%;
     --grid-border: var(--border);
 
-    /* Sidebar Colors - Fallback values */
-    --sidebar-background: 220 13% 18%;
-    --sidebar-foreground: 220 9% 88%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 24%;
-    --sidebar-accent-foreground: 220 9% 88%;
-    --sidebar-border: 220 13% 22%;
-    --sidebar-ring: 217 91% 60%;
+    /* Remove duplicate sidebar variables - handled in colors-enhanced.css */
   }
 
   .dark {
@@ -87,15 +81,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
 
-    /* Dark Professional Sidebar Colors */
-    --sidebar-background: 220 13% 9%;
-    --sidebar-foreground: 220 9% 88%;
-    --sidebar-primary: 217 91% 65%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 14%;
-    --sidebar-accent-foreground: 220 9% 88%;
-    --sidebar-border: 220 13% 12%;
-    --sidebar-ring: 217 91% 65%;
+    /* Dark mode sidebar variables removed - handled in colors-enhanced.css */
   }
 }
 

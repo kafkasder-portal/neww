@@ -1,10 +1,10 @@
 import { Router, type Request, type Response } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
-import { validateRequest } from '../middleware/validation.js';
+import { validateRequest } from '../middleware/validation';
 import { z } from 'zod';
-import { generateCSRFToken, authRateLimiter, failedAuthRateLimiter, xssProtection } from '../middleware/security.js';
-import { asyncHandler } from '../middleware/errorHandler.js';
+import { generateCSRFToken, authRateLimiter, failedAuthRateLimiter, xssProtection } from '../middleware/security';
+import { asyncHandler } from '../middleware/errorHandler';
 
 dotenv.config();
 

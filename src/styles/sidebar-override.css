@@ -1,0 +1,60 @@
+/* ========================================
+ * SIDEBAR FORCE EXPANDED OVERRIDE
+ * Bu dosya sidebar'ın collapsed olmasını önler
+ * ======================================== */
+
+@layer components {
+  /* Sidebar container force expanded */
+  [data-sidebar] {
+    --sidebar-width: 16rem !important;
+    --sidebar-width-icon: 16rem !important;
+  }
+
+  /* Force sidebar to always show text */
+  [data-sidebar="sidebar"] [data-collapsible="icon"] {
+    --sidebar-width: 16rem !important;
+  }
+
+  /* Override collapsed state styles */
+  .group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:opacity-0 {
+    opacity: 1 !important;
+  }
+
+  .group[data-collapsible="icon"] .group-data-\[collapsible\=icon\]\:hidden {
+    display: block !important;
+  }
+
+  /* Ensure menu text is always visible */
+  .sidebar-menu-text {
+    opacity: 1 !important;
+    display: block !important;
+    width: auto !important;
+  }
+
+  /* Force sidebar state to expanded */
+  [data-state="collapsed"] {
+    --sidebar-width: 16rem !important;
+  }
+
+  [data-state="collapsed"] .sidebar-group-label,
+  [data-state="collapsed"] .sidebar-menu-text {
+    opacity: 1 !important;
+    display: block !important;
+  }
+
+  /* Override any icon-only styles */
+  .group-data-\[collapsible\=icon\]\:-mt-8 {
+    margin-top: 0 !important;
+  }
+
+  .group-data-\[collapsible\=icon\]\:opacity-0 {
+    opacity: 1 !important;
+  }
+
+  /* Ensure proper text spacing in expanded state */
+  [data-sidebar] .truncate {
+    text-overflow: clip !important;
+    overflow: visible !important;
+    white-space: normal !important;
+  }
+}

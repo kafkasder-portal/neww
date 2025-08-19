@@ -1,4 +1,21 @@
-import { useState, useEffect, lazy, Suspense } from 'react'
+import { useState, useEffect } from 'react'
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area
+} from 'recharts'
 import { supabase } from '../lib/supabase'
 import { SkeletonCard } from './Loading'
 import { Calendar } from 'lucide-react'
@@ -48,18 +65,7 @@ interface DashboardData {
   loading: boolean
 }
 
-/**
- * Lazily loads the `RechartsBundle` component for use within the dashboard charts.
- * 
- * This approach enables code-splitting, improving the application's performance by loading
- * the charting bundle only when it is needed.
- *
- * @remarks
- * The `RechartsBundle` component is imported asynchronously using React's `lazy` function.
- *
- * @see {@link https://react.dev/reference/react/lazy | React.lazy documentation}
- */
-const LazyRechartsBundle = lazy(() => import('./RechartsBundle'));
+// Direct recharts imports - lazy loading removed for simplicity
 
 // Alternative inline component for simple charts
 
@@ -152,14 +158,87 @@ export const DashboardCharts = () => {
         </div>
       </div>
 
-      <Suspense fallback={<div>Loading chart...</div>}>
-        <LazyRechartsBundle
-          donationTrend={mockDonationTrend}
-          aidDistribution={mockAidDistribution}
-          weeklyStats={mockWeeklyStats}
-          regionalData={mockRegionalData}
-        />
-      </Suspense>
+      {/* Charts Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Donation Trend Chart */}
+        <div className="bg-white rounded-lg border p-6">
+          <h3 className="text-lg font-semibold mb-4">Bağış Trendi</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={mockDonationTrend}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="donations" stroke="#0F3A7A" strokeWidth={2} />
+                <Line type="monotone" dataKey="beneficiaries" stroke="#1D8348" strokeWidth={2} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Aid Distribution Chart */}
+        <div className="bg-white rounded-lg border p-6">
+          <h3 className="text-lg font-semibold mb-4">Yardım Dağılımı</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={mockAidDistribution}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {mockAidDistribution.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Weekly Stats Chart */}
+        <div className="bg-white rounded-lg border p-6">
+          <h3 className="text-lg font-semibold mb-4">Haftalık İstatistikler</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={mockWeeklyStats}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="day" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="applications" fill="#0F3A7A" />
+                <Bar dataKey="donations" fill="#1D8348" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Regional Data Chart */}
+        <div className="bg-white rounded-lg border p-6">
+          <h3 className="text-lg font-semibold mb-4">Bölgesel Veriler</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={mockRegionalData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="region" />
+                <YAxis />
+                <Tooltip />
+                <Area type="monotone" dataKey="beneficiaries" stackId="1" stroke="#0F3A7A" fill="#0F3A7A" />
+                <Area type="monotone" dataKey="amount" stackId="1" stroke="#1D8348" fill="#1D8348" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
 
       {/* Key Metrics Summary */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

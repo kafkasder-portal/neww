@@ -27,10 +27,16 @@ export class AccountingService {
       // If table doesn't exist or is empty, create default accounts
       if (!existingAccounts || existingAccounts.length === 0) {
         const accountsToInsert = STANDARD_CHART_OF_ACCOUNTS.map(account => ({
-          ...account,
-          currentBalance: 0,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
+          account_code: account.accountCode,
+          account_name: account.accountName,
+          account_name_tr: account.accountNameTR,
+          account_type: account.accountType,
+          account_type_en: account.accountTypeEN,
+          parent_account_id: account.parentAccountId || null,
+          is_active: account.isActive,
+          description: account.description || null,
+          balance_type: account.balanceType,
+          current_balance: 0
         }))
 
         const { error: insertError } = await supabase
@@ -48,12 +54,15 @@ export class AccountingService {
 
       return true
     } catch (error) {
+      console.error('Error initializing chart of accounts:', error)
       logError('Error initializing chart of accounts', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu mevcut değil. Lütfen sistem yöneticisine başvurun.')
       } else {
-        toast.error(`Hesap planı oluşturulamadı: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Hesap planı oluşturulamadı: ${errorMsg}`)
       }
       return false
     }
@@ -64,18 +73,37 @@ export class AccountingService {
       const { data, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .eq('isActive', true)
-        .order('accountCode')
+        .eq('is_active', true)
+        .order('account_code')
 
       if (error) throw error
       return data || []
     } catch (error) {
+      console.error('Error fetching chart of accounts:', error)
       logError('Error fetching chart of accounts', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu bulunamadı. Sistem yöneticisine başvurun.')
+        // Return default chart as fallback
+        return STANDARD_CHART_OF_ACCOUNTS.map((account, index) => ({
+          id: `temp_${index}`,
+          accountCode: account.accountCode,
+          accountName: account.accountName,
+          accountNameTR: account.accountNameTR,
+          accountType: account.accountType,
+          accountTypeEN: account.accountTypeEN,
+          parentAccountId: account.parentAccountId,
+          isActive: account.isActive,
+          description: account.description,
+          balanceType: account.balanceType,
+          currentBalance: 0,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }))
       } else {
-        toast.error(`Hesap planı yüklenemedi: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Hesap planı yüklenemedi: ${errorMsg}`)
       }
       return []
     }
@@ -86,7 +114,7 @@ export class AccountingService {
       const { data, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .eq('accountCode', accountCode)
+        .eq('account_code', accountCode)
         .single()
 
       if (error) throw error
@@ -176,16 +204,16 @@ export class AccountingService {
       const account = await this.getAccountByCode(entry.accountCode)
       if (!account) continue
 
-      const balanceChange = account.balanceType === 'debit' 
+      const balanceChange = account.balance_type === 'debit'
         ? entry.debitAmount - entry.creditAmount
         : entry.creditAmount - entry.debitAmount
 
-      const newBalance = account.currentBalance + balanceChange
+      const newBalance = account.current_balance + balanceChange
 
       await supabase
         .from('chart_of_accounts')
-        .update({ 
-          currentBalance: newBalance,
+        .update({
+          current_balance: newBalance,
           updated_at: new Date().toISOString()
         })
         .eq('id', account.id)
@@ -290,26 +318,38 @@ export class AccountingService {
       const { data: accounts, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .eq('isActive', true)
-        .order('accountCode')
+        .eq('is_active', true)
+        .order('account_code')
 
       if (error) throw error
 
       return accounts.map(account => ({
-        accountCode: account.accountCode,
-        accountName: account.accountNameTR,
-        accountType: account.accountType,
-        debitBalance: account.balanceType === 'debit' && account.currentBalance > 0 ? account.currentBalance : 0,
-        creditBalance: account.balanceType === 'credit' && account.currentBalance > 0 ? account.currentBalance : 0,
-        balance: account.currentBalance
+        accountCode: account.account_code,
+        accountName: account.account_name_tr,
+        accountType: account.account_type,
+        debitBalance: account.balance_type === 'debit' && account.current_balance > 0 ? account.current_balance : 0,
+        creditBalance: account.balance_type === 'credit' && account.current_balance > 0 ? account.current_balance : 0,
+        balance: account.current_balance
       }))
     } catch (error) {
+      console.error('Error generating trial balance:', error)
       logError('Error generating trial balance', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+        // Return sample trial balance as fallback
+        return STANDARD_CHART_OF_ACCOUNTS.map(account => ({
+          accountCode: account.accountCode,
+          accountName: account.accountNameTR,
+          accountType: account.accountType,
+          debitBalance: account.balanceType === 'debit' ? 0 : 0,
+          creditBalance: account.balanceType === 'credit' ? 0 : 0,
+          balance: 0
+        }))
       } else {
-        toast.error(`Mizan raporu oluşturulamadı: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Mizan raporu oluşturulamadı: ${errorMsg}`)
       }
       return []
     }
@@ -320,35 +360,50 @@ export class AccountingService {
       const { data: accounts, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .in('accountType', ['gelir', 'gider'])
-        .eq('isActive', true)
+        .in('account_type', ['gelir', 'gider'])
+        .eq('is_active', true)
 
       if (error) throw error
 
       const revenues = accounts
-        .filter(acc => acc.accountType === 'gelir')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'gelir')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       const expenses = accounts
-        .filter(acc => acc.accountType === 'gider')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'gider')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       return {
         totalRevenues: revenues,
         totalExpenses: expenses,
         netIncome: revenues - expenses,
-        revenueAccounts: accounts.filter(acc => acc.accountType === 'gelir'),
-        expenseAccounts: accounts.filter(acc => acc.accountType === 'gider'),
+        revenueAccounts: accounts.filter(acc => acc.account_type === 'gelir'),
+        expenseAccounts: accounts.filter(acc => acc.account_type === 'gider'),
         periodStart: startDate,
         periodEnd: endDate
       }
     } catch (error) {
+      console.error('Error generating income statement:', error)
       logError('Error generating income statement', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+        // Return sample income statement as fallback
+        const sampleRevenueAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'gelir')
+        const sampleExpenseAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'gider')
+        return {
+          totalRevenues: 0,
+          totalExpenses: 0,
+          netIncome: 0,
+          revenueAccounts: sampleRevenueAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          expenseAccounts: sampleExpenseAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          periodStart: startDate,
+          periodEnd: endDate
+        }
       } else {
-        toast.error(`Gelir tablosu oluşturulamadı: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Gelir tablosu oluşturulamadı: ${errorMsg}`)
       }
       return null
     }
@@ -356,44 +411,60 @@ export class AccountingService {
 
   static async generateBalanceSheet(asOfDate?: string): Promise<any> {
     const dateFilter = asOfDate || new Date().toISOString().split('T')[0]
-    
+
     try {
       const { data: accounts, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .in('accountType', ['varlık', 'borç', 'öz_kaynak'])
-        .eq('isActive', true)
+        .in('account_type', ['varlık', 'borç', 'öz_kaynak'])
+        .eq('is_active', true)
 
       if (error) throw error
 
       const assets = accounts
-        .filter(acc => acc.accountType === 'varlık')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'varlık')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       const liabilities = accounts
-        .filter(acc => acc.accountType === 'borç')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'borç')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       const equity = accounts
-        .filter(acc => acc.accountType === 'öz_kaynak')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'öz_kaynak')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       return {
         totalAssets: assets,
         totalLiabilities: liabilities,
         totalEquity: equity,
         asOfDate: dateFilter,
-        assetAccounts: accounts.filter(acc => acc.accountType === 'varlık'),
-        liabilityAccounts: accounts.filter(acc => acc.accountType === 'borç'),
-        equityAccounts: accounts.filter(acc => acc.accountType === 'öz_kaynak')
+        assetAccounts: accounts.filter(acc => acc.account_type === 'varlık'),
+        liabilityAccounts: accounts.filter(acc => acc.account_type === 'borç'),
+        equityAccounts: accounts.filter(acc => acc.account_type === 'öz_kaynak')
       }
     } catch (error) {
+      console.error('Error generating balance sheet:', error)
       logError('Error generating balance sheet', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+        // Return sample balance sheet as fallback
+        const sampleAssetAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'varlık')
+        const sampleLiabilityAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'borç')
+        const sampleEquityAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'öz_kaynak')
+        return {
+          totalAssets: 0,
+          totalLiabilities: 0,
+          totalEquity: 0,
+          asOfDate: dateFilter,
+          assetAccounts: sampleAssetAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          liabilityAccounts: sampleLiabilityAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          equityAccounts: sampleEquityAccounts.map(acc => ({ ...acc, current_balance: 0 }))
+        }
       } else {
-        toast.error(`Bilanço oluşturulamadı: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Bilanço oluşturulamadı: ${errorMsg}`)
       }
       return null
     }

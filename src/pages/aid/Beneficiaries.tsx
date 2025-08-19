@@ -6,11 +6,10 @@ import { exportBeneficiariesToExcel } from '@utils/excelExport'
 import { exportBeneficiariesToPDF } from '@utils/pdfExport'
 import { Link } from 'react-router-dom'
 import { Modal } from '@components/Modal'
-import LazyQRScannerModal from '@components/LazyQRScannerModal'
-import { CameraScanner } from '@components/CameraScanner'
+// Scanner components removed - files deleted
 import { supabase, type Database } from '@lib/supabase'
 import { QrCode, FileSpreadsheet, FileText, Download, Filter, ChevronDown, ChevronUp, Camera } from 'lucide-react'
-import { AdvancedSearchModal } from '@components/AdvancedSearchModal'
+// AdvancedSearchModal removed - component deleted
 import { toast } from 'sonner'
 import { getErrorMessage, logErrorSafely } from '../../utils/errorMessageUtils'
 import { createBeneficiariesFilterConfig } from '@utils/filterManager'
@@ -126,7 +125,6 @@ export default function Beneficiaries() {
   const [editingId, setEditingId] = useState<number | null>(null)
   
   // Advanced search states
-  const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false)
   const [activeFilters, setActiveFilters] = useState<Record<string, any>>({})
   const [savedFilters, setSavedFilters] = useState<SavedFilter[]>([])
   
@@ -676,7 +674,6 @@ export default function Beneficiaries() {
   }
 
   // Advanced search handlers
-  const handleAdvancedSearch = (filters: Record<string, any>) => {
     setActiveFilters(filters)
     setAdvancedSearchOpen(false)
   }
@@ -697,7 +694,7 @@ export default function Beneficiaries() {
 
   const handleLoadFilter = (filter: SavedFilter) => {
     setActiveFilters(filter.filters)
-    toast.success('Filtre yüklendi')
+    toast.success('Filtre y��klendi')
   }
 
 
@@ -1950,9 +1947,7 @@ export default function Beneficiaries() {
 
       {/* Advanced Search Modal */}
       <AdvancedSearchModal
-        isOpen={advancedSearchOpen}
         onClose={() => setAdvancedSearchOpen(false)}
-        onApplyFilters={handleAdvancedSearch}
         onSaveFilter={handleSaveFilter}
         onLoadFilter={handleLoadFilter}
         pageType="beneficiaries"
