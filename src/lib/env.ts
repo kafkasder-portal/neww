@@ -86,7 +86,7 @@ export const validateEnv = () => {
     return !value || value.includes('placeholder') || value.includes('your_');
   });
 
-  if (missing.length) {
+  if (missing.length && !env.MOCK_API) {
     const errorMessage = `⚠️ CONFIGURATION ERROR: Missing or invalid environment variables: ${missing.join(', ')}\n\n` +
       `This app requires Supabase configuration. Please:\n` +
       `1. Connect to Supabase: https://supabase.com\n` +
@@ -94,7 +94,7 @@ export const validateEnv = () => {
       `3. Or enable VITE_MOCK_API=true for development\n\n` +
       `See SETUP.md for detailed instructions.`;
 
-    console.error(errorMessage);
+    console.warn(errorMessage);
 
     if (!env.isDevelopment) {
       throw new Error(errorMessage);
