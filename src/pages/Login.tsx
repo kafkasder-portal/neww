@@ -121,7 +121,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md">
         <DevelopmentNotice />
-        <Card className="p-8 shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+        <Card className="p-8 shadow-xl border bg-card/95 backdrop-blur-sm">
         <div className="text-center mb-8">
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center mb-4">
             <Building className="w-8 h-8 text-white" />
