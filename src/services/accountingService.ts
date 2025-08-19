@@ -204,16 +204,16 @@ export class AccountingService {
       const account = await this.getAccountByCode(entry.accountCode)
       if (!account) continue
 
-      const balanceChange = account.balanceType === 'debit' 
+      const balanceChange = account.balance_type === 'debit'
         ? entry.debitAmount - entry.creditAmount
         : entry.creditAmount - entry.debitAmount
 
-      const newBalance = account.currentBalance + balanceChange
+      const newBalance = account.current_balance + balanceChange
 
       await supabase
         .from('chart_of_accounts')
-        .update({ 
-          currentBalance: newBalance,
+        .update({
+          current_balance: newBalance,
           updated_at: new Date().toISOString()
         })
         .eq('id', account.id)
@@ -318,18 +318,18 @@ export class AccountingService {
       const { data: accounts, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .eq('isActive', true)
-        .order('accountCode')
+        .eq('is_active', true)
+        .order('account_code')
 
       if (error) throw error
 
       return accounts.map(account => ({
-        accountCode: account.accountCode,
-        accountName: account.accountNameTR,
-        accountType: account.accountType,
-        debitBalance: account.balanceType === 'debit' && account.currentBalance > 0 ? account.currentBalance : 0,
-        creditBalance: account.balanceType === 'credit' && account.currentBalance > 0 ? account.currentBalance : 0,
-        balance: account.currentBalance
+        accountCode: account.account_code,
+        accountName: account.account_name_tr,
+        accountType: account.account_type,
+        debitBalance: account.balance_type === 'debit' && account.current_balance > 0 ? account.current_balance : 0,
+        creditBalance: account.balance_type === 'credit' && account.current_balance > 0 ? account.current_balance : 0,
+        balance: account.current_balance
       }))
     } catch (error) {
       console.error('Error generating trial balance:', error)
@@ -360,25 +360,25 @@ export class AccountingService {
       const { data: accounts, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .in('accountType', ['gelir', 'gider'])
-        .eq('isActive', true)
+        .in('account_type', ['gelir', 'gider'])
+        .eq('is_active', true)
 
       if (error) throw error
 
       const revenues = accounts
-        .filter(acc => acc.accountType === 'gelir')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'gelir')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       const expenses = accounts
-        .filter(acc => acc.accountType === 'gider')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'gider')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       return {
         totalRevenues: revenues,
         totalExpenses: expenses,
         netIncome: revenues - expenses,
-        revenueAccounts: accounts.filter(acc => acc.accountType === 'gelir'),
-        expenseAccounts: accounts.filter(acc => acc.accountType === 'gider'),
+        revenueAccounts: accounts.filter(acc => acc.account_type === 'gelir'),
+        expenseAccounts: accounts.filter(acc => acc.account_type === 'gider'),
         periodStart: startDate,
         periodEnd: endDate
       }
@@ -395,8 +395,8 @@ export class AccountingService {
           totalRevenues: 0,
           totalExpenses: 0,
           netIncome: 0,
-          revenueAccounts: sampleRevenueAccounts.map(acc => ({ ...acc, currentBalance: 0 })),
-          expenseAccounts: sampleExpenseAccounts.map(acc => ({ ...acc, currentBalance: 0 })),
+          revenueAccounts: sampleRevenueAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          expenseAccounts: sampleExpenseAccounts.map(acc => ({ ...acc, current_balance: 0 })),
           periodStart: startDate,
           periodEnd: endDate
         }
@@ -416,31 +416,31 @@ export class AccountingService {
       const { data: accounts, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .in('accountType', ['varlık', 'borç', 'öz_kaynak'])
-        .eq('isActive', true)
+        .in('account_type', ['varlık', 'borç', 'öz_kaynak'])
+        .eq('is_active', true)
 
       if (error) throw error
 
       const assets = accounts
-        .filter(acc => acc.accountType === 'varlık')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'varlık')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       const liabilities = accounts
-        .filter(acc => acc.accountType === 'borç')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'borç')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       const equity = accounts
-        .filter(acc => acc.accountType === 'öz_kaynak')
-        .reduce((sum, acc) => sum + acc.currentBalance, 0)
+        .filter(acc => acc.account_type === 'öz_kaynak')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
 
       return {
         totalAssets: assets,
         totalLiabilities: liabilities,
         totalEquity: equity,
         asOfDate: dateFilter,
-        assetAccounts: accounts.filter(acc => acc.accountType === 'varlık'),
-        liabilityAccounts: accounts.filter(acc => acc.accountType === 'borç'),
-        equityAccounts: accounts.filter(acc => acc.accountType === 'öz_kaynak')
+        assetAccounts: accounts.filter(acc => acc.account_type === 'varlık'),
+        liabilityAccounts: accounts.filter(acc => acc.account_type === 'borç'),
+        equityAccounts: accounts.filter(acc => acc.account_type === 'öz_kaynak')
       }
     } catch (error) {
       console.error('Error generating balance sheet:', error)
@@ -457,9 +457,9 @@ export class AccountingService {
           totalLiabilities: 0,
           totalEquity: 0,
           asOfDate: dateFilter,
-          assetAccounts: sampleAssetAccounts.map(acc => ({ ...acc, currentBalance: 0 })),
-          liabilityAccounts: sampleLiabilityAccounts.map(acc => ({ ...acc, currentBalance: 0 })),
-          equityAccounts: sampleEquityAccounts.map(acc => ({ ...acc, currentBalance: 0 }))
+          assetAccounts: sampleAssetAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          liabilityAccounts: sampleLiabilityAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          equityAccounts: sampleEquityAccounts.map(acc => ({ ...acc, current_balance: 0 }))
         }
       } else {
         const errorMsg = getErrorMessage(error)
