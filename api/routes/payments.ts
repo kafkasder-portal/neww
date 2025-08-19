@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { authenticateUser } from '../middleware/auth.js';
-import { requirePermission } from '../middleware/rbac.js';
-import { auditResourceOperation } from '../middleware/audit.js';
-import { validateRequest } from '../middleware/validation.js';
-import { TurkishPaymentService } from '../services/paymentGateway.js';
-import { supabase } from '../config/supabase.js';
+import { authenticateUser } from '../middleware/auth';
+import { requirePermission } from '../middleware/rbac';
+import { auditResourceOperation } from '../middleware/audit';
+import { validateRequest } from '../middleware/validation';
+import { TurkishPaymentService } from '../services/paymentGateway';
+import { supabase } from '../config/supabase';
 
 const router = Router();
 const paymentService = new TurkishPaymentService();
