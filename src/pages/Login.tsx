@@ -118,7 +118,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md">
         <DevelopmentNotice />
         <Card className="p-8 shadow-xl border-0 bg-white/80 backdrop-blur-sm">
