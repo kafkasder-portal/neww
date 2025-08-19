@@ -86,8 +86,16 @@ export class AccountingService {
         toast.error('Hesap planı tablosu bulunamadı. Sistem yöneticisine başvurun.')
         // Return default chart as fallback
         return STANDARD_CHART_OF_ACCOUNTS.map((account, index) => ({
-          ...account,
           id: `temp_${index}`,
+          accountCode: account.accountCode,
+          accountName: account.accountName,
+          accountNameTR: account.accountNameTR,
+          accountType: account.accountType,
+          accountTypeEN: account.accountTypeEN,
+          parentAccountId: account.parentAccountId,
+          isActive: account.isActive,
+          description: account.description,
+          balanceType: account.balanceType,
           currentBalance: 0,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
