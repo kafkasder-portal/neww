@@ -337,7 +337,13 @@ export class AccountingService {
         periodEnd: endDate
       }
     } catch (error) {
-      console.error('Error generating income statement:', error)
+      logError('Error generating income statement', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+      } else {
+        toast.error(`Gelir tablosu oluşturulamadı: ${getErrorMessage(error)}`)
+      }
       return null
     }
   }
