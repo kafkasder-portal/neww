@@ -182,7 +182,7 @@
 
   .mobile-button-primary {
     background: hsl(var(--brand-primary));
-    color: white;
+    color: hsl(var(--primary-foreground));
     border: none;
   }
 
