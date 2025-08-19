@@ -42,7 +42,7 @@ export class AccountingService {
           return false
         }
 
-        toast.success('Hesap planı başarıyla oluşturuldu')
+        toast.success('Hesap planı ba��arıyla oluşturuldu')
         return true
       }
 
@@ -382,7 +382,13 @@ export class AccountingService {
         equityAccounts: accounts.filter(acc => acc.accountType === 'öz_kaynak')
       }
     } catch (error) {
-      console.error('Error generating balance sheet:', error)
+      logError('Error generating balance sheet', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+      } else {
+        toast.error(`Bilanço oluşturulamadı: ${getErrorMessage(error)}`)
+      }
       return null
     }
   }
