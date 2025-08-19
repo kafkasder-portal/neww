@@ -1,5 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import crypto from 'crypto';
+import rateLimit from 'express-rate-limit';
+import DOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
+
+// Initialize DOMPurify with JSDOM for server-side usage
+const window = new JSDOM('').window;
+const DOMPurifyInstance = DOMPurify(window as any);
 
 /**
  * CSRF Protection Middleware
