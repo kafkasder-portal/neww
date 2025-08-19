@@ -158,7 +158,7 @@ router.post('/register', authRateLimiter, xssProtection, validateRequest(registe
  * User Login
  * POST /api/auth/login
  */
-router.post('/login', validateRequest(loginSchema), asyncHandler(async (req: Request, res: Response): Promise<void> => {
+router.post('/login', authRateLimiter, xssProtection, validateRequest(loginSchema), asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
   // Validate required fields
