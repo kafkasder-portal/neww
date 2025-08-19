@@ -593,11 +593,7 @@ export default function PiggyBankTracking() {
       key: 'status', 
       header: 'Durum',
       render: (_, row: Assignment) => (
-        <span className={`px-2 py-1 rounded text-xs ${
-          row.status === 'aktif' ? 'bg-green-100 text-green-800' :
-          row.status === 'tamamlandı' ? 'bg-blue-100 text-blue-800' :
-          'bg-red-100 text-red-800'
-        }`}>
+        <span className={getStatusBadgeClasses(row.status, 'activity')}>
           {row.status}
         </span>
       )
