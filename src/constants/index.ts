@@ -1,7 +1,15 @@
-// Central constants export
-export * from './app';
+// Export all constants
 export * from './api';
-export * from './ui';
+export * from './app';
+export * from './colors';
+export * from './languages';
+export * from './navigation';
+export * from './onboardingSteps';
 export * from './permissions';
-export * from './validation';
 export * from './routes';
+export * from './ui';
+export * from './validation';
+
+// Export new design system as primary
+export * from './design-system';
+export { default as DesignSystem } from './design-system';

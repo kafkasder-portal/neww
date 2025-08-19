@@ -18,6 +18,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { formatCurrency } from '@/utils/formatters'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 
 interface VarianceData {
   category: string
@@ -41,10 +42,7 @@ interface BudgetVarianceChartProps {
   className?: string
 }
 
-const COLORS = [
-  '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8',
-  '#82CA9D', '#FFC658', '#FF7C7C', '#8DD1E1', '#D084D0'
-]
+// Use design system colors instead of hardcoded hex values
 
 export function BudgetVarianceChart({ 
   categoryData, 
@@ -52,6 +50,7 @@ export function BudgetVarianceChart({
   title = "Bütçe Varyans Analizi",
   className = ""
 }: BudgetVarianceChartProps) {
+  const { colors, styles } = useDesignSystem()
   
   // Prepare data for pie chart
   const pieData = categoryData.map(item => ({
@@ -87,7 +86,7 @@ export function BudgetVarianceChart({
       return (
         <div className="bg-white p-3 border rounded shadow-lg">
           <p className="font-medium">{data.name}</p>
-          <p style={{ color: data.variance > 0 ? '#ef4444' : '#22c55e' }}>
+          <p style={{ color: data.variance > 0 ? colors.semantic.danger : colors.semantic.success }}>
             Varyans: {formatCurrency(data.variance, 'TRY', 'tr-TR')}
           </p>
         </div>
@@ -131,8 +130,8 @@ export function BudgetVarianceChart({
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
-                  <Bar dataKey="budgeted" fill="#3b82f6" name="Bütçelenen" />
-                  <Bar dataKey="actual" fill="#10b981" name="Gerçekleşen" />
+                  <Bar dataKey="budgeted" fill={colors.brand.primary} name="Bütçelenen" />
+                  <Bar dataKey="actual" fill={colors.semantic.success} name="Gerçekleşen" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -153,14 +152,14 @@ export function BudgetVarianceChart({
                   <Line 
                     type="monotone" 
                     dataKey="budgeted" 
-                    stroke="#3b82f6" 
+                    stroke={colors.brand.primary} 
                     strokeWidth={2}
                     name="Bütçelenen"
                   />
                   <Line 
                     type="monotone" 
                     dataKey="actual" 
-                    stroke="#10b981" 
+                    stroke={colors.semantic.success} 
                     strokeWidth={2}
                     name="Gerçekleşen"
                   />
@@ -197,7 +196,7 @@ export function BudgetVarianceChart({
                           return (
                             <div className="bg-white p-3 border rounded shadow-lg">
                               <p className="font-medium">{label}</p>
-                              <p style={{ color: variance > 0 ? '#ef4444' : '#22c55e' }}>
+                              <p style={{ color: variance > 0 ? colors.semantic.danger : colors.semantic.success }}>
                                 Varyans: {formatCurrency(variance, 'TRY', 'tr-TR')}
                               </p>
                               <p className="text-sm text-gray-600">
@@ -211,11 +210,11 @@ export function BudgetVarianceChart({
                     />
                     <Bar 
                       dataKey="variance" 
-                      fill={(entry: any) => entry.variance > 0 ? '#ef4444' : '#22c55e'}
+                      fill={(entry: any) => entry.variance > 0 ? colors.semantic.danger : colors.semantic.success}
                       name="Varyans"
                     >
                       {categoryData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.variance > 0 ? '#ef4444' : '#22c55e'} />
+                        <Cell key={`cell-${index}`} fill={entry.variance > 0 ? colors.semantic.danger : colors.semantic.success} />
                       ))}
                     </Bar>
                   </BarChart>

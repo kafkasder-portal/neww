@@ -1,21 +1,27 @@
 /**
- * OPTİMİZE EDİLMİŞ RENK KONSTANTLARİ
- * WCAG AA uyumlu renk paleti ve semantik renk eşlemeleri
+ * DEPRECATED - YENİ TASARIM SİSTEMİ KULLANIN
+ * 
+ * Bu dosya artık kullanımdan kaldırılmıştır.
+ * Lütfen src/constants/design-system.ts dosyasını kullanın.
+ * 
+ * @deprecated Use design-system.ts instead
  */
 
-// Chart renkleri - HSL format (Tailwind uyumlu)
+import { COLORS, STATUS } from './design-system';
+
+// Legacy exports for backward compatibility
 export const CHART_COLORS = [
-  'hsl(220 98% 29%)',   // Brand Primary - Mavi
-  'hsl(142 71% 25%)',   // Success - Yeşil  
-  'hsl(43 89% 35%)',    // Warning - Sarı
-  'hsl(0 87% 35%)',     // Error - Kırmızı
-  'hsl(285 89% 35%)',   // Purple - Mor
-  'hsl(195 89% 35%)',   // Teal - Turkuaz
-  'hsl(15 89% 35%)',    // Orange - Turuncu
-  'hsl(340 89% 35%)',   // Pink - Pembe
+  COLORS.chart[1],
+  COLORS.chart[2],
+  COLORS.chart[3],
+  COLORS.chart[4],
+  COLORS.chart[5],
+  COLORS.chart[6],
+  COLORS.chart[7],
+  COLORS.chart[8],
 ] as const;
 
-// Chart renkleri - Hex format (Recharts uyumlu)
+// Legacy hex colors for Recharts compatibility
 export const CHART_COLORS_HEX = [
   '#0F3A7A', // Brand Primary
   '#1D8348', // Success
@@ -27,44 +33,24 @@ export const CHART_COLORS_HEX = [
   '#E74C3C', // Pink
 ] as const;
 
-// Status renkleri - Semantic mapping
+// Legacy status colors
 export const STATUS_COLORS = {
-  success: {
-    bg: 'hsl(142 68% 88%)',    // Açık yeşil arka plan
-    text: 'hsl(142 71% 25%)',  // Koyu yeşil metin
-    border: 'hsl(142 71% 25% / 0.3)', // Şeffaf kenarlık
-  },
-  warning: {
-    bg: 'hsl(43 84% 90%)',
-    text: 'hsl(43 89% 35%)',
-    border: 'hsl(43 89% 35% / 0.3)',
-  },
-  error: {
-    bg: 'hsl(0 84% 90%)',
-    text: 'hsl(0 87% 35%)',
-    border: 'hsl(0 87% 35% / 0.3)',
-  },
-  info: {
-    bg: 'hsl(207 84% 90%)',
-    text: 'hsl(207 89% 35%)',
-    border: 'hsl(207 89% 35% / 0.3)',
-  },
-  neutral: {
-    bg: 'hsl(210 18% 95%)',
-    text: 'hsl(210 12% 35%)',
-    border: 'hsl(210 16% 88%)',
-  },
+  success: STATUS.success,
+  warning: STATUS.warning,
+  error: STATUS.error,
+  info: STATUS.info,
+  neutral: STATUS.neutral,
 } as const;
 
-// Severity seviyeleri - Hata yönetimi için
+// Legacy severity colors
 export const SEVERITY_COLORS = {
   low: {
     tailwind: 'bg-blue-50 text-blue-700 border-blue-200',
-    css: STATUS_COLORS.info,
+    css: STATUS.info,
   },
   medium: {
-    tailwind: 'bg-yellow-50 text-yellow-700 border-yellow-200', 
-    css: STATUS_COLORS.warning,
+    tailwind: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+    css: STATUS.warning,
   },
   high: {
     tailwind: 'bg-orange-50 text-orange-700 border-orange-200',
@@ -76,38 +62,38 @@ export const SEVERITY_COLORS = {
   },
   critical: {
     tailwind: 'bg-red-50 text-red-700 border-red-200',
-    css: STATUS_COLORS.error,
+    css: STATUS.error,
   },
 } as const;
 
-// Performans monitor renkleri
+// Legacy performance colors
 export const PERFORMANCE_COLORS = {
-  excellent: STATUS_COLORS.success,
+  excellent: STATUS.success,
   good: {
     bg: 'hsl(142 50% 90%)',
     text: 'hsl(142 60% 30%)',
     border: 'hsl(142 60% 30% / 0.3)',
   },
-  fair: STATUS_COLORS.warning,
+  fair: STATUS.warning,
   poor: {
     bg: 'hsl(15 84% 90%)',
     text: 'hsl(15 89% 35%)',
     border: 'hsl(15 89% 35% / 0.3)',
   },
-  critical: STATUS_COLORS.error,
+  critical: STATUS.error,
 } as const;
 
-// Activity feed renkleri
+// Legacy activity colors
 export const ACTIVITY_COLORS = {
-  user: 'hsl(220 98% 50%)',      // Mavi - Kullanıcı eylemleri
-  system: 'hsl(142 71% 35%)',    // Yeşil - Sistem eylemleri  
-  admin: 'hsl(285 89% 45%)',     // Mor - Admin eylemleri
-  warning: 'hsl(43 89% 45%)',    // Sarı - Uyarılar
-  error: 'hsl(0 87% 45%)',       // Kırmızı - Hatalar
-  info: 'hsl(207 89% 45%)',      // Mavi - Bilgilendirme
+  user: COLORS.brand.primary,
+  system: COLORS.semantic.success,
+  admin: COLORS.chart[5],
+  warning: COLORS.semantic.warning,
+  error: COLORS.semantic.danger,
+  info: COLORS.semantic.info,
 } as const;
 
-// Semantic class mappings - Using CSS custom properties
+// Legacy semantic classes
 export const SEMANTIC_STATUS_CLASSES = {
   success: 'bg-semantic-success/10 text-semantic-success border-semantic-success/20',
   warning: 'bg-semantic-warning/10 text-semantic-warning border-semantic-warning/20',
@@ -116,10 +102,10 @@ export const SEMANTIC_STATUS_CLASSES = {
   neutral: 'bg-neutral-50 text-neutral-700 border-neutral-200',
 } as const;
 
-// Icon renkleri - Semantic color mapping
+// Legacy icon colors
 export const SEMANTIC_ICON_COLORS = {
   primary: 'text-brand-primary',
-  success: 'text-semantic-success', 
+  success: 'text-semantic-success',
   warning: 'text-semantic-warning',
   error: 'text-semantic-danger',
   info: 'text-semantic-info',
@@ -128,32 +114,25 @@ export const SEMANTIC_ICON_COLORS = {
   accent: 'text-brand-accent',
 } as const;
 
-// CSS Custom Properties Helper
+// Legacy CSS variables
 export const CSS_VARIABLES = {
-  // Brand colors
-  brandPrimary: 'var(--brand-primary)',
-  brandPrimary50: 'var(--brand-primary-50)',
-  brandPrimary100: 'var(--brand-primary-100)',
-  brandPrimary500: 'var(--brand-primary-500)',
-  brandPrimary900: 'var(--brand-primary-900)',
-  
-  // Financial colors
-  financialSuccess: 'var(--financial-success)',
-  financialWarning: 'var(--financial-warning)',
-  financialError: 'var(--financial-error)',
-  financialInfo: 'var(--financial-info)',
-  
-  // Neutral colors
-  neutral50: 'var(--neutral-50)',
-  neutral100: 'var(--neutral-100)',
-  neutral500: 'var(--neutral-500)',
-  neutral900: 'var(--neutral-900)',
-  
-  // Sidebar colors
-  sidebarBg: 'var(--sidebar-bg)',
-  sidebarText: 'var(--sidebar-text)',
-  sidebarHover: 'var(--sidebar-hover)',
-  sidebarActive: 'var(--sidebar-active)',
+  brandPrimary: COLORS.brand.primary,
+  brandPrimary50: COLORS.brand.primary50,
+  brandPrimary100: COLORS.brand.primary100,
+  brandPrimary500: COLORS.brand.primary500,
+  brandPrimary900: COLORS.brand.primary900,
+  financialSuccess: COLORS.financial.income,
+  financialWarning: COLORS.financial.pending,
+  financialError: COLORS.financial.expense,
+  financialInfo: COLORS.financial.transfer,
+  neutral50: COLORS.neutral[50],
+  neutral100: COLORS.neutral[100],
+  neutral500: COLORS.neutral[500],
+  neutral900: COLORS.neutral[900],
+  sidebarBg: COLORS.sidebar.bg,
+  sidebarText: COLORS.sidebar.text,
+  sidebarHover: COLORS.sidebar.bgHover,
+  sidebarActive: COLORS.sidebar.accent,
 } as const;
 
 // Type definitions
@@ -163,4 +142,10 @@ export type StatusType = keyof typeof STATUS_COLORS;
 export type SeverityLevel = keyof typeof SEVERITY_COLORS;
 export type PerformanceLevel = keyof typeof PERFORMANCE_COLORS;
 export type ActivityType = keyof typeof ACTIVITY_COLORS;
-export type IconColorType = keyof typeof ICON_COLORS;
+export type IconColorType = keyof typeof SEMANTIC_ICON_COLORS;
+
+// Deprecation warning
+console.warn(
+  'DEPRECATED: src/constants/colors.ts is deprecated. ' +
+  'Please use src/constants/design-system.ts instead for better type safety and consistency.'
+);

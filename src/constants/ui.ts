@@ -1,6 +1,16 @@
-// UI related constants
+/**
+ * DEPRECATED - YENİ TASARIM SİSTEMİ KULLANIN
+ * 
+ * Bu dosya artık kullanımdan kaldırılmıştır.
+ * Lütfen src/constants/design-system.ts dosyasını kullanın.
+ * 
+ * @deprecated Use design-system.ts instead
+ */
 
-export const COLORS = {
+import { COLORS, TYPOGRAPHY, SPACING, BORDER_RADIUS, SHADOWS, ANIMATIONS, COMPONENTS } from './design-system';
+
+// Legacy exports for backward compatibility
+export const COLORS_LEGACY = {
   primary: {
     50: '#f0f9ff',
     100: '#e0f2fe',
@@ -72,7 +82,8 @@ export const BREAKPOINTS = {
   '2xl': '1536px'
 } as const;
 
-export const SPACING = {
+// Legacy spacing - use SPACING from design-system instead
+export const SPACING_LEGACY = {
   0: '0px',
   1: '0.25rem',
   2: '0.5rem',
@@ -89,49 +100,53 @@ export const SPACING = {
   32: '8rem'
 } as const;
 
+// Legacy font sizes - use TYPOGRAPHY.fontSize from design-system instead
 export const FONT_SIZES = {
-  xs: '0.75rem',
-  sm: '0.875rem',
-  base: '1rem',
-  lg: '1.125rem',
-  xl: '1.25rem',
-  '2xl': '1.5rem',
-  '3xl': '1.875rem',
-  '4xl': '2.25rem',
-  '5xl': '3rem',
+  xs: TYPOGRAPHY.fontSize.xs,
+  sm: TYPOGRAPHY.fontSize.sm,
+  base: TYPOGRAPHY.fontSize.base,
+  lg: TYPOGRAPHY.fontSize.lg,
+  xl: TYPOGRAPHY.fontSize.xl,
+  '2xl': TYPOGRAPHY.fontSize['2xl'],
+  '3xl': TYPOGRAPHY.fontSize['3xl'],
+  '4xl': TYPOGRAPHY.fontSize['4xl'],
+  '5xl': TYPOGRAPHY.fontSize['5xl'],
   '6xl': '3.75rem'
 } as const;
 
+// Legacy font weights - use TYPOGRAPHY.fontWeight from design-system instead
 export const FONT_WEIGHTS = {
   thin: '100',
   extralight: '200',
-  light: '300',
-  normal: '400',
-  medium: '500',
-  semibold: '600',
-  bold: '700',
-  extrabold: '800',
+  light: TYPOGRAPHY.fontWeight.light,
+  normal: TYPOGRAPHY.fontWeight.normal,
+  medium: TYPOGRAPHY.fontWeight.medium,
+  semibold: TYPOGRAPHY.fontWeight.semibold,
+  bold: TYPOGRAPHY.fontWeight.bold,
+  extrabold: TYPOGRAPHY.fontWeight.extrabold,
   black: '900'
 } as const;
 
-export const BORDER_RADIUS = {
-  none: '0px',
-  sm: '0.125rem',
-  base: '0.25rem',
-  md: '0.375rem',
-  lg: '0.5rem',
-  xl: '0.75rem',
-  '2xl': '1rem',
+// Legacy border radius - use BORDER_RADIUS from design-system instead
+export const BORDER_RADIUS_LEGACY = {
+  none: BORDER_RADIUS.none,
+  sm: BORDER_RADIUS.sm,
+  base: BORDER_RADIUS.sm,
+  md: BORDER_RADIUS.md,
+  lg: BORDER_RADIUS.lg,
+  xl: BORDER_RADIUS.xl,
+  '2xl': BORDER_RADIUS['2xl'],
   '3xl': '1.5rem',
-  full: '9999px'
+  full: BORDER_RADIUS.full
 } as const;
 
-export const SHADOWS = {
-  sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-  base: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-  md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-  lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-  xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+// Legacy shadows - use SHADOWS from design-system instead
+export const SHADOWS_LEGACY = {
+  sm: SHADOWS.sm,
+  base: SHADOWS.md,
+  md: SHADOWS.md,
+  lg: SHADOWS.lg,
+  xl: SHADOWS.xl,
   '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
   inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
   none: '0 0 #0000'
@@ -153,14 +168,15 @@ export const Z_INDEX = {
   tooltip: 1800
 } as const;
 
+// Legacy transitions - use ANIMATIONS from design-system instead
 export const TRANSITIONS = {
   none: 'none',
-  all: 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-  default: 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-  colors: 'color 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), border-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-  opacity: 'opacity 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-  shadow: 'box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-  transform: 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1)'
+  all: `all ${ANIMATIONS.duration.fast} ${ANIMATIONS.easing.default}`,
+  default: `all ${ANIMATIONS.duration.fast} ${ANIMATIONS.easing.default}`,
+  colors: `color ${ANIMATIONS.duration.fast} ${ANIMATIONS.easing.default}, background-color ${ANIMATIONS.duration.fast} ${ANIMATIONS.easing.default}, border-color ${ANIMATIONS.duration.fast} ${ANIMATIONS.easing.default}`,
+  opacity: `opacity ${ANIMATIONS.duration.fast} ${ANIMATIONS.easing.default}`,
+  shadow: `box-shadow ${ANIMATIONS.duration.fast} ${ANIMATIONS.easing.default}`,
+  transform: `transform ${ANIMATIONS.duration.fast} ${ANIMATIONS.easing.default}`
 } as const;
 
 export const COMPONENT_SIZES = {
@@ -261,3 +277,9 @@ export const MODAL_ANIMATIONS = {
   scale: 'scale',
   slide: 'slide'
 } as const;
+
+// Deprecation warning
+console.warn(
+  'DEPRECATED: src/constants/ui.ts is deprecated. ' +
+  'Please use src/constants/design-system.ts instead for better type safety and consistency.'
+);
