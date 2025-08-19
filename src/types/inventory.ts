@@ -103,14 +103,39 @@ export interface StockAlert {
   id: string
   itemId: string
   item?: InventoryItem
+  itemName: string
+  itemCode: string
+  locationName: string
+  currentStock: number
+  threshold: number
+  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
   alertType: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
   message: string
   severity: 'low' | 'medium' | 'high' | 'critical'
   isRead: boolean
   isResolved: boolean
+  isActive: boolean
   createdAt: string
   resolvedAt?: string
   resolvedBy?: string
+}
+
+export interface AlertRule {
+  id: string
+  name: string
+  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
+  threshold: number
+  isActive: boolean
+  description?: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface AlertRuleForm {
+  name: string
+  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
+  threshold: number
+  description?: string
 }
 
 export interface PurchaseOrder {
