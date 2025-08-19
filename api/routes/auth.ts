@@ -337,7 +337,7 @@ router.put('/profile', asyncHandler(async (req: Request, res: Response): Promise
 
   const { full_name, department, phone, avatar_url } = req.body;
 
-  const updateData: any = {};
+  const updateData: Record<string, unknown> = {};
   if (full_name !== undefined) updateData.full_name = full_name;
   if (department !== undefined) updateData.department = department;
   if (phone !== undefined) updateData.phone = phone;

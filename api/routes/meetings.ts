@@ -13,7 +13,7 @@ const supabase = createClient(
 );
 
 // Middleware to extract user from authorization header
-const authenticateUser = async (req: Request, res: Response, next: any) => {
+const authenticateUser = async (req: Request & { user?: { id: string } }, res: Response, next: (err?: unknown) => void) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Authorization required' });
@@ -26,7 +26,7 @@ const authenticateUser = async (req: Request, res: Response, next: any) => {
     return res.status(401).json({ error: 'Invalid token' });
   }
 
-  req.user = user;
+  req.user = user as { id: string };
   next();
 };
 
@@ -157,7 +157,7 @@ router.post('/', authenticateUser, async (req: Request, res: Response) => {
 
     // Add participants if provided
     if (participants.length > 0) {
-      const participantData = participants.map((participant: any) => ({
+      const participantData = (participants as Array<{ user_id: string; role?: string }>).map((participant) => ({
         meeting_id: meeting.id,
         user_id: participant.user_id,
         role: participant.role || 'attendee'
@@ -302,7 +302,7 @@ router.put('/:id/participants/:participantId', authenticateUser, async (req: Req
     const { participantId } = req.params;
     const { response_status, attendance_status } = req.body;
 
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
     if (response_status) {
       updateData.response_status = response_status;
       updateData.responded_at = new Date().toISOString();

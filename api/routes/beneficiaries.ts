@@ -13,7 +13,7 @@ const supabase = createClient(
 );
 
 // Middleware to extract user from authorization header
-const authenticateUser = async (req: Request, res: Response, next: any) => {
+const authenticateUser = async (req: Request, res: Response, next: (err?: unknown) => void) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Authorization required' });
@@ -26,7 +26,7 @@ const authenticateUser = async (req: Request, res: Response, next: any) => {
     return res.status(401).json({ error: 'Invalid token' });
   }
 
-  (req as any).user = user;
+  (req as unknown as { user: typeof user }).user = user;
   next();
 };
 

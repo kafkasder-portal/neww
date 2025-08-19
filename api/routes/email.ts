@@ -89,7 +89,7 @@ async function sendSMTPEmail(emailData: {
   subject: string;
   content: string;
   htmlContent?: string;
-  attachments?: any[];
+  attachments?: Array<{ filename: string; content: string; contentType: string }>;
 }): Promise<{ success: boolean; messageId?: string; error?: string }> {
   
   if (SMTP_CONFIG.testMode || !transporter) {

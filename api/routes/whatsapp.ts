@@ -60,7 +60,7 @@ async function sendWhatsAppBusinessMessage(
   to: string, 
   message: string, 
   mediaUrl?: string, 
-  mediaType?: string
+  mediaType?: 'image' | 'video' | 'audio' | 'document'
 ): Promise<{ success: boolean; messageId?: string; error?: string }> {
   
   if (WHATSAPP_CONFIG.testMode || !WHATSAPP_CONFIG.accessToken) {
@@ -74,7 +74,7 @@ async function sendWhatsAppBusinessMessage(
   try {
     const url = `${WHATSAPP_CONFIG.apiUrl}/${WHATSAPP_CONFIG.phoneNumberId}/messages`;
     
-    let messageData: any = {
+    const messageData: Record<string, unknown> = {
       messaging_product: 'whatsapp',
       to: to,
       type: mediaUrl ? mediaType || 'image' : 'text'
@@ -100,7 +100,7 @@ async function sendWhatsAppBusinessMessage(
       body: JSON.stringify(messageData)
     });
 
-    const result = await response.json();
+    const result = (await response.json()) as { messages?: Array<{ id: string }>; error?: { message?: string } };
     
     if (response.ok && result.messages) {
       return { 
@@ -508,14 +508,14 @@ router.get('/status',
         }
       });
 
-      const result = await response.json();
+      const result = (await response.json()) as Record<string, unknown>;
       
       res.json({
         connected: response.ok,
-        phoneNumber: result.display_phone_number,
-        verifiedName: result.verified_name,
-        quality: result.quality_rating,
-        status: result.status
+        phoneNumber: result.display_phone_number as string | undefined,
+        verifiedName: result.verified_name as string | undefined,
+        quality: result.quality_rating as string | undefined,
+        status: result.status as string | undefined
       });
 
     } catch (error) {

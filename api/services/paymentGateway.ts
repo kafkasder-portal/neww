@@ -20,7 +20,7 @@ interface PaymentRequest {
   customerPhone?: string;
   description?: string;
   callbackUrl?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 // Interface for payment response
@@ -347,7 +347,7 @@ class PayTRGateway extends PaymentGateway {
         currency: 'TRY',
         orderId: merchantOid
       };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         status: 'failed',
@@ -360,7 +360,7 @@ class PayTRGateway extends PaymentGateway {
     }
   }
 
-  async refundPayment(transactionId: string): Promise<PaymentResponse> {
+  async refundPayment(): Promise<PaymentResponse> {
     // PayTR refunds are typically handled manually through their panel
     return {
       success: false,

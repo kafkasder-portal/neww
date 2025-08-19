@@ -5,9 +5,9 @@
  * Vite build sonrasında bundle boyutlarını ve bağımlılıkları analiz eder
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 
 console.log('🔍 Analyzing bundle size...\n');
 

@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { supabase } from '../config/supabase.js';
 import { authenticateUser } from '../middleware/auth.js';
-import { requirePermission } from '../middleware/rbac.js';
+// requirePermission imported but not used; temporarily remove to satisfy lint
+// import { requirePermission } from '../middleware/rbac.js';
 import { validateRequest } from '../middleware/validation.js';
 
 const router = Router();
