@@ -5,7 +5,7 @@ import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
-interface SavedFilter {
+export interface SavedFilter {
     id: string
     name: string
     filters: Record<string, any>

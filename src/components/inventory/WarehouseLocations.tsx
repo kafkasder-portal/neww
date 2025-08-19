@@ -35,6 +35,7 @@ import {
   Building,
   CheckCircle,
   Edit,
+  Grid3X3,
   MapPin,
   Package,
   Plus,

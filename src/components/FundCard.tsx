@@ -41,4 +41,10 @@ export const FundCard: React.FC<FundCardProps> = ({
     )
 }
 
+// Additional fund card variants for backward compatibility
+export const GeneralFundCard = FundCard
+export const ProjectFundCard = FundCard
+export const SpecialFundCard = FundCard
+export const EmergencyFundCard = FundCard
+
 export default FundCard

@@ -1,6 +1,6 @@
+import { Calendar, TrendingUp, Users } from 'lucide-react'
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
-import { TrendingUp, TrendingDown, Users, Calendar } from 'lucide-react'
 
 interface TotalDonationsCardProps {
   total: number
@@ -129,3 +129,6 @@ export const OnlineDonationsCard: React.FC<OnlineDonationsCardProps> = ({
     </Card>
   )
 }
+
+// Default export for backward compatibility
+export default TotalDonationsCard

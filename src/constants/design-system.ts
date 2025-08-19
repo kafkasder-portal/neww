@@ -94,6 +94,18 @@ export const COLORS = {
     8: 'hsl(var(--chart-color-8))',
   },
 
+  // Chart Colors Hex - Grafik renkleri (hex format)
+  chartHex: [
+    '#3B82F6', // Blue
+    '#10B981', // Green
+    '#F59E0B', // Yellow
+    '#EF4444', // Red
+    '#8B5CF6', // Purple
+    '#06B6D4', // Cyan
+    '#F97316', // Orange
+    '#84CC16', // Lime
+  ],
+
   // Sidebar Colors - Kenar çubuğu renkleri
   sidebar: {
     bg: 'hsl(var(--sidebar-bg))',
@@ -106,6 +118,9 @@ export const COLORS = {
     border: 'hsl(var(--sidebar-border))',
   },
 } as const;
+
+// Chart Colors Hex export for backward compatibility
+export const CHART_COLORS_HEX = COLORS.chartHex
 
 // ========================================
 // TİPOGRAFİ SİSTEMİ
