@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { SidebarInset } from './ui/sidebar'
-import { MinimalHeader } from './MinimalHeader'
+// MinimalHeader removed - file deleted
 import { useLocation } from 'react-router-dom'
 import { allPages } from '../constants/navigation'
 import { cn } from '../lib/utils'
