@@ -25,13 +25,11 @@ import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { getErrorMessage, createOperationErrorMessage, logErrorSafely } from '../../utils/errorMessageUtils'
 import { isSupabaseConfigured } from '../../utils/supabaseUtils'
-import { AdvancedSearchModal } from '@components/AdvancedSearchModal'
 import {
   createApplicationsFilterConfig,
   applicationsURLConfig,
   getApplicationsQuickFilters
 } from '@utils/applicationsFilterConfig'
-import type { SavedFilter } from '@components/AdvancedSearchModal'
 
 interface Application {
   id: string
@@ -647,7 +645,6 @@ export default function Applications() {
       <DataTable columns={columns} data={filteredApplications} />
 
       {/* Advanced Search Modal */}
-      <AdvancedSearchModal
         isOpen={advancedSearchOpen}
         onClose={() => setAdvancedSearchOpen(false)}
         onApplyFilters={handleAdvancedSearch}
