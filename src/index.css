@@ -109,6 +109,79 @@
 }
 
 @layer utilities {
+  /* ========================================
+   * STATUS COLOR UTILITIES - Consistent across all components
+   * ======================================== */
+
+  /* Success Status */
+  .status-success {
+    @apply bg-financial-success/10 text-financial-success border-financial-success/20;
+  }
+  .status-success-solid {
+    @apply bg-financial-success text-white;
+  }
+
+  /* Warning Status */
+  .status-warning {
+    @apply bg-financial-warning/10 text-financial-warning border-financial-warning/20;
+  }
+  .status-warning-solid {
+    @apply bg-financial-warning text-white;
+  }
+
+  /* Error Status */
+  .status-error {
+    @apply bg-financial-error/10 text-financial-error border-financial-error/20;
+  }
+  .status-error-solid {
+    @apply bg-financial-error text-white;
+  }
+
+  /* Info Status */
+  .status-info {
+    @apply bg-financial-info/10 text-financial-info border-financial-info/20;
+  }
+  .status-info-solid {
+    @apply bg-financial-info text-white;
+  }
+
+  /* Pending/Neutral Status */
+  .status-pending {
+    @apply bg-neutral-100 text-neutral-700 border-neutral-200;
+  }
+  .status-pending-solid {
+    @apply bg-neutral-500 text-white;
+  }
+
+  /* ========================================
+   * GRID & TABLE UTILITIES
+   * ======================================== */
+
+  /* Grid hover states */
+  .grid-hover {
+    @apply hover:bg-grid-hover transition-colors duration-150;
+  }
+
+  /* Grid selected states */
+  .grid-selected {
+    @apply bg-grid-selected border-brand-primary/50;
+  }
+
+  /* Table row hover */
+  .table-row-hover {
+    @apply hover:bg-muted/50 transition-colors duration-150;
+  }
+
+  /* Card grid patterns */
+  .grid-card {
+    @apply bg-card border border-border rounded-lg shadow-sm;
+  }
+
+  .grid-card-hover {
+    @apply grid-card hover:shadow-md hover:border-brand-primary/20 transition-all duration-200;
+  }
+
+  /* Animation delays */
   .animation-delay-2000 {
     animation-delay: 2s;
   }
