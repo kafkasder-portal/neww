@@ -156,7 +156,7 @@ export default function Login() {
           <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Adresi
+                {t('auth.emailAddress')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -390,7 +390,7 @@ export default function Login() {
           <form onSubmit={forgotForm.handleSubmit(onForgotPassword)} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Adresi
+                {t('auth.emailAddress')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
