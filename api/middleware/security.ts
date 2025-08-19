@@ -220,45 +220,99 @@ export const generateCSRFToken = (sessionToken: string): string => {
 };
 
 /**
- * SQL Injection Protection Middleware
+ * Enhanced SQL Injection Protection Middleware
  */
 export const sqlInjectionProtection = (req: Request, res: Response, next: NextFunction) => {
   const suspiciousPatterns = [
+    // SQL Injection patterns
     /('|--|;|\||\*|\*\*)/i,
     /(union|select|insert|delete|update|drop|create|alter|exec|execute)/i,
-    /(script|javascript|vbscript|onload|onerror|onclick)/i
+    /(information_schema|sys\.tables|pg_tables|sqlite_master)/i,
+    /(or\s+1\s*=\s*1|and\s+1\s*=\s*1)/i,
+    /(\/\*|\*\/|\/\*\!\d+)/i,
+
+    // XSS patterns
+    /(script|javascript|vbscript|onload|onerror|onclick|onmouseover)/i,
+    /(<|>|&lt;|&gt;)/i,
+    /(eval\s*\(|expression\s*\()/i,
+    /(document\.|window\.|alert\s*\()/i,
+
+    // Path traversal patterns
+    /(\.\.\/|\.\.\\|%2e%2e%2f|%2e%2e%5c)/i,
+
+    // Command injection patterns
+    /(\||&|;|`|\$\(|backtick)/i,
+    /(rm\s|cat\s|ls\s|ps\s|kill\s|wget\s|curl\s)/i
   ];
-  
-  const checkForSQLInjection = (obj: any): boolean => {
+
+  const checkForMaliciousInput = (obj: any, path: string = ''): string | null => {
     if (typeof obj === 'string') {
-      return suspiciousPatterns.some(pattern => pattern.test(obj));
+      for (const pattern of suspiciousPatterns) {
+        if (pattern.test(obj)) {
+          return `${path}: ${pattern.toString()}`;
+        }
+      }
+      return null;
     }
-    
+
     if (Array.isArray(obj)) {
-      return obj.some(checkForSQLInjection);
+      for (let i = 0; i < obj.length; i++) {
+        const result = checkForMaliciousInput(obj[i], `${path}[${i}]`);
+        if (result) return result;
+      }
+      return null;
     }
-    
+
     if (obj && typeof obj === 'object') {
-      return Object.values(obj).some(checkForSQLInjection);
+      for (const [key, value] of Object.entries(obj)) {
+        const result = checkForMaliciousInput(value, `${path}.${key}`);
+        if (result) return result;
+      }
+      return null;
     }
-    
-    return false;
+
+    return null;
   };
-  
-  if (req.body && checkForSQLInjection(req.body)) {
-    return res.status(400).json({
-      success: false,
-      error: 'Suspicious input detected'
-    });
+
+  // Check request body
+  if (req.body) {
+    const bodyResult = checkForMaliciousInput(req.body, 'body');
+    if (bodyResult) {
+      console.warn(`Malicious input detected in body from IP: ${req.ip}, Pattern: ${bodyResult}`);
+      return res.status(400).json({
+        success: false,
+        error: 'Suspicious input detected in request body',
+        code: 'MALICIOUS_INPUT'
+      });
+    }
   }
-  
-  if (req.query && checkForSQLInjection(req.query)) {
-    return res.status(400).json({
-      success: false,
-      error: 'Suspicious query parameters detected'
-    });
+
+  // Check query parameters
+  if (req.query) {
+    const queryResult = checkForMaliciousInput(req.query, 'query');
+    if (queryResult) {
+      console.warn(`Malicious input detected in query from IP: ${req.ip}, Pattern: ${queryResult}`);
+      return res.status(400).json({
+        success: false,
+        error: 'Suspicious query parameters detected',
+        code: 'MALICIOUS_QUERY'
+      });
+    }
   }
-  
+
+  // Check URL parameters
+  if (req.params) {
+    const paramsResult = checkForMaliciousInput(req.params, 'params');
+    if (paramsResult) {
+      console.warn(`Malicious input detected in params from IP: ${req.ip}, Pattern: ${paramsResult}`);
+      return res.status(400).json({
+        success: false,
+        error: 'Suspicious URL parameters detected',
+        code: 'MALICIOUS_PARAMS'
+      });
+    }
+  }
+
   next();
 };
 
