@@ -33,9 +33,9 @@ export const env = {
   // Supabase
   VITE_PUBLIC_SUPABASE_URL: getValidUrl(
     import.meta.env.VITE_PUBLIC_SUPABASE_URL,
-    'https://placeholder.supabase.co'
+    'https://ibqhfgpdgzrhvyfpgjxx.supabase.co'
   ),
-  VITE_PUBLIC_SUPABASE_ANON_KEY: import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key',
+  VITE_PUBLIC_SUPABASE_ANON_KEY: import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlidWhzZ3BkZ3pyaHZ5ZnBnangiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTczNTY3MDcwNywiZXhwIjoyMDUxMjQ2NzA3fQ.TJ5zMI1LGDNmR5MQI_QJp6HDQkqFqjIE_JJwG-H2cIg',
   SUPABASE_SERVICE_ROLE_KEY: import.meta.env.SUPABASE_SERVICE_ROLE_KEY || '',
   
   // App
