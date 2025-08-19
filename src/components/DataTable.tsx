@@ -61,7 +61,7 @@ export const DataTable = memo(function DataTable<T>({
       const key = keyExtractor ? keyExtractor(row, idx) : idx
       
       return (
-        <tr key={key} className="border-t hover:bg-gray-50 transition-colors">
+        <tr key={key} className="border-t table-row-hover">
           {columns.map((c) => {
             const value = (row as Record<string, unknown>)[String(c.key)]
             return (
