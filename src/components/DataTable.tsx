@@ -76,13 +76,13 @@ export const DataTable = memo(function DataTable<T>({
   }, [data, columns, keyExtractor, loading, emptyMessage])
 
   return (
-    <div className="overflow-auto rounded-lg border shadow-sm">
-      <table 
-        className="w-full text-sm" 
+    <div className="overflow-auto rounded-lg border border-border shadow-sm bg-card">
+      <table
+        className="w-full text-sm"
         role="table"
         aria-label="Veri tablosu"
       >
-        <thead className="bg-muted/50">
+        <thead className="bg-muted/30 border-b border-border">
           <tr role="row">
             {memoizedHeaders}
           </tr>
