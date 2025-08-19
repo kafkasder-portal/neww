@@ -1,4 +1,4 @@
-import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
+import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosProgressEvent } from 'axios';
 import { API_TIMEOUTS } from '../constants/api';
 import { env } from '../lib/env';
 import { setupInterceptors } from './interceptors';

@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { QrCode, BarChart3, Download, Print, Copy, Eye, Package } from 'lucide-react'
-import { QRCodeGenerator } from './QRCodeGenerator'
-import { InventoryQRScanner } from './InventoryQRScanner'
-import { BarcodeScanner } from './BarcodeScanner'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InventoryItem } from '@/types/inventory'
+import { BarChart3, Copy, Eye, Package, QrCode } from 'lucide-react'
+import React, { useState } from 'react'
+import { BarcodeScanner } from './BarcodeScanner'
+import { InventoryQRScanner } from './InventoryQRScanner'
+import { QRCodeGenerator } from './QRCodeGenerator'
 
 interface InventoryCodeManagerProps {
   item?: InventoryItem
@@ -42,7 +42,7 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
       timestamp: new Date().toISOString(),
       item: scannedItem || undefined
     }
-    
+
     setScannedCodes(prev => [newScannedCode, ...prev.slice(0, 9)]) // Son 10 taramayı sakla
     setShowQRScanner(false)
     onItemScanned?.(scannedItem, code)
@@ -55,7 +55,7 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
       type: 'barcode',
       timestamp: new Date().toISOString()
     }
-    
+
     setScannedCodes(prev => [newScannedCode, ...prev.slice(0, 9)])
     setShowBarcodeScanner(false)
     onItemScanned?.(null, data.code)
@@ -191,8 +191,8 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
                     )}
                     <div>
                       <p className="font-medium font-mono text-sm">
-                        {scannedCode.code.length > 20 
-                          ? `${scannedCode.code.substring(0, 20)}...` 
+                        {scannedCode.code.length > 20
+                          ? `${scannedCode.code.substring(0, 20)}...`
                           : scannedCode.code
                         }
                       </p>
@@ -259,21 +259,21 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
                   {selectedCode.code}
                 </p>
               </div>
-              
+
               <div>
                 <label className="text-sm font-medium text-gray-600">Tip:</label>
                 <Badge variant={selectedCode.type === 'qr' ? 'default' : 'secondary'}>
                   {selectedCode.type === 'qr' ? 'QR Kod' : 'Barkod'}
                 </Badge>
               </div>
-              
+
               <div>
                 <label className="text-sm font-medium text-gray-600">Tarih:</label>
                 <p className="text-sm">
                   {new Date(selectedCode.timestamp).toLocaleString('tr-TR')}
                 </p>
               </div>
-              
+
               {selectedCode.item && (
                 <div>
                   <label className="text-sm font-medium text-gray-600">Ürün:</label>
@@ -284,7 +284,7 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
                   </div>
                 </div>
               )}
-              
+
               <div className="flex gap-2">
                 <Button
                   size="sm"

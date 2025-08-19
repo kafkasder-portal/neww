@@ -1,35 +1,36 @@
-import { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import { DonorCRMService } from '@/services/donorCRMService'
-import type { 
-  DonorCampaign, 
-  CampaignFilters, 
-  CampaignStats 
+import type {
+  CampaignFilters,
+  DonorCampaign
 } from '@/types/donors'
-import { toast } from 'sonner'
-import { 
-  Target, 
-  Users, 
-  Calendar, 
+import {
+  Activity,
+  BarChart3,
+  Calendar,
   DollarSign,
-  TrendingUp,
+  Download,
+  Edit,
+  Eye,
+  Filter,
+  Globe,
+  Heart,
+  MoreHorizontal,
+  Pause,
+  Play,
   Plus,
   Search,
-  Filter,
-  Eye,
-  Edit,
-  Play,
-  Pause,
-  Stop,
-  BarChart3,
-  CheckCircle,
-  AlertCircle,
-  Download,
+  Send,
+  Star,
+  Target,
+  TrendingUp,
+  Users,
   X
 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 // Geçici Column tipi tanımı
 interface Column<T> {
@@ -262,10 +263,10 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
       render: (campaign) => (
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(campaign.campaignType)}`}>
           {campaign.campaignType === 'fundraising' ? 'Bağış Toplama' :
-           campaign.campaignType === 'awareness' ? 'Farkındalık' :
-           campaign.campaignType === 'event' ? 'Etkinlik' :
-           campaign.campaignType === 'membership' ? 'Üyelik' :
-           campaign.campaignType === 'volunteer' ? 'Gönüllü' : campaign.campaignType
+            campaign.campaignType === 'awareness' ? 'Farkındalık' :
+              campaign.campaignType === 'event' ? 'Etkinlik' :
+                campaign.campaignType === 'membership' ? 'Üyelik' :
+                  campaign.campaignType === 'volunteer' ? 'Gönüllü' : campaign.campaignType
           }
         </span>
       )
@@ -282,7 +283,7 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
               <span className="text-gray-600">{formatCurrency(campaign.targetAmount || 0)}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
+              <div
                 className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
@@ -318,10 +319,10 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
       render: (campaign) => (
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(campaign.status)}`}>
           {campaign.status === 'active' ? 'Aktif' :
-           campaign.status === 'draft' ? 'Taslak' :
-           campaign.status === 'paused' ? 'Duraklatıldı' :
-           campaign.status === 'completed' ? 'Tamamlandı' :
-           campaign.status === 'cancelled' ? 'İptal Edildi' : campaign.status
+            campaign.status === 'draft' ? 'Taslak' :
+              campaign.status === 'paused' ? 'Duraklatıldı' :
+                campaign.status === 'completed' ? 'Tamamlandı' :
+                  campaign.status === 'cancelled' ? 'İptal Edildi' : campaign.status
           }
         </span>
       )
@@ -524,22 +525,20 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
         <nav className="-mb-px flex space-x-8">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'overview'
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${activeTab === 'overview'
                 ? 'border-blue-500 text-blue-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
+              }`}
           >
             <BarChart3 className="w-4 h-4 inline mr-2" />
             Genel Bakış
           </button>
           <button
             onClick={() => setActiveTab('campaigns')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'campaigns'
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${activeTab === 'campaigns'
                 ? 'border-blue-500 text-blue-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
+              }`}
           >
             <Target className="w-4 h-4 inline mr-2" />
             Tüm Kampanyalar
@@ -591,10 +590,10 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
                 <div>
                   <label className="block text-sm font-medium mb-1">Durum</label>
                   <select
-                value={filters.status || ''}
-                onChange={(e) => handleFilterChange('status', e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-              >
+                    value={filters.status || ''}
+                    onChange={(e) => handleFilterChange('status', e.target.value)}
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+                  >
                     <option value="">Tümü</option>
                     <option value="active">Aktif</option>
                     <option value="draft">Taslak</option>
@@ -606,10 +605,10 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
                 <div>
                   <label className="block text-sm font-medium mb-1">Tip</label>
                   <select
-                value={filters.type || ''}
-                onChange={(e) => handleFilterChange('type', e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-              >
+                    value={filters.type || ''}
+                    onChange={(e) => handleFilterChange('type', e.target.value)}
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+                  >
                     <option value="">Tümü</option>
                     <option value="fundraising">Bağış Toplama</option>
                     <option value="awareness">Farkındalık</option>
@@ -621,10 +620,10 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
                 <div>
                   <label className="block text-sm font-medium mb-1">Tarih Aralığı</label>
                   <select
-                value={filters.dateRange || ''}
-                onChange={(e) => handleFilterChange('dateRange', e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-              >
+                    value={filters.dateRange || ''}
+                    onChange={(e) => handleFilterChange('dateRange', e.target.value)}
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+                  >
                     <option value="">Tümü</option>
                     <option value="active">Aktif Olanlar</option>
                     <option value="month">Bu Ay</option>
@@ -635,10 +634,10 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
                 <div>
                   <label className="block text-sm font-medium mb-1">Hedef Tutar</label>
                   <select
-                value={filters.targetAmount || ''}
-                onChange={(e) => handleFilterChange('targetAmount', e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-              >
+                    value={filters.targetAmount || ''}
+                    onChange={(e) => handleFilterChange('targetAmount', e.target.value)}
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+                  >
                     <option value="">Tümü</option>
                     <option value="0-10000">0 - 10.000 TL</option>
                     <option value="10000-50000">10.000 - 50.000 TL</option>
@@ -766,18 +765,18 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
                   <div className="flex items-center space-x-4 mt-2">
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(selectedCampaign.status)}`}>
                       {selectedCampaign.status === 'active' ? 'Aktif' :
-                       selectedCampaign.status === 'draft' ? 'Taslak' :
-                       selectedCampaign.status === 'paused' ? 'Duraklatıldı' :
-                       selectedCampaign.status === 'completed' ? 'Tamamlandı' :
-                       selectedCampaign.status === 'cancelled' ? 'İptal Edildi' : selectedCampaign.status
+                        selectedCampaign.status === 'draft' ? 'Taslak' :
+                          selectedCampaign.status === 'paused' ? 'Duraklatıldı' :
+                            selectedCampaign.status === 'completed' ? 'Tamamlandı' :
+                              selectedCampaign.status === 'cancelled' ? 'İptal Edildi' : selectedCampaign.status
                       }
                     </span>
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${getTypeColor(selectedCampaign.campaignType)}`}>
                       {selectedCampaign.campaignType === 'fundraising' ? 'Bağış Toplama' :
-                       selectedCampaign.campaignType === 'awareness' ? 'Farkındalık' :
-                       selectedCampaign.campaignType === 'event' ? 'Etkinlik' :
-                       selectedCampaign.campaignType === 'membership' ? 'Üyelik' :
-                       selectedCampaign.campaignType === 'volunteer' ? 'Gönüllü' : selectedCampaign.campaignType
+                        selectedCampaign.campaignType === 'awareness' ? 'Farkındalık' :
+                          selectedCampaign.campaignType === 'event' ? 'Etkinlik' :
+                            selectedCampaign.campaignType === 'membership' ? 'Üyelik' :
+                              selectedCampaign.campaignType === 'volunteer' ? 'Gönüllü' : selectedCampaign.campaignType
                       }
                     </span>
                   </div>
@@ -805,7 +804,7 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
               </div>
               <div className="mt-4">
                 <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div 
+                  <div
                     className="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all duration-300"
                     style={{ width: `${calculateProgress(selectedCampaign.raisedAmount || 0, selectedCampaign.targetAmount || 1)}%` }}
                   />

@@ -1,23 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -27,26 +10,41 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { 
-  Search, 
-  Plus, 
-  MapPin,
-  Building,
-  Package,
-  Edit,
-  Trash2,
-  Eye,
-  QrCode,
-  Warehouse,
-  Grid3X3,
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Textarea } from '@/components/ui/textarea'
+import { WarehouseLocation, WarehouseLocationFilters, WarehouseLocationForm } from '@/types/inventory'
+import {
   Archive,
+  Building,
   CheckCircle,
+  Edit,
+  MapPin,
+  Package,
+  Plus,
+  QrCode,
+  Search,
+  Trash2,
+  Warehouse,
   XCircle
 } from 'lucide-react'
-import { WarehouseLocation, WarehouseLocationForm, WarehouseLocationFilters } from '@/types/inventory'
+import React, { useEffect, useState } from 'react'
 
 interface WarehouseLocationsProps {
   onLocationCreate?: (location: WarehouseLocationForm) => void
@@ -169,7 +167,7 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
     // Arama filtresi
     if (filters.search) {
       const searchTerm = filters.search.toLowerCase()
-      filtered = filtered.filter(location => 
+      filtered = filtered.filter(location =>
         location.name.toLowerCase().includes(searchTerm) ||
         location.code.toLowerCase().includes(searchTerm) ||
         location.description?.toLowerCase().includes(searchTerm) ||
@@ -321,8 +319,8 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
             <Label htmlFor="type" className="text-right">
               Tür
             </Label>
-            <Select 
-              value={newLocation.type} 
+            <Select
+              value={newLocation.type}
               onValueChange={(value: any) => setNewLocation(prev => ({ ...prev, type: value }))}
             >
               <SelectTrigger className="col-span-3">
@@ -431,10 +429,10 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
             </div>
 
             {/* Tür */}
-            <Select 
-              value={filters.type || 'all'} 
-              onValueChange={(value) => setFilters(prev => ({ 
-                ...prev, 
+            <Select
+              value={filters.type || 'all'}
+              onValueChange={(value) => setFilters(prev => ({
+                ...prev,
                 type: value === 'all' ? undefined : value as any
               }))}
             >
@@ -452,10 +450,10 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
             </Select>
 
             {/* Durum */}
-            <Select 
-              value={filters.isActive === undefined ? 'all' : filters.isActive.toString()} 
-              onValueChange={(value) => setFilters(prev => ({ 
-                ...prev, 
+            <Select
+              value={filters.isActive === undefined ? 'all' : filters.isActive.toString()}
+              onValueChange={(value) => setFilters(prev => ({
+                ...prev,
                 isActive: value === 'all' ? undefined : value === 'true'
               }))}
             >
@@ -543,11 +541,10 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
                             </span>
                           </div>
                           <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                              className={`h-2 rounded-full ${
-                                occupancyPercentage >= 90 ? 'bg-red-500' :
-                                occupancyPercentage >= 70 ? 'bg-orange-500' : 'bg-green-500'
-                              }`}
+                            <div
+                              className={`h-2 rounded-full ${occupancyPercentage >= 90 ? 'bg-red-500' :
+                                  occupancyPercentage >= 70 ? 'bg-orange-500' : 'bg-green-500'
+                                }`}
                               style={{ width: `${occupancyPercentage}%` }}
                             />
                           </div>
@@ -591,15 +588,15 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-1">
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => handleEditLocation(location)}
                         >
                           <Edit className="h-3 w-3" />
                         </Button>
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => onLocationDelete?.(location.id)}
                         >
@@ -612,7 +609,7 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
               })}
             </TableBody>
           </Table>
-          
+
           {filteredLocations.length === 0 && (
             <div className="text-center py-12">
               <MapPin className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />

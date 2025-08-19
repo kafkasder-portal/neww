@@ -1,9 +1,24 @@
-import { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { DonorCRMService } from '@/services/donorCRMService'
 import type { Donor, DonorSearchFilters } from '@/types/donors'
+import {
+  Building,
+  Check,
+  Download,
+  Edit,
+  Eye,
+  Filter,
+  Mail,
+  Phone,
+  Search,
+  Upload,
+  User,
+  UserPlus,
+  X
+} from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 // Geçici Column tipi tanımı
@@ -95,26 +110,6 @@ function Modal({ isOpen, onClose, title, children }: ModalProps) {
     </div>
   )
 }
-import { 
-  Users, 
-  UserPlus, 
-  Search, 
-  Filter, 
-  Eye, 
-  Edit, 
-  Phone, 
-  Mail, 
-  Star,
-  Award,
-  Building,
-  User,
-  DollarSign,
-  Download,
-  Upload,
-  Plus,
-  X,
-  Check
-} from 'lucide-react'
 
 interface DonorProfilesProps {
   donors: Donor[]
@@ -258,15 +253,15 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
       render: (donor) => (
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-            {donor.donorType === 'individual' ? 
+            {donor.donorType === 'individual' ?
               `${donor.firstName?.charAt(0) || ''}${donor.lastName?.charAt(0) || ''}` :
               donor.companyName?.charAt(0) || 'C'
             }
           </div>
           <div>
             <p className="font-medium">
-              {donor.donorType === 'individual' ? 
-                `${donor.firstName} ${donor.lastName}` : 
+              {donor.donorType === 'individual' ?
+                `${donor.firstName} ${donor.lastName}` :
                 donor.companyName
               }
             </p>
@@ -280,14 +275,14 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
       title: 'Tip',
       render: (donor) => (
         <div className="flex items-center space-x-1">
-          {donor.donorType === 'individual' ? 
-            <User className="w-4 h-4 text-blue-600" /> : 
+          {donor.donorType === 'individual' ?
+            <User className="w-4 h-4 text-blue-600" /> :
             <Building className="w-4 h-4 text-purple-600" />
           }
           <span className="text-sm">
-            {donor.donorType === 'individual' ? 'Bireysel' : 
-             donor.donorType === 'corporate' ? 'Kurumsal' :
-             donor.donorType === 'foundation' ? 'Vakıf' : 'Devlet'
+            {donor.donorType === 'individual' ? 'Bireysel' :
+              donor.donorType === 'corporate' ? 'Kurumsal' :
+                donor.donorType === 'foundation' ? 'Vakıf' : 'Devlet'
             }
           </span>
         </div>
@@ -299,9 +294,9 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
       render: (donor) => (
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTierColor(donor.donorTier)}`}>
           {donor.donorTier === 'platinum' ? 'Platin' :
-           donor.donorTier === 'gold' ? 'Altın' :
-           donor.donorTier === 'silver' ? 'Gümüş' :
-           donor.donorTier === 'bronze' ? 'Bronz' : 'Standart'
+            donor.donorTier === 'gold' ? 'Altın' :
+              donor.donorTier === 'silver' ? 'Gümüş' :
+                donor.donorTier === 'bronze' ? 'Bronz' : 'Standart'
           }
         </span>
       )
@@ -334,9 +329,9 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
       render: (donor) => (
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(donor.relationshipStatus)}`}>
           {donor.relationshipStatus === 'active' ? 'Aktif' :
-           donor.relationshipStatus === 'inactive' ? 'Pasif' :
-           donor.relationshipStatus === 'prospect' ? 'Potansiyel' :
-           donor.relationshipStatus === 'lapsed' ? 'Kayıp' : donor.relationshipStatus
+            donor.relationshipStatus === 'inactive' ? 'Pasif' :
+              donor.relationshipStatus === 'prospect' ? 'Potansiyel' :
+                donor.relationshipStatus === 'lapsed' ? 'Kayıp' : donor.relationshipStatus
           }
         </span>
       )

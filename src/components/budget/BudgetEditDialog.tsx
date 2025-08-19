@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Plus, Trash2, Calculator, Save, History } from 'lucide-react'
+import { Plus, Trash2, Calculator, Save, History, AlertCircle, CheckCircle } from 'lucide-react'
 import { 
   Budget,
   BudgetFormData, 
