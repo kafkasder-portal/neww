@@ -73,8 +73,8 @@ export class AccountingService {
       const { data, error } = await supabase
         .from('chart_of_accounts')
         .select('*')
-        .eq('isActive', true)
-        .order('accountCode')
+        .eq('is_active', true)
+        .order('account_code')
 
       if (error) throw error
       return data || []
