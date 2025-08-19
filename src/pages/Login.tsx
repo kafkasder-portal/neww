@@ -8,6 +8,7 @@ import { useAuthStore } from '../store/auth'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { DevelopmentNotice } from '../components/DevelopmentNotice'
+import { useLanguage } from '../hooks/useLanguage'
 
 const loginSchema = z.object({
   email: z.string().email('Geçerli bir email adresi giriniz'),
