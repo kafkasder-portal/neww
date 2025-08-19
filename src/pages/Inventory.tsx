@@ -21,7 +21,7 @@ import {
   Upload
 } from 'lucide-react'
 import { InventoryDashboard, InventoryItem, StockAlert } from '@/types/inventory'
-import { formatCurrency, formatNumber } from '@/utils/format'
+import { formatCurrency, formatNumber } from '@/utils/formatters'
 import InventoryReports from '@/components/inventory/InventoryReports'
 
 // Mock data - gerçek uygulamada API'den gelecek
