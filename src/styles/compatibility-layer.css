@@ -56,22 +56,6 @@
     --tracking-financial-normal: 0em;
     --tracking-financial-wide: 0.025em;
 
-    /* Modern Professional Sidebar Colors - Updated */
-    --sidebar-bg: var(--sidebar-bg, 220 25% 8%);
-    --sidebar-text: var(--sidebar-text, 210 20% 88%);
-    --sidebar-text-muted: var(--sidebar-text-muted, 210 15% 65%);
-    --sidebar-text-active: var(--sidebar-text-active, 0 0% 100%);
-    --sidebar-bg-hover: var(--sidebar-bg-hover, 220 20% 11%);
-    --sidebar-accent: var(--sidebar-accent, 220 85% 25%);
-    --sidebar-border: var(--sidebar-border, 210 15% 15%);
-
-    /* Update legacy sidebar variables to point to new ones */
-    --sidebar-background: var(--sidebar-bg);
-    --sidebar-foreground: var(--sidebar-text);
-    --sidebar-primary: var(--sidebar-accent);
-    --sidebar-primary-foreground: var(--sidebar-text-active);
-    --sidebar-accent-fallback: var(--sidebar-bg-hover);
-    --sidebar-accent-foreground: var(--sidebar-text);
-    --sidebar-ring: var(--sidebar-accent);
+    /* Sidebar variables removed - handled in colors-enhanced.css to avoid conflicts */
   }
 }
