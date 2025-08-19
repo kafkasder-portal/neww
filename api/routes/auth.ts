@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import { validateRequest } from '../middleware/validation.js';
 import { z } from 'zod';
-import { generateCSRFToken } from '../middleware/security.js';
+import { generateCSRFToken, authRateLimiter, failedAuthRateLimiter, xssProtection } from '../middleware/security.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
 dotenv.config();
