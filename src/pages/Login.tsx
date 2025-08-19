@@ -134,12 +134,12 @@ export default function Login() {
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center mb-4">
             <Building className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-foreground">
             {mode === 'login' && t('auth.welcome')}
             {mode === 'register' && t('auth.signUp')}
             {mode === 'forgot' && t('auth.resetPassword')}
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-muted-foreground mt-2">
             {mode === 'login' && 'Dernek Yönetim Paneli'}
             {mode === 'register' && 'Yeni hesap oluşturmak için bilgilerinizi giriniz'}
             {mode === 'forgot' && 'Email adresinizi girerek şifrenizi sıfırlayın'}
