@@ -1,4 +1,21 @@
-import { useState, useEffect, lazy, Suspense } from 'react'
+import { useState, useEffect } from 'react'
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area
+} from 'recharts'
 import { supabase } from '../lib/supabase'
 import { SkeletonCard } from './Loading'
 import { Calendar } from 'lucide-react'
@@ -48,18 +65,7 @@ interface DashboardData {
   loading: boolean
 }
 
-/**
- * Lazily loads the `RechartsBundle` component for use within the dashboard charts.
- * 
- * This approach enables code-splitting, improving the application's performance by loading
- * the charting bundle only when it is needed.
- *
- * @remarks
- * The `RechartsBundle` component is imported asynchronously using React's `lazy` function.
- *
- * @see {@link https://react.dev/reference/react/lazy | React.lazy documentation}
- */
-const LazyRechartsBundle = lazy(() => import('./RechartsBundle'));
+// Direct recharts imports - lazy loading removed for simplicity
 
 // Alternative inline component for simple charts
 
