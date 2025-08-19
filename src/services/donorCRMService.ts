@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase'
-import type { 
-  Donor, 
-  DonorInteraction, 
-  DonorCampaign, 
+import type {
+  Donor,
+  DonorInteraction,
+  DonorCampaign,
   DonorSegment,
   DonorTaskList,
   DonorCommunication,
@@ -11,6 +11,7 @@ import type {
   DonorDashboardData
 } from '@/types/donors'
 import { toast } from 'sonner'
+import { getErrorMessage, logError, isTableNotFoundError, ErrorMessages } from '@/utils/errorHandler'
 
 export class DonorCRMService {
   // Donor Management
