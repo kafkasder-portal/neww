@@ -34,6 +34,27 @@
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
 
+    /* Financial Status Colors - Map from enhanced system */
+    --financial-success: 142 76% 22%;
+    --financial-success-light: 142 70% 92%;
+    --financial-warning: 38 92% 30%;
+    --financial-warning-light: 38 80% 90%;
+    --financial-error: 0 84% 30%;
+    --financial-error-light: 0 75% 90%;
+    --financial-info: 207 85% 30%;
+    --financial-info-light: 207 75% 90%;
+
+    /* Grid & Chart Colors */
+    --chart-primary: var(--brand-primary);
+    --chart-secondary: var(--financial-success);
+    --chart-tertiary: var(--financial-warning);
+    --chart-quaternary: var(--financial-error);
+
+    /* Interactive States for Grids */
+    --grid-hover: 220 15% 96%;
+    --grid-selected: 220 25% 92%;
+    --grid-border: var(--border);
+
     /* Sidebar Colors - Fallback values */
     --sidebar-background: 220 13% 18%;
     --sidebar-foreground: 220 9% 88%;
