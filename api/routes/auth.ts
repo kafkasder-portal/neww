@@ -60,7 +60,7 @@ router.get('/csrf-token', (req: Request, res: Response): void => {
  * User Registration
  * POST /api/auth/register
  */
-router.post('/register', validateRequest(registerSchema), asyncHandler(async (req: Request, res: Response): Promise<void> => {
+router.post('/register', authRateLimiter, xssProtection, validateRequest(registerSchema), asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const { email, password, full_name, department, phone } = req.body;
 
   // Validate required fields
