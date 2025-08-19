@@ -30,7 +30,7 @@ export default function FormDefinitions() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 text-white">
         <div className="flex items-center gap-3 mb-3">
           <FileText className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Form Tanımları</h1>
@@ -45,34 +45,34 @@ export default function FormDefinitions() {
               <p className="text-sm text-muted-foreground">Toplam Form</p>
               <p className="text-2xl font-bold">{forms.length}</p>
             </div>
-            <FileText className="h-8 w-8 text-blue-600" />
+            <FileText className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Form</p>
-              <p className="text-2xl font-bold text-green-600">{forms.filter(f => f.status === 'Aktif').length}</p>
+              <p className="text-2xl font-bold text-semantic-success">{forms.filter(f => f.status === 'Aktif').length}</p>
             </div>
-            <Settings className="h-8 w-8 text-green-600" />
+            <Settings className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplam Alan</p>
-              <p className="text-2xl font-bold text-purple-600">{forms.reduce((sum, f) => sum + f.fieldCount, 0)}</p>
+              <p className="text-2xl font-bold text-brand-secondary">{forms.reduce((sum, f) => sum + f.fieldCount, 0)}</p>
             </div>
-            <Layout className="h-8 w-8 text-purple-600" />
+            <Layout className="h-8 w-8 text-brand-secondary" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Son Güncelleme</p>
-              <p className="text-sm font-bold text-orange-600">Bu hafta</p>
+              <p className="text-sm font-bold text-semantic-warning">Bu hafta</p>
             </div>
-            <List className="h-8 w-8 text-orange-600" />
+            <List className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
       </div>

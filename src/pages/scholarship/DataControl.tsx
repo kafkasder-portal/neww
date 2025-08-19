@@ -22,7 +22,7 @@ export default function DataControl() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-slate-500 to-slate-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 text-white">
         <div className="flex items-center gap-3 mb-3">
           <Database className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Veri Kontrolü</h1>
@@ -37,34 +37,34 @@ export default function DataControl() {
               <p className="text-sm text-muted-foreground">Toplam Kayıt</p>
               <p className="text-2xl font-bold">{stats.totalRecords}</p>
             </div>
-            <Users className="h-8 w-8 text-blue-600" />
+            <Users className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Geçerli Kayıt</p>
-              <p className="text-2xl font-bold text-green-600">{stats.validRecords}</p>
+              <p className="text-2xl font-bold text-semantic-success">{stats.validRecords}</p>
             </div>
-            <CheckCircle className="h-8 w-8 text-green-600" />
+            <CheckCircle className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Sorun Bulunan</p>
-              <p className="text-2xl font-bold text-red-600">{stats.issuesFound}</p>
+              <p className="text-2xl font-bold text-semantic-danger">{stats.issuesFound}</p>
             </div>
-            <AlertTriangle className="h-8 w-8 text-red-600" />
+            <AlertTriangle className="h-8 w-8 text-semantic-danger" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Çözülen</p>
-              <p className="text-2xl font-bold text-purple-600">{stats.resolved}</p>
+              <p className="text-2xl font-bold text-brand-secondary">{stats.resolved}</p>
             </div>
-            <RefreshCw className="h-8 w-8 text-purple-600" />
+            <RefreshCw className="h-8 w-8 text-brand-secondary" />
           </div>
         </Card>
       </div>
@@ -94,17 +94,17 @@ export default function DataControl() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <span className={`px-2 py-1 rounded text-xs ${
-                      issue.severity === 'Yüksek' ? 'bg-red-100 text-red-800' :
-                      issue.severity === 'Orta' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
+                      issue.severity === 'Yüksek' ? 'bg-semantic-danger/10 text-semantic-danger' :
+                      issue.severity === 'Orta' ? 'bg-semantic-warning/10 text-semantic-warning' :
+                      'bg-semantic-success/10 text-semantic-success'
                     }`}>
                       {issue.severity}
                     </span>
                     <span className="font-medium">{issue.type}</span>
                     <span className={`px-2 py-1 rounded text-xs ${
-                      issue.status === 'Çözüldü' ? 'bg-green-100 text-green-800' :
-                      issue.status === 'İnceleniyor' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-gray-100 text-gray-800'
+                      issue.status === 'Çözüldü' ? 'bg-semantic-success/10 text-semantic-success' :
+                      issue.status === 'İnceleniyor' ? 'bg-semantic-warning/10 text-semantic-warning' :
+                      'bg-muted/50 text-muted-foreground'
                     }`}>
                       {issue.status}
                     </span>

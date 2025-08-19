@@ -21,7 +21,7 @@ export default function AddressLabels() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 text-white">
         <div className="flex items-center gap-3 mb-3">
           <Package className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Adres Etiket Baskı</h1>

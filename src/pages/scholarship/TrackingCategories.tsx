@@ -23,7 +23,7 @@ export default function TrackingCategories() {
       id: 1,
       name: 'Akademik Başarı',
       description: 'Not ortalaması ve sınıf başarısı takibi',
-      color: 'bg-green-500',
+      color: 'bg-semantic-success',
       priority: 'Yüksek',
       studentCount: 185,
       criteria: ['Not ortalaması ≥ 85', 'Devamsızlık ≤ 5 gün'],
@@ -175,34 +175,34 @@ export default function TrackingCategories() {
               <p className="text-sm text-muted-foreground">Toplam Kategori</p>
               <p className="text-2xl font-bold">{stats.totalCategories}</p>
             </div>
-            <Star className="h-8 w-8 text-blue-600" />
+            <Star className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Kategori</p>
-              <p className="text-2xl font-bold text-green-600">{stats.activeCategories}</p>
+              <p className="text-2xl font-bold text-semantic-success">{stats.activeCategories}</p>
             </div>
-            <CheckCircle className="h-8 w-8 text-green-600" />
+            <CheckCircle className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Takipteki Öğrenci</p>
-              <p className="text-2xl font-bold text-purple-600">{stats.totalStudents}</p>
+              <p className="text-2xl font-bold text-brand-secondary">{stats.totalStudents}</p>
             </div>
-            <Users className="h-8 w-8 text-purple-600" />
+            <Users className="h-8 w-8 text-brand-secondary" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Yüksek Öncelik</p>
-              <p className="text-2xl font-bold text-red-600">{stats.highPriority}</p>
+              <p className="text-2xl font-bold text-semantic-danger">{stats.highPriority}</p>
             </div>
-            <TrendingUp className="h-8 w-8 text-red-600" />
+            <TrendingUp className="h-8 w-8 text-semantic-danger" />
           </div>
         </Card>
       </div>
@@ -241,7 +241,7 @@ export default function TrackingCategories() {
                               {category.priority} Öncelik
                             </span>
                             <span className={`px-2 py-1 rounded-full text-xs ${
-                              category.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                              category.isActive ? 'bg-semantic-success/10 text-semantic-success' : 'bg-muted/50 text-muted-foreground'
                             }`}>
                               {category.isActive ? 'Aktif' : 'Pasif'}
                             </span>

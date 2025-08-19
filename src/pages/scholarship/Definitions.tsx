@@ -194,7 +194,7 @@ export default function ScholarshipDefinitions() {
             <td className="p-3">{item.duration}</td>
             <td className="p-3">
               <span className={`px-2 py-1 rounded-full text-xs ${
-                item.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                item.isActive ? 'bg-semantic-success/10 text-semantic-success' : 'bg-muted/50 text-muted-foreground'
               }`}>
                 {item.isActive ? 'Aktif' : 'Pasif'}
               </span>
@@ -295,7 +295,7 @@ export default function ScholarshipDefinitions() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 text-white">
         <div className="flex items-center gap-3 mb-3">
           <Settings className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Burs Tanımlamaları</h1>
@@ -313,7 +313,7 @@ export default function ScholarshipDefinitions() {
               <p className="text-sm text-muted-foreground">Aktif Burs Türü</p>
               <p className="text-2xl font-bold">{scholarshipTypes.filter(t => t.isActive).length}</p>
             </div>
-            <Tag className="h-8 w-8 text-blue-600" />
+            <Tag className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
@@ -322,7 +322,7 @@ export default function ScholarshipDefinitions() {
               <p className="text-sm text-muted-foreground">Eğitim Seviyesi</p>
               <p className="text-2xl font-bold">{educationLevels.length}</p>
             </div>
-            <GraduationCap className="h-8 w-8 text-green-600" />
+            <GraduationCap className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
@@ -331,7 +331,7 @@ export default function ScholarshipDefinitions() {
               <p className="text-sm text-muted-foreground">Ödeme Planı</p>
               <p className="text-2xl font-bold">{paymentSchedules.filter(p => p.isActive).length}</p>
             </div>
-            <Calendar className="h-8 w-8 text-purple-600" />
+            <Calendar className="h-8 w-8 text-brand-secondary" />
           </div>
         </Card>
         <Card className="p-4">
@@ -340,7 +340,7 @@ export default function ScholarshipDefinitions() {
               <p className="text-sm text-muted-foreground">Harcama Kategorisi</p>
               <p className="text-2xl font-bold">{categories.length}</p>
             </div>
-            <DollarSign className="h-8 w-8 text-orange-600" />
+            <DollarSign className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
       </div>

@@ -484,12 +484,20 @@ router.get('/stats',
         return res.status(500).json({ error: 'Failed to fetch SMS statistics' });
       }
 
-      const stats = {
+      const stats: {
+        total: number;
+        sent: number;
+        delivered: number;
+        failed: number;
+        pending: number;
+        successRate: number;
+      } = {
         total: logs?.length || 0,
         sent: logs?.filter(log => log.status === 'sent').length || 0,
         delivered: logs?.filter(log => log.status === 'delivered').length || 0,
         failed: logs?.filter(log => log.status === 'failed').length || 0,
-        pending: logs?.filter(log => log.status === 'pending').length || 0
+        pending: logs?.filter(log => log.status === 'pending').length || 0,
+        successRate: 0
       };
 
       stats.successRate = stats.total > 0 ? (stats.sent / stats.total) * 100 : 0;

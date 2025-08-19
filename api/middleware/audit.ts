@@ -1,5 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
+<<<<<<< HEAD
 import { supabase } from '../config/supabase';
+=======
+import { supabase } from '../config/supabase.js';
+import crypto from 'crypto';
+import DOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
+
+// Initialize DOMPurify with JSDOM for server-side usage
+const window = new JSDOM('').window;
+const DOMPurifyInstance = DOMPurify(window as any);
+
+/**
+ * Utility to generate a stable hash for content
+ */
+const hashContent = (content: string): string => {
+	return crypto.createHash('sha256').update(content).digest('hex');
+};
+>>>>>>> 686e8fd5c317be0c6813aba7437400939cd49c3c
 
 // Interface for audit log data
 interface AuditLogData {
@@ -301,86 +319,86 @@ export const auditHighRiskOperation = (
 
 // Middleware to detect suspicious activities
 export const suspiciousActivityDetector = (req: Request, res: Response, next: NextFunction) => {
-  const ipAddress = getClientIP(req);
-  const userAgent = req.headers['user-agent'] || '';
-  const userId = req.user?.id;
+	const ipAddress = getClientIP(req);
+	const userAgent = req.headers['user-agent'] || '';
+	const userId = req.user?.id;
 
-  // Detect potential security issues
-  const suspiciousIndicators = [];
-  let riskScore = 0;
+	// Detect potential security issues
+	const suspiciousIndicators: string[] = [];
+	let riskScore = 0;
 
-  // Check for SQL injection patterns
-  const sqlInjectionPatterns = [
-    /('|(\')|(\-\-)|(\;)|(\/\*))/i,
-    /((\%27)|(\')|(\')|(\%2D\D))/i,
-    /(union|select|insert|delete|update|drop|exec|script)/i
-  ];
+	// Check for SQL injection patterns
+	const sqlInjectionPatterns: RegExp[] = [
+		/('|--|;|\/\*)/i,
+		/(%27|'|%2D\D)/i,
+		/(union|select|insert|delete|update|drop|exec|script)/i
+	];
 
-  const requestString = JSON.stringify(req.query) + JSON.stringify(req.body);
-  sqlInjectionPatterns.forEach(pattern => {
-    if (pattern.test(requestString)) {
-      suspiciousIndicators.push('sql_injection_attempt');
-      riskScore += 40;
-    }
-  });
+	const requestString = JSON.stringify(req.query) + JSON.stringify(req.body);
+	sqlInjectionPatterns.forEach(pattern => {
+		if (pattern.test(requestString)) {
+			suspiciousIndicators.push('sql_injection_attempt');
+			riskScore += 40;
+		}
+	});
 
-  // Check for XSS patterns
-  const xssPatterns = [
-    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-    /javascript:/gi,
-    /on\w+\s*=/gi
-  ];
+	// Check for XSS patterns
+	const xssPatterns: RegExp[] = [
+		/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+		/javascript:/gi,
+		/on\w+\s*=/gi
+	];
 
-  xssPatterns.forEach(pattern => {
-    if (pattern.test(requestString)) {
-      suspiciousIndicators.push('xss_attempt');
-      riskScore += 30;
-    }
-  });
+	xssPatterns.forEach(pattern => {
+		if (pattern.test(requestString)) {
+			suspiciousIndicators.push('xss_attempt');
+			riskScore += 30;
+		}
+	});
 
-  // Check for suspicious user agents
-  const suspiciousUserAgents = [
-    /bot/i,
-    /crawler/i,
-    /scanner/i,
-    /curl/i,
-    /wget/i
-  ];
+	// Check for suspicious user agents
+	const suspiciousUserAgents: RegExp[] = [
+		/bot/i,
+		/crawler/i,
+		/scanner/i,
+		/curl/i,
+		/wget/i
+	];
 
-  suspiciousUserAgents.forEach(pattern => {
-    if (pattern.test(userAgent)) {
-      suspiciousIndicators.push('suspicious_user_agent');
-      riskScore += 10;
-    }
-  });
+	suspiciousUserAgents.forEach(pattern => {
+		if (pattern.test(userAgent)) {
+			suspiciousIndicators.push('suspicious_user_agent');
+			riskScore += 10;
+		}
+	});
 
-  // Log suspicious activity if detected
-  if (suspiciousIndicators.length > 0) {
-    logSecurityEvent(
-      'suspicious_activity',
-      userId,
-      ipAddress,
-      userAgent,
-      false,
-      {
-        indicators: suspiciousIndicators,
-        path: req.path,
-        method: req.method,
-        query: req.query,
-        body: req.body
-      },
-      riskScore
-    );
+	// Log suspicious activity if detected
+	if (suspiciousIndicators.length > 0) {
+		logSecurityEvent(
+			'suspicious_activity',
+			userId,
+			ipAddress,
+			userAgent,
+			false,
+			{
+				indicators: suspiciousIndicators,
+				path: req.path,
+				method: req.method,
+				query: req.query,
+				body: req.body
+			},
+			riskScore
+		);
 
-    // Block high-risk requests
-    if (riskScore >= 50) {
-      return res.status(403).json({
-        error: 'Request blocked due to suspicious activity'
-      });
-    }
-  }
+		// Block high-risk requests
+		if (riskScore >= 50) {
+			return res.status(403).json({
+				error: 'Request blocked due to suspicious activity'
+			});
+		}
+	}
 
-  next();
+	next();
 };
 
 export default {

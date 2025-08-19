@@ -138,7 +138,7 @@ export default function ScholarshipCampaigns() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-pink-500 to-pink-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 text-white">
         <div className="flex items-center gap-3 mb-3">
           <Star className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Burs Kampanyaları</h1>

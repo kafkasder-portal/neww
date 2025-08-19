@@ -3,7 +3,7 @@ import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
 import { exportToCsv } from '@lib/exportToCsv'
 import { AlertTriangle, Trash2, RefreshCw, Search } from 'lucide-react'
-import { Button, ButtonGroup } from '@components/ui/button-enhanced'
+import { Button } from '@components/ui/button'
 
 interface WarningMessage {
   id: string
@@ -124,6 +124,11 @@ export default function WarningMessages() {
     return result
   }, [query, selectedSeverity, ipFilter])
 
+  const severityOptions = [...new Set(mockWarningMessages.map((w) => w.severity))]
+  const totalWarnings = filtered.length
+  const criticalWarnings = filtered.filter(w => w.severity === 'Critical').length
+  const totalRepeats = filtered.reduce((acc, w) => acc + w.repeatCount, 0)
+
   const columns: Column<WarningMessage>[] = [
     { 
       key: 'message', 
@@ -171,7 +176,7 @@ export default function WarningMessages() {
           'Low': 'bg-muted/50 text-muted-foreground',
           'Medium': 'bg-semantic-warning/10 text-semantic-warning',
           'High': 'bg-semantic-danger/10 text-semantic-danger',
-          'Critical': 'bg-semantic-destructive/10 text-semantic-destructive'
+          'Critical': 'bg-semantic-danger/10 text-semantic-danger'
         } as const
         const labels = {
           'Low': 'Düşük',
@@ -190,42 +195,36 @@ export default function WarningMessages() {
     {
       key: 'actions',
       header: 'İşlemler',
-      render: () => (
-        <div className="flex gap-2">
-          <button className="rounded p-1 text-semantic-danger hover:bg-semantic-danger/10" title="Sil">
+      render: (record: WarningMessage) => (
+        <div className="flex items-center justify-end gap-2">
+          <Button variant="soft-destructive" size="icon">
             <Trash2 className="h-4 w-4" />
-          </button>
+          </Button>
         </div>
       )
     }
   ]
 
-  const severityOptions = ['Low', 'Medium', 'High', 'Critical']
-  const totalWarnings = filtered.length
-  const criticalWarnings = filtered.filter(w => w.severity === 'Critical').length
-  const totalRepeats = filtered.reduce((sum, w) => sum + w.repeatCount, 0)
-
   return (
     <div className="space-y-4">
-      {/* Header Controls */}
       <div className="flex items-center gap-2 overflow-x-auto rounded border p-2">
-        <ButtonGroup variant="separated">
+        <div className="flex gap-2">
           <Button
             variant="destructive"
             size="sm"
-            icon={<Trash2 className="h-4 w-4" />}
+            startIcon={<Trash2 className="h-4 w-4" />}
           >
             Tümünü Sil
           </Button>
           <Button
             variant="soft-primary"
             size="sm"
-            icon={<RefreshCw className="h-4 w-4" />}
+            startIcon={<RefreshCw className="h-4 w-4" />}
           >
             Yenile
           </Button>
-        </ButtonGroup>
-        <select 
+        </div>
+        <select
           value={selectedSeverity}
           onChange={(e) => setSelectedSeverity(e.target.value)}
           className="rounded border bg-background px-2 py-1 text-sm"
@@ -233,37 +232,38 @@ export default function WarningMessages() {
           <option value="all">Tüm Önem Seviyeleri</option>
           {severityOptions.map(severity => (
             <option key={severity} value={severity}>
-              {severity === 'Low' ? 'Düşük' : 
-               severity === 'Medium' ? 'Orta' : 
-               severity === 'High' ? 'Yüksek' : 'Kritik'}
+              {severity === 'Low' ? 'Düşük' :
+                severity === 'Medium' ? 'Orta' :
+                severity === 'High' ? 'Yüksek' : 'Kritik'}
             </option>
           ))}
         </select>
-        <input 
-          value={ipFilter} 
-          onChange={(e) => setIpFilter(e.target.value)} 
-          className="w-40 rounded border px-2 py-1 text-sm" 
-          placeholder="IP Adresi" 
+        <input
+          value={ipFilter}
+          onChange={(e) => setIpFilter(e.target.value)}
+          className="w-40 rounded border px-2 py-1 text-sm"
+          placeholder="IP Adresi"
         />
-        <input 
-          value={query} 
-          onChange={(e) => setQuery(e.target.value)} 
-          className="min-w-64 flex-1 rounded border px-2 py-1 text-sm" 
-          placeholder="Uyarı mesajı ara..." 
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="min-w-64 flex-1 rounded border px-2 py-1 text-sm"
+          placeholder="Uyarı mesajı ara..."
         />
         <Button
           variant="success"
           size="sm"
-          icon={<Search className="h-4 w-4" />}
+          startIcon={<Search className="h-4 w-4" />}
         >
           Ara
         </Button>
-        <button 
-          onClick={() => exportToCsv('uyari-mesajlari.csv', filtered)} 
-          className="rounded bg-muted px-3 py-1 text-sm text-white"
+        <Button
+          variant='soft-primary'
+          size='sm'
+          onClick={() => exportToCsv('uyari-mesajlari.csv', filtered)}
         >
           İndir
-        </button>
+        </Button>
         <div className="ml-auto text-sm text-muted-foreground">
           {totalWarnings} Kayıt
         </div>
@@ -304,12 +304,12 @@ export default function WarningMessages() {
           {severityOptions.map(severity => {
             const count = filtered.filter(w => w.severity === severity).length
             const percentage = totalWarnings > 0 ? (count / totalWarnings * 100).toFixed(1) : 0
-            const label = severity === 'Low' ? 'Düşük' : 
-                         severity === 'Medium' ? 'Orta' : 
-                         severity === 'High' ? 'Yüksek' : 'Kritik'
+            const label = severity === 'Low' ? 'Düşük' :
+                          severity === 'Medium' ? 'Orta' :
+                          severity === 'High' ? 'Yüksek' : 'Kritik'
             const color = severity === 'Low' ? 'text-muted-foreground' :
                 severity === 'Medium' ? 'text-semantic-warning' :
-                severity === 'High' ? 'text-semantic-warning' : 'text-semantic-danger'
+                severity === 'High' ? 'text-semantic-danger' : 'text-semantic-danger'
             
             return (
               <div key={severity} className="rounded border p-3">

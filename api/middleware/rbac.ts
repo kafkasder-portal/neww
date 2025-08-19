@@ -59,7 +59,7 @@ export const getUserPermissions = async (userId: string): Promise<string[]> => {
       `)
       .eq('role', userProfile.role);
 
-    return permissions?.map(p => p.permissions.name) || [];
+    return (permissions as Array<{ permissions: { name: string } }> | null)?.map(p => p.permissions?.name).filter(Boolean) || [];
   } catch (error) {
     console.error('Error fetching user permissions:', error);
     return [];
@@ -84,7 +84,7 @@ export const hasPermission = async (
       return false;
     }
 
-    return data || false;
+    return Boolean(data);
   } catch (error) {
     console.error('Permission check error:', error);
     return false;
@@ -186,7 +186,7 @@ export const requireResourceOwnership = (
         return res.status(500).json({ error: 'Ownership check failed' });
       }
 
-      if (!data || data[ownershipField] !== req.user.id) {
+      if (!data || (data as unknown as Record<string, unknown>)[ownershipField] !== req.user.id) {
         // Check if user has admin privileges to bypass ownership
         const isAdmin = await hasPermission(req.user.id, 'system', 'admin');
         if (!isAdmin) {

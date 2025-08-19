@@ -22,98 +22,98 @@ export default function ScholarshipIndex() {
       description: 'Burs alan öğrenci ve yetim kayıtlarının yönetimi',
       icon: <Users className="h-6 w-6" />,
       link: '/scholarship/orphans-students',
-      color: 'bg-blue-500'
+      color: 'bg-semantic-info'
     },
     {
       title: 'Görsel Yönetimi',
       description: 'Öğrenci fotoğrafları ve görsel içerik yönetimi',
       icon: <FileText className="h-6 w-6" />,
       link: '/scholarship/visual-management',
-      color: 'bg-green-500'
+      color: 'bg-semantic-success'
     },
     {
       title: 'Tanımlamalar',
       description: 'Burs türleri ve kategorilerinin tanımlanması',
       icon: <Settings className="h-6 w-6" />,
       link: '/scholarship/definitions',
-      color: 'bg-purple-500'
+      color: 'bg-brand-secondary'
     },
     {
       title: 'Takip Kategorileri',
       description: 'Öğrenci takip kategorilerinin yönetimi',
       icon: <Star className="h-6 w-6" />,
       link: '/scholarship/tracking-categories',
-      color: 'bg-yellow-500'
+      color: 'bg-semantic-warning'
     },
     {
       title: 'Yetim Bilgi Formu',
       description: 'Yetim öğrenciler için özel bilgi formları',
       icon: <FileText className="h-6 w-6" />,
       link: '/scholarship/orphan-form',
-      color: 'bg-red-500'
+      color: 'bg-semantic-danger'
     },
     {
       title: 'Yetim Mektupları',
       description: 'Yetim öğrenciler ile yazışma yönetimi',
       icon: <Mail className="h-6 w-6" />,
       link: '/scholarship/orphan-letters',
-      color: 'bg-indigo-500'
+      color: 'bg-brand-tertiary'
     },
     {
       title: 'Kampanyalar',
       description: 'Burs kampanyalarının planlanması ve yönetimi',
       icon: <Star className="h-6 w-6" />,
       link: '/scholarship/campaigns',
-      color: 'bg-pink-500'
+      color: 'bg-semantic-danger'
     },
     {
       title: 'Okullar',
       description: 'Anlaşmalı okul ve kurumların yönetimi',
       icon: <GraduationCap className="h-6 w-6" />,
       link: '/scholarship/schools',
-      color: 'bg-cyan-500'
+      color: 'bg-brand-quaternary'
     },
     {
       title: 'Form Tanımları',
       description: 'Başvuru ve değerlendirme formlarının tasarımı',
       icon: <FileText className="h-6 w-6" />,
       link: '/scholarship/form-definitions',
-      color: 'bg-orange-500'
+      color: 'bg-semantic-warning'
     },
     {
       title: 'Fiyat Tanımları',
       description: 'Burs miktarları ve ödeme planlarının belirlenmesi',
       icon: <DollarSign className="h-6 w-6" />,
       link: '/scholarship/price-definitions',
-      color: 'bg-emerald-500'
+      color: 'bg-semantic-success'
     },
     {
       title: 'Adres Etiket Baskı',
       description: 'Posta gönderimler için adres etiketleri',
       icon: <Package className="h-6 w-6" />,
       link: '/scholarship/address-labels',
-      color: 'bg-teal-500'
+      color: 'bg-semantic-info'
     },
     {
       title: 'Raporlar',
       description: 'Burs dağılımı ve öğrenci performans raporları',
       icon: <BarChart3 className="h-6 w-6" />,
       link: '/scholarship/reports',
-      color: 'bg-violet-500'
+      color: 'bg-brand-secondary'
     },
     {
       title: 'Veri Kontrolü',
       description: 'Öğrenci verilerinin doğrulama ve temizleme',
       icon: <Database className="h-6 w-6" />,
       link: '/scholarship/data-control',
-      color: 'bg-slate-500'
+      color: 'bg-neutral-500'
     },
     {
       title: 'Modül Bilgilendirme',
       description: 'Burs yönetimi modülü hakkında bilgiler',
       icon: <Info className="h-6 w-6" />,
       link: '/scholarship/module-info',
-      color: 'bg-gray-500'
+      color: 'bg-neutral-400'
     }
   ]
 
@@ -136,36 +136,36 @@ export default function ScholarshipIndex() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Öğrenci</p>
-              <p className="text-2xl font-bold text-blue-600">285</p>
+              <p className="text-2xl font-bold text-semantic-info">285</p>
             </div>
-            <Users className="h-8 w-8 text-blue-600" />
+            <Users className="h-8 w-8 text-semantic-info" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Bu Ay Burs</p>
-              <p className="text-2xl font-bold text-green-600">₺45,600</p>
+              <p className="text-2xl font-bold text-semantic-success">₺45,600</p>
             </div>
-            <DollarSign className="h-8 w-8 text-green-600" />
+            <DollarSign className="h-8 w-8 text-semantic-success" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Anlaşmalı Okul</p>
-              <p className="text-2xl font-bold text-purple-600">28</p>
+              <p className="text-2xl font-bold text-brand-secondary">28</p>
             </div>
-            <GraduationCap className="h-8 w-8 text-purple-600" />
+            <GraduationCap className="h-8 w-8 text-brand-secondary" />
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Kampanya</p>
-              <p className="text-2xl font-bold text-orange-600">5</p>
+              <p className="text-2xl font-bold text-semantic-warning">5</p>
             </div>
-            <Star className="h-8 w-8 text-orange-600" />
+            <Star className="h-8 w-8 text-semantic-warning" />
           </div>
         </Card>
       </div>
