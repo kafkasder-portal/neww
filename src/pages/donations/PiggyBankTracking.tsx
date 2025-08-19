@@ -1047,10 +1047,10 @@ export default function PiggyBankTracking() {
             </div>
 
             {/* Kumbara Tipi Analizi */}
-            <div className="bg-white border rounded-lg p-6">
+            <div className="bg-card border rounded-lg p-6">
               <h3 className="text-lg font-medium mb-4">Kumbara Tipi Analizi</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {['standart', 'büyük', 'özel', 'dijital'].map(type => {
+                {['standart', 'büy��k', 'özel', 'dijital'].map(type => {
                   const typeBanks = filteredBanks.filter(b => b.bankType === type)
                   const typeTotal = typeBanks.reduce((sum, b) => sum + b.totalCollected, 0)
                   const typeAverage = typeBanks.length > 0 ? typeTotal / typeBanks.length : 0
