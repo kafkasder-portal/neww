@@ -48,12 +48,15 @@ export class AccountingService {
 
       return true
     } catch (error) {
+      console.error('Error initializing chart of accounts:', error)
       logError('Error initializing chart of accounts', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu mevcut değil. Lütfen sistem yöneticisine başvurun.')
       } else {
-        toast.error(`Hesap planı oluşturulamadı: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Hesap planı oluşturulamadı: ${errorMsg}`)
       }
       return false
     }
@@ -70,12 +73,23 @@ export class AccountingService {
       if (error) throw error
       return data || []
     } catch (error) {
+      console.error('Error fetching chart of accounts:', error)
       logError('Error fetching chart of accounts', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu bulunamadı. Sistem yöneticisine başvurun.')
+        // Return default chart as fallback
+        return STANDARD_CHART_OF_ACCOUNTS.map((account, index) => ({
+          ...account,
+          id: `temp_${index}`,
+          currentBalance: 0,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }))
       } else {
-        toast.error(`Hesap planı yüklenemedi: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Hesap planı yüklenemedi: ${errorMsg}`)
       }
       return []
     }
@@ -304,12 +318,24 @@ export class AccountingService {
         balance: account.currentBalance
       }))
     } catch (error) {
+      console.error('Error generating trial balance:', error)
       logError('Error generating trial balance', error)
 
       if (isTableNotFoundError(error)) {
         toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+        // Return sample trial balance as fallback
+        return STANDARD_CHART_OF_ACCOUNTS.map(account => ({
+          accountCode: account.accountCode,
+          accountName: account.accountNameTR,
+          accountType: account.accountType,
+          debitBalance: account.balanceType === 'debit' ? 0 : 0,
+          creditBalance: account.balanceType === 'credit' ? 0 : 0,
+          balance: 0
+        }))
       } else {
-        toast.error(`Mizan raporu oluşturulamadı: ${getErrorMessage(error)}`)
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Mizan raporu oluşturulamadı: ${errorMsg}`)
       }
       return []
     }
