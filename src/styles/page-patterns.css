@@ -15,6 +15,12 @@
     background: hsl(var(--background));
   }
 
+  /* Consistent page background */
+  .page-content {
+    background: hsl(var(--background));
+    min-height: 100vh;
+  }
+
   @media (max-width: 640px) {
     .page-container {
       padding: 1rem;
