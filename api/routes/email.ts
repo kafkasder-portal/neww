@@ -515,8 +515,7 @@ router.get('/test-connection',
 );
 
 /**
- * Get email statistics
- * GET /api/email/stats
+ * GET /api/email/stats - Email statistics
  */
 router.get('/stats',
   authenticateUser,
@@ -544,14 +543,30 @@ router.get('/stats',
         return res.status(500).json({ error: 'Failed to fetch email statistics' });
       }
 
-      const stats = {
+      const stats: {
+        total: number;
+        sent: number;
+        delivered: number;
+        opened: number;
+        clicked: number;
+        bounced: number;
+        failed: number;
+        successRate: number;
+        openRate: number;
+        clickRate: number;
+        bounceRate: number;
+      } = {
         total: logs?.length || 0,
         sent: logs?.filter(log => log.status === 'sent').length || 0,
         delivered: logs?.filter(log => log.status === 'delivered').length || 0,
         opened: logs?.filter(log => log.opened_at).length || 0,
         clicked: logs?.filter(log => log.clicked_at).length || 0,
         bounced: logs?.filter(log => log.status === 'bounced').length || 0,
-        failed: logs?.filter(log => log.status === 'failed').length || 0
+        failed: logs?.filter(log => log.status === 'failed').length || 0,
+        successRate: 0,
+        openRate: 0,
+        clickRate: 0,
+        bounceRate: 0
       };
 
       stats.successRate = stats.total > 0 ? (stats.sent / stats.total) * 100 : 0;

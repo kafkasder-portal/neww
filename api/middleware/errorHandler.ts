@@ -31,7 +31,12 @@ export const asyncHandler = (fn: (req: Request, res: Response, next: NextFunctio
 /**
  * Global error handler middleware
  */
-export const globalErrorHandler = async (error: any, req: Request, res: Response, _next: NextFunction) => {
+export const globalErrorHandler = async (
+  error: { statusCode?: number; message?: string; code?: string; stack?: string },
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
   let statusCode = error.statusCode || 500;
   let message = error.message || 'Internal Server Error';
   let code = error.code || 'INTERNAL_ERROR';
@@ -60,63 +65,25 @@ export const globalErrorHandler = async (error: any, req: Request, res: Response
         process.env.SUPABASE_SERVICE_ROLE_KEY
       );
 
-      await supabase.from('errors').insert({
-        message: error.message,
-        stack: error.stack,
+      await supabase.from('system_errors').insert({
+        message,
         status_code: statusCode,
-        error_code: code,
-        request_method: req.method,
-        request_url: req.url,
-        request_ip: req.ip,
-        user_agent: req.headers['user-agent'],
-        request_id: req.headers['x-request-id'],
+        code,
+        path: req.path,
+        method: req.method,
+        ip: req.ip,
+        user_agent: req.headers['user-agent'] || null,
         created_at: new Date().toISOString()
       });
     }
-  } catch (logError) {
-    console.error('Failed to log error to database:', logError);
+  } catch (loggingError) {
+    console.error('Failed to log error to Supabase:', loggingError);
   }
 
-  // Handle specific error types
-  if (error.name === 'ValidationError') {
-    statusCode = 400;
-    message = 'Validation Error';
-    code = 'VALIDATION_ERROR';
-  } else if (error.name === 'UnauthorizedError') {
-    statusCode = 401;
-    message = 'Unauthorized';
-    code = 'UNAUTHORIZED';
-  } else if (error.name === 'ForbiddenError') {
-    statusCode = 403;
-    message = 'Forbidden';
-    code = 'FORBIDDEN';
-  } else if (error.name === 'NotFoundError') {
-    statusCode = 404;
-    message = 'Resource not found';
-    code = 'NOT_FOUND';
-  } else if (error.name === 'ConflictError') {
-    statusCode = 409;
-    message = 'Resource conflict';
-    code = 'CONFLICT';
-  } else if (error.name === 'TooManyRequestsError') {
-    statusCode = 429;
-    message = 'Too many requests';
-    code = 'TOO_MANY_REQUESTS';
-  }
-
-  // Don't expose internal errors in production
-  if (process.env.NODE_ENV === 'production' && statusCode === 500) {
-    message = 'Something went wrong';
-  }
-
-  // Send error response
   res.status(statusCode).json({
     success: false,
     error: message,
-    code,
-    requestId: req.headers['x-request-id'],
-    timestamp: new Date().toISOString(),
-    ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
+    code
   });
 };
 

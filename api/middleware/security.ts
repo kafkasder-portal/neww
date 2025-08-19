@@ -35,7 +35,7 @@ export const createRateLimiter = (
     // Custom key generator for user-based rate limiting
     keyGenerator: (req: Request): string => {
       const userId = req.headers['x-user-id'] as string;
-      return userId ? `user:${userId}` : req.ip;
+      return userId ? `user:${userId}` : (req.ip || 'unknown');
     },
     // Log rate limit hits
     handler: (req: Request, res: Response) => {

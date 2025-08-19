@@ -1,0 +1,11 @@
+node_modules
+api
+neww
+supabase
+e2e
+migrations
+dist
+scripts
+*.html
+test-*.js
+test-*.html
