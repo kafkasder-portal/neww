@@ -10,25 +10,28 @@ import { Card } from '../components/ui/card'
 import { DevelopmentNotice } from '../components/DevelopmentNotice'
 import { useLanguage } from '../hooks/useLanguage'
 
-const loginSchema = z.object({
-  email: z.string().email('Geçerli bir email adresi giriniz'),
-  password: z.string().min(6, 'Şifre en az 6 karakter olmalıdır')
-})
+// These will be created dynamically with translations
+const createValidationSchemas = (t: (key: string) => string) => ({
+  loginSchema: z.object({
+    email: z.string().email(t('validation.email')),
+    password: z.string().min(6, t('validation.passwordTooShort'))
+  }),
 
-const registerSchema = z.object({
-  email: z.string().email('Geçerli bir email adresi giriniz'),
-  password: z.string().min(6, 'Şifre en az 6 karakter olmalıdır'),
-  confirmPassword: z.string().min(6, 'Şifre tekrarı gereklidir'),
-  full_name: z.string().min(2, 'Ad soyad en az 2 karakter olmalıdır'),
-  department: z.string().optional(),
-  phone: z.string().optional()
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Şifreler eşleşmiyor",
-  path: ["confirmPassword"],
-})
+  registerSchema: z.object({
+    email: z.string().email(t('validation.email')),
+    password: z.string().min(6, t('validation.passwordTooShort')),
+    confirmPassword: z.string().min(6, t('validation.required')),
+    full_name: z.string().min(2, t('validation.nameMinLength')),
+    department: z.string().optional(),
+    phone: z.string().optional()
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: t('validation.passwordMismatch'),
+    path: ["confirmPassword"],
+  }),
 
-const forgotPasswordSchema = z.object({
-  email: z.string().email('Geçerli bir email adresi giriniz')
+  forgotPasswordSchema: z.object({
+    email: z.string().email(t('validation.email'))
+  })
 })
 
 type LoginForm = z.infer<typeof loginSchema>
@@ -39,10 +42,14 @@ export default function Login() {
   const [mode, setMode] = useState<'login' | 'register' | 'forgot'>('login')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  
+
   const navigate = useNavigate()
   const location = useLocation()
   const { user, session, loading, error, signIn, signUp, resetPassword, clearError } = useAuthStore()
+  const { t } = useLanguage()
+
+  // Create validation schemas with current translations
+  const { loginSchema, registerSchema, forgotPasswordSchema } = createValidationSchemas(t)
 
   const loginForm = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
