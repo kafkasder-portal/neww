@@ -36,7 +36,7 @@ const AppSidebar = memo(function AppSidebar() {
   const location = useLocation()
   const navigate = useNavigate()
   const { state } = useSidebar()
-  const isCollapsed = false // Force expanded for debugging
+  const isCollapsed = state === 'collapsed'
 
   // Check if current route matches any navigation item
   const isActiveItem = (item: any) => {
