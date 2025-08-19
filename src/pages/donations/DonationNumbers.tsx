@@ -1,10 +1,10 @@
-import { useState, useMemo } from 'react'
-import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
+import { DataTable } from '@components/DataTable'
 import { Modal } from '@components/Modal'
 import { exportToCsv } from '@lib/exportToCsv'
-import LazyCameraScanner from '@components/LazyCameraScanner'
 import { Camera } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { LazyCameraScanner } from '../../components/LazyCameraScanner'
 
 interface DonationNumber {
   id: string
@@ -104,8 +104,8 @@ export default function DonationNumbers() {
   })
   const [isScannerOpen, setIsScannerOpen] = useState(false)
 
-  const filteredNumbers = useMemo(() => 
-    donationNumbers.filter(number => 
+  const filteredNumbers = useMemo(() =>
+    donationNumbers.filter(number =>
       JSON.stringify(number).toLowerCase().includes(query.toLowerCase())
     ), [donationNumbers, query]
   )
@@ -120,18 +120,18 @@ export default function DonationNumbers() {
     { key: 'generatedDate', header: 'Oluşturma Tarihi' },
     { key: 'donorName', header: 'Bağışçı' },
     { key: 'purpose', header: 'Amaç' },
-    { 
-      key: 'targetAmount', 
+    {
+      key: 'targetAmount',
       header: 'Hedef Tutar',
       render: (_, row: DonationNumber) => `${row.targetAmount.toLocaleString('tr-TR')} ${row.currency}`
     },
-    { 
-      key: 'collectedAmount', 
+    {
+      key: 'collectedAmount',
       header: 'Toplanan',
       render: (_, row: DonationNumber) => `${row.collectedAmount.toLocaleString('tr-TR')} ${row.currency}`
     },
-    { 
-      key: 'targetAmount', 
+    {
+      key: 'targetAmount',
       header: 'Tamamlanma',
       render: (_, row: DonationNumber) => {
         const percentage = Math.round((row.collectedAmount / row.targetAmount) * 100)
@@ -150,16 +150,15 @@ export default function DonationNumbers() {
     },
     { key: 'usageCount', header: 'Kullanım' },
     { key: 'expiryDate', header: 'Son Tarih' },
-    { 
-      key: 'status', 
+    {
+      key: 'status',
       header: 'Durum',
       render: (_, row: DonationNumber) => (
-        <span className={`px-2 py-1 rounded text-xs ${
-          row.status === 'aktif' ? 'bg-green-100 text-green-800' :
-          row.status === 'tamamlandı' ? 'bg-blue-100 text-blue-800' :
-          row.status === 'süresi doldu' ? 'bg-red-100 text-red-800' :
-          'bg-gray-100 text-gray-800'
-        }`}>
+        <span className={`px-2 py-1 rounded text-xs ${row.status === 'aktif' ? 'bg-green-100 text-green-800' :
+            row.status === 'tamamlandı' ? 'bg-blue-100 text-blue-800' :
+              row.status === 'süresi doldu' ? 'bg-red-100 text-red-800' :
+                'bg-gray-100 text-gray-800'
+          }`}>
           {row.status}
         </span>
       )
@@ -231,16 +230,16 @@ export default function DonationNumbers() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (editingNumber) {
       // Güncelleme
-      setDonationNumbers(donationNumbers.map(number => 
-        number.id === editingNumber.id 
-          ? { 
-              ...number, 
-              ...formData,
-              targetAmount: parseFloat(formData.targetAmount)
-            }
+      setDonationNumbers(donationNumbers.map(number =>
+        number.id === editingNumber.id
+          ? {
+            ...number,
+            ...formData,
+            targetAmount: parseFloat(formData.targetAmount)
+          }
           : number
       ))
     } else {
@@ -261,7 +260,7 @@ export default function DonationNumbers() {
       }
       setDonationNumbers([...donationNumbers, newNumber])
     }
-    
+
     setIsModalOpen(false)
     setEditingNumber(null)
     resetForm()
@@ -288,10 +287,10 @@ export default function DonationNumbers() {
       if (data.donorEmail != null) setFormData(prev => ({ ...prev, donorEmail: data.donorEmail ?? prev.donorEmail }))
       if (data.purpose != null) setFormData(prev => ({ ...prev, purpose: data.purpose ?? prev.purpose }))
       if (data.targetAmount != null) setFormData(prev => ({ ...prev, targetAmount: (data.targetAmount ?? Number(prev.targetAmount || 0)).toString() }))
-      if (data.currency != null) setFormData(prev => ({ ...prev, currency: (['TRY','USD','EUR'] as const).includes(data.currency as any) ? (data.currency as typeof prev.currency) : prev.currency }))
+      if (data.currency != null) setFormData(prev => ({ ...prev, currency: (['TRY', 'USD', 'EUR'] as const).includes(data.currency as any) ? (data.currency as typeof prev.currency) : prev.currency }))
       if (data.expiryDate != null) setFormData(prev => ({ ...prev, expiryDate: data.expiryDate ?? prev.expiryDate }))
       if (data.notes != null) setFormData(prev => ({ ...prev, notes: data.notes ?? prev.notes }))
-      
+
       // OCR'dan gelen kimlik/pasaport verileri
       if (data.firstName && data.lastName) {
         setFormData(prev => ({ ...prev, donorName: `${data.firstName} ${data.lastName}` }))
@@ -311,7 +310,7 @@ export default function DonationNumbers() {
       if (data.birthDate) {
         setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | Doğum: ${data.birthDate}` : `Doğum: ${data.birthDate}` }))
       }
-      
+
       setIsScannerOpen(false)
     }
   }
@@ -372,7 +371,7 @@ export default function DonationNumbers() {
               const amount = filteredNumbers
                 .filter(n => n.status === status)
                 .reduce((sum, n) => sum + n.collectedAmount, 0)
-              
+
               return (
                 <div key={status} className="border rounded-lg p-4">
                   <h4 className="font-medium capitalize">{status}</h4>
@@ -449,7 +448,7 @@ export default function DonationNumbers() {
             />
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -457,7 +456,7 @@ export default function DonationNumbers() {
               <input
                 type="text"
                 value={formData.donorName}
-                onChange={(e) => setFormData({...formData, donorName: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, donorName: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 placeholder="Belirli bir bağışçı için"
               />
@@ -467,27 +466,27 @@ export default function DonationNumbers() {
               <input
                 type="tel"
                 value={formData.donorPhone}
-                onChange={(e) => setFormData({...formData, donorPhone: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, donorPhone: e.target.value })}
                 className="w-full border rounded px-3 py-2"
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">E-posta</label>
             <input
               type="email"
               value={formData.donorEmail}
-              onChange={(e) => setFormData({...formData, donorEmail: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, donorEmail: e.target.value })}
               className="w-full border rounded px-3 py-2"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Bağış Amacı</label>
             <select
               value={formData.purpose}
-              onChange={(e) => setFormData({...formData, purpose: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, purpose: e.target.value })}
               className="w-full border rounded px-3 py-2"
               required
             >
@@ -501,7 +500,7 @@ export default function DonationNumbers() {
               <option value="Diğer">Diğer</option>
             </select>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Hedef Tutar</label>
@@ -509,7 +508,7 @@ export default function DonationNumbers() {
                 type="number"
                 step="0.01"
                 value={formData.targetAmount}
-                onChange={(e) => setFormData({...formData, targetAmount: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, targetAmount: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
@@ -518,7 +517,7 @@ export default function DonationNumbers() {
               <label className="block text-sm font-medium mb-1">Para Birimi</label>
               <select
                 value={formData.currency}
-                onChange={(e) => setFormData({...formData, currency: e.target.value as DonationNumber['currency']})}
+                onChange={(e) => setFormData({ ...formData, currency: e.target.value as DonationNumber['currency'] })}
                 className="w-full border rounded px-3 py-2"
               >
                 <option value="TRY">TRY</option>
@@ -527,28 +526,28 @@ export default function DonationNumbers() {
               </select>
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Son Kullanım Tarihi (Opsiyonel)</label>
             <input
               type="date"
               value={formData.expiryDate}
-              onChange={(e) => setFormData({...formData, expiryDate: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
               className="w-full border rounded px-3 py-2"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Notlar</label>
             <textarea
               value={formData.notes}
-              onChange={(e) => setFormData({...formData, notes: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               className="w-full border rounded px-3 py-2"
               rows={3}
               placeholder="Bağış numarası hakkında ek bilgiler..."
             />
           </div>
-          
+
           <div className="flex justify-end gap-2 pt-4">
             <button
               type="button"
@@ -578,7 +577,7 @@ export default function DonationNumbers() {
             <div className="text-center">
               <h3 className="text-lg font-medium mb-2">{selectedNumber.donationNumber}</h3>
               <p className="text-gray-600 mb-4">{selectedNumber.purpose}</p>
-              
+
               {/* QR Kod Placeholder */}
               <div className="w-48 h-48 mx-auto bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center mb-4">
                 <div className="text-center">
@@ -588,7 +587,7 @@ export default function DonationNumbers() {
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Bağış Linki</label>
@@ -607,7 +606,7 @@ export default function DonationNumbers() {
                   </button>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Hedef Tutar</label>
@@ -622,7 +621,7 @@ export default function DonationNumbers() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Kullanım Sayısı</label>
@@ -633,7 +632,7 @@ export default function DonationNumbers() {
                   <div className="text-sm">{selectedNumber.lastUsedDate || 'Henüz kullanılmadı'}</div>
                 </div>
               </div>
-              
+
               {selectedNumber.expiryDate && (
                 <div>
                   <label className="block text-sm font-medium mb-1">Son Tarih</label>
@@ -641,7 +640,7 @@ export default function DonationNumbers() {
                 </div>
               )}
             </div>
-            
+
             <div className="flex justify-center gap-2 pt-4">
               <button
                 onClick={() => window.open(selectedNumber.shortUrl, '_blank')}

@@ -63,6 +63,7 @@ export interface ThreatDetection {
   timestamp: Date
   blocked: boolean
   falsePositive: boolean
+  description?: string
 }
 
 export class EnhancedSecuritySystem {
@@ -92,7 +93,7 @@ export class EnhancedSecuritySystem {
       }
 
       await this.storeSecurityEvent(securityEvent)
-      
+
       // Update cache
       const userEvents = this.securityEvents.get(event.userId || 'anonymous') || []
       userEvents.push(securityEvent)
@@ -100,7 +101,7 @@ export class EnhancedSecuritySystem {
 
       // Check for security anomalies
       await this.detectSecurityAnomalies(event.userId)
-      
+
       // Update risk profile
       if (event.userId) {
         await this.updateRiskProfile(event.userId, securityEvent.riskScore)
@@ -154,7 +155,7 @@ export class EnhancedSecuritySystem {
       }
 
       await this.storePrivacyAudit(audit)
-      
+
       // Update cache
       const userAudits = this.privacyAudits.get(userId) || []
       userAudits.push(audit)
@@ -183,7 +184,7 @@ export class EnhancedSecuritySystem {
   async anonymizeData(data: any, dataType: string): Promise<any> {
     try {
       const classification = await this.getDataClassification(dataType)
-      
+
       if (!classification.encryptionRequired) {
         return data
       }
@@ -215,7 +216,7 @@ export class EnhancedSecuritySystem {
       // Determine sensitivity based on content analysis
       const sensitivity = this.determineSensitivity(dataType)
       const classification = this.determineClassification(dataType)
-      
+
       const dataClassification: DataClassification = {
         id: crypto.randomUUID(),
         dataType,
@@ -229,10 +230,10 @@ export class EnhancedSecuritySystem {
 
       // Store classification
       await this.storeDataClassification(dataClassification)
-      
+
       // Update cache
       this.dataClassifications.set(dataType, dataClassification)
-      
+
       return dataClassification
     } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Data Classification Error'))
@@ -254,7 +255,7 @@ export class EnhancedSecuritySystem {
   async checkCompliance(regulation: ComplianceCheck['regulation']): Promise<ComplianceCheck[]> {
     try {
       const checks: ComplianceCheck[] = []
-      
+
       switch (regulation) {
         case 'GDPR':
           checks.push(...await this.checkGDPRCompliance())
@@ -275,7 +276,7 @@ export class EnhancedSecuritySystem {
 
       // Store compliance checks
       await this.storeComplianceChecks(checks)
-      
+
       return checks
     } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Compliance Check Error'))
@@ -291,7 +292,7 @@ export class EnhancedSecuritySystem {
         { status: 'compliant', risk_level: 'medium' },
         { status: 'pending', risk_level: 'high' }
       ]
-      
+
       const compliant = mockChecks.filter(c => c.status === 'compliant').length
       const nonCompliant = mockChecks.filter(c => c.status === 'non_compliant').length
       const pending = mockChecks.filter(c => c.status === 'pending').length
@@ -321,25 +322,25 @@ export class EnhancedSecuritySystem {
   async detectThreats(userId?: string): Promise<ThreatDetection[]> {
     try {
       const threats: ThreatDetection[] = []
-      
+
       // Analyze recent security events
       const recentEvents = await this.getSecurityEvents(userId, 1)
-      
+
       // Detect brute force attacks
       const bruteForceThreat = this.detectBruteForceAttack(recentEvents)
       if (bruteForceThreat) threats.push(bruteForceThreat)
-      
+
       // Detect suspicious data access patterns
       const dataAccessThreat = this.detectSuspiciousDataAccess(recentEvents)
       if (dataAccessThreat) threats.push(dataAccessThreat)
-      
+
       // Detect privilege escalation attempts
       const privilegeThreat = this.detectPrivilegeEscalation(recentEvents)
       if (privilegeThreat) threats.push(privilegeThreat)
-      
+
       // Store threat detections
       await this.storeThreatDetections(threats)
-      
+
       return threats
     } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Threat Detection Error'))
@@ -357,7 +358,7 @@ export class EnhancedSecuritySystem {
       // Determine sensitivity based on content analysis
       const sensitivity = this.determineSensitivity(dataType)
       const classification = this.determineClassification(dataType)
-      
+
       const dataClassification: DataClassification = {
         id: crypto.randomUUID(),
         dataType,
@@ -371,10 +372,10 @@ export class EnhancedSecuritySystem {
 
       // Store classification
       await this.storeDataClassification(dataClassification)
-      
+
       // Update cache
       this.dataClassifications.set(dataType, dataClassification)
-      
+
       return dataClassification
     } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Data Classification Error'))
@@ -397,9 +398,9 @@ export class EnhancedSecuritySystem {
     try {
       const recentEvents = await this.getSecurityEvents(userId, 7)
       const riskScore = this.calculateUserRiskScore(recentEvents)
-      
+
       this.riskProfiles.set(userId, riskScore)
-      
+
       return riskScore
     } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Risk Assessment Error'))
@@ -411,7 +412,7 @@ export class EnhancedSecuritySystem {
     try {
       const riskScore = this.riskProfiles.get(userId) || 0
       const recentEvents = await this.getSecurityEvents(userId, 30)
-      
+
       return {
         riskScore,
         riskLevel: this.getRiskLevel(riskScore),
@@ -427,7 +428,7 @@ export class EnhancedSecuritySystem {
   // Helper methods
   private calculateRiskScore(event: Omit<SecurityEvent, 'id' | 'timestamp' | 'resolved' | 'riskScore'>): number {
     let score = 0
-    
+
     // Base score by severity
     switch (event.severity) {
       case 'low': score += 10; break
@@ -435,23 +436,23 @@ export class EnhancedSecuritySystem {
       case 'high': score += 50; break
       case 'critical': score += 100; break
     }
-    
+
     // Additional factors
     if (event.type === 'privacy_violation') score += 30
     if (event.type === 'authorization') score += 20
     if (event.resource?.includes('admin')) score += 15
-    
+
     return Math.min(score, 100)
   }
 
   private async detectSecurityAnomalies(userId?: string): Promise<void> {
     try {
       const recentEvents = await this.getSecurityEvents(userId, 1)
-      
+
       // Check for unusual activity patterns
       const eventCount = recentEvents.length
       const highSeverityCount = recentEvents.filter(e => e.severity === 'high' || e.severity === 'critical').length
-      
+
       if (eventCount > 50 || highSeverityCount > 5) {
         await this.logSecurityEvent({
           type: 'anomaly',
@@ -471,7 +472,7 @@ export class EnhancedSecuritySystem {
       const currentRisk = this.riskProfiles.get(userId) || 0
       const newRisk = Math.min(currentRisk + riskScore, 100)
       this.riskProfiles.set(userId, newRisk)
-      
+
       // If risk is too high, trigger additional security measures
       if (newRisk > 80) {
         await this.triggerHighRiskMeasures(userId)
@@ -524,7 +525,7 @@ export class EnhancedSecuritySystem {
       sensitive: 1095, // 3 years
       public: 365 // 1 year
     }
-    
+
     return retentionPeriods[dataType] || 365
   }
 
@@ -538,16 +539,16 @@ export class EnhancedSecuritySystem {
     // Anonymize personally identifiable information
     if (typeof data === 'object' && data !== null) {
       const anonymized = { ...data }
-      
+
       // Anonymize common PII fields
       if (anonymized.email) anonymized.email = this.hashEmail(anonymized.email)
       if (anonymized.phone) anonymized.phone = this.maskPhone(anonymized.phone)
       if (anonymized.name) anonymized.name = this.anonymizeName(anonymized.name)
       if (anonymized.address) anonymized.address = this.anonymizeAddress(anonymized.address)
-      
+
       return anonymized
     }
-    
+
     return data
   }
 
@@ -555,15 +556,15 @@ export class EnhancedSecuritySystem {
     // Anonymize protected health information
     if (typeof data === 'object' && data !== null) {
       const anonymized = { ...data }
-      
+
       // Anonymize common PHI fields
       if (anonymized.medicalRecord) anonymized.medicalRecord = this.hashValue(anonymized.medicalRecord)
       if (anonymized.diagnosis) anonymized.diagnosis = this.generalizeDiagnosis()
       if (anonymized.treatment) anonymized.treatment = this.generalizeTreatment()
-      
+
       return anonymized
     }
-    
+
     return data
   }
 
@@ -571,21 +572,21 @@ export class EnhancedSecuritySystem {
     // Anonymize financial data
     if (typeof data === 'object' && data !== null) {
       const anonymized = { ...data }
-      
+
       // Anonymize common financial fields
       if (anonymized.accountNumber) anonymized.accountNumber = this.maskAccountNumber(anonymized.accountNumber)
       if (anonymized.creditCard) anonymized.creditCard = this.maskCreditCard(anonymized.creditCard)
       if (anonymized.balance) anonymized.balance = this.roundAmount(anonymized.balance)
-      
+
       return anonymized
     }
-    
+
     return data
   }
 
   private async checkGDPRCompliance(): Promise<ComplianceCheck[]> {
     const checks: ComplianceCheck[] = []
-    
+
     // Check data minimization
     checks.push({
       id: crypto.randomUUID(),
@@ -597,7 +598,7 @@ export class EnhancedSecuritySystem {
       details: { dataCollected: 'minimal', purpose: 'clearly_defined' },
       riskLevel: 'low'
     })
-    
+
     // Check consent management
     checks.push({
       id: crypto.randomUUID(),
@@ -609,13 +610,13 @@ export class EnhancedSecuritySystem {
       details: { consentTracking: 'active', withdrawal: 'enabled' },
       riskLevel: 'low'
     })
-    
+
     return checks
   }
 
   private async checkKVKKCompliance(): Promise<ComplianceCheck[]> {
     const checks: ComplianceCheck[] = []
-    
+
     // Check data processing conditions
     checks.push({
       id: crypto.randomUUID(),
@@ -627,13 +628,13 @@ export class EnhancedSecuritySystem {
       details: { legalBasis: 'explicit_consent', processing: 'lawful' },
       riskLevel: 'low'
     })
-    
+
     return checks
   }
 
   private async checkSOXCompliance(): Promise<ComplianceCheck[]> {
     const checks: ComplianceCheck[] = []
-    
+
     // Check financial reporting controls
     checks.push({
       id: crypto.randomUUID(),
@@ -645,13 +646,13 @@ export class EnhancedSecuritySystem {
       details: { controls: 'implemented', monitoring: 'active' },
       riskLevel: 'medium'
     })
-    
+
     return checks
   }
 
   private async checkHIPAACompliance(): Promise<ComplianceCheck[]> {
     const checks: ComplianceCheck[] = []
-    
+
     // Check PHI protection
     checks.push({
       id: crypto.randomUUID(),
@@ -663,13 +664,13 @@ export class EnhancedSecuritySystem {
       details: { encryption: 'enabled', access: 'controlled' },
       riskLevel: 'high'
     })
-    
+
     return checks
   }
 
   private async checkPCIDSSCompliance(): Promise<ComplianceCheck[]> {
     const checks: ComplianceCheck[] = []
-    
+
     // Check payment data security
     checks.push({
       id: crypto.randomUUID(),
@@ -681,13 +682,13 @@ export class EnhancedSecuritySystem {
       details: { encryption: 'enabled', tokenization: 'used' },
       riskLevel: 'high'
     })
-    
+
     return checks
   }
 
   private detectBruteForceAttack(events: SecurityEvent[]): ThreatDetection | null {
     const authEvents = events.filter(e => e.type === 'authentication' && e.action.includes('failed'))
-    
+
     if (authEvents.length > 10) {
       return {
         id: crypto.randomUUID(),
@@ -702,14 +703,14 @@ export class EnhancedSecuritySystem {
         falsePositive: false
       }
     }
-    
+
     return null
   }
 
   private detectSuspiciousDataAccess(events: SecurityEvent[]): ThreatDetection | null {
     const dataAccessEvents = events.filter(e => e.type === 'data_access')
     const uniqueResources = new Set(dataAccessEvents.map(e => e.resource))
-    
+
     if (dataAccessEvents.length > 20 && uniqueResources.size > 10) {
       return {
         id: crypto.randomUUID(),
@@ -724,13 +725,13 @@ export class EnhancedSecuritySystem {
         falsePositive: false
       }
     }
-    
+
     return null
   }
 
   private detectPrivilegeEscalation(events: SecurityEvent[]): ThreatDetection | null {
     const authEvents = events.filter(e => e.type === 'authorization' && e.action.includes('elevated'))
-    
+
     if (authEvents.length > 0) {
       return {
         id: crypto.randomUUID(),
@@ -745,18 +746,18 @@ export class EnhancedSecuritySystem {
         falsePositive: false
       }
     }
-    
+
     return null
   }
 
   private determineSensitivity(dataType: string): DataClassification['sensitivity'] {
     const sensitiveTypes = ['personal', 'financial', 'health', 'biometric']
     const internalTypes = ['operational', 'analytics', 'logs']
-    
+
     if (sensitiveTypes.some(type => dataType.includes(type))) return 'confidential'
     if (internalTypes.some(type => dataType.includes(type))) return 'internal'
     if (dataType.includes('public')) return 'public'
-    
+
     return 'internal'
   }
 
@@ -765,7 +766,7 @@ export class EnhancedSecuritySystem {
     if (dataType.includes('health') || dataType.includes('medical')) return 'PHI'
     if (dataType.includes('financial') || dataType.includes('payment')) return 'financial'
     if (dataType.includes('public') || dataType.includes('announcement')) return 'public'
-    
+
     return 'operational'
   }
 
@@ -777,7 +778,7 @@ export class EnhancedSecuritySystem {
       operational: 1095, // 3 years
       public: 365 // 1 year
     }
-    
+
     return periods[classification] || 365
   }
 
@@ -798,14 +799,14 @@ export class EnhancedSecuritySystem {
 
   private calculateUserRiskScore(events: SecurityEvent[]): number {
     let score = 0
-    
+
     events.forEach(event => {
       score += event.riskScore
     })
-    
+
     // Decay factor for older events
     const decayFactor = Math.max(0.1, 1 - (events.length * 0.1))
-    
+
     return Math.min(score * decayFactor, 100)
   }
 
@@ -818,21 +819,21 @@ export class EnhancedSecuritySystem {
 
   private generateSecurityRecommendations(events: SecurityEvent[]): string[] {
     const recommendations: string[] = []
-    
+
     const highRiskEvents = events.filter(e => e.severity === 'high' || e.severity === 'critical')
     if (highRiskEvents.length > 0) {
       recommendations.push('Yüksek riskli güvenlik olayları tespit edildi. Güvenlik ayarlarını gözden geçirin.')
     }
-    
+
     const privacyViolations = events.filter(e => e.type === 'privacy_violation')
     if (privacyViolations.length > 0) {
       recommendations.push('Gizlilik ihlalleri tespit edildi. Veri erişim politikalarını kontrol edin.')
     }
-    
+
     if (recommendations.length === 0) {
       recommendations.push('Güvenlik durumu normal. Düzenli güvenlik kontrollerini sürdürün.')
     }
-    
+
     return recommendations
   }
 
@@ -846,7 +847,7 @@ export class EnhancedSecuritySystem {
         action: 'High risk profile detected - additional security measures triggered',
         details: { riskLevel: 'high', measures: ['enhanced_monitoring', 'access_review'] }
       })
-      
+
       // In real implementation, this would trigger:
       // - Enhanced monitoring
       // - Access review

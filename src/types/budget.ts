@@ -50,7 +50,7 @@ export interface AdvancedBudget {
   netActual: number
   variance: number
   variancePercent: number
-  status: 'draft' | 'submitted' | 'approved' | 'active' | 'closed' | 'rejected'
+  status: 'draft' | 'submitted' | 'approved' | 'active' | 'closed' | 'rejected' | 'pending_approval'
   approvalWorkflow: BudgetApprovalWorkflow
   categories: AdvancedBudgetCategory[]
   monthlyBreakdown: BudgetMonthlyBreakdown[]
@@ -60,6 +60,10 @@ export interface AdvancedBudget {
   approvedAt?: string
   created_at: string
   updated_at: string
+  totalAmount?: number
+  startDate?: string
+  endDate?: string
+  period?: string
 }
 
 export interface AdvancedBudgetCategory {
@@ -80,6 +84,9 @@ export interface AdvancedBudgetCategory {
   subcategories: AdvancedBudgetSubcategory[]
   monthlyAllocations: BudgetMonthlyAllocation[]
   notes?: string
+  allocatedAmount?: number
+  name?: string
+  description?: string
 }
 
 export interface AdvancedBudgetSubcategory {
@@ -108,6 +115,8 @@ export interface BudgetMonthlyBreakdown {
   totalActualExpense: number
   variance: number
   variancePercent: number
+  budgetedAmount?: number
+  actualAmount?: number
 }
 
 export interface BudgetMonthlyAllocation {
@@ -140,10 +149,14 @@ export interface BudgetApprovalStep {
   approverRole: string
   approverId?: string
   approverName?: string
-  status: 'pending' | 'approved' | 'rejected' | 'skipped'
+  status: 'pending' | 'approved' | 'rejected' | 'skipped' | 'completed' | 'waiting'
   comments?: string
   approvedAt?: string
   isRequired: boolean
+  order?: number
+  completedAt?: string
+  comment?: string
+  assignedTo?: string
 }
 
 // Legacy type aliases for backward compatibility
@@ -166,6 +179,8 @@ export type BudgetRevision = {
   reason: string
   createdBy: string
   created_at: string
+  revisionNote?: string
+  revisedAt?: string
 }
 
 export interface BudgetVarianceAnalysis {
@@ -436,7 +451,7 @@ export const BUDGET_CATEGORIES = [
   { code: 'REV003', name: 'Hibe Gelirleri', type: 'revenue', accountCode: '403' },
   { code: 'REV004', name: 'Yatırım Gelirleri', type: 'revenue', accountCode: '404' },
   { code: 'REV005', name: 'Diğer Gelirler', type: 'revenue', accountCode: '405' },
-  
+
   // Gider Kategorileri
   { code: 'EXP001', name: 'Yardım Ödemeleri', type: 'expense', accountCode: '501' },
   { code: 'EXP002', name: 'Burs Ödemeleri', type: 'expense', accountCode: '502' },

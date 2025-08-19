@@ -1,12 +1,12 @@
-import React, { useState, useMemo } from 'react'
-import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
+import { DataTable } from '@components/DataTable'
 import { Modal } from '@components/Modal'
 import { exportToCsv } from '@lib/exportToCsv'
-import LazyCameraScanner from '@components/LazyCameraScanner'
-import { FileSpreadsheet, FileText } from 'lucide-react'
 import { exportDonationsToExcel } from '@utils/excelExport'
 import { exportDonationsToPDF } from '@utils/pdfExport'
+import { FileSpreadsheet, FileText } from 'lucide-react'
+import React, { useMemo, useState } from 'react'
+import { LazyCameraScanner } from '../../components/LazyCameraScanner'
 
 interface BankDonation {
   id: string
@@ -94,8 +94,8 @@ export default function BankDonations() {
   })
   const [isScannerOpen, setIsScannerOpen] = useState(false)
 
-  const filteredDonations = useMemo(() => 
-    donations.filter(donation => 
+  const filteredDonations = useMemo(() =>
+    donations.filter(donation =>
       JSON.stringify(donation).toLowerCase().includes(query.toLowerCase())
     ), [donations, query]
   )
@@ -120,17 +120,16 @@ export default function BankDonations() {
       key: 'status',
       header: 'Durum',
       render: (_, donation: BankDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${
-          donation.status === 'eşleştirildi' ? 'bg-green-100 text-green-800' :
-          donation.status === 'onaylandı' ? 'bg-blue-100 text-blue-800' :
-          donation.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-red-100 text-red-800'
-        }`}>
+        <span className={`px-2 py-1 rounded text-xs ${donation.status === 'eşleştirildi' ? 'bg-green-100 text-green-800' :
+            donation.status === 'onaylandı' ? 'bg-blue-100 text-blue-800' :
+              donation.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-red-100 text-red-800'
+          }`}>
           {donation.status}
         </span>
       )
     },
-    { 
+    {
       key: 'id',
       header: 'İşlemler',
       render: (_, donation: BankDonation) => (
@@ -196,16 +195,16 @@ export default function BankDonations() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (editingDonation) {
       // Güncelleme
-      setDonations(donations.map(donation => 
-        donation.id === editingDonation.id 
-          ? { 
-              ...donation, 
-              ...formData,
-              amount: parseFloat(formData.amount)
-            }
+      setDonations(donations.map(donation =>
+        donation.id === editingDonation.id
+          ? {
+            ...donation,
+            ...formData,
+            amount: parseFloat(formData.amount)
+          }
           : donation
       ))
     } else {
@@ -220,7 +219,7 @@ export default function BankDonations() {
       }
       setDonations([...donations, newDonation])
     }
-    
+
     setIsModalOpen(false)
     setEditingDonation(null)
     resetForm()
@@ -228,21 +227,21 @@ export default function BankDonations() {
 
   const handleMatchSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (matchingDonation) {
-      setDonations(donations.map(donation => 
-        donation.id === matchingDonation.id 
-          ? { 
-              ...donation,
-              donorName: matchData.donorName,
-              purpose: matchData.purpose,
-              status: 'eşleştirildi',
-              matchedDonor: matchData.donorName
-            }
+      setDonations(donations.map(donation =>
+        donation.id === matchingDonation.id
+          ? {
+            ...donation,
+            donorName: matchData.donorName,
+            purpose: matchData.purpose,
+            status: 'eşleştirildi',
+            matchedDonor: matchData.donorName
+          }
           : donation
       ))
     }
-    
+
     setIsMatchModalOpen(false)
     setMatchingDonation(null)
     setMatchData({
@@ -274,13 +273,13 @@ export default function BankDonations() {
       if (data.donorName != null) setFormData(prev => ({ ...prev, donorName: data.donorName ?? prev.donorName }))
       if (data.donorIban != null) setFormData(prev => ({ ...prev, donorIban: data.donorIban ?? prev.donorIban }))
       if (data.amount != null) setFormData(prev => ({ ...prev, amount: (data.amount ?? Number(prev.amount || 0)).toString() }))
-      if (data.currency != null) setFormData(prev => ({ ...prev, currency: (['TRY','USD','EUR'] as const).includes(data.currency as any) ? (data.currency as BankDonation['currency']) : prev.currency }))
+      if (data.currency != null) setFormData(prev => ({ ...prev, currency: (['TRY', 'USD', 'EUR'] as const).includes(data.currency as any) ? (data.currency as BankDonation['currency']) : prev.currency }))
       if (data.bankName != null) setFormData(prev => ({ ...prev, bankName: data.bankName ?? prev.bankName }))
       if (data.transactionRef != null) setFormData(prev => ({ ...prev, transactionRef: data.transactionRef ?? prev.transactionRef }))
       if (data.description != null) setFormData(prev => ({ ...prev, description: data.description ?? prev.description }))
       if (data.purpose != null) setFormData(prev => ({ ...prev, purpose: data.purpose ?? prev.purpose }))
       if (data.notes != null) setFormData(prev => ({ ...prev, notes: data.notes ?? prev.notes }))
-      
+
       // OCR'dan gelen kimlik/pasaport verileri
       if (data.firstName && data.lastName) {
         setFormData(prev => ({ ...prev, donorName: `${data.firstName} ${data.lastName}` }))
@@ -300,7 +299,7 @@ export default function BankDonations() {
       if (data.birthDate) {
         setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | Doğum: ${data.birthDate}` : `Doğum: ${data.birthDate}` }))
       }
-      
+
       setIsScannerOpen(false)
     }
   }
@@ -425,7 +424,7 @@ export default function BankDonations() {
             />
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -433,7 +432,7 @@ export default function BankDonations() {
               <input
                 type="text"
                 value={formData.donorName}
-                onChange={(e) => setFormData({...formData, donorName: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, donorName: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
@@ -443,13 +442,13 @@ export default function BankDonations() {
               <input
                 type="text"
                 value={formData.donorIban}
-                onChange={(e) => setFormData({...formData, donorIban: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, donorIban: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 placeholder="TR33 0006 1005 1978 6457 8413 26"
               />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Tutar</label>
@@ -457,7 +456,7 @@ export default function BankDonations() {
                 type="number"
                 step="0.01"
                 value={formData.amount}
-                onChange={(e) => setFormData({...formData, amount: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
@@ -466,7 +465,7 @@ export default function BankDonations() {
               <label className="block text-sm font-medium mb-1">Para Birimi</label>
               <select
                 value={formData.currency}
-                onChange={(e) => setFormData({...formData, currency: e.target.value as BankDonation['currency']})}
+                onChange={(e) => setFormData({ ...formData, currency: e.target.value as BankDonation['currency'] })}
                 className="w-full border rounded px-3 py-2"
               >
                 <option value="TRY">TRY</option>
@@ -475,14 +474,14 @@ export default function BankDonations() {
               </select>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Banka</label>
               <input
                 type="text"
                 value={formData.bankName}
-                onChange={(e) => setFormData({...formData, bankName: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, bankName: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
@@ -491,7 +490,7 @@ export default function BankDonations() {
               <label className="block text-sm font-medium mb-1">Alıcı Hesap</label>
               <select
                 value={formData.accountName}
-                onChange={(e) => setFormData({...formData, accountName: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, accountName: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               >
@@ -502,34 +501,34 @@ export default function BankDonations() {
               </select>
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Referans No</label>
             <input
               type="text"
               value={formData.transactionRef}
-              onChange={(e) => setFormData({...formData, transactionRef: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, transactionRef: e.target.value })}
               className="w-full border rounded px-3 py-2"
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">İşlem Açıklaması</label>
             <input
               type="text"
               value={formData.description}
-              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full border rounded px-3 py-2"
               placeholder="EFT, Havale, vb."
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Bağış Amacı</label>
             <select
               value={formData.purpose}
-              onChange={(e) => setFormData({...formData, purpose: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, purpose: e.target.value })}
               className="w-full border rounded px-3 py-2"
               required
             >
@@ -543,17 +542,17 @@ export default function BankDonations() {
               <option value="Diğer">Diğer</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Notlar</label>
             <textarea
               value={formData.notes}
-              onChange={(e) => setFormData({...formData, notes: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               className="w-full border rounded px-3 py-2"
               rows={3}
             />
           </div>
-          
+
           <div className="flex justify-end gap-2 pt-4">
             <button
               type="button"
@@ -585,43 +584,43 @@ export default function BankDonations() {
             <p><strong>Referans:</strong> {matchingDonation?.transactionRef}</p>
             <p><strong>Tarih:</strong> {matchingDonation?.transactionDate}</p>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Bağışçı Adı</label>
             <input
               type="text"
               value={matchData.donorName}
-              onChange={(e) => setMatchData({...matchData, donorName: e.target.value})}
+              onChange={(e) => setMatchData({ ...matchData, donorName: e.target.value })}
               className="w-full border rounded px-3 py-2"
               required
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Telefon</label>
             <input
               type="tel"
               value={matchData.donorPhone}
-              onChange={(e) => setMatchData({...matchData, donorPhone: e.target.value})}
+              onChange={(e) => setMatchData({ ...matchData, donorPhone: e.target.value })}
               className="w-full border rounded px-3 py-2"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">E-posta</label>
             <input
               type="email"
               value={matchData.donorEmail}
-              onChange={(e) => setMatchData({...matchData, donorEmail: e.target.value})}
+              onChange={(e) => setMatchData({ ...matchData, donorEmail: e.target.value })}
               className="w-full border rounded px-3 py-2"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Bağış Amacı</label>
             <select
               value={matchData.purpose}
-              onChange={(e) => setMatchData({...matchData, purpose: e.target.value})}
+              onChange={(e) => setMatchData({ ...matchData, purpose: e.target.value })}
               className="w-full border rounded px-3 py-2"
               required
             >
@@ -635,7 +634,7 @@ export default function BankDonations() {
               <option value="Diğer">Diğer</option>
             </select>
           </div>
-          
+
           <div className="flex justify-end gap-2 pt-4">
             <button
               type="button"

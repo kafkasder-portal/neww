@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { QrCode, Download, Printer, Copy, Package } from 'lucide-react'
-import QRCode from 'qrcode'
-import { useDesignSystem } from '@/hooks/useDesignSystem'
-import { COLORS } from '@/constants/design-system'
+import { Copy, Download, Package, Printer, QrCode } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 
 interface InventoryItem {
   id: string
@@ -64,6 +61,7 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
   const generateQRCode = async (data?: typeof customData) => {
     setIsGenerating(true)
     try {
+      const QRCode = (await import('qrcode')).default
       const qrData = generateQRData(data || customData)
       const dataURL = await QRCode.toDataURL(qrData, {
         width: 256,
@@ -92,7 +90,7 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
   // QR kodu indir
   const downloadQRCode = () => {
     if (!qrCodeDataURL) return
-    
+
     const link = document.createElement('a')
     link.download = `${item?.code || customData.itemCode}-qr-kod.png`
     link.href = qrCodeDataURL
@@ -104,7 +102,7 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
   // QR kodu yazdır
   const printQRCode = () => {
     if (!qrCodeDataURL) return
-    
+
     const printHTML = `
       <!DOCTYPE html>
       <html>
@@ -153,7 +151,7 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
       </body>
       </html>
     `
-    
+
     const printWindow = window.open('', '_blank')
     if (printWindow) {
       printWindow.document.write(printHTML)
@@ -168,7 +166,7 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
   // QR kodu panoya kopyala
   const copyQRToClipboard = async () => {
     if (!qrCodeDataURL) return
-    
+
     try {
       const response = await fetch(qrCodeDataURL)
       const blob = await response.blob()
@@ -240,8 +238,8 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
                 placeholder="Kategoriyi girin"
               />
             </div>
-            <Button 
-              onClick={() => generateQRCode()} 
+            <Button
+              onClick={() => generateQRCode()}
               disabled={isGenerating || !customData.itemCode}
               className="w-full"
             >
@@ -270,13 +268,13 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
         {qrCodeDataURL && (
           <div className="text-center space-y-4">
             <div className="bg-white p-4 rounded-lg border inline-block">
-              <img 
-                src={qrCodeDataURL} 
-                alt="QR Kod" 
+              <img
+                src={qrCodeDataURL}
+                alt="QR Kod"
                 className="w-48 h-48 mx-auto"
               />
             </div>
-            
+
             {/* Aksiyon Butonları */}
             <div className="grid grid-cols-2 gap-2">
               <Button

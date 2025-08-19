@@ -8,6 +8,11 @@ export interface ProcessedCommand {
   intent: Intent;
   confidence: number;
   metadata: Record<string, unknown>;
+  module?: string;
+  action?: string;
+  parameters?: Record<string, unknown>;
+  target?: string;
+  conditions?: Record<string, unknown>;
 }
 
 interface CommandContext {

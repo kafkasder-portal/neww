@@ -28,6 +28,11 @@ export interface InventoryItem {
   updatedAt: string
   createdBy: string
   updatedBy: string
+  code?: string
+  quantity?: number
+  unit?: string
+  itemCode?: string
+  itemName?: string
 }
 
 export interface InventoryCategory {
@@ -48,7 +53,7 @@ export interface WarehouseLocation {
   name: string
   code: string
   description?: string
-  type: 'warehouse' | 'room' | 'shelf' | 'bin'
+  type: 'warehouse' | 'room' | 'shelf' | 'bin' | 'cold_storage' | 'archive'
   parentId?: string
   parent?: WarehouseLocation
   children?: WarehouseLocation[]
@@ -57,6 +62,10 @@ export interface WarehouseLocation {
   isActive: boolean
   createdAt: string
   updatedAt: string
+  currentOccupancy?: number
+  temperatureRange?: string
+  qrCode?: string
+  barcode?: string
 }
 
 export interface Supplier {
@@ -73,6 +82,14 @@ export interface Supplier {
   rating?: number // 1-5 yıldız
   createdAt: string
   updatedAt: string
+  code?: string
+  type?: string
+  category?: string
+  creditLimit?: number
+  currentDebt?: number
+  totalAmount?: number
+  lastOrderDate?: string
+  totalOrders?: number
 }
 
 export interface StockMovement {
@@ -118,6 +135,8 @@ export interface StockAlert {
   createdAt: string
   resolvedAt?: string
   resolvedBy?: string
+  location?: string
+  expiryDate?: string
 }
 
 export interface AlertRule {
@@ -129,6 +148,9 @@ export interface AlertRule {
   description?: string
   createdAt: string
   updatedAt: string
+  category?: string
+  notificationMethods?: string[]
+  recipients?: string[]
 }
 
 export interface StockAlertRule {
@@ -145,6 +167,10 @@ export interface StockAlertRule {
   createdAt: string
   updatedAt: string
   createdBy: string
+  severity?: string
+  itemId?: string
+  notificationMethods?: string[]
+  recipients?: string[]
 }
 
 export interface AlertRuleForm {
@@ -152,6 +178,10 @@ export interface AlertRuleForm {
   type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
   threshold: number
   description?: string
+  isActive?: boolean
+  category?: string
+  notificationMethods?: string[]
+  recipients?: string[]
 }
 
 export interface PurchaseOrder {
@@ -271,7 +301,31 @@ export interface SupplierForm {
   taxNumber?: string
   paymentTerms?: string
   notes?: string
+  isActive: boolean
   rating?: number
+  code?: string
+  type?: string
+  category?: string
+  creditLimit?: number
+  currentDebt?: number
+  totalAmount?: number
+  lastOrderDate?: string
+  totalOrders?: number
+}
+
+export interface WarehouseLocationForm {
+  name: string
+  code: string
+  description?: string
+  type: 'warehouse' | 'room' | 'shelf' | 'bin' | 'cold_storage' | 'archive'
+  parentId?: string
+  address?: string
+  capacity?: number
+  isActive: boolean
+  currentOccupancy?: number
+  temperatureRange?: string
+  qrCode?: string
+  barcode?: string
 }
 
 // Filter and Search Types
@@ -295,6 +349,30 @@ export interface StockMovementFilters {
   dateTo?: string
   status?: 'pending' | 'approved' | 'rejected'
   performedBy?: string
+}
+
+export interface SupplierFilters {
+  search?: string
+  category?: string
+  type?: string
+  isActive?: boolean
+  rating?: number
+}
+
+export interface WarehouseLocationFilters {
+  search?: string
+  type?: string
+  isActive?: boolean
+  parentId?: string
+}
+
+export interface StockAlertFilters {
+  search?: string
+  type?: string
+  severity?: string
+  isResolved?: boolean
+  locationId?: string
+  categoryId?: string
 }
 
 // Dashboard and Analytics Types

@@ -1,5 +1,5 @@
-import type { FilterState } from '../components/AdvancedSearchModal'
-import { sanitizeInput, isValidUrl, safeUrlConstruct } from './sanitization';
+import { SavedFilter } from '../components/AdvancedSearchModal';
+import { isValidUrl, safeUrlConstruct, sanitizeInput } from './sanitization';
 
 export interface URLFilterConfig {
   baseUrl: string
@@ -23,7 +23,7 @@ export class URLFilterManager {
   }
 
   // Convert filters to URL search params
-  filtersToURL(filters: FilterState): string {
+  filtersToURL(filters: SavedFilter): string {
     const params = new URLSearchParams()
     
     Object.entries(filters).forEach(([key, value]) => {
@@ -44,8 +44,8 @@ export class URLFilterManager {
   }
 
   // Convert URL search params to filters
-  urlToFilters(url: string): FilterState {
-    const filters: FilterState = {}
+  urlToFilters(url: string): SavedFilter {
+    const filters: SavedFilter = {}
     
     try {
       // Validate URL before processing
@@ -91,13 +91,13 @@ export class URLFilterManager {
   }
 
   // Get current filters from browser URL
-  getCurrentFilters(): FilterState {
+  getCurrentFilters(): SavedFilter {
     if (typeof window === 'undefined') return {}
     return this.urlToFilters(window.location.href)
   }
 
   // Update browser URL with new filters
-  updateBrowserURL(filters: FilterState, replace: boolean = false): void {
+  updateBrowserURL(filters: SavedFilter, replace: boolean = false): void {
     if (typeof window === 'undefined') return
     
     const newURL = this.filtersToURL(filters)
@@ -116,7 +116,7 @@ export class URLFilterManager {
   }
 
   // Generate shareable URL
-  generateShareableURL(filters: FilterState, baseUrl?: string): string {
+  generateShareableURL(filters: SavedFilter, baseUrl?: string): string {
     try {
       const filterUrl = this.filtersToURL(filters);
       
@@ -147,18 +147,18 @@ export class URLFilterManager {
   }
 
   // Parse shareable URL
-  parseShareableURL(url: string): FilterState {
+  parseShareableURL(url: string): SavedFilter {
     return this.urlToFilters(url)
   }
 
   // Create URL with specific filters applied
-  createFilteredURL(baseFilters: FilterState, additionalFilters: FilterState): string {
+  createFilteredURL(baseFilters: SavedFilter, additionalFilters: SavedFilter): string {
     const combinedFilters = { ...baseFilters, ...additionalFilters }
     return this.filtersToURL(combinedFilters)
   }
 
   // Remove specific filters from URL
-  removeFiltersFromURL(filters: FilterState, filtersToRemove: string[]): string {
+  removeFiltersFromURL(filters: SavedFilter, filtersToRemove: string[]): string {
     const newFilters = { ...filters }
     filtersToRemove.forEach(key => {
       delete newFilters[key]
@@ -186,7 +186,7 @@ export class URLFilterManager {
   }
 
   // Listen for URL changes (for back/forward navigation)
-  onURLChange(callback: (filters: FilterState) => void): () => void {
+  onURLChange(callback: (filters: SavedFilter) => void): () => void {
     if (typeof window === 'undefined') return () => {}
     
     const handlePopState = () => {
@@ -203,8 +203,8 @@ export class URLFilterManager {
   }
 
   // Validate URL filters against field definitions
-  validateURLFilters(filters: FilterState, validFields: string[]): FilterState {
-    const validatedFilters: FilterState = {}
+  validateURLFilters(filters: SavedFilter, validFields: string[]): SavedFilter {
+    const validatedFilters: SavedFilter = {}
     
     Object.entries(filters).forEach(([key, value]) => {
       if (validFields.includes(key)) {
@@ -401,7 +401,7 @@ export const useURLFilters = (config: URLFilterConfig) => {
   
   const getCurrentFilters = () => urlManager.getCurrentFilters()
   
-  const updateFilters = (filters: FilterState, replace: boolean = false) => {
+  const updateFilters = (filters: SavedFilter, replace: boolean = false) => {
     urlManager.updateBrowserURL(filters, replace)
   }
   
@@ -409,11 +409,11 @@ export const useURLFilters = (config: URLFilterConfig) => {
     urlManager.clearFiltersFromURL(replace)
   }
   
-  const generateShareableURL = (filters: FilterState) => {
+  const generateShareableURL = (filters: SavedFilter) => {
     return urlManager.generateShareableURL(filters)
   }
   
-  const onURLChange = (callback: (filters: FilterState) => void) => {
+  const onURLChange = (callback: (filters: SavedFilter) => void) => {
     return urlManager.onURLChange(callback)
   }
   

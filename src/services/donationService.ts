@@ -24,6 +24,13 @@ export interface Donation {
   created_at: string
   updated_at: string
   created_by?: string
+  donor_id?: string
+  donation_date?: string
+  receipt_sent?: boolean
+  receipt_number?: string
+  anonymous?: boolean
+  in_memory_of?: string
+  tribute_message?: string
 }
 
 export interface PaymentInitiationRequest {

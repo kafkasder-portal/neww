@@ -1,4 +1,4 @@
-import type { FilterState, SavedFilter } from '../components/AdvancedSearchModal'
+import { SavedFilter } from '../components/AdvancedSearchModal'
 
 export interface SavedFiltersConfig {
   storageKey: string

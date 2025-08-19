@@ -1,4 +1,4 @@
-import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosProgressEvent } from 'axios';
+import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 import { API_TIMEOUTS } from '../constants/api';
 import { env } from '../lib/env';
 import { setupInterceptors } from './interceptors';
@@ -113,7 +113,7 @@ class ApiClient {
   async upload<T = unknown>(
     url: string,
     file: File,
-    onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
+    onUploadProgress?: (progressEvent: any) => void,
     additionalData?: Record<string, unknown>
   ): Promise<ApiResponse<T>> {
     const formData = new FormData();

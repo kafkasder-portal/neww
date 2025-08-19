@@ -1,5 +1,5 @@
 // Temporary fix for beneficiaries filter configuration
-import type { SavedFilter } from '../components/AdvancedSearchModal'
+import { SavedFilter } from '../components/AdvancedSearchModal';
 
 export interface BeneficiaryFilter {
   id: string;

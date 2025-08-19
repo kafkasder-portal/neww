@@ -1,14 +1,14 @@
-import { useState, useMemo } from 'react'
-import { QrCode } from 'lucide-react'
-import { DataTable } from '@components/DataTable'
+import { getStatusBadgeClasses } from '@/utils/statusColors'
 import type { Column } from '@components/DataTable'
-import { Modal } from '@components/Modal'
+import { DataTable } from '@components/DataTable'
 import { MapModal } from '@components/MapModal'
-import LazyQRScannerModal from '@components/LazyQRScannerModal'
-import { QRCodeModal } from '@components/QRCodeModal'
+import { Modal } from '@components/Modal'
 import { exportToCsv } from '@lib/exportToCsv'
 import { generateQRCode, generateUniqueBankNumber } from '@utils/qrCodeUtils'
-import { getStatusBadgeClasses } from '@/utils/statusColors'
+import { QrCode } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { LazyQRScannerModal } from '../../components/LazyQRScannerModal'
+import { QRCodeModal } from '../../components/QRCodeModal'
 
 interface PiggyBank {
   id: string
@@ -379,7 +379,7 @@ export default function PiggyBankTracking() {
       const matchesStatus = !statusFilter || bank.status === statusFilter
       const matchesLocation = !locationFilter || bank.location.toLowerCase().includes(locationFilter.toLowerCase())
       const matchesBankType = !bankTypeFilter || bank.bankType === bankTypeFilter
-      
+
       return matchesQuery && matchesStatus && matchesLocation && matchesBankType
     })
   }, [piggyBanks, query, statusFilter, locationFilter, bankTypeFilter])
@@ -414,8 +414,8 @@ export default function PiggyBankTracking() {
     { key: 'bankNumber', header: 'Kumbara No' },
     { key: 'assignedTo', header: 'Atanan Yer' },
     { key: 'location', header: 'Lokasyon' },
-    { 
-      key: 'address', 
+    {
+      key: 'address',
       header: 'Adres',
       render: (_, row: PiggyBank) => (
         <button
@@ -429,8 +429,8 @@ export default function PiggyBankTracking() {
     },
     { key: 'contactPerson', header: 'İletişim' },
     { key: 'contactPhone', header: 'Telefon' },
-    { 
-      key: 'currentAmount', 
+    {
+      key: 'currentAmount',
       header: 'Mevcut/Toplam',
       render: (_, row: PiggyBank) => (
         <div className="text-sm">
@@ -440,8 +440,8 @@ export default function PiggyBankTracking() {
         </div>
       )
     },
-    { 
-      key: 'bankType', 
+    {
+      key: 'bankType',
       header: 'Tip/Kapasite',
       render: (_, row: PiggyBank) => (
         <div className="text-sm">
@@ -451,8 +451,8 @@ export default function PiggyBankTracking() {
         </div>
       )
     },
-    { 
-      key: 'lastCollectionDate', 
+    {
+      key: 'lastCollectionDate',
       header: 'Son Toplama',
       render: (_, row: PiggyBank) => (
         <div className="text-sm">
@@ -467,8 +467,8 @@ export default function PiggyBankTracking() {
         </div>
       )
     },
-    { 
-      key: 'status', 
+    {
+      key: 'status',
       header: 'Durum',
       render: (_, row: PiggyBank) => (
         <span className={getStatusBadgeClasses(row.status, 'activity')}>
@@ -512,13 +512,13 @@ export default function PiggyBankTracking() {
   ]
 
   const collectionColumns: Column<Collection>[] = [
-    { 
-      key: 'collectionDate', 
+    {
+      key: 'collectionDate',
       header: 'Tarih',
       render: (_, row: Collection) => new Date(row.collectionDate).toLocaleDateString('tr-TR')
     },
-    { 
-      key: 'bankId', 
+    {
+      key: 'bankId',
       header: 'Kumbara',
       render: (_, row: Collection) => {
         const bank = piggyBanks.find(b => b.id === row.bankId)
@@ -526,8 +526,8 @@ export default function PiggyBankTracking() {
       }
     },
     { key: 'collectedBy', header: 'Toplayan' },
-    { 
-      key: 'amount', 
+    {
+      key: 'amount',
       header: 'Tutar/Adet',
       render: (_, row: Collection) => (
         <div className="text-sm">
@@ -541,8 +541,8 @@ export default function PiggyBankTracking() {
         </div>
       )
     },
-    { 
-      key: 'condition', 
+    {
+      key: 'condition',
       header: 'Durum',
       render: (_, row: Collection) => (
         <span className={getStatusBadgeClasses(row.condition === 'iyi' ? 'success' : row.condition === 'hasarlı' ? 'warning' : 'error', 'activity')}>
@@ -551,8 +551,8 @@ export default function PiggyBankTracking() {
       )
     },
     { key: 'receiptNumber', header: 'Makbuz No' },
-    { 
-      key: 'photoTaken', 
+    {
+      key: 'photoTaken',
       header: 'Fotoğraf',
       render: (_, row: Collection) => (row.photoTaken ? '✓' : '-')
     },
@@ -560,13 +560,13 @@ export default function PiggyBankTracking() {
   ]
 
   const assignmentColumns: Column<Assignment>[] = [
-    { 
-      key: 'assignedDate', 
+    {
+      key: 'assignedDate',
       header: 'Atama Tarihi',
       render: (_, row: Assignment) => new Date(row.assignedDate).toLocaleDateString('tr-TR')
     },
-    { 
-      key: 'bankId', 
+    {
+      key: 'bankId',
       header: 'Kumbara',
       render: (_, row: Assignment) => {
         const bank = piggyBanks.find(b => b.id === row.bankId)
@@ -576,8 +576,8 @@ export default function PiggyBankTracking() {
     { key: 'assignedTo', header: 'Atanan Yer' },
     { key: 'location', header: 'Lokasyon' },
     { key: 'contactPerson', header: 'İletişim' },
-    { 
-      key: 'expectedDuration', 
+    {
+      key: 'expectedDuration',
       header: 'Süre/Hedef',
       render: (_, row: Assignment) => (
         <div className="text-sm">
@@ -589,8 +589,8 @@ export default function PiggyBankTracking() {
       )
     },
     { key: 'purpose', header: 'Amaç' },
-    { 
-      key: 'status', 
+    {
+      key: 'status',
       header: 'Durum',
       render: (_, row: Assignment) => (
         <span className={getStatusBadgeClasses(row.status, 'activity')}>
@@ -660,22 +660,22 @@ export default function PiggyBankTracking() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     const capacity = parseFloat(formData.capacity)
     const weight = formData.weight ? parseFloat(formData.weight) : undefined
-    
+
     if (editingBank) {
       // Güncelleme
-      setPiggyBanks(piggyBanks.map(bank => 
-        bank.id === editingBank.id 
-          ? { 
-              ...bank, 
-              ...formData,
-              capacity,
-              weight,
-              lastModified: new Date().toISOString().split('T')[0],
-              modifiedBy: 'Admin'
-            }
+      setPiggyBanks(piggyBanks.map(bank =>
+        bank.id === editingBank.id
+          ? {
+            ...bank,
+            ...formData,
+            capacity,
+            weight,
+            lastModified: new Date().toISOString().split('T')[0],
+            modifiedBy: 'Admin'
+          }
           : bank
       ))
     } else {
@@ -688,7 +688,7 @@ export default function PiggyBankTracking() {
         contactPerson: formData.contactPerson,
         contactPhone: formData.contactPhone
       })
-      
+
       const newBank: PiggyBank = {
         id: Date.now().toString(),
         ...formData,
@@ -710,7 +710,7 @@ export default function PiggyBankTracking() {
       }
       setPiggyBanks([...piggyBanks, newBank])
     }
-    
+
     setIsModalOpen(false)
     setEditingBank(null)
     resetForm()
@@ -757,41 +757,37 @@ export default function PiggyBankTracking() {
             <div className="flex border rounded">
               <button
                 onClick={() => setActiveTab('banks')}
-                className={`px-4 py-2 text-sm ${
-                  activeTab === 'banks' 
-                    ? 'bg-blue-600 text-white' 
+                className={`px-4 py-2 text-sm ${activeTab === 'banks'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-50'
-                }`}
+                  }`}
               >
                 Kumbaralar
               </button>
               <button
                 onClick={() => setActiveTab('collections')}
-                className={`px-4 py-2 text-sm ${
-                  activeTab === 'collections' 
-                    ? 'bg-blue-600 text-white' 
+                className={`px-4 py-2 text-sm ${activeTab === 'collections'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-50'
-                }`}
+                  }`}
               >
                 Toplamalar
               </button>
               <button
                 onClick={() => setActiveTab('assignments')}
-                className={`px-4 py-2 text-sm ${
-                  activeTab === 'assignments' 
-                    ? 'bg-blue-600 text-white' 
+                className={`px-4 py-2 text-sm ${activeTab === 'assignments'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-50'
-                }`}
+                  }`}
               >
                 Atamalar
               </button>
               <button
                 onClick={() => setActiveTab('analytics')}
-                className={`px-4 py-2 text-sm ${
-                  activeTab === 'analytics' 
-                    ? 'bg-blue-600 text-white' 
+                className={`px-4 py-2 text-sm ${activeTab === 'analytics'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-50'
-                }`}
+                  }`}
               >
                 Analitik
               </button>
@@ -854,7 +850,7 @@ export default function PiggyBankTracking() {
                 className="border rounded px-3 py-2"
                 placeholder="Kumbara no, yer adı ile ara..."
               />
-              <select 
+              <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="border rounded px-3 py-2"
@@ -866,7 +862,7 @@ export default function PiggyBankTracking() {
                 <option value="kayıp">Kayıp</option>
                 <option value="iptal">İptal</option>
               </select>
-              <select 
+              <select
                 value={locationFilter}
                 onChange={(e) => setLocationFilter(e.target.value)}
                 className="border rounded px-3 py-2"
@@ -876,7 +872,7 @@ export default function PiggyBankTracking() {
                   <option key={location} value={location}>{location}</option>
                 ))}
               </select>
-              <select 
+              <select
                 value={bankTypeFilter}
                 onChange={(e) => setBankTypeFilter(e.target.value)}
                 className="border rounded px-3 py-2"
@@ -1017,7 +1013,7 @@ export default function PiggyBankTracking() {
                       const locationTotal = locationBanks.reduce((sum, b) => sum + b.totalCollected, 0)
                       const locationCurrent = locationBanks.reduce((sum, b) => sum + b.currentAmount, 0)
                       const locationAverage = locationBanks.length > 0 ? locationTotal / locationBanks.length : 0
-                      
+
                       return (
                         <tr key={location} className="border-b">
                           <td className="py-2">{location}</td>
@@ -1041,7 +1037,7 @@ export default function PiggyBankTracking() {
                   const typeBanks = filteredBanks.filter(b => b.bankType === type)
                   const typeTotal = typeBanks.reduce((sum, b) => sum + b.totalCollected, 0)
                   const typeAverage = typeBanks.length > 0 ? typeTotal / typeBanks.length : 0
-                  
+
                   return (
                     <div key={type} className="border rounded p-4">
                       <div className="text-sm font-medium text-gray-600 mb-1">{type}</div>
@@ -1070,7 +1066,7 @@ export default function PiggyBankTracking() {
               <input
                 type="text"
                 value={formData.bankNumber}
-                onChange={(e) => setFormData({...formData, bankNumber: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, bankNumber: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 placeholder="KB-2024-001"
                 required
@@ -1081,21 +1077,21 @@ export default function PiggyBankTracking() {
               <input
                 type="text"
                 value={formData.assignedTo}
-                onChange={(e) => setFormData({...formData, assignedTo: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, assignedTo: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 placeholder="Market, Cami, Okul vb."
                 required
               />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Lokasyon *</label>
               <input
                 type="text"
                 value={formData.location}
-                onChange={(e) => setFormData({...formData, location: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 placeholder="İlçe/İl"
                 required
@@ -1106,31 +1102,31 @@ export default function PiggyBankTracking() {
               <input
                 type="text"
                 value={formData.locationDetails}
-                onChange={(e) => setFormData({...formData, locationDetails: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, locationDetails: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 placeholder="Kasa yanı, giriş holü vb."
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Tam Adres</label>
             <input
               type="text"
               value={formData.address}
-              onChange={(e) => setFormData({...formData, address: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
               className="w-full border rounded px-3 py-2"
               placeholder="Mahalle, Cadde/Sokak No, İlçe/İl"
             />
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">İletişim Kişisi *</label>
               <input
                 type="text"
                 value={formData.contactPerson}
-                onChange={(e) => setFormData({...formData, contactPerson: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
@@ -1140,29 +1136,29 @@ export default function PiggyBankTracking() {
               <input
                 type="tel"
                 value={formData.contactPhone}
-                onChange={(e) => setFormData({...formData, contactPhone: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">E-posta</label>
             <input
               type="email"
               value={formData.contactEmail}
-              onChange={(e) => setFormData({...formData, contactEmail: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
               className="w-full border rounded px-3 py-2"
             />
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Kumbara Tipi</label>
               <select
                 value={formData.bankType}
-                onChange={(e) => setFormData({...formData, bankType: e.target.value as PiggyBank['bankType']})}
+                onChange={(e) => setFormData({ ...formData, bankType: e.target.value as PiggyBank['bankType'] })}
                 className="w-full border rounded px-3 py-2"
               >
                 <option value="standart">Standart</option>
@@ -1175,7 +1171,7 @@ export default function PiggyBankTracking() {
               <label className="block text-sm font-medium mb-1">Malzeme</label>
               <select
                 value={formData.material}
-                onChange={(e) => setFormData({...formData, material: e.target.value as PiggyBank['material']})}
+                onChange={(e) => setFormData({ ...formData, material: e.target.value as PiggyBank['material'] })}
                 className="w-full border rounded px-3 py-2"
               >
                 <option value="plastik">Plastik</option>
@@ -1185,7 +1181,7 @@ export default function PiggyBankTracking() {
               </select>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Kapasite (₺) *</label>
@@ -1193,7 +1189,7 @@ export default function PiggyBankTracking() {
                 type="number"
                 step="0.01"
                 value={formData.capacity}
-                onChange={(e) => setFormData({...formData, capacity: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
@@ -1204,23 +1200,23 @@ export default function PiggyBankTracking() {
                 type="number"
                 step="0.1"
                 value={formData.weight}
-                onChange={(e) => setFormData({...formData, weight: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
                 className="w-full border rounded px-3 py-2"
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Notlar</label>
             <textarea
               value={formData.notes}
-              onChange={(e) => setFormData({...formData, notes: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               className="w-full border rounded px-3 py-2"
               rows={3}
               placeholder="Kumbara hakkında notlar..."
             />
           </div>
-          
+
           <div className="flex justify-end gap-2 pt-4">
             <button
               type="button"
@@ -1263,11 +1259,11 @@ export default function PiggyBankTracking() {
                 </div>
               </div>
             </div>
-            
+
             <div className="max-h-96 overflow-y-auto">
-              <DataTable 
-                columns={collectionColumns} 
-                data={collections.filter(c => c.bankId === selectedBank.id)} 
+              <DataTable
+                columns={collectionColumns}
+                data={collections.filter(c => c.bankId === selectedBank.id)}
               />
             </div>
           </div>
@@ -1286,7 +1282,7 @@ export default function PiggyBankTracking() {
       )}
 
       {/* QR Kod Tarama Modal */}
-  <LazyQRScannerModal
+      <LazyQRScannerModal
         isOpen={isQRScannerModalOpen}
         onClose={() => setIsQRScannerModalOpen(false)}
         onScanSuccess={handleQRScanResult}

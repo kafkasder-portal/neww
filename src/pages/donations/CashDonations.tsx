@@ -1,12 +1,12 @@
-import React, { useState, useMemo } from 'react'
-import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
+import { DataTable } from '@components/DataTable'
 import { Modal } from '@components/Modal'
 import { exportToCsv } from '@lib/exportToCsv'
-import LazyCameraScanner from '@components/LazyCameraScanner'
-import { Camera, FileSpreadsheet, FileText, Plus, Search, Filter } from 'lucide-react'
 import { exportDonationsToExcel } from '@utils/excelExport'
 import { exportDonationsToPDF } from '@utils/pdfExport'
+import { Camera, FileSpreadsheet, FileText, Filter, Plus, Search } from 'lucide-react'
+import React, { useMemo, useState } from 'react'
+import { LazyCameraScanner } from '../../components/LazyCameraScanner'
 
 interface CashDonation {
   id: string
@@ -65,8 +65,8 @@ export default function CashDonations() {
   })
   const [isScannerOpen, setIsScannerOpen] = useState(false)
 
-  const filteredDonations = useMemo(() => 
-    donations.filter(donation => 
+  const filteredDonations = useMemo(() =>
+    donations.filter(donation =>
       JSON.stringify(donation).toLowerCase().includes(query.toLowerCase())
     ), [donations, query]
   )
@@ -97,11 +97,10 @@ export default function CashDonations() {
       key: 'status',
       header: 'Durum',
       render: (_, row: CashDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${
-          row.status === 'onaylandı' ? 'bg-green-100 text-green-800' :
-          row.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-red-100 text-red-800'
-        }`}>
+        <span className={`px-2 py-1 rounded text-xs ${row.status === 'onaylandı' ? 'bg-green-100 text-green-800' :
+            row.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
+              'bg-red-100 text-red-800'
+          }`}>
           {row.status}
         </span>
       )
@@ -160,16 +159,16 @@ export default function CashDonations() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (editingDonation) {
       // Güncelleme
-      setDonations(donations.map(donation => 
-        donation.id === editingDonation.id 
-          ? { 
-              ...donation, 
-              ...formData,
-              amount: parseFloat(formData.amount)
-            }
+      setDonations(donations.map(donation =>
+        donation.id === editingDonation.id
+          ? {
+            ...donation,
+            ...formData,
+            amount: parseFloat(formData.amount)
+          }
           : donation
       ))
     } else {
@@ -185,7 +184,7 @@ export default function CashDonations() {
       }
       setDonations([...donations, newDonation])
     }
-    
+
     setIsModalOpen(false)
     setEditingDonation(null)
     setFormData({
@@ -204,10 +203,10 @@ export default function CashDonations() {
       if (data.donorName != null) setFormData(prev => ({ ...prev, donorName: data.donorName ?? prev.donorName }))
       if (data.donorPhone != null) setFormData(prev => ({ ...prev, donorPhone: data.donorPhone ?? prev.donorPhone }))
       if (data.amount != null) setFormData(prev => ({ ...prev, amount: (data.amount ?? Number(prev.amount || 0)).toString() }))
-      if (data.currency != null) setFormData(prev => ({ ...prev, currency: (['TRY','USD','EUR'] as const).includes(data.currency as any) ? (data.currency as typeof prev.currency) : prev.currency }))
+      if (data.currency != null) setFormData(prev => ({ ...prev, currency: (['TRY', 'USD', 'EUR'] as const).includes(data.currency as any) ? (data.currency as typeof prev.currency) : prev.currency }))
       if (data.purpose != null) setFormData(prev => ({ ...prev, purpose: data.purpose ?? prev.purpose }))
       if (data.notes != null) setFormData(prev => ({ ...prev, notes: data.notes ?? prev.notes }))
-      
+
       // OCR'dan gelen kimlik/pasaport verileri
       if (data.firstName && data.lastName) {
         setFormData(prev => ({ ...prev, donorName: `${data.firstName} ${data.lastName}` }))
@@ -227,7 +226,7 @@ export default function CashDonations() {
       if (data.birthDate) {
         setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | Doğum: ${data.birthDate}` : `Doğum: ${data.birthDate}` }))
       }
-      
+
       setIsScannerOpen(false)
     }
   }
@@ -264,25 +263,25 @@ export default function CashDonations() {
 
         {/* Özet Bilgiler */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <TotalDonationsCard 
+          <TotalDonationsCard
             title="Toplam Bağış"
-            value={totalAmount} 
+            value={totalAmount}
             change={12}
             changeType="increase"
             period="Bu Ay"
             trend={[45, 52, 48, 61, 55, 67, 73]}
           />
-          <MonthlyDonationsCard 
+          <MonthlyDonationsCard
             title="Bugünkü Bağışlar"
-            value={todayDonationAmount} 
+            value={todayDonationAmount}
             change={8}
             changeType="increase"
             period="Bugün"
             trend={[32, 38, 35, 42, 39, 45, 48]}
           />
-          <DonorCountCard 
+          <DonorCountCard
             title="Benzersiz Bağışçı"
-            value={new Set(filteredDonations.map(d => d.donorName)).size} 
+            value={new Set(filteredDonations.map(d => d.donorName)).size}
             change={15}
             changeType="increase"
             period="Benzersiz Bağışçı"
@@ -302,7 +301,7 @@ export default function CashDonations() {
                 placeholder="Bağışçı adı, telefon, fiş no ile ara..."
               />
             </div>
-            
+
             <div className="flex flex-wrap gap-3">
               <div className="relative">
                 <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -313,13 +312,13 @@ export default function CashDonations() {
                   <option value="iptal">İptal</option>
                 </select>
               </div>
-              
+
               <input
                 type="date"
                 className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Başlangıç Tarihi"
               />
-              
+
               <input
                 type="date"
                 className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -327,7 +326,7 @@ export default function CashDonations() {
               />
             </div>
           </div>
-          
+
           <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-gray-200">
             <button
               onClick={() => exportToCsv('cash-donations.csv', filteredDonations as unknown as Record<string, unknown>[])}
@@ -377,7 +376,7 @@ export default function CashDonations() {
               </button>
             </div>
           )}
-          
+
           {isScannerOpen && (
             <div className="mb-4">
               <div className="flex items-center justify-between bg-gray-50 p-3 rounded mb-3">
@@ -396,7 +395,7 @@ export default function CashDonations() {
               />
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -404,7 +403,7 @@ export default function CashDonations() {
                 <input
                   type="text"
                   value={formData.donorName}
-                  onChange={(e) => setFormData({...formData, donorName: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, donorName: e.target.value })}
                   className="w-full border rounded px-3 py-2"
                   required
                 />
@@ -414,12 +413,12 @@ export default function CashDonations() {
                 <input
                   type="tel"
                   value={formData.donorPhone}
-                  onChange={(e) => setFormData({...formData, donorPhone: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, donorPhone: e.target.value })}
                   className="w-full border rounded px-3 py-2"
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Tutar</label>
@@ -427,7 +426,7 @@ export default function CashDonations() {
                   type="number"
                   step="0.01"
                   value={formData.amount}
-                  onChange={(e) => setFormData({...formData, amount: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                   className="w-full border rounded px-3 py-2"
                   required
                 />
@@ -436,7 +435,7 @@ export default function CashDonations() {
                 <label className="block text-sm font-medium mb-1">Para Birimi</label>
                 <select
                   value={formData.currency}
-                  onChange={(e) => setFormData({...formData, currency: e.target.value as CashDonation['currency']})}
+                  onChange={(e) => setFormData({ ...formData, currency: e.target.value as CashDonation['currency'] })}
                   className="w-full border rounded px-3 py-2"
                 >
                   <option value="TRY">TRY</option>
@@ -445,12 +444,12 @@ export default function CashDonations() {
                 </select>
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-1">Bağış Amacı</label>
               <select
                 value={formData.purpose}
-                onChange={(e) => setFormData({...formData, purpose: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, purpose: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               >
@@ -464,18 +463,18 @@ export default function CashDonations() {
                 <option value="Diğer">Diğer</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-1">Notlar</label>
               <textarea
                 value={formData.notes}
-                onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 rows={3}
                 placeholder="Ek bilgiler..."
               />
             </div>
-            
+
             <div className="flex justify-end gap-2 pt-4">
               <button
                 type="button"

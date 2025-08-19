@@ -12,10 +12,13 @@ export interface CommandResult {
   error?: string;
   message: string;
   timestamp: Date;
+  suggestions?: string[];
+  nextSteps?: string[];
+  confidence?: number;
 }
 
 export interface Intent {
-  type: 'CREATE' | 'READ' | 'UPDATE' | 'DELETE' | 'UNKNOWN';
+  type: 'CREATE' | 'READ' | 'UPDATE' | 'DELETE' | 'UNKNOWN' | string;
   confidence: number;
   entities: Record<string, unknown>;
 }
@@ -25,6 +28,7 @@ export interface ModuleController {
   read(entities: Record<string, unknown>, context: unknown): Promise<unknown>;
   update(entities: Record<string, unknown>, context: unknown): Promise<unknown>;
   delete(entities: Record<string, unknown>, context: unknown): Promise<unknown>;
+  userId?: string;
 }
 
 export interface WorkflowStep {

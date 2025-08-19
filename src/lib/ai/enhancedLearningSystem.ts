@@ -14,6 +14,12 @@ export interface AILearningPattern {
   tags: string[]
   createdAt: Date
   updatedAt: Date
+  description?: string
+  action?: string
+  parameters?: Record<string, any>
+  conditions?: Record<string, any>
+  target?: string
+  module?: string
 }
 
 export interface AIUserPreference {

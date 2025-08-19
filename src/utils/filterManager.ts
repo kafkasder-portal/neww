@@ -1,7 +1,26 @@
-import type { FilterField, FilterState } from '../components/AdvancedSearchModal'
 
-// Re-export types for convenience
-export type { FilterField, FilterState }
+// Filter field types
+export interface FilterField {
+  key: string
+  label: string
+  type: 'text' | 'select' | 'multiSelect' | 'dateRange' | 'numberRange' | 'boolean' | 'number' | 'date'
+  placeholder?: string
+  options?: Array<{ value: string; label: string }>
+  defaultValue?: unknown
+  validation?: {
+    required?: boolean
+    min?: number
+    max?: number
+    minLength?: number
+    maxLength?: number
+    pattern?: string
+  }
+  visible?: boolean
+  enabled?: boolean
+}
+
+// Filter state type
+export type FilterState = Record<string, unknown>
 
 export interface FilterDependency {
   field: string
@@ -77,12 +96,12 @@ export class FilterManager {
   // Get enabled fields based on current filter state
   getEnabledFields(filters: FilterState): string[] {
     const enabledFields: string[] = []
-    
+
     this.fields.forEach(field => {
-      const dependency = this.dependencies.find(dep => 
+      const dependency = this.dependencies.find(dep =>
         dep.field === field.key && dep.action === 'enable'
       )
-      
+
       if (!dependency) {
         enabledFields.push(field.key)
         return
@@ -100,7 +119,7 @@ export class FilterManager {
   // Get fields that should be cleared based on dependencies
   getFieldsToClear(changedField: string, newValue: unknown): string[] {
     const fieldsToClear: string[] = []
-    
+
     this.dependencies.forEach(dependency => {
       if (dependency.dependsOn === changedField && dependency.action === 'clear') {
         if (!this.evaluateCondition(newValue, dependency.condition)) {
@@ -124,7 +143,7 @@ export class FilterManager {
 
       const value = filters[field.key]
       const validationRule = this.validationRules.find(rule => rule.field === field.key)
-      
+
       if (!validationRule) continue
 
       // Required validation
@@ -215,7 +234,7 @@ export class FilterManager {
     newValue: unknown
   ): FilterState {
     const newFilters = { ...filters, [fieldKey]: newValue }
-    
+
     // Clear dependent fields if needed
     const fieldsToClear = this.getFieldsToClear(fieldKey, newValue)
     fieldsToClear.forEach(field => {
@@ -232,13 +251,13 @@ export class FilterManager {
     const enabledFields = this.getEnabledFields(filters)
 
     // Pre-filter out empty values for better performance
-    const activeFilters = Object.entries(filters).filter(([, value]) => 
+    const activeFilters = Object.entries(filters).filter(([, value]) =>
       !this.isEmpty(value)
     )
 
     for (const field of visibleFields) {
       if (!enabledFields.includes(field.key)) continue
-      
+
       const filterEntry = activeFilters.find(([key]) => key === field.key)
       if (!filterEntry) continue
 
@@ -252,15 +271,19 @@ export class FilterManager {
           }
           break
         case 'dateRange':
-          if (value && value.start && value.end) {
-            params[`${field.key}_start`] = value.start
-            params[`${field.key}_end`] = value.end
+          if (value && typeof value === 'object' && value !== null && 'start' in value && 'end' in value) {
+            const dateRange = value as { start: string; end: string }
+            if (dateRange.start && dateRange.end) {
+              params[`${field.key}_start`] = dateRange.start
+              params[`${field.key}_end`] = dateRange.end
+            }
           }
           break
         case 'numberRange':
-          if (value && (value.min !== undefined || value.max !== undefined)) {
-            if (value.min !== undefined) params[`${field.key}_min`] = value.min
-            if (value.max !== undefined) params[`${field.key}_max`] = value.max
+          if (value && typeof value === 'object' && value !== null && ('min' in value || 'max' in value)) {
+            const numberRange = value as { min?: number; max?: number }
+            if (numberRange.min !== undefined) params[`${field.key}_min`] = numberRange.min
+            if (numberRange.max !== undefined) params[`${field.key}_max`] = numberRange.max
           }
           break
         default:
@@ -300,9 +323,10 @@ export class FilterManager {
   private isEmpty(value: unknown): boolean {
     if (value === null || value === undefined || value === '') return true
     if (Array.isArray(value)) return value.length === 0
-    if (typeof value === 'object') {
-      return Object.keys(value).length === 0 || 
-             Object.values(value).every(v => v === null || v === undefined || v === '')
+    if (typeof value === 'object' && value !== null) {
+      const obj = value as Record<string, unknown>
+      return Object.keys(obj).length === 0 ||
+        Object.values(obj).every(v => v === null || v === undefined || v === '')
     }
     return false
   }
@@ -310,69 +334,71 @@ export class FilterManager {
   // Reset filters to default values
   resetFilters(): FilterState {
     const resetState: FilterState = {}
-    
+
     this.fields.forEach(field => {
       switch (field.type) {
         case 'multiSelect':
           resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : []
           break
         case 'numberRange':
-          resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : {}
+          resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : { min: undefined, max: undefined }
           break
         case 'dateRange':
-          resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : {}
+          resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : { start: undefined, end: undefined }
           break
         default:
           resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : ''
       }
     })
-    
+
     return resetState
   }
 
   // Static method for resetting filters
   static resetFilters(fields: FilterField[]): FilterState {
     const resetState: FilterState = {}
-    
+
     fields.forEach(field => {
       switch (field.type) {
         case 'multiSelect':
           resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : []
           break
         case 'numberRange':
-          resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : {}
+          resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : { min: undefined, max: undefined }
           break
         case 'dateRange':
-          resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : {}
+          resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : { start: undefined, end: undefined }
           break
         default:
           resetState[field.key] = field.defaultValue !== undefined ? field.defaultValue : ''
       }
     })
-    
+
     return resetState
   }
 
   // Static method for building filter query
   static buildFilterQuery(filters: FilterState): Record<string, unknown> {
     const query: Record<string, unknown> = {}
-    
+
     Object.entries(filters).forEach(([key, value]) => {
       if (value === null || value === undefined || value === '') return
-      
+
       if (Array.isArray(value)) {
         if (value.length > 0) {
           query[key] = value
         }
-      } else if (typeof value === 'object') {
-        if (value.from && value.to) {
+      } else if (typeof value === 'object' && value !== null) {
+        if ('from' in value && 'to' in value && value.from && value.to) {
           // Date range
-          query[`${key}_from`] = value.from
-          query[`${key}_to`] = value.to
-        } else if (value.min !== undefined || value.max !== undefined) {
+          const dateRange = value as { from: string; to: string }
+          query[`${key}_from`] = dateRange.from
+          query[`${key}_to`] = dateRange.to
+        } else if ('min' in value || 'max' in value) {
           // Number range
-          if (value.min !== undefined) query[`${key}_min`] = value.min
-          if (value.max !== undefined) query[`${key}_max`] = value.max
+          const numberRange = value as { min?: number; max?: number }
+          if (numberRange.min !== undefined) query[`${key}_min`] = numberRange.min
+          if (numberRange.max !== undefined) query[`${key}_max`] = numberRange.max
         } else if (Object.keys(value).length > 0) {
           query[key] = value
         }
@@ -380,7 +406,7 @@ export class FilterManager {
         query[key] = value
       }
     })
-    
+
     return query
   }
 
@@ -396,28 +422,28 @@ export class FilterManager {
     validationRules: FilterValidationRule[] = []
   ): Record<string, string> {
     const errors: Record<string, string> = {}
-    
+
     for (const field of fields) {
       const value = filters[field.key]
       const validation = field.validation
-      
+
       if (!validation) continue
-      
+
       // Required validation
       if (validation.required && (!value || value === '')) {
         errors[field.key] = 'Bu alan zorunludur'
         continue
       }
-      
+
       // Skip other validations if value is empty and not required
       if (!value || value === '') continue
-      
+
       // Min length validation
       if (validation.minLength && typeof value === 'string' && value.length < validation.minLength) {
         errors[field.key] = `En az ${validation.minLength} karakter olmalıdır`
         continue
       }
-      
+
       // Pattern validation
       if (validation.pattern && typeof value === 'string') {
         const regex = new RegExp(validation.pattern)
@@ -426,7 +452,7 @@ export class FilterManager {
           continue
         }
       }
-      
+
       // Number range validation
       if (typeof value === 'number') {
         if (validation.min !== undefined && value < validation.min) {
@@ -439,7 +465,7 @@ export class FilterManager {
         }
       }
     }
-    
+
     // Custom validation rules
     for (const rule of validationRules) {
       if (rule.rules.custom) {
@@ -450,7 +476,7 @@ export class FilterManager {
         }
       }
     }
-    
+
     return errors
   }
 
@@ -462,18 +488,18 @@ export class FilterManager {
   ): FilterField[] {
     return fields.map(field => {
       const fieldDependencies = dependencies.filter(dep => dep.field === field.key)
-      
+
       if (fieldDependencies.length === 0) {
         return { ...field, visible: true, enabled: true }
       }
-      
+
       let visible = field.visible !== false // Start with field's default visibility
       let enabled = field.enabled !== false // Start with field's default enabled state
-      
+
       for (const dependency of fieldDependencies) {
         const sourceValue = filters[dependency.dependsOn]
         const conditionMet = FilterManager.evaluateCondition(sourceValue, dependency.condition)
-        
+
         if (dependency.action === 'show') {
           visible = visible && conditionMet
         } else if (dependency.action === 'hide') {
@@ -484,7 +510,7 @@ export class FilterManager {
           enabled = enabled && !conditionMet
         }
       }
-      
+
       return { ...field, visible, enabled }
     })
   }
@@ -521,6 +547,179 @@ export class FilterManager {
       default:
         return false
     }
+  }
+
+  // Apply filters to data
+  applyFilters<T extends Record<string, any>>(data: T[], filters: FilterState): T[] {
+    return data.filter(item => {
+      return this.fields.every(field => {
+        const filterValue = filters[field.key]
+        const itemValue = this.getNestedValue(item, field.key)
+
+        if (this.isEmpty(filterValue)) return true
+
+        switch (field.type) {
+          case 'text':
+            return this.matchesText(itemValue, filterValue as string)
+          case 'select':
+            return this.matchesSelect(itemValue, filterValue as string)
+          case 'multiSelect':
+            return this.matchesMultiSelect(itemValue, filterValue as string[])
+          case 'dateRange':
+            return this.matchesDateRange(itemValue, filterValue as { start: string; end: string })
+          case 'numberRange':
+            return this.matchesNumberRange(itemValue, filterValue as { min: number; max: number })
+          case 'boolean':
+            return this.matchesBoolean(itemValue, filterValue as boolean)
+          default:
+            return true
+        }
+      })
+    })
+  }
+
+  // Helper methods for filter matching
+  private matchesText(itemValue: any, filterValue: string): boolean {
+    if (!itemValue) return false
+    return String(itemValue).toLowerCase().includes(filterValue.toLowerCase())
+  }
+
+  private matchesSelect(itemValue: any, filterValue: string): boolean {
+    return itemValue === filterValue
+  }
+
+  private matchesMultiSelect(itemValue: any, filterValue: string[]): boolean {
+    if (!Array.isArray(filterValue) || filterValue.length === 0) return true
+    return filterValue.includes(String(itemValue))
+  }
+
+  private matchesDateRange(itemValue: any, filterValue: { start: string; end: string }): boolean {
+    if (!itemValue || !filterValue.start || !filterValue.end) return true
+    const itemDate = new Date(itemValue)
+    const startDate = new Date(filterValue.start)
+    const endDate = new Date(filterValue.end)
+    return itemDate >= startDate && itemDate <= endDate
+  }
+
+  private matchesNumberRange(itemValue: any, filterValue: { min: number; max: number }): boolean {
+    if (itemValue === null || itemValue === undefined) return true
+    const numValue = Number(itemValue)
+    if (isNaN(numValue)) return false
+    if (filterValue.min !== undefined && numValue < filterValue.min) return false
+    if (filterValue.max !== undefined && numValue > filterValue.max) return false
+    return true
+  }
+
+  private matchesBoolean(itemValue: any, filterValue: boolean): boolean {
+    return Boolean(itemValue) === filterValue
+  }
+
+  private getNestedValue(obj: any, path: string): any {
+    return path.split('.').reduce((current, key) => current?.[key], obj)
+  }
+
+  // URL handling methods
+  private getDateRangeFromURL(params: URLSearchParams, key: string): { start: string; end: string } | undefined {
+    const start = params.get(`${key}_start`)
+    const end = params.get(`${key}_end`)
+    if (start || end) {
+      return { start: start || '', end: end || '' }
+    }
+    return undefined
+  }
+
+  private getNumberRangeFromURL(params: URLSearchParams, key: string): { min?: number; max?: number } | undefined {
+    const min = params.get(`${key}_min`)
+    const max = params.get(`${key}_max`)
+    if (min || max) {
+      return {
+        min: min ? Number(min) : undefined,
+        max: max ? Number(max) : undefined
+      }
+    }
+    return undefined
+  }
+
+  private setDateRangeToURL(params: URLSearchParams, key: string, value: { start: string; end: string }): void {
+    if (value.start) params.set(`${key}_start`, value.start)
+    if (value.end) params.set(`${key}_end`, value.end)
+  }
+
+  private setNumberRangeToURL(params: URLSearchParams, key: string, value: { min?: number; max?: number }): void {
+    if (value.min !== undefined) params.set(`${key}_min`, String(value.min))
+    if (value.max !== undefined) params.set(`${key}_max`, String(value.max))
+  }
+
+  // Load filters from URL
+  loadFromURL(url: string): FilterState {
+    const urlObj = new URL(url)
+    const params = urlObj.searchParams
+    const filters: FilterState = {}
+
+    this.fields.forEach(field => {
+      const value = params.get(field.key)
+
+      if (value !== null) {
+        switch (field.type) {
+          case 'multiSelect':
+            filters[field.key] = value.split(',').filter(v => v.trim() !== '')
+            break
+          case 'boolean':
+            filters[field.key] = value === 'true'
+            break
+          case 'number':
+            filters[field.key] = Number(value)
+            break
+          case 'dateRange':
+            const dateRange = this.getDateRangeFromURL(params, field.key)
+            if (dateRange) filters[field.key] = dateRange
+            break
+          case 'numberRange':
+            const numberRange = this.getNumberRangeFromURL(params, field.key)
+            if (numberRange) filters[field.key] = numberRange
+            break
+          default:
+            filters[field.key] = value
+        }
+      }
+    })
+
+    return filters
+  }
+
+  // Save filters to URL
+  saveToURL(filters: FilterState): string {
+    const params = new URLSearchParams()
+
+    this.fields.forEach(field => {
+      const value = filters[field.key]
+
+      if (value !== undefined && value !== null && value !== '') {
+        switch (field.type) {
+          case 'multiSelect':
+            if (Array.isArray(value) && value.length > 0) {
+              params.set(field.key, value.join(','))
+            }
+            break
+          case 'dateRange':
+            if (typeof value === 'object' && value !== null) {
+              const dateRange = value as { start: string; end: string }
+              this.setDateRangeToURL(params, field.key, dateRange)
+            }
+            break
+          case 'numberRange':
+            if (typeof value === 'object' && value !== null) {
+              const numberRange = value as { min?: number; max?: number }
+              this.setNumberRangeToURL(params, field.key, numberRange)
+            }
+            break
+          default:
+            params.set(field.key, String(value))
+        }
+      }
+    })
+
+    return params.toString()
   }
 }
 

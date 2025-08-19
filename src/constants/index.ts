@@ -13,3 +13,7 @@ export * from './validation';
 // Export new design system as primary
 export * from './design-system';
 export { default as DesignSystem } from './design-system';
+
+// Re-export specific items to avoid conflicts
+export { StatusType } from './colors';
+export { LANGUAGES } from './languages';

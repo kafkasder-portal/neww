@@ -1,6 +1,6 @@
 import type { FilterField, FilterDependency, FilterGroup, FilterValidationRule } from './filterManager'
 import type { SavedFiltersConfig } from './savedFiltersManager'
-import type { SavedFilter } from '../components/AdvancedSearchModal'
+import { SavedFilter } from '../components/AdvancedSearchModal'
 
 // Beneficiaries için filter field'ları
 export const createBeneficiariesFilterConfig = () => {

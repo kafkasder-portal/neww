@@ -67,7 +67,7 @@ export interface Donor {
   acquisitionSource: 'website' | 'social_media' | 'referral' | 'event' | 'direct_mail' | 'telemarketing' | 'walk_in'
   referredBy?: string
   assignedTo?: string // Staff member responsible
-  relationshipStatus: 'prospect' | 'active' | 'lapsed' | 'churned' | 'blacklisted'
+  relationshipStatus: 'prospect' | 'active' | 'lapsed' | 'churned' | 'blacklisted' | 'inactive'
   lastContactDate?: string
   nextFollowUpDate?: string
   
@@ -83,6 +83,11 @@ export interface Donor {
   updatedAt: string
   createdBy: string
   updatedBy?: string
+  
+  // Additional properties for compatibility
+  lastDonation?: number
+  daysSinceLastDonation?: number
+  donationRange?: string
 }
 
 export interface DonorInteraction {
@@ -106,7 +111,7 @@ export interface DonorCampaign {
   id: string
   name: string
   description: string
-  campaignType: 'fundraising' | 'awareness' | 'retention' | 'acquisition' | 'stewardship'
+  campaignType: 'fundraising' | 'awareness' | 'retention' | 'acquisition' | 'stewardship' | 'event' | 'membership' | 'volunteer'
   status: 'draft' | 'active' | 'paused' | 'completed' | 'cancelled'
   startDate: string
   endDate: string
@@ -135,6 +140,9 @@ export interface DonorCampaign {
   createdAt: string
   updatedAt: string
   createdBy: string
+  
+  // Additional properties for compatibility
+  campaignName?: string
 }
 
 export interface DonorSegment {
@@ -227,7 +235,7 @@ export interface DonorCommunication {
   communicationType: 'email' | 'sms' | 'phone' | 'postal' | 'whatsapp'
   subject: string
   content: string
-  status: 'draft' | 'scheduled' | 'sent' | 'delivered' | 'opened' | 'clicked' | 'bounced' | 'failed'
+  status: 'draft' | 'scheduled' | 'sent' | 'delivered' | 'opened' | 'clicked' | 'bounced' | 'failed' | 'pending' | 'completed'
   scheduledDate?: string
   sentDate?: string
   deliveredDate?: string
@@ -243,6 +251,11 @@ export interface DonorCommunication {
   
   createdAt: string
   createdBy: string
+  
+  // Additional properties for compatibility
+  communicationDate?: string
+  followUpDate?: string
+  priority?: string
 }
 
 // Dashboard and Analytics Types

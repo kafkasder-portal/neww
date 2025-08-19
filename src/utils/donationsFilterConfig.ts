@@ -1,4 +1,4 @@
-import type { FilterField, SavedFilter } from '../components/AdvancedSearchModal'
+import { SavedFilter } from '../components/AdvancedSearchModal'
 import type { FilterDependency, FilterGroup, FilterValidationRule } from '../utils/filterManager'
 
 // Import types from other config files
