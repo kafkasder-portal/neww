@@ -135,9 +135,9 @@ export default function Login() {
             <Building className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">
-            {mode === 'login' && 'Hoş Geldiniz'}
-            {mode === 'register' && 'Hesap Oluşturun'}
-            {mode === 'forgot' && 'Şifre Sıfırlama'}
+            {mode === 'login' && t('auth.welcome')}
+            {mode === 'register' && t('auth.signUp')}
+            {mode === 'forgot' && t('auth.resetPassword')}
           </h1>
           <p className="text-gray-600 mt-2">
             {mode === 'login' && 'Dernek Yönetim Paneli'}
@@ -174,7 +174,7 @@ export default function Login() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Şifre
+                {t('auth.password')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
