@@ -304,7 +304,13 @@ export class AccountingService {
         balance: account.currentBalance
       }))
     } catch (error) {
-      console.error('Error generating trial balance:', error)
+      logError('Error generating trial balance', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+      } else {
+        toast.error(`Mizan raporu oluşturulamadı: ${getErrorMessage(error)}`)
+      }
       return []
     }
   }
