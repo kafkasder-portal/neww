@@ -162,6 +162,7 @@ global.testUtils = {
 
 // Extend Jest matchers
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
     interface Matchers<R> {
       toBeValidUUID(): R;
@@ -170,7 +171,7 @@ declare global {
     }
   }
   
-  var testUtils: {
+  const testUtils: {
     createMockRequest: (overrides?: any) => any;
     createMockResponse: () => any;
     createMockNext: () => any;

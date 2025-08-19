@@ -34,6 +34,7 @@ import {
 } from 'lucide-react'
 import { Budget, BudgetCategory, ActualExpense } from '@/types/budget'
 import { formatCurrency, formatPercentage } from '@/utils/formatters'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 
 interface BudgetComparisonViewProps {
   budget: Budget
@@ -57,7 +58,7 @@ interface MonthlyComparison {
   variance: number
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
+const COLORS = ['COLORS.chart[1]', 'COLORS.chart[2]', 'COLORS.chart[3]', 'COLORS.chart[4]', 'COLORS.chart[5]']
 
 export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }: BudgetComparisonViewProps) {
   const [comparisonData, setComparisonData] = useState<ComparisonData[]>([])
@@ -169,9 +170,9 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
   const onTrackCategories = comparisonData.filter(item => item.status === 'on-track').length
 
   const pieChartData = [
-    { name: 'Hedefte', value: onTrackCategories, color: '#00C49F' },
-    { name: 'Bütçe Aşımı', value: overBudgetCategories, color: '#FF8042' },
-    { name: 'Bütçe Altı', value: underBudgetCategories, color: '#0088FE' }
+    { name: 'Hedefte', value: onTrackCategories, color: 'COLORS.chart[2]' },
+    { name: 'Bütçe Aşımı', value: overBudgetCategories, color: 'COLORS.chart[4]' },
+    { name: 'Bütçe Altı', value: underBudgetCategories, color: 'COLORS.chart[1]' }
   ]
 
   if (loading) {
@@ -381,8 +382,8 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                       ]}
                     />
                     <Legend />
-                    <Bar dataKey="budgeted" fill="#8884d8" name="Bütçe" />
-                    <Bar dataKey="actual" fill="#82ca9d" name="Gerçekleşen" />
+                    <Bar dataKey="budgeted" fill="colors.chart[1]" name="Bütçe" />
+                    <Bar dataKey="actual" fill="colors.chart[2]" name="Gerçekleşen" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -469,14 +470,14 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                     <Line 
                       type="monotone" 
                       dataKey="budgeted" 
-                      stroke="#8884d8" 
+                      stroke="colors.chart[1]" 
                       strokeWidth={2}
                       name="Bütçe"
                     />
                     <Line 
                       type="monotone" 
                       dataKey="actual" 
-                      stroke="#82ca9d" 
+                      stroke="colors.chart[2]" 
                       strokeWidth={2}
                       name="Gerçekleşen"
                     />

@@ -469,6 +469,79 @@ export class DonorCRMService {
     }
   }
 
+  // CRM Analytics
+  static async getAnalytics(dateRange: string): Promise<CRMAnalyticsData | null> {
+    try {
+      // Get dashboard data as base
+      const dashboardData = await this.getDashboardData()
+      if (!dashboardData) return null
+
+      // Calculate additional metrics
+      const donorGrowth = 12.5 // Mock value - would calculate from historical data
+      const communicationStats = {
+        emails: 245,
+        calls: 89,
+        meetings: 34
+      }
+
+      // Get donation trends (mock data)
+      const donationTrends = [
+        { month: 'Oca', amount: 125000, donors: 45 },
+        { month: 'Şub', amount: 145000, donors: 52 },
+        { month: 'Mar', amount: 135000, donors: 48 },
+        { month: 'Nis', amount: 155000, donors: 58 },
+        { month: 'May', amount: 165000, donors: 62 },
+        { month: 'Haz', amount: 175000, donors: 67 }
+      ]
+
+      // Get donor segments
+      const donorSegments = [
+        { name: 'VIP Bağışçılar', value: 15, color: '#8B5CF6' },
+        { name: 'Düzenli Bağışçılar', value: 45, color: '#06B6D4' },
+        { name: 'Tek Seferlik', value: 30, color: '#10B981' },
+        { name: 'Kurumsal', value: 10, color: '#F59E0B' }
+      ]
+
+      // Campaign performance
+      const campaignPerformance = [
+        { name: 'Eğitim Kampanyası', target: 500000, raised: 420000, donors: 180 },
+        { name: 'Sağlık Projesi', target: 300000, raised: 285000, donors: 95 },
+        { name: 'Çevre Koruma', target: 200000, raised: 150000, donors: 75 },
+        { name: 'Acil Yardım', target: 150000, raised: 165000, donors: 120 }
+      ]
+
+      const communicationActivity = [
+        { type: 'email' as const, label: 'E-posta', description: 'Gönderilen e-postalar', count: 245 },
+        { type: 'phone' as const, label: 'Telefon', description: 'Yapılan aramalar', count: 89 },
+        { type: 'meeting' as const, label: 'Toplantı', description: 'Gerçekleştirilen toplantılar', count: 34 },
+        { type: 'message' as const, label: 'Mesaj', description: 'SMS ve WhatsApp mesajları', count: 156 }
+      ]
+
+      const analyticsData: CRMAnalyticsData = {
+        totalDonors: dashboardData.totalDonors,
+        activeDonors: dashboardData.activeDonors,
+        totalDonations: 1250000, // Mock value
+        averageDonation: dashboardData.averageDonationAmount,
+        retentionRate: dashboardData.donorRetentionRate,
+        newDonorsThisMonth: dashboardData.newDonorsThisMonth,
+        donorGrowth,
+        medianDonation: dashboardData.averageDonationAmount * 0.8, // Mock calculation
+        communicationStats,
+        donorSegments,
+        campaignPerformance,
+        communicationActivity,
+        newDonors: dashboardData.newDonorsThisMonth,
+        avgResponseTime: 2.5, // Mock value in hours
+        donationTrends
+      }
+
+      return analyticsData
+    } catch (error) {
+      console.error('Error fetching CRM analytics:', error)
+      return null
+    }
+  }
+
   // Donor Analytics
   static async calculateDonorAnalytics(donorId: string): Promise<DonorAnalytics | null> {
     try {

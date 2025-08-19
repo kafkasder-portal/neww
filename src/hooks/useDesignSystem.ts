@@ -4,7 +4,7 @@
  */
 
 import { useMemo } from 'react';
-import { COLORS, STATUS, utils } from '../constants/design-system';
+import { COLORS, STATUS } from '../constants/design-system';
 
 export const useDesignSystem = () => {
   const designSystem = useMemo(() => {
@@ -19,10 +19,10 @@ export const useDesignSystem = () => {
         financial: COLORS.financial,
         chart: COLORS.chart,
         sidebar: COLORS.sidebar,
-        
+
         // Status colors
         status: STATUS,
-        
+
         // Utility functions
         getStatusColor: (status: keyof typeof STATUS) => STATUS[status],
         getBrandColor: (shade: keyof typeof COLORS.brand) => COLORS.brand[shade],
@@ -100,20 +100,21 @@ export const useDesignSystem = () => {
         hexToHsl: (hex: string) => {
           // Remove # if present
           hex = hex.replace('#', '');
-          
+
           // Parse hex values
           const r = parseInt(hex.substr(0, 2), 16) / 255;
           const g = parseInt(hex.substr(2, 2), 16) / 255;
           const b = parseInt(hex.substr(4, 2), 16) / 255;
-          
+
           const max = Math.max(r, g, b);
           const min = Math.min(r, g, b);
-          let h = 0, s = 0, l = (max + min) / 2;
-          
+          let h = 0, s = 0;
+          const l_ = (max + min) / 2;
+
           if (max !== min) {
             const d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            
+            s = l_ > 0.5 ? d / (2 - max - min) : d / (max + min);
+
             switch (max) {
               case r: h = (g - b) / d + (g < b ? 6 : 0); break;
               case g: h = (b - r) / d + 2; break;
@@ -121,7 +122,9 @@ export const useDesignSystem = () => {
             }
             h /= 6;
           }
-          
+
+          const l = Math.min(0.8, Math.max(0.2, l_));
+
           return {
             h: Math.round(h * 360),
             s: Math.round(s * 100),

@@ -92,7 +92,7 @@ export default function MessageNavigation({ currentPath = '/messages' }: Message
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         {navigationItems.map((item, index) => (
           <a
-            key={index}
+            key={`message-nav-${item.title}-${index}`}
             href={item.href}
             className={`group p-3 rounded-lg border transition-all duration-200 hover:shadow-md ${
               item.isActive

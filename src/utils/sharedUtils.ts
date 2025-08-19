@@ -327,9 +327,10 @@ export function generateRandomString(length: number = 8): string {
  */
 export function maskSensitiveData(data: string, type: 'email' | 'phone' | 'id'): string {
     switch (type) {
-        case 'email':
+        case 'email': {
             const [local, domain] = data.split('@')
             return `${local.charAt(0)}***@${domain}`
+        }
         case 'phone':
             return data.replace(/(\d{3})(\d{3})(\d{4})/, '$1***$3')
         case 'id':

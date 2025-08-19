@@ -114,6 +114,8 @@ export class SMTPService {
       // SMTP implementation would go here
       // For now, using mock since we need actual SMTP credentials
       const nodemailer = await import('nodemailer')
+import { useDesignSystem } from '@/hooks/useDesignSystem'
+import { COLORS } from '@/constants/design-system'
       
       const transporter = nodemailer.createTransport({
         host: this.config.host,
@@ -347,7 +349,7 @@ KAFKASDER Ekibi`,
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-        <h2 style="color: #2563eb;">Merhaba {{name}}!</h2>
+        <h2 style="color: COLORS.semantic.info;">Merhaba {{name}}!</h2>
         <p>KAFKASDER ailesine hoş geldiniz! Kaydınız başarıyla tamamlanmıştır.</p>
         
         <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0;">

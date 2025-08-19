@@ -635,7 +635,7 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
               <div className="flex flex-wrap gap-2">
                 {suggestions.map((suggestion, index) => (
                   <button
-                    key={index}
+                    key={`suggestion-${suggestion.id || index}`}
                     onClick={() => handleSuggestionClick(suggestion)}
                     className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors"
                   >

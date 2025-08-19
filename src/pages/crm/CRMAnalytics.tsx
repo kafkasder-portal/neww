@@ -1,46 +1,43 @@
-import { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 import { DonorCRMService } from '@/services/donorCRMService'
-import type { 
-  CRMAnalyticsData,
-  DonationTrend,
-  DonorSegmentChart,
-  CampaignPerformance
+import type {
+  CRMAnalyticsData
 } from '@/types/donors'
-import { toast } from 'sonner'
 import {
-  LineChart,
-  Line,
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer
-} from 'recharts'
-import {
-  TrendingUp,
-  Users,
+  Award,
+  Calendar,
+  Clock,
   DollarSign,
-  RefreshCw,
   Download,
+  Heart,
+  Mail,
+  MessageSquare,
+  Phone,
+  RefreshCw,
+  TrendingUp,
   UserCheck,
   UserPlus,
-  MessageSquare,
-  Clock,
-  Mail,
-  Phone,
-  Calendar,
-  Award
+  Users
 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts'
+import { toast } from 'sonner'
 
 
 
@@ -48,7 +45,9 @@ interface CRMAnalyticsProps {
   onRefresh: () => void
 }
 
-export default function CRMAnalytics({ onRefresh }: CRMAnalyticsProps) {
+export default function CRMAnalytics({ onRefresh: _onRefresh }: CRMAnalyticsProps) {
+  const { colors } = useDesignSystem();
+
   const [loading, setLoading] = useState(false)
   const [analyticsData, setAnalyticsData] = useState<CRMAnalyticsData | null>(null)
   const [dateRange, setDateRange] = useState('30d')
@@ -82,7 +81,7 @@ export default function CRMAnalytics({ onRefresh }: CRMAnalyticsProps) {
     return `${value.toFixed(1)}%`
   }
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
+  const COLORS = [colors.chart[1], colors.chart[2], colors.chart[3], colors.chart[4], colors.chart[5]]
 
   if (loading || !analyticsData) {
     return (
@@ -173,7 +172,7 @@ export default function CRMAnalytics({ onRefresh }: CRMAnalyticsProps) {
           </div>
           <div className="mt-4 flex items-center">
             <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
-            <span className="text-sm text-green-600">+{analyticsData.donationGrowth}%</span>
+            <span className="text-sm text-green-600">+{analyticsData.donorGrowth}%</span>
             <span className="text-sm text-gray-500 ml-1">bu dönem</span>
           </div>
         </Card>
@@ -220,10 +219,10 @@ export default function CRMAnalytics({ onRefresh }: CRMAnalyticsProps) {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line 
-                type="monotone" 
-                dataKey={selectedMetric} 
-                stroke="#3B82F6" 
+              <Line
+                type="monotone"
+                dataKey={selectedMetric}
+                stroke="#3B82F6"
                 strokeWidth={2}
                 dot={{ fill: '#3B82F6' }}
               />
@@ -243,7 +242,7 @@ export default function CRMAnalytics({ onRefresh }: CRMAnalyticsProps) {
                 labelLine={false}
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                 outerRadius={80}
-                fill="#8884d8"
+                fill="colors.chart[1]"
                 dataKey="value"
               >
                 {analyticsData.donorSegments.map((_entry, index) => (
@@ -269,7 +268,7 @@ export default function CRMAnalytics({ onRefresh }: CRMAnalyticsProps) {
               <Tooltip />
               <Legend />
               <Bar dataKey="raised" fill="#10B981" name="Toplanan" />
-              <Bar dataKey="target" fill="#E5E7EB" name="Hedef" />
+              <Bar dataKey="target" fill="COLORS.neutral[200]" name="Hedef" />
             </BarChart>
           </ResponsiveContainer>
         </Card>

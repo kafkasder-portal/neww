@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
-import cors from 'cors';
+// import cors from 'cors';
 // Express-validator temporarily removed due to compatibility issues
 import * as DOMPurify from 'isomorphic-dompurify';
 import * as crypto from 'crypto';
@@ -62,9 +62,6 @@ export const createRateLimit = (windowMs: number = 15 * 60 * 1000, max: number =
     legacyHeaders: false,
     skip: (req) => {
       // Skip rate limiting for health checks
-<<<<<<< HEAD
-      return req.path === '/health' || req.path === '/api/health';
-=======
       return req.path === '/api/health' || req.path === '/api/health/';
     },
     // Custom key generator for user-based rate limiting
@@ -81,7 +78,6 @@ export const createRateLimit = (windowMs: number = 15 * 60 * 1000, max: number =
         code: 'RATE_LIMIT_EXCEEDED',
         retryAfter: Math.ceil(windowMs / 1000)
       });
->>>>>>> 686e8fd5c317be0c6813aba7437400939cd49c3c
     }
   });
 };

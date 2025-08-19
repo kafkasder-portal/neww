@@ -1,7 +1,7 @@
-import { Modal } from './Modal'
+import type { Payment, ProvisionItem, ProvisionRequest } from '../types/provision'
 import { DataTable } from './DataTable'
+import { Modal } from './Modal'
 import { getItemColumns, getPaymentColumns } from './ProvisionTableColumns'
-import type { ProvisionRequest, ProvisionItem, Payment } from '../types/provision'
 
 interface ProvisionModalsProps {
   selectedRequest: ProvisionRequest | null
@@ -66,11 +66,11 @@ export function ProvisionModals({
               <div>Hedef Tarih: {selectedRequest?.targetDate}</div>
             </div>
           </div>
-          
+
           <div className="max-h-96 overflow-y-auto">
-            <DataTable 
-              columns={itemColumns} 
-              data={items.filter(item => item.requestId === selectedRequest?.id)} 
+            <DataTable
+              columns={itemColumns}
+              data={items.filter(item => item.requestId === selectedRequest?.id)}
             />
           </div>
         </div>
@@ -100,11 +100,11 @@ export function ProvisionModals({
               </div>
             </div>
           </div>
-          
+
           <div className="max-h-96 overflow-y-auto">
-            <DataTable 
-              columns={paymentColumns} 
-              data={payments.filter(payment => payment.requestId === selectedRequest?.id)} 
+            <DataTable
+              columns={paymentColumns}
+              data={payments.filter(payment => payment.requestId === selectedRequest?.id)}
             />
           </div>
         </div>
@@ -132,11 +132,11 @@ export function ProvisionModals({
               <p className="text-sm mt-1">{selectedRequest?.description}</p>
             </div>
           </div>
-          
+
           <div className="space-y-3">
             <div>
               <label className="block text-sm font-medium mb-1">Onay Durumu</label>
-              <select 
+              <select
                 name="status"
                 className="w-full border rounded px-3 py-2"
                 required
@@ -146,7 +146,7 @@ export function ProvisionModals({
                 <option value="revizyon">Revizyon İste</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-1">Onay Notları</label>
               <textarea
@@ -158,7 +158,7 @@ export function ProvisionModals({
               />
             </div>
           </div>
-          
+
           <div className="flex justify-end gap-2 pt-4">
             <button
               type="button"
@@ -199,15 +199,19 @@ export function ProvisionModals({
 
           try {
             // API çağrısı - gerçek implementasyon yapılana kadar console log
+            // eslint-disable-next-line no-console
             console.log('Yeni talep eklendi:', requestData)
 
             // Burada normalde API'ye POST isteği gönderilecek
             // await api.post('/provision-requests', requestData)
 
+            // eslint-disable-next-line no-alert
             alert('Talep başarıyla eklendi!')
             setIsAddModalOpen(false)
           } catch (error) {
+            // eslint-disable-next-line no-console
             console.error('Talep eklenirken hata:', error)
+            // eslint-disable-next-line no-alert
             alert('Talep eklenirken hata oluştu!')
           }
         }}>
@@ -222,7 +226,7 @@ export function ProvisionModals({
                 required
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-1">Departman</label>
               <select
@@ -238,7 +242,7 @@ export function ProvisionModals({
                 <option value="Pazarlama">Pazarlama</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-1">Öncelik</label>
               <select
@@ -253,7 +257,7 @@ export function ProvisionModals({
                 <option value="Acil">Acil</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-1">Açıklama</label>
               <textarea
@@ -264,7 +268,7 @@ export function ProvisionModals({
                 required
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-1">Bütçe (TL)</label>
               <input
@@ -278,7 +282,7 @@ export function ProvisionModals({
               />
             </div>
           </div>
-          
+
           <div className="flex justify-end gap-2 pt-4">
             <button
               type="button"

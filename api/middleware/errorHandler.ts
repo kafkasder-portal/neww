@@ -37,9 +37,9 @@ export const globalErrorHandler = async (
   res: Response,
   _next: NextFunction
 ) => {
-  let statusCode = error.statusCode || 500;
-  let message = error.message || 'Internal Server Error';
-  let code = error.code || 'INTERNAL_ERROR';
+  const statusCode = error.statusCode || 500;
+  const message = error.message || 'Internal Server Error';
+  const code = error.code || 'INTERNAL_ERROR';
 
   // Log error details
   console.error('Error occurred:', {
@@ -90,7 +90,7 @@ export const globalErrorHandler = async (
 /**
  * 404 handler
  */
-export const notFoundHandler = (req: Request, _res: Response, next: NextFunction) => {
+export const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
   const error = new AppError(`Route ${req.originalUrl} not found`, 404, 'NOT_FOUND');
   next(error);
 };
@@ -99,7 +99,7 @@ export const notFoundHandler = (req: Request, _res: Response, next: NextFunction
  * Unhandled promise rejection handler
  */
 export const handleUnhandledRejection = () => {
-  process.on('unhandledRejection', (reason: any, promise: Promise<any>) => {
+  process.on('unhandledRejection', (reason: unknown, promise: Promise<unknown>) => {
     console.error('Unhandled Rejection at:', promise, 'reason:', reason);
     // Close server gracefully
     process.exit(1);

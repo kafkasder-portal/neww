@@ -125,7 +125,9 @@ export default function SupabaseConnectionTest() {
         .channel('test-channel')
         .on('postgres_changes', 
           { event: '*', schema: 'public', table: 'beneficiaries' }, 
-          () => {}
+          () => {
+            // Real-time event handler
+          }
         )
         .subscribe((status) => {
           if (status === 'SUBSCRIBED') {
@@ -169,13 +171,13 @@ export default function SupabaseConnectionTest() {
 
   const getTestIcon = (index: number) => {
     const icons = [
-      <Key className="h-4 w-4 text-muted-foreground" />,
-      <Database className="h-4 w-4 text-muted-foreground" />,
-      <User className="h-4 w-4 text-muted-foreground" />,
-      <Table className="h-4 w-4 text-muted-foreground" />,
-      <Wifi className="h-4 w-4 text-muted-foreground" />
+      <Key key="key" className="h-4 w-4 text-muted-foreground" />,
+      <Database key="database" className="h-4 w-4 text-muted-foreground" />,
+      <User key="user" className="h-4 w-4 text-muted-foreground" />,
+      <Table key="table" className="h-4 w-4 text-muted-foreground" />,
+      <Wifi key="wifi" className="h-4 w-4 text-muted-foreground" />
     ]
-    return icons[index] || <AlertCircle className="h-4 w-4 text-muted-foreground" />
+    return icons[index] || <AlertCircle key="alert" className="h-4 w-4 text-muted-foreground" />
   }
 
   const getOverallStatusColor = () => {

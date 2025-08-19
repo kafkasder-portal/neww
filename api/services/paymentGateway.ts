@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
+// import { Request, Response } from 'express';
 
 /**
  * Turkish Payment Gateway Service
  * Supports various Turkish payment providers
  */
 export class TurkishPaymentService {
-  
+
   /**
    * Process a payment
    */
@@ -26,12 +26,12 @@ export class TurkishPaymentService {
       // - PayTR
       // - Garanti BBVA
       // - İş Bankası
-      
+
       console.log('Processing payment:', paymentData);
-      
+
       // Simulate payment processing delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Mock success response
       return {
         success: true,
@@ -41,7 +41,7 @@ export class TurkishPaymentService {
         currency: paymentData.currency,
         message: 'Payment processed successfully'
       };
-      
+
     } catch (error) {
       console.error('Payment processing failed:', error);
       return {
@@ -58,10 +58,10 @@ export class TurkishPaymentService {
   async refundPayment(transactionId: string, amount?: number) {
     try {
       console.log('Processing refund for transaction:', transactionId);
-      
+
       // Mock refund processing
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       return {
         success: true,
         refundId: `REF_${Date.now()}`,
@@ -70,7 +70,7 @@ export class TurkishPaymentService {
         status: 'refunded',
         message: 'Refund processed successfully'
       };
-      
+
     } catch (error) {
       console.error('Refund processing failed:', error);
       return {
@@ -95,7 +95,7 @@ export class TurkishPaymentService {
         currency: 'TRY',
         createdAt: new Date().toISOString()
       };
-      
+
     } catch (error) {
       return {
         success: false,
@@ -115,24 +115,24 @@ export class TurkishPaymentService {
     cvv: string;
   }) {
     const { cardNumber, expiryMonth, expiryYear, cvv } = cardData;
-    
+
     // Basic validation
     if (!cardNumber || cardNumber.length < 16) {
       return { valid: false, error: 'Invalid card number' };
     }
-    
+
     if (!expiryMonth || parseInt(expiryMonth) < 1 || parseInt(expiryMonth) > 12) {
       return { valid: false, error: 'Invalid expiry month' };
     }
-    
+
     if (!expiryYear || parseInt(expiryYear) < new Date().getFullYear()) {
       return { valid: false, error: 'Invalid expiry year' };
     }
-    
+
     if (!cvv || cvv.length < 3) {
       return { valid: false, error: 'Invalid CVV' };
     }
-    
+
     return { valid: true };
   }
 

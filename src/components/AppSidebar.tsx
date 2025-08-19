@@ -27,10 +27,8 @@ import {
 } from './ui/tooltip'
 import { Button } from './ui/button'
 import { Avatar } from './ui/avatar'
-import { Badge } from './ui/badge'
 import { Building2, ChevronUp, User } from 'lucide-react'
 import { navigationItems, supportItems } from '../constants/navigation'
-import { cn } from '../lib/utils'
 
 const AppSidebar = memo(function AppSidebar() {
   const location = useLocation()
@@ -55,7 +53,7 @@ const AppSidebar = memo(function AppSidebar() {
     )
   }
 
-  const activeMainItem = getActiveMainItem()
+  const _activeMainItem = getActiveMainItem()
 
   return (
     <TooltipProvider>

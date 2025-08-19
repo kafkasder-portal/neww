@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { AlertTriangle, Trash2, RefreshCw, TrendingUp, TrendingDown } from 'lucide-react'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
+import { COLORS } from '@/constants/design-system'
 
 interface MemoryInfo {
   used: number
@@ -24,6 +26,8 @@ interface DOMInfo {
 }
 
 export default function MemoryMonitor() {
+  const { colors, styles, utils } = useDesignSystem()
+
   const [memoryInfo, setMemoryInfo] = useState<MemoryInfo | null>(null)
   const [memoryHistory, setMemoryHistory] = useState<MemoryHistoryEntry[]>([])
   const [domInfo, setDOMInfo] = useState<DOMInfo | null>(null)
@@ -368,8 +372,8 @@ export default function MemoryMonitor() {
                           y1={`${y1}%`}
                           x2={`${x2}%`}
                           y2={`${y2}%`}
-                          stroke={entry.memory.percentage > 80 ? '#ef4444' : 
-                                 entry.memory.percentage > 60 ? '#f59e0b' : '#10b981'}
+                          stroke={entry.memory.percentage > 80 ? 'COLORS.semantic.danger' : 
+                                 entry.memory.percentage > 60 ? 'COLORS.semantic.warning' : 'COLORS.semantic.success'}
                           strokeWidth="2"
                         />
                       )

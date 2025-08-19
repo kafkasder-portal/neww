@@ -209,7 +209,7 @@ function sanitizeInput(input: any): any {
   if (input && typeof input === 'object') {
     const sanitized: any = {};
     for (const key in input) {
-      if (input.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(input, key)) {
         sanitized[key] = sanitizeInput(input[key]);
       }
     }
@@ -264,7 +264,7 @@ export const validateFileUpload = (allowedTypes: string[], maxSize: number = 5 *
 // SQL injection prevention
 export const preventSQLInjection = (req: Request, res: Response, next: NextFunction) => {
   const sqlPatterns = [
-    /('|(\-\-)|(;)|(\||\|)|(\*|\*))/i,
+    /('|(--)|(;)|(\||\|)|(\*|\*))/i,
     /(union|select|insert|delete|update|drop|create|alter|exec|execute)/i,
     /(script|javascript|vbscript|onload|onerror|onclick)/i
   ];

@@ -2,7 +2,7 @@ import { Router, type Request, type Response } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import { validateRequest, validationSchemas, preventSQLInjection } from '../middleware/validation';
-import { z } from 'zod';
+// import { z } from 'zod';
 import { generateCSRFToken, authRateLimiter, failedAuthRateLimiter } from '../middleware/security';
 import { xssProtection, csrfProtection, getCSRFToken } from '../middleware/xss-protection';
 import { asyncHandler } from '../middleware/errorHandler';

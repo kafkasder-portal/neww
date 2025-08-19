@@ -32,6 +32,7 @@ import {
   AreaChart
 } from 'recharts'
 import { Budget } from '@/types/budget'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 
 interface BudgetVarianceAnalysisProps {
   budgets: Budget[]
@@ -55,7 +56,7 @@ interface MonthlyVariance {
   variance: number
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D']
+const COLORS = ['COLORS.chart[1]', 'COLORS.chart[2]', 'COLORS.chart[3]', 'COLORS.chart[4]', 'COLORS.chart[5]', 'COLORS.chart[6]']
 
 export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSelect }: BudgetVarianceAnalysisProps) {
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null)
@@ -430,7 +431,7 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
                 <XAxis dataKey="month" />
                 <YAxis tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`} />
                 <Tooltip formatter={(value: number) => [formatCurrency(value), 'Kümülatif Varyans']} />
-                <Area type="monotone" dataKey="variance" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                <Area type="monotone" dataKey="variance" stroke="colors.chart[1]" fill="colors.chart[1]" fillOpacity={0.6} />
               </AreaChart>
             </ResponsiveContainer>
           </Card>
@@ -448,7 +449,7 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
                   cx="50%"
                   cy="50%"
                   outerRadius={80}
-                  fill="#8884d8"
+                  fill="colors.chart[1]"
                   dataKey="value"
                   label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                 >

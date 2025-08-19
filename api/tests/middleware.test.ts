@@ -1,8 +1,9 @@
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
 import request from 'supertest';
-import { describe, it, expect, beforeAll, afterAll, beforeEach } from '@jest/globals';
 import app from '../app';
-import { validateRequest, sanitizeInput, preventSQLInjection, validateFileUpload } from '../middleware/validation';
-import { xssProtection, csrfProtection } from '../middleware/xss-protection';
+import { validateFileUpload } from '../middleware/validation';
+// import { validateRequest, sanitizeInput, preventSQLInjection } from '../middleware/validation';
+// import { xssProtection, csrfProtection } from '../middleware/xss-protection';
 
 describe('Middleware Tests', () => {
   const mockAuthToken = 'Bearer mock-jwt-token';
@@ -257,7 +258,7 @@ describe('Middleware Tests', () => {
       it('should validate future dates where appropriate', async () => {
         const futureDate = new Date();
         futureDate.setFullYear(futureDate.getFullYear() + 10);
-        
+
         const response = await request(app)
           .get(`/api/donations?start_date=${futureDate.toISOString().split('T')[0]}`)
           .set('Authorization', mockAuthToken);
@@ -433,7 +434,7 @@ describe('Middleware Tests', () => {
   describe('SQL Injection Prevention', () => {
     it('should prevent SQL injection in search parameters', async () => {
       const sqlInjection = "'; DROP TABLE beneficiaries; --";
-      
+
       const response = await request(app)
         .get(`/api/beneficiaries?search=${encodeURIComponent(sqlInjection)}`)
         .set('Authorization', mockAuthToken);
@@ -461,7 +462,7 @@ describe('Middleware Tests', () => {
 
     it('should prevent SQL injection in URL parameters', async () => {
       const sqlInjection = "1'; DROP TABLE beneficiaries; --";
-      
+
       const response = await request(app)
         .get(`/api/beneficiaries/${sqlInjection}`)
         .set('Authorization', mockAuthToken);
@@ -556,7 +557,7 @@ describe('Middleware Tests', () => {
 
     it('should handle very long strings', async () => {
       const veryLongString = 'a'.repeat(10000);
-      
+
       const response = await request(app)
         .post('/api/beneficiaries')
         .set('Authorization', mockAuthToken)
@@ -574,7 +575,7 @@ describe('Middleware Tests', () => {
 
   describe('Rate Limiting Middleware', () => {
     it('should apply rate limiting to authentication endpoints', async () => {
-      const requests = Array(20).fill(null).map(() => 
+      const requests = Array(20).fill(null).map(() =>
         request(app)
           .post('/api/auth/login')
           .send({
@@ -585,20 +586,20 @@ describe('Middleware Tests', () => {
 
       const responses = await Promise.all(requests);
       const statusCodes = responses.map(r => r.status);
-      
+
       // Should have rate limiting (429) for too many requests
       expect(statusCodes.some(code => code === 429)).toBe(true);
     });
 
     it('should apply different rate limits to different endpoints', async () => {
       // Test that different endpoints have different rate limits
-      const authRequests = Array(10).fill(null).map(() => 
+      const authRequests = Array(10).fill(null).map(() =>
         request(app)
           .post('/api/auth/login')
           .send({ email: 'test@example.com', password: 'test' })
       );
 
-      const dataRequests = Array(50).fill(null).map(() => 
+      const dataRequests = Array(50).fill(null).map(() =>
         request(app)
           .get('/api/beneficiaries')
           .set('Authorization', mockAuthToken)

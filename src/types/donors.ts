@@ -344,7 +344,8 @@ export interface CRMAnalyticsData {
   averageDonation: number;
   retentionRate: number;
   newDonorsThisMonth: number;
-  donationGrowth: number;
+  donorGrowth: number;
+  medianDonation: number;
   communicationStats: {
     emails: number;
     calls: number;
@@ -360,6 +361,7 @@ export interface CRMAnalyticsData {
   }>;
   newDonors: number;
   avgResponseTime: number;
+  donationTrends: DonationTrend[];
 }
 
 export interface DonationTrend {

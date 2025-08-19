@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { QrCode, Download, Printer, Copy, Package } from 'lucide-react'
 import QRCode from 'qrcode'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
+import { COLORS } from '@/constants/design-system'
 
 interface InventoryItem {
   id: string
@@ -67,8 +69,8 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
         width: 256,
         margin: 2,
         color: {
-          dark: '#000000',
-          light: '#FFFFFF'
+          dark: 'COLORS.neutral[900]',
+          light: 'COLORS.neutral[50]'
         }
       })
       setQrCodeDataURL(dataURL)

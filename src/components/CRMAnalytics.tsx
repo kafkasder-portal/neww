@@ -1,45 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
+import { useDesignSystem } from '@/hooks/useDesignSystem';
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell,
-  AreaChart,
-  Area
-} from 'recharts';
-import {
-  CalendarIcon,
-  DownloadIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
-  UsersIcon,
-  DollarSignIcon,
-  TargetIcon,
   ActivityIcon,
+  AwardIcon,
+  DollarSignIcon,
+  DownloadIcon,
+  HeartIcon,
   MailIcon,
   PhoneIcon,
-  HeartIcon,
-  AwardIcon
+  TrendingDownIcon,
+  TrendingUpIcon,
+  UsersIcon
 } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts';
 
 interface AnalyticsData {
   totalDonors: number;
@@ -76,12 +70,14 @@ interface CampaignPerformance {
 }
 
 const CRMAnalytics: React.FC = () => {
-  const [dateRange, setDateRange] = useState<{
+  const { colors } = useDesignSystem();
+
+  const [_dateRange, _setDateRange] = useState<{
     from: Date | undefined;
     to: Date | undefined;
   }>({ from: undefined, to: undefined });
   const [selectedPeriod, setSelectedPeriod] = useState('last-30-days');
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({
+  const [analyticsData, _setAnalyticsData] = useState<AnalyticsData>({
     totalDonors: 1247,
     activeDonors: 892,
     totalDonations: 2450000,
@@ -112,10 +108,10 @@ const CRMAnalytics: React.FC = () => {
   ];
 
   const donorSegments: DonorSegment[] = [
-    { name: 'VIP Bağışçılar', value: 15, color: '#8B5CF6' },
-    { name: 'Düzenli Bağışçılar', value: 45, color: '#06B6D4' },
-    { name: 'Tek Seferlik', value: 30, color: '#10B981' },
-    { name: 'Kurumsal', value: 10, color: '#F59E0B' }
+    { name: 'VIP Bağışçılar', value: 15, color: colors.chart[5] },
+    { name: 'Düzenli Bağışçılar', value: 45, color: colors.chart[6] },
+    { name: 'Tek Seferlik', value: 30, color: colors.semantic.success },
+    { name: 'Kurumsal', value: 10, color: colors.semantic.warning }
   ];
 
   const campaignPerformance: CampaignPerformance[] = [
@@ -144,9 +140,8 @@ const CRMAnalytics: React.FC = () => {
             <p className="text-sm font-medium text-muted-foreground">{title}</p>
             <p className="text-2xl font-bold">{value}</p>
             {trend && trendValue && (
-              <div className={`flex items-center mt-1 text-sm ${
-                trend === 'up' ? 'text-green-600' : 'text-red-600'
-              }`}>
+              <div className={`flex items-center mt-1 text-sm ${trend === 'up' ? 'text-green-600' : 'text-red-600'
+                }`}>
                 {trend === 'up' ? (
                   <TrendingUpIcon className="w-4 h-4 mr-1" />
                 ) : (
@@ -266,7 +261,7 @@ const CRMAnalytics: React.FC = () => {
                       labelLine={false}
                       label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       outerRadius={80}
-                      fill="#8884d8"
+                      fill="colors.chart[1]"
                       dataKey="value"
                     >
                       {donorSegments.map((entry, index) => (
@@ -349,8 +344,8 @@ const CRMAnalytics: React.FC = () => {
                   {donorSegments.map((segment, index) => (
                     <div key={index} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div 
-                          className="w-4 h-4 rounded" 
+                        <div
+                          className="w-4 h-4 rounded"
                           style={{ backgroundColor: segment.color }}
                         />
                         <span className="text-sm font-medium">{segment.name}</span>
@@ -377,7 +372,7 @@ const CRMAnalytics: React.FC = () => {
                   <YAxis />
                   <Tooltip formatter={(value) => `₺${Number(value).toLocaleString()}`} />
                   <Legend />
-                  <Bar dataKey="target" fill="#E5E7EB" name="Hedef" />
+                  <Bar dataKey="target" fill="COLORS.neutral[200]" name="Hedef" />
                   <Bar dataKey="raised" fill="#10B981" name="Toplanan" />
                 </BarChart>
               </ResponsiveContainer>
@@ -403,8 +398,8 @@ const CRMAnalytics: React.FC = () => {
                       <span>{campaign.donors}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className="bg-green-600 h-2 rounded-full" 
+                      <div
+                        className="bg-green-600 h-2 rounded-full"
                         style={{ width: `${Math.min((campaign.raised / campaign.target) * 100, 100)}%` }}
                       />
                     </div>

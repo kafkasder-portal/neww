@@ -24,7 +24,7 @@ setupInterceptors(apiClient);
 setupAPIPerformanceTracking(apiClient);
 
 // Request/Response types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data: T;
   message?: string;
   success: boolean;
@@ -40,7 +40,7 @@ export interface ApiResponse<T = any> {
 export interface ApiError {
   message: string;
   code?: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
   status?: number;
 }
 
@@ -50,7 +50,7 @@ export interface PaginationParams {
   sort?: string;
   order?: 'asc' | 'desc';
   search?: string;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
 }
 
 // Generic API methods
@@ -62,7 +62,7 @@ class ApiClient {
   }
 
   // GET request
-  async get<T = any>(
+  async get<T = unknown>(
     url: string,
     config?: AxiosRequestConfig
   ): Promise<ApiResponse<T>> {
@@ -71,9 +71,9 @@ class ApiClient {
   }
 
   // POST request
-  async post<T = any>(
+  async post<T = unknown>(
     url: string,
-    data?: any,
+    data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<ApiResponse<T>> {
     const response = await this.instance.post<ApiResponse<T>>(url, data, config);
@@ -81,9 +81,9 @@ class ApiClient {
   }
 
   // PUT request
-  async put<T = any>(
+  async put<T = unknown>(
     url: string,
-    data?: any,
+    data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<ApiResponse<T>> {
     const response = await this.instance.put<ApiResponse<T>>(url, data, config);
@@ -91,9 +91,9 @@ class ApiClient {
   }
 
   // PATCH request
-  async patch<T = any>(
+  async patch<T = unknown>(
     url: string,
-    data?: any,
+    data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<ApiResponse<T>> {
     const response = await this.instance.patch<ApiResponse<T>>(url, data, config);
@@ -101,7 +101,7 @@ class ApiClient {
   }
 
   // DELETE request
-  async delete<T = any>(
+  async delete<T = unknown>(
     url: string,
     config?: AxiosRequestConfig
   ): Promise<ApiResponse<T>> {
@@ -110,11 +110,11 @@ class ApiClient {
   }
 
   // Upload file
-  async upload<T = any>(
+  async upload<T = unknown>(
     url: string,
     file: File,
-    onUploadProgress?: (progressEvent: any) => void,
-    additionalData?: Record<string, any>
+    onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
+    additionalData?: Record<string, unknown>
   ): Promise<ApiResponse<T>> {
     const formData = new FormData();
     formData.append('file', file);

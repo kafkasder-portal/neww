@@ -20,7 +20,10 @@ const requestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRe
   (config as ExtendedAxiosRequestConfig).metadata = { startTime: Date.now() };
 
   // Log request in development
-  if (env.isDevelopment) console.log(`🚀 ${config.method?.toUpperCase()} ${config.url}`, { headers: config.headers, data: config.data, params: config.params });
+  if (env.isDevelopment) {
+    // eslint-disable-next-line no-console
+    console.log(`🚀 ${config.method?.toUpperCase()} ${config.url}`, { headers: config.headers, data: config.data, params: config.params });
+  }
 
   return config;
 };
@@ -55,7 +58,10 @@ const responseInterceptor = (response: AxiosResponse): AxiosResponse => {
   const duration = config.metadata?.startTime ? Date.now() - config.metadata.startTime : 0;
 
   // Log response in development
-  if (env.isDevelopment) console.log(`✅ ${response.config.method?.toUpperCase()} ${response.config.url} (${duration}ms)`, { status: response.status, data: response.data });
+  if (env.isDevelopment) {
+    // eslint-disable-next-line no-console
+    console.log(`✅ ${response.config.method?.toUpperCase()} ${response.config.url} (${duration}ms)`, { status: response.status, data: response.data });
+  }
 
   return response;
 };
@@ -66,7 +72,10 @@ const responseErrorInterceptor = async (error: AxiosError): Promise<AxiosError> 
   const duration = config?.metadata?.startTime ? Date.now() - config.metadata.startTime : 0;
 
   // Log error in development
-  if (env.isDevelopment) console.error(`❌ ${config?.method?.toUpperCase()} ${config?.url} (${duration}ms)`, { status: error.response?.status, message: error.message, data: error.response?.data });
+  if (env.isDevelopment) {
+    // eslint-disable-next-line no-console
+    console.error(`❌ ${config?.method?.toUpperCase()} ${config?.url} (${duration}ms)`, { status: error.response?.status, message: error.message, data: error.response?.data });
+  }
 
   // Handle specific error cases
   if (error.response?.status === 401) {

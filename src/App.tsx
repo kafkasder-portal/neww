@@ -51,8 +51,12 @@ function AppContent({
       {/* Onboarding */}
       <OnboardingModal
         isOpen={false} // Disabled for now
-        onClose={() => {}}
-        onComplete={() => {}}
+        onClose={() => {
+          // Onboarding close handler
+        }}
+        onComplete={() => {
+          // Onboarding complete handler
+        }}
         steps={onboardingSteps}
       />
 

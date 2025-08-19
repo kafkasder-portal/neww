@@ -19,7 +19,7 @@ const MainContent = memo(function MainContent({
   children, 
   className,
   showBreadcrumbs = true,
-  customBreadcrumbs 
+  customBreadcrumbs: _customBreadcrumbs 
 }: MainContentProps) {
   const location = useLocation()
 

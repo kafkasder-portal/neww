@@ -114,6 +114,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
       onSubmit(formData);
       onClose();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Form submission error:', error);
     } finally {
       setIsSubmitting(false);
@@ -164,7 +165,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
         <div className="px-6 py-4 bg-financial-gray-50 border-b border-financial-gray-200">
           <div className="flex items-center justify-between">
             {[1, 2, 3].map((step) => (
-              <div key={step} className="flex items-center">
+              <div key={`step-${step}`} className="flex items-center">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
                   currentStep >= step
                     ? 'bg-financial-primary text-white'
@@ -464,7 +465,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
                       <div className="flex flex-wrap gap-2">
                         {formData.tags.map((tag, index) => (
                           <span
-                            key={index}
+                            key={`tag-${tag}-${index}`}
                             className="inline-flex items-center px-3 py-1 bg-financial-primary/10 text-financial-primary rounded-full text-sm"
                           >
                             {tag}
@@ -499,6 +500,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
                         const file = e.target.files?.[0];
                         if (file) {
                           // Handle file upload
+                          // eslint-disable-next-line no-console
                           console.log('File selected:', file.name);
                         }
                       }}

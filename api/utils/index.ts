@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import DOMPurify from 'isomorphic-dompurify';
-import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import { v4 as uuidv4 } from 'uuid';
+// import crypto from 'crypto';
 
 // ID and UUID Functions
 export const generateId = (): string => {
@@ -59,13 +59,13 @@ export const validatePhone = (phone: string): boolean => {
 
 export const validateTurkishId = (id: string): boolean => {
   if (!id || id.length !== 11 || !/^\d{11}$/.test(id)) return false;
-  
+
   const digits = id.split('').map(Number);
-  const checksum = (digits[0] + digits[2] + digits[4] + digits[6] + digits[8]) * 7 - 
-                   (digits[1] + digits[3] + digits[5] + digits[7]);
-  
-  return (checksum % 10) === digits[9] && 
-         ((digits.slice(0, 10).reduce((sum, digit) => sum + digit, 0)) % 10) === digits[10];
+  const checksum = (digits[0] + digits[2] + digits[4] + digits[6] + digits[8]) * 7 -
+    (digits[1] + digits[3] + digits[5] + digits[7]);
+
+  return (checksum % 10) === digits[9] &&
+    ((digits.slice(0, 10).reduce((sum, digit) => sum + digit, 0)) % 10) === digits[10];
 };
 
 export const isValidUrl = (url: string): boolean => {
@@ -80,37 +80,37 @@ export const isValidUrl = (url: string): boolean => {
 
 export const validateCreditCard = (cardNumber: string): boolean => {
   if (!cardNumber || !/^\d{13,19}$/.test(cardNumber)) return false;
-  
+
   // Luhn algorithm
   let sum = 0;
   let isEven = false;
-  
+
   for (let i = cardNumber.length - 1; i >= 0; i--) {
     let digit = parseInt(cardNumber[i]);
-    
+
     if (isEven) {
       digit *= 2;
       if (digit > 9) digit -= 9;
     }
-    
+
     sum += digit;
     isEven = !isEven;
   }
-  
+
   return sum % 10 === 0;
 };
 
 export const validateIBAN = (iban: string): boolean => {
   if (!iban) return false;
   const cleanIban = iban.replace(/\s/g, '').toUpperCase();
-  
+
   if (cleanIban.length < 15 || cleanIban.length > 34) return false;
-  
+
   const rearranged = cleanIban.slice(4) + cleanIban.slice(0, 4);
-  const numericString = rearranged.replace(/[A-Z]/g, (char) => 
+  const numericString = rearranged.replace(/[A-Z]/g, (char) =>
     (char.charCodeAt(0) - 55).toString()
   );
-  
+
   return BigInt(numericString) % 97n === 1n;
 };
 
@@ -160,10 +160,10 @@ export const convertCurrency = async (amount: number, from: string, to: string):
     'TRY': 27.5,
     'EUR': 0.85
   };
-  
+
   const fromRate = rates[from] || 1;
   const toRate = rates[to] || 1;
-  
+
   return (amount / fromRate) * toRate;
 };
 
@@ -173,7 +173,7 @@ export const formatDate = (date: Date | string, format = 'dd/MM/yyyy'): string =
   const day = d.getDate().toString().padStart(2, '0');
   const month = (d.getMonth() + 1).toString().padStart(2, '0');
   const year = d.getFullYear();
-  
+
   return format
     .replace('dd', day)
     .replace('MM', month)
@@ -185,11 +185,11 @@ export const calculateAge = (birthDate: Date | string): number => {
   const today = new Date();
   let age = today.getFullYear() - birth.getFullYear();
   const monthDiff = today.getMonth() - birth.getMonth();
-  
+
   if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
     age--;
   }
-  
+
   return age;
 };
 
@@ -264,11 +264,11 @@ export const formatIBAN = (iban: string): string => {
 // Distance calculation
 export const calculateDistance = (point1: { lat: number; lng: number }, point2: { lat: number; lng: number }): number => {
   // Validate coordinates
-  if (!point1 || !point2 || 
-      typeof point1.lat !== 'number' || typeof point1.lng !== 'number' ||
-      typeof point2.lat !== 'number' || typeof point2.lng !== 'number' ||
-      Math.abs(point1.lat) > 90 || Math.abs(point2.lat) > 90 ||
-      Math.abs(point1.lng) > 180 || Math.abs(point2.lng) > 180) {
+  if (!point1 || !point2 ||
+    typeof point1.lat !== 'number' || typeof point1.lng !== 'number' ||
+    typeof point2.lat !== 'number' || typeof point2.lng !== 'number' ||
+    Math.abs(point1.lat) > 90 || Math.abs(point2.lat) > 90 ||
+    Math.abs(point1.lng) > 180 || Math.abs(point2.lng) > 180) {
     throw new Error('Invalid coordinates');
   }
 
@@ -283,50 +283,50 @@ export const calculateDistance = (point1: { lat: number; lng: number }, point2: 
 };
 
 // Mock implementations for complex functions
-export const generateQRCode = async (data: string): Promise<string> => {
+export const generateQRCode = async (data: string, _width?: number, _height?: number): Promise<string> => {
   // Mock implementation - in real app, use QR code library
   return `data:image/png;base64,mock-qr-code-${Buffer.from(data).toString('base64')}`;
 };
 
-export const sendEmail = async (to: string, subject: string, body: string): Promise<boolean> => {
+export const sendEmail = async (to: string, subject: string, _body: string): Promise<boolean> => {
   // Mock implementation - in real app, use email service
   console.log(`Sending email to ${to}: ${subject}`);
   return true;
 };
 
-export const sendSMS = async (to: string, message: string): Promise<boolean> => {
+export const sendSMS = async (to: string, _message: string): Promise<boolean> => {
   // Mock implementation - in real app, use SMS service
-  console.log(`Sending SMS to ${to}: ${message}`);
+  console.log(`Sending SMS to ${to}: ${_message}`);
   return true;
 };
 
-export const uploadFile = async (file: Buffer, filename: string): Promise<string> => {
+export const uploadFile = async (_file: Buffer, filename: string): Promise<string> => {
   // Mock implementation - in real app, use file storage service
   return `https://storage.example.com/${filename}`;
 };
 
-export const deleteFile = async (url: string): Promise<boolean> => {
+export const deleteFile = async (_url: string): Promise<boolean> => {
   // Mock implementation - in real app, delete from storage service
-  console.log(`Deleting file: ${url}`);
+  console.log(`Deleting file: ${_url}`);
   return true;
 };
 
-export const resizeImage = async (buffer: Buffer, width: number, height: number): Promise<Buffer> => {
+export const resizeImage = async (buffer: Buffer, _width: number, _height: number): Promise<Buffer> => {
   // Mock implementation - in real app, use image processing library
   return buffer;
 };
 
-export const generatePDF = async (html: string): Promise<Buffer> => {
+export const generatePDF = async (_html: string): Promise<Buffer> => {
   // Mock implementation - in real app, use PDF generation library
-  return Buffer.from(html);
+  return Buffer.from(_html);
 };
 
-export const exportToExcel = async (data: any[]): Promise<Buffer> => {
+export const exportToExcel = async (_data: any[]): Promise<Buffer> => {
   // Mock implementation - in real app, use Excel library
-  return Buffer.from(JSON.stringify(data));
+  return Buffer.from(JSON.stringify(_data));
 };
 
-export const importFromExcel = async (buffer: Buffer): Promise<any[]> => {
+export const importFromExcel = async (_buffer: Buffer): Promise<any[]> => {
   // Mock implementation - in real app, parse Excel file
-  return JSON.parse(buffer.toString());
+  return JSON.parse(_buffer.toString());
 };

@@ -1,5 +1,5 @@
 // import { Fragment } from 'react'
-import { X, Plus, Edit2, Trash2, Eye, Download, Upload } from 'lucide-react'
+import { Download, Edit2, Eye, Plus, Trash2, Upload, X } from 'lucide-react'
 
 interface RelatedRecordsModalProps {
   isOpen: boolean
@@ -8,11 +8,11 @@ interface RelatedRecordsModalProps {
   recordCount?: number
 }
 
-export default function RelatedRecordsModal({ 
-  isOpen, 
-  onClose, 
-  recordType, 
-  recordCount = 0 
+export default function RelatedRecordsModal({
+  isOpen,
+  onClose,
+  recordType,
+  recordCount = 0
 }: RelatedRecordsModalProps) {
   if (!isOpen) return null
 
@@ -30,7 +30,7 @@ export default function RelatedRecordsModal({
                   Yeni Hesap Ekle
                 </button>
               </div>
-              
+
               <div className="border rounded-lg overflow-hidden">
                 <table className="w-full text-sm">
                   <thead className="bg-muted/50">
@@ -77,7 +77,7 @@ export default function RelatedRecordsModal({
                   Doküman Yükle
                 </button>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 {[
                   { name: 'Kimlik Fotokopisi.pdf', size: '2.4 MB', date: '15.01.2024' },
@@ -87,7 +87,7 @@ export default function RelatedRecordsModal({
                   { name: 'Sağlık Raporu.pdf', size: '2.7 MB', date: '05.01.2024' },
                   { name: 'Nüfus Cüzdanı.pdf', size: '1.9 MB', date: '03.01.2024' }
                 ].map((doc, index) => (
-                  <div key={index} className="border rounded-lg p-3 hover:bg-muted/50 transition-colors">
+                  <div key={`record-${record.id || index}`} className="border rounded-lg p-3 hover:bg-muted/50 transition-colors">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <h4 className="font-medium text-sm">{doc.name}</h4>
@@ -118,7 +118,7 @@ export default function RelatedRecordsModal({
                   Fotoğraf Ekle
                 </button>
               </div>
-              
+
               <div className="grid grid-cols-4 gap-4">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((photo) => (
                   <div key={photo} className="aspect-square border-2 border-dashed border-muted rounded-lg flex items-center justify-center bg-muted/50 hover:border-muted-foreground transition-colors cursor-pointer group">
@@ -145,7 +145,7 @@ export default function RelatedRecordsModal({
                   Yetim Ekle
                 </button>
               </div>
-              
+
               <div className="grid gap-4">
                 <div className="border rounded-lg p-4 bg-muted/50">
                   <p className="text-center text-muted-foreground">Henüz kayıtlı yetim bulunmuyor.</p>
@@ -168,7 +168,7 @@ export default function RelatedRecordsModal({
                   Kişi Ekle
                 </button>
               </div>
-              
+
               <div className="space-y-3">
                 {[
                   { name: 'Ayşe Sayro', relation: 'Kızı', age: '12', status: 'Öğrenci' },
@@ -176,7 +176,7 @@ export default function RelatedRecordsModal({
                   { name: 'Fatma Sayro', relation: 'Kayınvalidesi', age: '67', status: 'Emekli' },
                   { name: 'Ali Sayro', relation: 'Oğlu', age: '15', status: 'Lise' }
                 ].map((person, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg bg-white">
+                  <div key={`activity-${activity.id || index}`} className="flex items-center justify-between p-3 border rounded-lg bg-white">
                     <div className="flex items-center space-x-4">
                       <div className="w-10 h-10 bg-muted rounded-full"></div>
                       <div>
@@ -459,11 +459,11 @@ export default function RelatedRecordsModal({
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
         onClick={onClose}
       />
-      
+
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div className="relative bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
@@ -477,12 +477,12 @@ export default function RelatedRecordsModal({
               <X className="h-5 w-5" />
             </button>
           </div>
-          
+
           {/* Content */}
           <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
             {content}
           </div>
-          
+
           {/* Footer */}
           <div className="flex justify-end gap-3 p-6 border-t border-border bg-muted/50">
             <button

@@ -5,6 +5,8 @@ import { TrendingUp, Edit, Trash2, Plus } from 'lucide-react'
 
 // Lazy load recharts components
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
+import { COLORS } from '@/constants/design-system'
 
 interface SourceExpense {
   id: string
@@ -83,10 +85,10 @@ const chartData = [
 ]
 
 const pieData = [
-  { name: 'Kurumsal Bağış', value: 50000, color: '#0088FE' },
-  { name: 'Bireysel Bağış', value: 25000, color: '#00C49F' },
-  { name: 'Gıda Malzemesi', value: 15000, color: '#FFBB28' },
-  { name: 'Eğitim Malzemesi', value: 8000, color: '#FF8042' },
+  { name: 'Kurumsal Bağış', value: 50000, color: 'COLORS.chart[1]' },
+  { name: 'Bireysel Bağış', value: 25000, color: 'COLORS.chart[2]' },
+  { name: 'Gıda Malzemesi', value: 15000, color: 'COLORS.chart[3]' },
+  { name: 'Eğitim Malzemesi', value: 8000, color: 'COLORS.chart[4]' },
 ]
 
 export default function SourcesExpenses() {
@@ -278,8 +280,8 @@ export default function SourcesExpenses() {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="kaynak" fill="#22c55e" name="Kaynak" />
-                <Bar dataKey="harcama" fill="#ef4444" name="Harcama" />
+                <Bar dataKey="kaynak" fill="COLORS.semantic.success" name="Kaynak" />
+                <Bar dataKey="harcama" fill="COLORS.semantic.danger" name="Harcama" />
               </BarChart>
             </ResponsiveContainer>
           </Suspense>
@@ -298,7 +300,7 @@ export default function SourcesExpenses() {
                   labelLine={false}
                   label={({ name, percent }: { name: string; percent: number }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
                   outerRadius={80}
-                  fill="#8884d8"
+                  fill="colors.chart[1]"
                   dataKey="value"
                 >
                   {pieData.map((entry, index) => (

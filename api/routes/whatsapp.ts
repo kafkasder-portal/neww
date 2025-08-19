@@ -74,7 +74,7 @@ async function sendWhatsAppBusinessMessage(
   try {
     const url = `${WHATSAPP_CONFIG.apiUrl}/${WHATSAPP_CONFIG.phoneNumberId}/messages`;
     
-    let messageData: any = {
+    const messageData: any = {
       messaging_product: 'whatsapp',
       to: to,
       type: mediaUrl ? mediaType || 'image' : 'text'

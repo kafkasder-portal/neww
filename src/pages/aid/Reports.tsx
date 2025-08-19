@@ -1,35 +1,36 @@
-import { useState, useEffect, useCallback } from 'react'
-import { 
-  Download, 
-  Filter, 
-  BarChart3,
-  TrendingUp,
-  Users,
-  DollarSign
-} from 'lucide-react'
-import { supabase } from '@lib/supabase'
-import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card'
-import { Button } from '@components/ui/button'
-import { Input } from '@components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
+import { supabase } from '@lib/supabase'
+import {
+  BarChart3,
+  DollarSign,
+  Download,
+  Filter,
+  TrendingUp,
+  Users
+} from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
 // Import Recharts components directly
 import {
-  BarChart,
   Bar,
-  PieChart,
-  Pie,
-  Cell,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
+  BarChart,
   CartesianGrid,
-  Tooltip,
+  Cell,
   Legend,
-  ResponsiveContainer
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
 } from 'recharts'
 
 // Loading component for charts (not used anymore)
@@ -57,6 +58,8 @@ interface ReportFilters {
 }
 
 export default function Reports() {
+  const { colors } = useDesignSystem();
+
   const [reportData, setReportData] = useState<ReportData>({
     monthlyAids: [],
     aidTypeDistribution: [],
@@ -108,11 +111,11 @@ export default function Reports() {
         aidTypeMap.set(type, (aidTypeMap.get(type) || 0) + 1)
       })
 
-      const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff00']
+      const chartColors = [colors.chart[1], colors.chart[2], colors.chart[3], colors.chart[4], colors.semantic.success]
       const aidTypeDistribution = Array.from(aidTypeMap.entries()).map(([name, value], index) => ({
         name: getAidTypeName(name),
         value,
-        color: colors[index % colors.length]
+        color: chartColors[index % chartColors.length]
       }))
 
       // İhtiyaç sahibi kategorileri
@@ -344,7 +347,7 @@ export default function Reports() {
               <div className="ml-4">
                 <p className="text-sm font-medium text-muted-foreground">Ortalama</p>
                 <p className="text-2xl font-bold">
-                  {reportData.monthlyAids.length > 0 
+                  {reportData.monthlyAids.length > 0
                     ? (reportData.monthlyAids.reduce((sum, item) => sum + item.amount, 0) / reportData.monthlyAids.length).toLocaleString('tr-TR', { maximumFractionDigits: 0 })
                     : 0} ₺
                 </p>
@@ -377,7 +380,7 @@ export default function Reports() {
                     <XAxis dataKey="month" />
                     <YAxis />
                     <Tooltip />
-                    <Bar dataKey="amount" fill="#8884d8" />
+                    <Bar dataKey="amount" fill="colors.chart[1]" />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -424,8 +427,8 @@ export default function Reports() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="amount" stroke="#8884d8" strokeWidth={2} />
-                  <Line type="monotone" dataKey="count" stroke="#82ca9d" strokeWidth={2} />
+                  <Line type="monotone" dataKey="amount" stroke="colors.chart[1]" strokeWidth={2} />
+                  <Line type="monotone" dataKey="count" stroke="colors.chart[2]" strokeWidth={2} />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
@@ -446,7 +449,7 @@ export default function Reports() {
                     <XAxis dataKey="category" />
                     <YAxis />
                     <Tooltip />
-                    <Bar dataKey="count" fill="#82ca9d" />
+                    <Bar dataKey="count" fill="colors.chart[2]" />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -464,7 +467,7 @@ export default function Reports() {
                     <XAxis type="number" />
                     <YAxis dataKey="name" type="category" />
                     <Tooltip />
-                    <Bar dataKey="value" fill="#8884d8" />
+                    <Bar dataKey="value" fill="colors.chart[1]" />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -485,9 +488,9 @@ export default function Reports() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="pending" stroke="#ffc658" strokeWidth={2} />
-                  <Line type="monotone" dataKey="approved" stroke="#82ca9d" strokeWidth={2} />
-                  <Line type="monotone" dataKey="rejected" stroke="#ff7300" strokeWidth={2} />
+                  <Line type="monotone" dataKey="pending" stroke="colors.chart[3]" strokeWidth={2} />
+                  <Line type="monotone" dataKey="approved" stroke="colors.chart[2]" strokeWidth={2} />
+                  <Line type="monotone" dataKey="rejected" stroke="colors.chart[4]" strokeWidth={2} />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>

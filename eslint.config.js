@@ -1,8 +1,8 @@
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -52,7 +52,7 @@ export default tseslint.config(
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
 
-      // TypeScript rules
+      // TypeScript rules - More lenient for development
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'warn',
@@ -65,9 +65,9 @@ export default tseslint.config(
       '@typescript-eslint/no-var-requires': 'error',
       '@typescript-eslint/no-empty-function': 'warn',
 
-      // General rules
-      'no-console': 'warn',
-      'no-alert': 'warn',
+      // General rules - More lenient for development
+      'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      'no-alert': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-debugger': 'error',
       'no-unused-vars': 'off', // Use TypeScript version instead
       'prefer-const': 'error',

@@ -1,23 +1,24 @@
 import { useMemo } from 'react'
 import {
-  BarChart,
-  PieChart,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
   Pie,
-  Cell
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
 } from 'recharts'
 import type { ProvisionRequest } from '../types/provision'
+
 
 interface ProvisionAnalyticsProps {
   requests: ProvisionRequest[]
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
+const COLORS = ['COLORS.chart[1]', 'COLORS.chart[2]', 'COLORS.chart[3]', 'COLORS.chart[4]', 'COLORS.chart[5]']
 
 export function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
   const analytics = useMemo(() => {
@@ -82,7 +83,7 @@ export function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
           <p className="text-2xl font-bold text-blue-900">{analytics.totalRequests}</p>
           <p className="text-xs text-blue-600">Beklemede: {analytics.pendingRequests}</p>
         </div>
-        
+
         <div className="bg-green-50 p-4 rounded-lg">
           <h3 className="text-sm font-medium text-green-600">Toplam Tutar</h3>
           <p className="text-2xl font-bold text-green-900">
@@ -92,7 +93,7 @@ export function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
             Ort: {analytics.averageRequestAmount.toLocaleString('tr-TR')} ₺
           </p>
         </div>
-        
+
         <div className="bg-yellow-50 p-4 rounded-lg">
           <h3 className="text-sm font-medium text-yellow-600">Ödeme Durumu</h3>
           <p className="text-2xl font-bold text-yellow-900">
@@ -102,7 +103,7 @@ export function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
             Ödenen: {analytics.totalPaidAmount.toLocaleString('tr-TR')} ₺
           </p>
         </div>
-        
+
         <div className="bg-purple-50 p-4 rounded-lg">
           <h3 className="text-sm font-medium text-purple-600">Faydalanıcı</h3>
           <p className="text-2xl font-bold text-purple-900">{analytics.totalBeneficiaries}</p>
@@ -116,24 +117,24 @@ export function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
         <div className="bg-white p-4 rounded-lg border">
           <h3 className="text-lg font-medium mb-4">Departmana Göre Analiz</h3>
           <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={departmentData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  dataKey="name" 
-                  angle={-45}
-                  textAnchor="end"
-                  height={80}
-                  fontSize={12}
-                />
-                <YAxis 
-                  tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`}
-                  fontSize={12}
-                />
-                <Tooltip 
-                  formatter={(value: any) => [`${Number(value).toLocaleString('tr-TR')} ₺`, 'Tutar']}
-                />
-                <Bar dataKey="value" fill="#3B82F6" />
-              </BarChart>
+            <BarChart data={departmentData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="name"
+                angle={-45}
+                textAnchor="end"
+                height={80}
+                fontSize={12}
+              />
+              <YAxis
+                tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`}
+                fontSize={12}
+              />
+              <Tooltip
+                formatter={(value: unknown) => [`${Number(value).toLocaleString('tr-TR')} ₺`, 'Tutar']}
+              />
+              <Bar dataKey="value" fill="#3B82F6" />
+            </BarChart>
           </ResponsiveContainer>
         </div>
 
@@ -142,21 +143,21 @@ export function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
           <h3 className="text-lg font-medium mb-4">Öncelik Dağılımı</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
-                <Pie
-                  data={priorityData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} (${(percent ? percent * 100 : 0).toFixed(0)}%)`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {priorityData.map((_, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
+              <Pie
+                data={priorityData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={({ name, percent }) => `${name} (${(percent ? percent * 100 : 0).toFixed(0)}%)`}
+                outerRadius={80}
+                fill="colors.chart[1]"
+                dataKey="value"
+              >
+                {priorityData.map((entry, index) => (
+                  <Cell key={`cell-${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -166,11 +167,11 @@ export function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
           <h3 className="text-lg font-medium mb-4">Durum Analizi</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={statusData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" fontSize={12} />
-                <YAxis fontSize={12} />
-                <Tooltip />
-                <Bar dataKey="value" fill="#10B981" />
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" fontSize={12} />
+              <YAxis fontSize={12} />
+              <Tooltip />
+              <Bar dataKey="value" fill="#10B981" />
             </BarChart>
           </ResponsiveContainer>
         </div>

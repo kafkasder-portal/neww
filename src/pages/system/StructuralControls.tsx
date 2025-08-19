@@ -3,6 +3,7 @@ import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
 import { exportToCsv } from '@lib/exportToCsv'
 import { Database, CheckCircle, XCircle, AlertTriangle, Play, Settings } from 'lucide-react'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 
 interface StructuralControl {
   id: string
@@ -100,6 +101,8 @@ const mockControls: StructuralControl[] = [
 ]
 
 export default function StructuralControls() {
+  const { colors, styles, utils } = useDesignSystem()
+
   const [query, setQuery] = useState('')
   const [selectedType, setSelectedType] = useState('all')
   const [selectedStatus, setSelectedStatus] = useState('all')

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PieChart, BarChart3, Wallet, DollarSign, Target, TrendingUp } from 'lucide-react';
 import FundCard, { GeneralFundCard, ProjectFundCard, SpecialFundCard, EmergencyFundCard } from './FundCard';
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 
 interface FundAllocation {
   id: string;

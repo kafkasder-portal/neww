@@ -1,7 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-<<<<<<< HEAD
-import { supabase } from '../config/supabase';
-=======
 import { supabase } from '../config/supabase.js';
 import crypto from 'crypto';
 import DOMPurify from 'dompurify';
@@ -9,15 +6,14 @@ import { JSDOM } from 'jsdom';
 
 // Initialize DOMPurify with JSDOM for server-side usage
 const window = new JSDOM('').window;
-const DOMPurifyInstance = DOMPurify(window as any);
+// const DOMPurifyInstance = DOMPurify(window as unknown);
 
 /**
  * Utility to generate a stable hash for content
  */
-const hashContent = (content: string): string => {
-	return crypto.createHash('sha256').update(content).digest('hex');
-};
->>>>>>> 686e8fd5c317be0c6813aba7437400939cd49c3c
+// const hashContent = (content: string): string => {
+// 	return crypto.createHash('sha256').update(content).digest('hex');
+// };
 
 // Interface for audit log data
 interface AuditLogData {

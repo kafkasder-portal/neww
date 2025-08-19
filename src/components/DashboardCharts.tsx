@@ -31,10 +31,10 @@ const mockDonationTrend = [
 ]
 
 const mockAidDistribution = [
-  { name: 'Nakdi Yardım', value: 45, color: '#0F3A7A' },
-  { name: 'Ayni Yardım', value: 25, color: '#1D8348' },
-  { name: 'Eğitim Desteği', value: 20, color: '#B7950B' },
-  { name: 'Sağlık Yardımı', value: 10, color: '#C0392B' }
+  { name: 'Nakdi Yardım', value: 45, color: 'COLORS.brand.primary800' },
+  { name: 'Ayni Yardım', value: 25, color: 'COLORS.semantic.success700' },
+  { name: 'Eğitim Desteği', value: 20, color: 'COLORS.semantic.warning700' },
+  { name: 'Sağlık Yardımı', value: 10, color: 'COLORS.semantic.danger700' }
 ]
 
 const mockWeeklyStats = [
@@ -66,6 +66,7 @@ interface DashboardData {
 }
 
 // Direct recharts imports - lazy loading removed for simplicity
+import { COLORS } from '@/constants/design-system'
 
 // Alternative inline component for simple charts
 
@@ -123,6 +124,7 @@ export const DashboardCharts = () => {
         loading: false
       })
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Dashboard data fetch error:', error)
       setData(prev => ({ ...prev, loading: false }))
     }
@@ -148,7 +150,7 @@ export const DashboardCharts = () => {
           <Calendar className="h-4 w-4 text-muted-foreground" />
           <select 
             value={selectedPeriod} 
-            onChange={(e) => setSelectedPeriod(e.target.value as any)}
+            onChange={(e) => setSelectedPeriod(e.target.value as string)}
             className="border rounded-md px-3 py-1 text-sm bg-background"
           >
             <option value="week">Bu Hafta</option>
@@ -171,8 +173,8 @@ export const DashboardCharts = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="donations" stroke="#0F3A7A" strokeWidth={2} />
-                <Line type="monotone" dataKey="beneficiaries" stroke="#1D8348" strokeWidth={2} />
+                <Line type="monotone" dataKey="donations" stroke="COLORS.brand.primary800" strokeWidth={2} />
+                <Line type="monotone" dataKey="beneficiaries" stroke="COLORS.semantic.success700" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -191,11 +193,11 @@ export const DashboardCharts = () => {
                   labelLine={false}
                   label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   outerRadius={80}
-                  fill="#8884d8"
+                  fill="colors.chart[1]"
                   dataKey="value"
                 >
                   {mockAidDistribution.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
+                    <Cell key={`cell-${entry.name}-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -215,8 +217,8 @@ export const DashboardCharts = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="applications" fill="#0F3A7A" />
-                <Bar dataKey="donations" fill="#1D8348" />
+                <Bar dataKey="applications" fill="COLORS.brand.primary800" />
+                <Bar dataKey="donations" fill="COLORS.semantic.success700" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -232,8 +234,8 @@ export const DashboardCharts = () => {
                 <XAxis dataKey="region" />
                 <YAxis />
                 <Tooltip />
-                <Area type="monotone" dataKey="beneficiaries" stackId="1" stroke="#0F3A7A" fill="#0F3A7A" />
-                <Area type="monotone" dataKey="amount" stackId="1" stroke="#1D8348" fill="#1D8348" />
+                <Area type="monotone" dataKey="beneficiaries" stackId="1" stroke="COLORS.brand.primary800" fill="COLORS.brand.primary800" />
+                <Area type="monotone" dataKey="amount" stackId="1" stroke="COLORS.semantic.success700" fill="COLORS.semantic.success700" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

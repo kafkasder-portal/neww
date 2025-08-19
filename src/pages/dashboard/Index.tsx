@@ -24,8 +24,11 @@ import { MapDashboard } from '@components/maps/MapDashboard'
 import { useDashboardCustomization } from '@hooks/useDashboardCustomization'
 import { Button } from '@components/ui/button'
 import { useState } from 'react'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 
 export default function DashboardIndex() {
+  const { colors, styles, utils } = useDesignSystem()
+
   const [showCustomizer, setShowCustomizer] = useState(false)
   const [showCacheMonitor, setShowCacheMonitor] = useState(false)
   const [showReportGenerator, setShowReportGenerator] = useState(false)

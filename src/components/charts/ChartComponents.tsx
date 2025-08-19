@@ -18,7 +18,6 @@ import {
   ComposedChart
 } from 'recharts'
 import { Card } from '@/components/ui/card'
-import { CHART_COLORS_HEX } from '@/constants/colors'
 
 // Optimized color palette - WCAG AA compliant
 const COLORS = CHART_COLORS_HEX

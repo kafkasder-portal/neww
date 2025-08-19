@@ -1,15 +1,9 @@
 import { Router } from 'express';
 import { z } from 'zod';
-<<<<<<< HEAD
-import { supabase } from '../config/supabase';
-import { authenticateUser } from '../middleware/auth';
-import { validateRequest } from '../middleware/validation';
-=======
 import { supabase } from '../config/supabase.js';
 import { authenticateUser } from '../middleware/auth.js';
-import { requirePermission } from '../middleware/rbac.js';
+// import { requirePermission } from '../middleware/rbac.js';
 import { validateRequest } from '../middleware/validation.js';
->>>>>>> 686e8fd5c317be0c6813aba7437400939cd49c3c
 
 const router = Router();
 

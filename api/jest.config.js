@@ -8,13 +8,9 @@ export default {
     '**/?(*.)+(spec|test).ts'
   ],
   transform: {
-<<<<<<< HEAD
-    '^.+\.ts$': ['ts-jest', {
+    '^.+\\.ts$': ['ts-jest', {
       useESM: true
     }]
-=======
-    '^.+\\.ts$': 'ts-jest'
->>>>>>> 686e8fd5c317be0c6813aba7437400939cd49c3c
   },
   collectCoverageFrom: [
     '**/*.ts',

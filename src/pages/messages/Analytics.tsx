@@ -1,25 +1,26 @@
-import { useState } from 'react'
 import MessageNavigation from '@components/MessageNavigation'
-import { 
-  BarChart3, 
-  TrendingUp, 
-  TrendingDown, 
+import {
+  BarChart3,
   Calendar,
-  Filter,
-  Download,
-  RefreshCw,
-  Users,
-  Send,
   CheckCircle,
-  XCircle,
-  Eye,
   Clock,
-  Target,
+  Download,
+  Eye,
+  Filter,
   Mail,
-  Smartphone
+  RefreshCw,
+  Send,
+  Smartphone,
+  Target,
+  TrendingDown,
+  TrendingUp,
+  Users,
+  XCircle
 } from 'lucide-react'
+import { useState } from 'react'
 
 export default function MessageAnalytics() {
+
   const [timeFilter, setTimeFilter] = useState('week')
   const [typeFilter, setTypeFilter] = useState('all')
 
@@ -31,7 +32,7 @@ export default function MessageAnalytics() {
     clickRate: 12.3,
     failureRate: 5.8,
     avgResponseTime: 2.4, // hours
-    
+
     // Trend data (comparing to previous period)
     trends: {
       totalMessages: +12.5,
@@ -40,14 +41,14 @@ export default function MessageAnalytics() {
       clickRate: +0.8,
       failureRate: -1.2
     },
-    
+
     // Channel breakdown
     channels: {
       sms: { count: 8520, rate: 96.1 },
       email: { count: 5240, rate: 91.8 },
       notification: { count: 1660, rate: 98.7 }
     },
-    
+
     // Daily stats for the week
     dailyStats: [
       { day: 'Pzt', sent: 2100, delivered: 1980, opened: 1456, failed: 120 },
@@ -58,7 +59,7 @@ export default function MessageAnalytics() {
       { day: 'Cmt', sent: 1650, delivered: 1560, opened: 1125, failed: 90 },
       { day: 'Paz', sent: 1550, delivered: 1465, opened: 1056, failed: 85 }
     ],
-    
+
     // Top performing templates
     topTemplates: [
       { name: 'Randevu Hatırlatması', sent: 2850, openRate: 89.2 },
@@ -73,7 +74,7 @@ export default function MessageAnalytics() {
     <div className="space-y-6">
       {/* Navigation */}
       <MessageNavigation currentPath="/messages/analytics" />
-      
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -99,7 +100,7 @@ export default function MessageAnalytics() {
             <Filter className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm font-medium text-foreground">Filtreler:</span>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-muted-foreground" />
             <select
@@ -114,7 +115,7 @@ export default function MessageAnalytics() {
               <option value="year">Bu Yıl</option>
             </select>
           </div>
-          
+
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
@@ -135,9 +136,8 @@ export default function MessageAnalytics() {
             <div className="p-2 bg-brand-primary/10 rounded-lg">
               <Send className="h-5 w-5 text-brand-primary" />
             </div>
-            <div className={`flex items-center gap-1 text-xs ${
-              analyticsData.trends.totalMessages > 0 ? 'text-semantic-success' : 'text-semantic-danger'
-            }`}>
+            <div className={`flex items-center gap-1 text-xs ${analyticsData.trends.totalMessages > 0 ? 'text-semantic-success' : 'text-semantic-danger'
+              }`}>
               {analyticsData.trends.totalMessages > 0 ? (
                 <TrendingUp className="h-3 w-3" />
               ) : (
@@ -149,15 +149,14 @@ export default function MessageAnalytics() {
           <div className="text-amount-lg text-foreground">{analyticsData.totalMessages.toLocaleString()}</div>
           <div className="text-sm text-muted-foreground">Toplam Mesaj</div>
         </div>
-        
+
         <div className="bg-card p-6 rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center justify-between mb-2">
             <div className="p-2 bg-semantic-success/10 rounded-lg">
               <CheckCircle className="h-5 w-5 text-semantic-success" />
             </div>
-            <div className={`flex items-center gap-1 text-xs ${
-              analyticsData.trends.deliveryRate > 0 ? 'text-semantic-success' : 'text-semantic-danger'
-            }`}>
+            <div className={`flex items-center gap-1 text-xs ${analyticsData.trends.deliveryRate > 0 ? 'text-semantic-success' : 'text-semantic-danger'
+              }`}>
               {analyticsData.trends.deliveryRate > 0 ? (
                 <TrendingUp className="h-3 w-3" />
               ) : (
@@ -169,15 +168,14 @@ export default function MessageAnalytics() {
           <div className="text-amount-lg text-foreground">%{analyticsData.deliveryRate}</div>
           <div className="text-sm text-muted-foreground">Teslimat Oranı</div>
         </div>
-        
+
         <div className="bg-card p-6 rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center justify-between mb-2">
             <div className="p-2 bg-semantic-info/10 rounded-lg">
               <Eye className="h-5 w-5 text-semantic-info" />
             </div>
-            <div className={`flex items-center gap-1 text-xs ${
-              analyticsData.trends.openRate > 0 ? 'text-semantic-success' : 'text-semantic-danger'
-            }`}>
+            <div className={`flex items-center gap-1 text-xs ${analyticsData.trends.openRate > 0 ? 'text-semantic-success' : 'text-semantic-danger'
+              }`}>
               {analyticsData.trends.openRate > 0 ? (
                 <TrendingUp className="h-3 w-3" />
               ) : (
@@ -189,15 +187,14 @@ export default function MessageAnalytics() {
           <div className="text-amount-lg text-foreground">%{analyticsData.openRate}</div>
           <div className="text-sm text-muted-foreground">Açılma Oranı</div>
         </div>
-        
+
         <div className="bg-card p-6 rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center justify-between mb-2">
             <div className="p-2 bg-semantic-warning/10 rounded-lg">
               <Target className="h-5 w-5 text-semantic-warning" />
             </div>
-            <div className={`flex items-center gap-1 text-xs ${
-              analyticsData.trends.clickRate > 0 ? 'text-semantic-success' : 'text-semantic-danger'
-            }`}>
+            <div className={`flex items-center gap-1 text-xs ${analyticsData.trends.clickRate > 0 ? 'text-semantic-success' : 'text-semantic-danger'
+              }`}>
               {analyticsData.trends.clickRate > 0 ? (
                 <TrendingUp className="h-3 w-3" />
               ) : (
@@ -209,15 +206,14 @@ export default function MessageAnalytics() {
           <div className="text-amount-lg text-foreground">%{analyticsData.clickRate}</div>
           <div className="text-sm text-muted-foreground">Tıklama Oranı</div>
         </div>
-        
+
         <div className="bg-card p-6 rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center justify-between mb-2">
             <div className="p-2 bg-semantic-danger/10 rounded-lg">
               <XCircle className="h-5 w-5 text-semantic-danger" />
             </div>
-            <div className={`flex items-center gap-1 text-xs ${
-              analyticsData.trends.failureRate < 0 ? 'text-semantic-success' : 'text-semantic-danger'
-            }`}>
+            <div className={`flex items-center gap-1 text-xs ${analyticsData.trends.failureRate < 0 ? 'text-semantic-success' : 'text-semantic-danger'
+              }`}>
               {analyticsData.trends.failureRate < 0 ? (
                 <TrendingDown className="h-3 w-3" />
               ) : (
@@ -313,7 +309,7 @@ export default function MessageAnalytics() {
                 <div className="text-xs text-semantic-success/70">başarı oranı</div>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between p-4 bg-brand-primary/5 rounded-lg border border-brand-primary/20">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-brand-primary/10 rounded-lg">
@@ -329,7 +325,7 @@ export default function MessageAnalytics() {
                 <div className="text-xs text-brand-primary/70">başarı oranı</div>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between p-4 bg-semantic-info/5 rounded-lg border border-semantic-info/20">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-semantic-info/10 rounded-lg">

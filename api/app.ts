@@ -1,8 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
 import compression from 'compression';
-import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
@@ -34,7 +32,6 @@ import {
   apiRateLimit,
   authRateLimit,
   paymentRateLimit,
-  securityLogger
 } from './middleware/security';
 
 const app = express();

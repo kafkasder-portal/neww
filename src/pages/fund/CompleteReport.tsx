@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
+import { COLORS } from '@/constants/design-system'
 
 const mockFundData = [
   { month: 'Ocak', gelir: 45000, gider: 32000, bakiye: 13000 },
@@ -9,10 +11,10 @@ const mockFundData = [
 ]
 
 const mockFundBreakdown = [
-  { name: 'Genel Fon', value: 150000, color: '#0088FE' },
-  { name: 'Yardım Fonu', value: 85000, color: '#00C49F' },
-  { name: 'Eğitim Fonu', value: 65000, color: '#FFBB28' },
-  { name: 'Sağlık Fonu', value: 45000, color: '#FF8042' },
+  { name: 'Genel Fon', value: 150000, color: 'COLORS.chart[1]' },
+  { name: 'Yardım Fonu', value: 85000, color: 'COLORS.chart[2]' },
+  { name: 'Eğitim Fonu', value: 65000, color: 'COLORS.chart[3]' },
+  { name: 'Sağlık Fonu', value: 45000, color: 'COLORS.chart[4]' },
 ]
 
 export default function CompleteReport() {
@@ -74,8 +76,8 @@ export default function CompleteReport() {
               <XAxis dataKey="month" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="gelir" fill="#22c55e" name="Gelir" />
-              <Bar dataKey="gider" fill="#ef4444" name="Gider" />
+              <Bar dataKey="gelir" fill="COLORS.semantic.success" name="Gelir" />
+              <Bar dataKey="gider" fill="COLORS.semantic.danger" name="Gider" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -92,7 +94,7 @@ export default function CompleteReport() {
                 labelLine={false}
                 label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
                 outerRadius={80}
-                fill="#8884d8"
+                fill="colors.chart[1]"
                 dataKey="value"
               >
                 {mockFundBreakdown.map((entry, index) => (
