@@ -377,7 +377,7 @@ router.put('/profile', asyncHandler(async (req: Request, res: Response): Promise
  * Change Password
  * POST /api/auth/change-password
  */
-router.post('/change-password', asyncHandler(async (req: Request, res: Response): Promise<void> => {
+router.post('/change-password', authRateLimiter, xssProtection, asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const authHeader = req.headers.authorization;
   
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
