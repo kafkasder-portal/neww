@@ -149,19 +149,19 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg-muted p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-md">
         <CorporateCard className="p-8 shadow-xl border bg-white/95 backdrop-blur-sm">
           <CorporateCardHeader className="text-center mb-8">
-            <div className="mx-auto w-16 h-16 bg-gradient-to-br from-bg-primary to-bg-primary rounded-2xl flex items-center justify-center mb-4">
+            <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-4">
               <Building className="w-8 h-8 text-white" />
             </div>
-            <CorporateCardTitle className="text-2xl font-bold text-text-foreground">
+            <CorporateCardTitle className="text-2xl font-bold text-gray-900">
               {mode === 'login' && t('auth.welcome')}
               {mode === 'register' && t('auth.signUp')}
               {mode === 'forgot' && t('auth.resetPassword')}
             </CorporateCardTitle>
-            <p className="text-text-muted-foreground mt-2">
+            <p className="text-gray-600 mt-2">
               {mode === 'login' && 'Dernek Yönetim Paneli'}
               {mode === 'register' && 'Yeni hesap oluşturmak için bilgilerinizi giriniz'}
               {mode === 'forgot' && 'Email adresinizi girerek şifrenizi sıfırlayın'}
@@ -182,7 +182,7 @@ export default function Login() {
                     {t('auth.emailAddress')}
                   </FormLabel>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <FormInput
                       {...loginForm.register('email')}
                       id="login-email"
@@ -191,7 +191,7 @@ export default function Login() {
                     />
                   </div>
                   {loginForm.formState.errors.email && (
-                    <p className="text-bg-red-500 text-sm mt-1">{loginForm.formState.errors.email.message}</p>
+                    <p className="text-red-500 text-sm mt-1">{loginForm.formState.errors.email.message}</p>
                   )}
                 </FormGroup>
 
@@ -200,7 +200,7 @@ export default function Login() {
                     {t('auth.password')}
                   </FormLabel>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <FormInput
                       {...loginForm.register('password')}
                       id="login-password"
@@ -210,13 +210,13 @@ export default function Login() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground hover:text-text-muted-foreground"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
                   </div>
                   {loginForm.formState.errors.password && (
-                    <p className="text-bg-red-500 text-sm mt-1">{loginForm.formState.errors.password.message}</p>
+                    <p className="text-red-500 text-sm mt-1">{loginForm.formState.errors.password.message}</p>
                   )}
                 </FormGroup>
 
@@ -238,11 +238,11 @@ export default function Login() {
                 </CorporateButton>
 
                 <div className="text-center">
-                  <div className="text-text-muted-foreground text-sm">
+                  <div className="text-gray-600 text-sm">
                     <button
                       type="button"
                       onClick={() => setMode('forgot')}
-                      className="text-bg-primary hover:text-bg-primary/80 text-sm font-medium"
+                      className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                     >
                       Şifremi unuttum
                     </button>
@@ -251,7 +251,7 @@ export default function Login() {
                     <button
                       type="button"
                       onClick={() => setMode('register')}
-                      className="text-bg-primary hover:text-bg-primary/80 font-medium"
+                      className="text-blue-600 hover:text-blue-700 font-medium"
                     >
                       Kayıt olun
                     </button>
@@ -267,7 +267,7 @@ export default function Login() {
                     Ad Soyad *
                   </FormLabel>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <FormInput
                       {...registerForm.register('full_name')}
                       type="text"
@@ -275,7 +275,7 @@ export default function Login() {
                     />
                   </div>
                   {registerForm.formState.errors.full_name && (
-                    <p className="text-bg-red-500 text-sm mt-1">{registerForm.formState.errors.full_name.message}</p>
+                    <p className="text-red-500 text-sm mt-1">{registerForm.formState.errors.full_name.message}</p>
                   )}
                 </FormGroup>
 
@@ -284,7 +284,7 @@ export default function Login() {
                     Email Adresi *
                   </FormLabel>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <FormInput
                       {...registerForm.register('email')}
                       type="email"
@@ -292,7 +292,7 @@ export default function Login() {
                     />
                   </div>
                   {registerForm.formState.errors.email && (
-                    <p className="text-bg-red-500 text-sm mt-1">{registerForm.formState.errors.email.message}</p>
+                    <p className="text-red-500 text-sm mt-1">{registerForm.formState.errors.email.message}</p>
                   )}
                 </FormGroup>
 
@@ -302,7 +302,7 @@ export default function Login() {
                       Şifre *
                     </FormLabel>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <FormInput
                         {...registerForm.register('password')}
                         type={showPassword ? 'text' : 'password'}
@@ -311,13 +311,13 @@ export default function Login() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground hover:text-text-muted-foreground"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
                     {registerForm.formState.errors.password && (
-                      <p className="text-bg-red-500 text-sm mt-1">{registerForm.formState.errors.password.message}</p>
+                      <p className="text-red-500 text-sm mt-1">{registerForm.formState.errors.password.message}</p>
                     )}
                   </FormGroup>
 
@@ -326,7 +326,7 @@ export default function Login() {
                       Şifre Tekrar *
                     </FormLabel>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <FormInput
                         {...registerForm.register('confirmPassword')}
                         type={showConfirmPassword ? 'text' : 'password'}
@@ -335,13 +335,13 @@ export default function Login() {
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground hover:text-text-muted-foreground"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                       >
                         {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
                     {registerForm.formState.errors.confirmPassword && (
-                      <p className="text-bg-red-500 text-sm mt-1">{registerForm.formState.errors.confirmPassword.message}</p>
+                      <p className="text-red-500 text-sm mt-1">{registerForm.formState.errors.confirmPassword.message}</p>
                     )}
                   </FormGroup>
                 </div>
@@ -352,7 +352,7 @@ export default function Login() {
                       Departman
                     </FormLabel>
                     <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <FormInput
                         {...registerForm.register('department')}
                         type="text"
@@ -366,7 +366,7 @@ export default function Login() {
                       Telefon
                     </FormLabel>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <FormInput
                         {...registerForm.register('phone')}
                         type="tel"
@@ -394,12 +394,12 @@ export default function Login() {
                 </CorporateButton>
 
                 <div className="text-center">
-                  <div className="text-text-muted-foreground text-sm">
+                  <div className="text-gray-600 text-sm">
                     Zaten hesabınız var mı?{' '}
                     <button
                       type="button"
                       onClick={() => setMode('login')}
-                      className="text-bg-primary hover:text-bg-primary/80 font-medium"
+                      className="text-blue-600 hover:text-blue-700 font-medium"
                     >
                       Giriş yapın
                     </button>
@@ -415,7 +415,7 @@ export default function Login() {
                     {t('auth.emailAddress')}
                   </FormLabel>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <FormInput
                       {...forgotForm.register('email')}
                       id="email"
@@ -424,7 +424,7 @@ export default function Login() {
                     />
                   </div>
                   {forgotForm.formState.errors.email && (
-                    <p className="text-bg-red-500 text-sm mt-1">{forgotForm.formState.errors.email.message}</p>
+                    <p className="text-red-500 text-sm mt-1">{forgotForm.formState.errors.email.message}</p>
                   )}
                 </FormGroup>
 
@@ -449,7 +449,7 @@ export default function Login() {
                   <button
                     type="button"
                     onClick={() => setMode('login')}
-                    className="text-bg-primary hover:text-bg-primary/80 text-sm font-medium"
+                    className="text-blue-600 hover:text-blue-700 text-sm font-medium"
                   >
                     ← Giriş sayfasına dön
                   </button>

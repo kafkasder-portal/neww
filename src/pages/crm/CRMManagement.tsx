@@ -226,8 +226,8 @@ export default function CRMManagement() {
             <CorporateCardTitle>Son Aktiviteler</CorporateCardTitle>
           </CorporateCardHeader>
           <CorporateCardContent className="space-y-3">
-            <div className="flex items-center space-x-3 p-3 bg-bg-primary/5 rounded-lg">
-              <div className="w-8 h-8 bg-bg-primary rounded-full flex items-center justify-center">
+            <div className="flex items-center space-x-3 p-3 bg-primary/5 rounded-lg">
+                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                 <UserPlus className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1">
@@ -262,12 +262,12 @@ export default function CRMManagement() {
           </CorporateCardHeader>
           <CorporateCardContent className="space-y-3">
             {dashboardData?.topDonors?.map((donor, index) => (
-              <div key={donor.id} className="flex items-center justify-between p-3 bg-bg-muted hover:bg-bg-muted/80 rounded-lg">
+              <div key={donor.id} className="flex items-center justify-between p-3 bg-muted hover:bg-muted/80 rounded-lg">
                 <div className="flex items-center">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3 ${
                     index === 0 ? 'bg-yellow-400' :
                     index === 1 ? 'bg-gray-300' :
-                    index === 2 ? 'bg-orange-400' : 'bg-bg-primary'
+                    index === 2 ? 'bg-orange-400' : 'bg-primary'
                   }`}>
                     {index + 1}
                   </div>

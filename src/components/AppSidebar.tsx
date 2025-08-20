@@ -1,4 +1,4 @@
-import { Bell, Building2, ChevronUp, LogOut, Settings, Sparkles, User } from 'lucide-react'
+import { Bell, Building2, ChevronUp, HelpCircle, LogOut, Search, Settings, Sparkles, Sun, User } from 'lucide-react'
 import { memo, startTransition } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { navigationItems, supportItems } from '../constants/navigation'
@@ -58,35 +58,18 @@ const AppSidebar = memo(function AppSidebar() {
   return (
     <TooltipProvider>
       <Sidebar variant="inset" collapsible="icon" className="border-border bg-background">
-        {/* Enhanced Header */}
-        <SidebarHeader className="border-b border-sidebar-border bg-gradient-to-r from-bg-primary to-bg-primary/80">
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton size="sm" className="h-12 bg-white/10 backdrop-blur-sm border border-white/20">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-xl bg-white/20 text-white shadow-lg">
-                  <Building2 className="icon size-4" />
-                </div>
-                {!isCollapsed && (
-                  <div className="grid flex-1 text-left text-xs leading-tight">
-                    <span className="truncate font-bold text-white">Dernek Panel</span>
-                    <span className="truncate text-white/70 text-xs">Yönetim Sistemi</span>
-                  </div>
-                )}
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarHeader>
+
 
         {/* Main Content */}
         <SidebarContent className="bg-gradient-to-b from-bg-muted to-white">
-          {/* Main Navigation */}
+          {/* Support Section - Moved to top */}
           <SidebarGroup>
             <SidebarGroupLabel className="text-text-muted-foreground font-semibold text-xs uppercase tracking-wider px-4 py-2">
-              Ana Menü
+              Destek & Sistem
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {navigationItems.map((item) => {
+                {supportItems.map((item) => {
                   const Icon = item.icon
                   const isActive = isActiveItem(item)
                   const activeSubPage = getActiveSubPage(item)
@@ -109,7 +92,7 @@ const AppSidebar = memo(function AppSidebar() {
                                   ? 'bg-bg-primary text-white shadow-md'
                                   : 'bg-bg-muted/80 text-text-muted-foreground'
                                   }`}>
-                                  <Icon className="icon size-4 flex-shrink-0" />
+                                  <Icon className="size-4 flex-shrink-0" />
                                 </div>
                                 {!isCollapsed && (
                                   <>
@@ -181,14 +164,14 @@ const AppSidebar = memo(function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
 
-          {/* Support Section */}
+          {/* Main Navigation - Moved to bottom */}
           <SidebarGroup className="mt-auto">
             <SidebarGroupLabel className="text-text-muted-foreground font-semibold text-xs uppercase tracking-wider px-4 py-2">
-              Destek & Sistem
+              Ana Menü
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {supportItems.map((item) => {
+                {navigationItems.map((item) => {
                   const Icon = item.icon
                   const isActive = isActiveItem(item)
                   const activeSubPage = getActiveSubPage(item)
@@ -352,15 +335,32 @@ const AppSidebar = memo(function AppSidebar() {
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button variant="ghost" size="sm" className="w-full justify-start gap-2 hover:bg-bg-primary/5">
-                        <Bell className="h-4 w-4" />
-                        Bildirimler
-                      </Button>
-                      <Button variant="ghost" size="sm" className="w-full justify-start gap-2 hover:bg-bg-primary/5">
-                        <Settings className="h-4 w-4" />
-                        Ayarlar
-                      </Button>
+                    <div className="mb-2">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-semibold text-text-muted-foreground uppercase tracking-wider">Hızlı Eylemler</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button variant="ghost" size="sm" className="h-9 justify-start gap-2 hover:bg-bg-primary/5 text-text-muted-foreground hover:text-bg-primary">
+                          <Search className="h-4 w-4" />
+                          <span className="text-xs">Arama</span>
+                        </Button>
+                        
+                        <Button variant="ghost" size="sm" className="h-9 justify-start gap-2 hover:bg-bg-primary/5 text-text-muted-foreground hover:text-bg-primary">
+                          <Sun className="h-4 w-4" />
+                          <span className="text-xs">Tema</span>
+                        </Button>
+                        
+                        <Button variant="ghost" size="sm" className="h-9 justify-start gap-2 relative hover:bg-bg-primary/5 text-text-muted-foreground hover:text-bg-primary">
+                          <Bell className="h-4 w-4" />
+                          <span className="absolute top-1 left-6 h-2 w-2 bg-red-500 rounded-full animate-pulse" />
+                          <span className="text-xs">Bildirim</span>
+                        </Button>
+                        
+                        <Button variant="ghost" size="sm" className="h-9 justify-start gap-2 hover:bg-bg-primary/5 text-text-muted-foreground hover:text-bg-primary">
+                          <HelpCircle className="h-4 w-4" />
+                          <span className="text-xs">Yardım</span>
+                        </Button>
+                      </div>
                     </div>
 
                     {/* Profile Actions */}
@@ -368,10 +368,6 @@ const AppSidebar = memo(function AppSidebar() {
                       <Button variant="ghost" size="sm" className="w-full justify-start gap-2 hover:bg-bg-secondary/5">
                         <User className="h-4 w-4" />
                         Profil Ayarları
-                      </Button>
-                      <Button variant="ghost" size="sm" className="w-full justify-start gap-2 hover:bg-bg-secondary/5">
-                        <Sparkles className="h-4 w-4" />
-                        Tema Değiştir
                       </Button>
                       <Button variant="ghost" size="sm" className="w-full justify-start gap-2 hover:bg-bg-secondary/5">
                         <Settings className="h-4 w-4" />

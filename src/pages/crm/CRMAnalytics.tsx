@@ -241,9 +241,9 @@ export default function CRMAnalytics({ onRefresh: _onRefresh }: CRMAnalyticsProp
               </CorporateCardHeader>
               <CorporateCardContent className="space-y-4">
                 {analyticsData.communicationActivity.map((activity, _index) => (
-                  <div key={_index} className="flex items-center justify-between p-4 bg-bg-muted rounded-lg">
+                  <div key={_index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
                     <div className="flex items-center space-x-3">
-                      <div className="bg-bg-primary/10 p-2 rounded-full">
+                      <div className="bg-primary/10 p-2 rounded-full">
                         {activity.type === 'email' && <Mail className="w-5 h-5 text-bg-primary" />}
                         {activity.type === 'phone' && <Phone className="w-5 h-5 text-bg-primary" />}
                         {activity.type === 'meeting' && <Calendar className="w-5 h-5 text-bg-primary" />}

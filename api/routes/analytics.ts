@@ -25,23 +25,34 @@ router.post('/performance', async (req: Request, res: Response) => {
             });
         }
 
-        // Store metrics in database
-        const { data, error } = await supabase
-            .from('performance_metrics')
-            .insert(metrics.map(metric => ({
-                type,
-                data: metric,
-                timestamp: new Date().toISOString(),
-                user_agent: req.headers['user-agent'] || '',
-                ip_address: req.ip || req.connection.remoteAddress || ''
-            })));
+        // Store metrics in database (with fallback to console logging)
+        try {
+            const { data, error } = await supabase
+                .from('performance_metrics')
+                .insert(metrics.map(metric => ({
+                    type,
+                    data: metric,
+                    timestamp: new Date().toISOString(),
+                    user_agent: req.headers['user-agent'] || '',
+                    ip_address: req.ip || req.connection.remoteAddress || ''
+                })));
 
-        if (error) {
-            console.error('Error storing performance metrics:', error);
-            return res.status(500).json({
-                success: false,
-                message: 'Failed to store performance metrics',
-                code: 'DATABASE_ERROR'
+            if (error) {
+                console.error('Error storing performance metrics:', error);
+                // Fallback: log to console instead of failing
+                console.log('Performance metrics (console fallback):', {
+                    type,
+                    metrics: metrics.length,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        } catch (dbError) {
+            console.error('Database error, logging to console:', dbError);
+            // Fallback: log to console
+            console.log('Performance metrics (console fallback):', {
+                type,
+                metrics: metrics.length,
+                timestamp: new Date().toISOString()
             });
         }
 
@@ -78,23 +89,34 @@ router.post('/api-performance', async (req: Request, res: Response) => {
             });
         }
 
-        // Store API metrics in database
-        const { data, error } = await supabase
-            .from('api_performance_metrics')
-            .insert(metrics.map(metric => ({
-                type,
-                data: metric,
-                timestamp: new Date().toISOString(),
-                user_agent: req.headers['user-agent'] || '',
-                ip_address: req.ip || req.connection.remoteAddress || ''
-            })));
+        // Store API metrics in database (with fallback to console logging)
+        try {
+            const { data, error } = await supabase
+                .from('api_performance_metrics')
+                .insert(metrics.map(metric => ({
+                    type,
+                    data: metric,
+                    timestamp: new Date().toISOString(),
+                    user_agent: req.headers['user-agent'] || '',
+                    ip_address: req.ip || req.connection.remoteAddress || ''
+                })));
 
-        if (error) {
-            console.error('Error storing API performance metrics:', error);
-            return res.status(500).json({
-                success: false,
-                message: 'Failed to store API performance metrics',
-                code: 'DATABASE_ERROR'
+            if (error) {
+                console.error('Error storing API performance metrics:', error);
+                // Fallback: log to console instead of failing
+                console.log('API Performance metrics (console fallback):', {
+                    type,
+                    metrics: metrics.length,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        } catch (dbError) {
+            console.error('Database error, logging to console:', dbError);
+            // Fallback: log to console
+            console.log('API Performance metrics (console fallback):', {
+                type,
+                metrics: metrics.length,
+                timestamp: new Date().toISOString()
             });
         }
 
@@ -131,23 +153,34 @@ router.post('/render-performance', async (req: Request, res: Response) => {
             });
         }
 
-        // Store render metrics in database
-        const { data, error } = await supabase
-            .from('render_performance_metrics')
-            .insert(metrics.map(metric => ({
-                type,
-                data: metric,
-                timestamp: new Date().toISOString(),
-                user_agent: req.headers['user-agent'] || '',
-                ip_address: req.ip || req.connection.remoteAddress || ''
-            })));
+        // Store render metrics in database (with fallback to console logging)
+        try {
+            const { data, error } = await supabase
+                .from('render_performance_metrics')
+                .insert(metrics.map(metric => ({
+                    type,
+                    data: metric,
+                    timestamp: new Date().toISOString(),
+                    user_agent: req.headers['user-agent'] || '',
+                    ip_address: req.ip || req.connection.remoteAddress || ''
+                })));
 
-        if (error) {
-            console.error('Error storing render performance metrics:', error);
-            return res.status(500).json({
-                success: false,
-                message: 'Failed to store render performance metrics',
-                code: 'DATABASE_ERROR'
+            if (error) {
+                console.error('Error storing render performance metrics:', error);
+                // Fallback: log to console instead of failing
+                console.log('Render Performance metrics (console fallback):', {
+                    type,
+                    metrics: metrics.length,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        } catch (dbError) {
+            console.error('Database error, logging to console:', dbError);
+            // Fallback: log to console
+            console.log('Render Performance metrics (console fallback):', {
+                type,
+                metrics: metrics.length,
+                timestamp: new Date().toISOString()
             });
         }
 

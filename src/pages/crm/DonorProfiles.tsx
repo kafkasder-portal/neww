@@ -101,11 +101,11 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
 
   const getTierColor = (donorTier: string) => {
     switch (donorTier) {
-      case 'platinum': return 'bg-bg-secondary/10 text-bg-secondary/90'
+      case 'platinum': return 'bg-secondary/10 text-secondary/90'
       case 'gold': return 'bg-bg-yellow-500-100 text-bg-yellow-500-800'
       case 'silver': return 'bg-border-border text-text-foreground'
       case 'bronze': return 'bg-bg-red-500-100 text-bg-red-500-800'
-      default: return 'bg-bg-primary/10 text-bg-primary/90'
+      default: return 'bg-primary/10 text-primary/90'
     }
   }
 
@@ -115,7 +115,7 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
       case 'inactive': return 'bg-bg-red-500-100 text-bg-red-500-800'
       case 'prospect': return 'bg-bg-yellow-500-100 text-bg-yellow-500-800'
       case 'lapsed': return 'bg-border-border text-text-foreground'
-      default: return 'bg-bg-primary/10 text-bg-primary/90'
+      default: return 'bg-primary/10 text-primary/90'
     }
   }
 
@@ -253,7 +253,7 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
       </CorporateCardHeader>
       <CorporateCardContent>
         {showFilters && (
-          <div className="p-4 mb-4 border rounded-lg bg-bg-muted">
+          <div className="p-4 mb-4 border rounded-lg bg-muted">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <FormGroup>
                 <FormLabel>Durum</FormLabel>

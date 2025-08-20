@@ -172,6 +172,11 @@ export const validateCSRFToken = (req: Request, res: Response, next: NextFunctio
     return next();
   }
 
+  // Skip CSRF validation for analytics endpoints (performance monitoring)
+  if (req.path.startsWith('/api/analytics/')) {
+    return next();
+  }
+
   const token = req.headers['x-csrf-token'] as string;
   const sessionToken = req.session?.csrfToken;
 

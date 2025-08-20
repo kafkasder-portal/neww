@@ -18,7 +18,7 @@ export const CorporateCard: React.FC<CorporateCardProps> = ({
 }) => {
   return (
     <div
-      className={cn('bg-card border border-border rounded-lg shadow-sm', className)}
+      className={cn('bg-white border border-gray-200 rounded-lg shadow-sm', className)}
       onClick={onClick}
     >
       {children}
@@ -36,7 +36,7 @@ export const CorporateCardHeader: React.FC<CorporateCardHeaderProps> = ({
   className
 }) => {
   return (
-    <div className={cn('bg-card border border-border rounded-lg shadow-sm-header', className)}>
+    <div className={cn('p-6 border-b border-gray-200', className)}>
       {children}
     </div>
   )
@@ -52,7 +52,7 @@ export const CorporateCardTitle: React.FC<CorporateCardTitleProps> = ({
   className
 }) => {
   return (
-    <h3 className={cn('bg-card border border-border rounded-lg shadow-sm-title', className)}>
+    <h3 className={cn('text-lg font-semibold text-gray-900', className)}>
       {children}
     </h3>
   )
@@ -68,7 +68,7 @@ export const CorporateCardSubtitle: React.FC<CorporateCardSubtitleProps> = ({
   className
 }) => {
   return (
-    <p className={cn('bg-card border border-border rounded-lg shadow-sm-subtitle', className)}>
+    <p className={cn('text-sm text-gray-600 mt-1', className)}>
       {children}
     </p>
   )
@@ -84,7 +84,7 @@ export const CorporateCardContent: React.FC<CorporateCardContentProps> = ({
   className
 }) => {
   return (
-    <div className={cn('bg-card border border-border rounded-lg shadow-sm-content', className)}>
+    <div className={cn('p-6', className)}>
       {children}
     </div>
   )
@@ -100,7 +100,7 @@ export const CorporateCardFooter: React.FC<CorporateCardFooterProps> = ({
   className
 }) => {
   return (
-    <div className={cn('bg-card border border-border rounded-lg shadow-sm-footer', className)}>
+    <div className={cn('px-6 py-4 border-t border-gray-200 bg-gray-50', className)}>
       {children}
     </div>
   )
@@ -222,22 +222,22 @@ interface CorporateTableDataProps<T> {
 export const CorporateTable = <T,>({ columns, data, loading, className }: CorporateTableDataProps<T>) => {
   if (loading) {
     return (
-      <div className={cn('w-full border-collapse border border-gray-300-loading', className)}>
+      <div className={cn('w-full border border-gray-300 rounded-lg', className)}>
         <div className="flex items-center justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-bg-primary"></div>
-          <span className="ml-2 text-text-muted-foreground">Yükleniyor...</span>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <span className="ml-2 text-gray-600">Yükleniyor...</span>
         </div>
       </div>
     )
   }
 
   return (
-    <div className={cn('w-full border-collapse border border-gray-300-container', className)}>
+    <div className={cn('w-full border border-gray-300 rounded-lg overflow-hidden', className)}>
       <table className="w-full border-collapse border border-gray-300">
         <thead className="bg-gray-50">
-          <tr className="w-full border-collapse border border-gray-300-row">
+          <tr className="border-b border-gray-200">
             {columns.map((column) => (
-              <th key={column.key} className="bg-gray-50-cell">
+              <th key={column.key} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 {column.title}
               </th>
             ))}
@@ -246,17 +246,17 @@ export const CorporateTable = <T,>({ columns, data, loading, className }: Corpor
         <tbody>
           {data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} className="w-full border-collapse border border-gray-300-cell text-center py-8">
-                <div className="text-text-muted-foreground">
+              <td colSpan={columns.length} className="px-6 py-8 text-center">
+                <div className="text-gray-500">
                   Veri bulunamadı
                 </div>
               </td>
             </tr>
           ) : (
             data.map((item, index) => (
-              <tr key={index} className="w-full border-collapse border border-gray-300-row">
+              <tr key={index} className="border-b border-gray-200 hover:bg-gray-50">
                 {columns.map((column) => (
-                  <td key={column.key} className="w-full border-collapse border border-gray-300-cell">
+                  <td key={column.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {column.render ? column.render(item) : (item as any)[column.key]}
                   </td>
                 ))}
@@ -288,7 +288,7 @@ export const CorporateTableHeader: React.FC<CorporateTableProps> = ({ children, 
 
 export const CorporateTableHeaderCell: React.FC<CorporateTableProps> = ({ children, className }) => {
   return (
-    <th className={cn('bg-gray-50-cell', className)}>
+    <th className={cn('px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50', className)}>
       {children}
     </th>
   )
@@ -296,7 +296,7 @@ export const CorporateTableHeaderCell: React.FC<CorporateTableProps> = ({ childr
 
 export const CorporateTableRow: React.FC<CorporateTableProps> = ({ children, className }) => {
   return (
-    <tr className={cn('w-full border-collapse border border-gray-300-row', className)}>
+    <tr className={cn('border-b border-gray-200 hover:bg-gray-50', className)}>
       {children}
     </tr>
   )
@@ -304,7 +304,7 @@ export const CorporateTableRow: React.FC<CorporateTableProps> = ({ children, cla
 
 export const CorporateTableCell: React.FC<CorporateTableProps> = ({ children, className }) => {
   return (
-    <td className={cn('w-full border-collapse border border-gray-300-cell', className)}>
+    <td className={cn('px-6 py-4 whitespace-nowrap text-sm text-gray-900', className)}>
       {children}
     </td>
   )
@@ -328,7 +328,7 @@ interface FormGroupProps {
 
 export const FormGroup: React.FC<FormGroupProps> = ({ children, className }) => {
   return (
-    <div className={cn('space-y-6-group', className)}>
+    <div className={cn('space-y-4', className)}>
       {children}
     </div>
   )
@@ -342,7 +342,7 @@ interface FormLabelProps {
 
 export const FormLabel: React.FC<FormLabelProps> = ({ children, htmlFor, className }) => {
   return (
-    <label htmlFor={htmlFor} className={cn('space-y-6-label', className)}>
+    <label htmlFor={htmlFor} className={cn('block text-sm font-medium text-gray-700 mb-1', className)}>
       {children}
     </label>
   )
@@ -355,7 +355,7 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export const FormInput: React.FC<FormInputProps> = ({ className, ...props }) => {
   return (
     <input
-      className={cn('space-y-6-input', className)}
+      className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', className)}
       {...props}
     />
   )
@@ -368,7 +368,7 @@ interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaEle
 export const FormTextarea: React.FC<FormTextareaProps> = ({ className, ...props }) => {
   return (
     <textarea
-      className={cn('space-y-6-textarea', className)}
+      className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical', className)}
       {...props}
     />
   )
@@ -382,7 +382,7 @@ interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> 
 export const FormSelect: React.FC<FormSelectProps> = ({ children, className, ...props }) => {
   return (
     <select
-      className={cn('space-y-6-select', className)}
+      className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white', className)}
       {...props}
     >
       {children}
@@ -406,7 +406,7 @@ export const CorporateModal: React.FC<ModalProps> = ({ isOpen, onClose, children
 
   return (
     <div className={cn('fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50', className)} onClick={onClose}>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50-content" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
     </div>
@@ -415,7 +415,7 @@ export const CorporateModal: React.FC<ModalProps> = ({ isOpen, onClose, children
 
 export const CorporateModalHeader: React.FC<CorporateTableProps> = ({ children, className }) => {
   return (
-    <div className={cn('fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50-header', className)}>
+    <div className={cn('px-6 py-4 border-b border-gray-200', className)}>
       {children}
     </div>
   )
@@ -423,7 +423,7 @@ export const CorporateModalHeader: React.FC<CorporateTableProps> = ({ children, 
 
 export const CorporateModalTitle: React.FC<CorporateCardTitleProps> = ({ children, className }) => {
   return (
-    <h2 className={cn('text-lg font-semibold text-foreground', className)}>
+    <h2 className={cn('text-lg font-semibold text-gray-900', className)}>
       {children}
     </h2>
   )
@@ -431,7 +431,7 @@ export const CorporateModalTitle: React.FC<CorporateCardTitleProps> = ({ childre
 
 export const CorporateModalBody: React.FC<CorporateCardContentProps> = ({ children, className }) => {
   return (
-    <div className={cn('p-6 bg-card rounded-lg border', className)}>
+    <div className={cn('p-6', className)}>
       {children}
     </div>
   )
@@ -439,7 +439,7 @@ export const CorporateModalBody: React.FC<CorporateCardContentProps> = ({ childr
 
 export const CorporateModalFooter: React.FC<CorporateCardFooterProps> = ({ children, className }) => {
   return (
-    <div className={cn('fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50-footer', className)}>
+    <div className={cn('px-6 py-4 border-t border-gray-200 bg-gray-50 flex justify-end space-x-2', className)}>
       {children}
     </div>
   )
@@ -472,21 +472,21 @@ export const CorporateAlert: React.FC<AlertProps> = ({
   className
 }) => {
   const variantClasses = {
-    success: 'p-4 border rounded-lg-success',
-    warning: 'p-4 border rounded-lg-warning',
-    danger: 'p-4 border rounded-lg-danger',
-    info: 'p-4 border rounded-lg-info'
+    success: 'bg-green-50 border-green-200 text-green-800',
+    warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
+    danger: 'bg-red-50 border-red-200 text-red-800',
+    info: 'bg-blue-50 border-blue-200 text-blue-800'
   }
 
   return (
     <div className={cn('p-4 border rounded-lg', variantClasses[variant], className)}>
       {title && (
-        <div className="p-4 border rounded-lg-title">
+        <div className="font-medium mb-1">
           {title}
         </div>
       )}
       {description && (
-        <div className="p-4 border rounded-lg-description">
+        <div className="text-sm">
           {description}
         </div>
       )}
@@ -518,15 +518,15 @@ export const CorporateProgress: React.FC<ProgressProps> = ({
   const percentage = (value / max) * 100
   const variantClasses = {
     default: '',
-    success: 'w-full bg-gray-200 rounded-full h-2-success',
-    warning: 'w-full bg-gray-200 rounded-full h-2-warning',
-    danger: 'w-full bg-gray-200 rounded-full h-2-danger'
+    success: 'bg-green-500 h-2 rounded-full transition-all duration-300',
+    warning: 'bg-yellow-500 h-2 rounded-full transition-all duration-300',
+    danger: 'bg-red-500 h-2 rounded-full transition-all duration-300'
   }
 
   return (
     <div className={cn('w-full bg-gray-200 rounded-full h-2', className)}>
       <div
-        className={cn('w-full bg-gray-200 rounded-full h-2-bar', variantClasses[variant])}
+        className={cn('h-2 rounded-full transition-all duration-300', variantClasses[variant] || 'bg-blue-500')}
         style={{ width: `${percentage}%` }}
       />
     </div>
@@ -588,11 +588,11 @@ export const QuickAccessCard: React.FC<QuickAccessCardProps> = ({
 }) => {
   return (
     <div className={cn('p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer', className)} onClick={onClick}>
-      <div className={cn('p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer-icon', iconBgColor)}>
+      <div className={cn('w-12 h-12 rounded-lg flex items-center justify-center text-white mb-4', iconBgColor)}>
         {icon}
       </div>
-      <h3 className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer-title">{title}</h3>
-      <p className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer-description">{description}</p>
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
+      <p className="text-sm text-gray-600">{description}</p>
     </div>
   )
 }
@@ -616,15 +616,15 @@ export const StatisticsCard: React.FC<StatisticsCardProps> = ({
 }) => {
   return (
     <div className={cn('p-4 border border-gray-200 rounded-lg', className)}>
-      <div className="p-4 border border-gray-200 rounded-lg-header">
-        <span className="p-4 border border-gray-200 rounded-lg-title">{title}</span>
+      <div className="flex justify-between items-center mb-2">
+        <span className="text-sm font-medium text-gray-600">{title}</span>
         {change && (
-          <span className={cn('p-4 border border-gray-200 rounded-lg-change', change.isPositive ? 'positive' : 'negative')}>
+          <span className={cn('text-xs font-medium', change.isPositive ? 'text-green-600' : 'text-red-600')}>
             {change.isPositive ? '+' : ''}{change.value}%
           </span>
         )}
       </div>
-      <div className="p-4 border border-gray-200 rounded-lg-value">{value}</div>
+      <div className="text-2xl font-bold text-gray-900">{value}</div>
     </div>
   )
 }
@@ -653,9 +653,9 @@ export const CorporateSearch: React.FC<SearchProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
-        className="relative-input"
+        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       />
-      <svg className="relative-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
     </div>
@@ -726,13 +726,13 @@ export const Avatar: React.FC<AvatarProps> = ({
       <img
         src={src}
         alt={alt}
-        className={cn('flex items-center justify-center bg-gray-200', sizeClasses[size], 'rounded-lg', className)}
+        className={cn('object-cover', sizeClasses[size], 'rounded-full', className)}
       />
     )
   }
 
   return (
-    <div className={cn('flex items-center justify-center bg-gray-200', sizeClasses[size], className)}>
+    <div className={cn('flex items-center justify-center bg-gray-200 rounded-full', sizeClasses[size], className)}>
       {children}
     </div>
   )
@@ -757,9 +757,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 }) => {
   return (
     <div className={cn('text-center py-8 text-muted-foreground', className)}>
-      {icon && <div className="text-center py-8 text-muted-foreground-icon">{icon}</div>}
-      <h3 className="text-center py-8 text-muted-foreground-title">{title}</h3>
-      <p className="text-center py-8 text-muted-foreground-description">{description}</p>
+      {icon && <div className="text-gray-400 mb-4 flex justify-center">{icon}</div>}
+      <h3 className="text-lg font-medium text-gray-900 mb-2">{title}</h3>
+      <p className="text-gray-500">{description}</p>
     </div>
   )
 }
