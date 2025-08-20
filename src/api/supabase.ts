@@ -209,11 +209,16 @@ export const handleApiError = (error: unknown): string => {
     return error;
   }
   
-  if (error?.message) {
+  if (error instanceof Error) {
     return error.message;
   }
   
-  if (error?.error?.message) {
+  if (error && typeof error === 'object' && 'message' in error && typeof error.message === 'string') {
+    return error.message;
+  }
+  
+  if (error && typeof error === 'object' && 'error' in error && error.error && 
+      typeof error.error === 'object' && 'message' in error.error && typeof error.error.message === 'string') {
     return error.error.message;
   }
   

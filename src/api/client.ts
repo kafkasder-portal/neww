@@ -1,7 +1,7 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosProgressEvent } from 'axios';
 import { API_TIMEOUTS } from '../constants/api';
 import { env } from '../lib/env';
-import { ApiResponse, PaginatedResponse } from '../types/shared';
+import { ApiResponse } from '../types/shared';
 import { setupInterceptors } from './interceptors';
 import { setupAPIPerformanceTracking } from './performanceInterceptors';
 
