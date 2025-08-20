@@ -102,12 +102,12 @@ export default function DashboardIndex() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-muted-foreground">
+                <div className="text-xs text-muted-foreground flex items-center gap-1">
                   <Badge variant={stat.change.startsWith('+') ? 'default' : 'destructive'} className="text-xs">
                     {stat.change}
                   </Badge>
-                  <span className="ml-1">geçen ay</span>
-                </p>
+                  <span>geçen ay</span>
+                </div>
               </CardContent>
             </Card>
           )
