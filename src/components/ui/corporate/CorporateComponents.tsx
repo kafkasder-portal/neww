@@ -368,14 +368,17 @@ interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaEle
   className?: string
 }
 
-export const FormTextarea: React.FC<FormTextareaProps> = ({ className, ...props }) => {
-  return (
-    <textarea
-      className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical', className)}
-      {...props}
-    />
-  )
-}
+export const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <textarea
+        ref={ref}
+        className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical', className)}
+        {...props}
+      />
+    )
+  }
+)
 
 interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   children: React.ReactNode
