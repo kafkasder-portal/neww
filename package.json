@@ -30,7 +30,7 @@
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "lint:quick-fix": "node scripts/fix-eslint.js",
     "lint:auto": "eslint . --fix && npm run lint:quick-fix",
-    "cleanup:backups": "node cleanup-backups.js",
+    "cleanup:backups": "node cleanup-backups.cjs",
     "type-check": "tsc --noEmit",
     "test": "vitest",
     "test:ui": "vitest --ui",
