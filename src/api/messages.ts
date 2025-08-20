@@ -11,7 +11,7 @@ import {
 import { toast } from 'sonner'
 
 // Helper function to handle API errors
-const handleApiError = (error: any, context: string) => {
+const handleApiError = (error: unknown, context: string) => {
   console.error(`${context}:`, error)
   const message = error?.message || `Error in ${context}`
   toast.error(message)

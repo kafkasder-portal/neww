@@ -204,7 +204,7 @@ export class SupabaseApi {
 }
 
 // Error handling utilities
-export const handleApiError = (error: any): string => {
+export const handleApiError = (error: unknown): string => {
   if (typeof error === 'string') {
     return error;
   }
@@ -220,6 +220,6 @@ export const handleApiError = (error: any): string => {
   return 'Bilinmeyen bir hata oluştu';
 };
 
-export const isApiError = (response: ApiResponse<any>): boolean => {
+export const isApiError = (response: ApiResponse<unknown>): boolean => {
   return !response.success || !!response.error;
 };

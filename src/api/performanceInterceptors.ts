@@ -46,7 +46,7 @@ export class APIPerformanceInterceptor {
         requestSize = new Blob([
           typeof config.data === 'string' ? config.data : JSON.stringify(config.data)
         ]).size
-      } catch (error: any) {
+      } catch (_error: unknown) {
         // Size hesaplanamadı
       }
     }
@@ -95,7 +95,7 @@ export class APIPerformanceInterceptor {
         `api-request-start-${requestId}`,
         `api-request-end-${requestId}`
       )
-    } catch (error) {
+    } catch (_error) {
       // Performance measurement failed
     }
 
@@ -255,7 +255,7 @@ export class APIPerformanceInterceptor {
       const urlObj = new URL(url, window.location.origin)
       // Query parameter'ları ve hash'i kaldır
       return urlObj.pathname
-    } catch (error: any) {
+    } catch (_error: unknown) {
       // URL parse edilemedi, olduğu gibi döndür
       return url.split('?')[0].split('#')[0]
     }

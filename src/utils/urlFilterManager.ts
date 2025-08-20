@@ -187,7 +187,12 @@ export class URLFilterManager {
 
   // Listen for URL changes (for back/forward navigation)
   onURLChange(callback: (filters: SavedFilter) => void): () => void {
-    if (typeof window === 'undefined') return () => {}
+    if (typeof window === 'undefined') {
+      // SSR environment - no cleanup needed
+      return () => {
+        // No-op cleanup function
+      }
+    }
     
     const handlePopState = () => {
       const filters = this.getCurrentFilters()

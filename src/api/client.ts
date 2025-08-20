@@ -1,6 +1,7 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosProgressEvent } from 'axios';
 import { API_TIMEOUTS } from '../constants/api';
 import { env } from '../lib/env';
+import { ApiResponse, PaginatedResponse } from '../types/shared';
 import { setupInterceptors } from './interceptors';
 import { setupAPIPerformanceTracking } from './performanceInterceptors';
 
@@ -24,19 +25,6 @@ setupInterceptors(apiClient);
 setupAPIPerformanceTracking(apiClient);
 
 // Request/Response types
-export interface ApiResponse<T = unknown> {
-  data: T;
-  message?: string;
-  success: boolean;
-  errors?: string[];
-  meta?: {
-    total?: number;
-    page?: number;
-    limit?: number;
-    totalPages?: number;
-  };
-}
-
 export interface ApiError {
   message: string;
   code?: string;
@@ -160,7 +148,7 @@ class ApiClient {
   }
 
   // Paginated GET request
-  async getPaginated<T = any>(
+  async getPaginated<T = unknown>(
     url: string,
     params?: PaginationParams,
     config?: AxiosRequestConfig
@@ -181,11 +169,11 @@ class ApiClient {
   }
 
   // Batch requests
-  async batch<T = any>(
+  async batch<T = unknown>(
     requests: Array<{
       method: 'get' | 'post' | 'put' | 'patch' | 'delete';
       url: string;
-      data?: any;
+      data?: unknown;
       config?: AxiosRequestConfig;
     }>
   ): Promise<ApiResponse<T>[]> {
