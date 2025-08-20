@@ -60,15 +60,15 @@ const AppSidebar = memo(function AppSidebar() {
       <Sidebar variant="inset" collapsible="icon" className="border-border bg-background">
 
         {/* Main Content */}
-        <SidebarContent className="bg-gradient-to-b from-bg-muted to-white">
-          {/* Support Section - Moved to top */}
+        <SidebarContent className="bg-gradient-to-b from-bg-muted/50 via-white/95 to-white">
+          {/* Main Navigation - Moved to top */}
           <SidebarGroup>
             <SidebarGroupLabel className="text-muted-foreground font-semibold text-xs uppercase tracking-wider px-4 py-2">
-              Destek & Sistem
+              Ana Menü
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {supportItems.map((item) => {
+                {navigationItems.map((item) => {
                   const Icon = item.icon
                   const isActive = isActiveItem(item)
                   const activeSubPage = getActiveSubPage(item)
@@ -81,17 +81,17 @@ const AppSidebar = memo(function AppSidebar() {
                             <PopoverTrigger asChild>
                               <SidebarMenuButton
                                 isActive={isActive}
-                                className={`w-full transition-all duration-200 hover:bg-primary/5 hover:border-primary/20 ${isActive
-                ? 'bg-primary/10 border-primary/30 text-primary/80 shadow-sm'
-                : 'bg-white border-transparent text-foreground'
+                                className={`w-full transition-all duration-300 hover:bg-secondary/8 hover:border-secondary/30 hover:shadow-sm ${isActive
+                 ? 'bg-secondary/15 border-secondary/40 text-secondary/90 shadow-md'
+                : 'bg-white/80 border-transparent text-foreground hover:bg-white'
               }`}
                                 tooltip={isCollapsed ? item.title : undefined}
                               >
-                                <div className={`p-2 rounded-lg transition-all duration-200 ${isActive
-                                  ? 'bg-primary text-white shadow-md'
-                : 'bg-muted/80 text-muted-foreground'
+                                <div className={`p-2.5 rounded-xl transition-all duration-300 ${isActive
+                                   ? 'bg-gradient-to-br from-secondary to-secondary/90 text-white shadow-lg shadow-secondary/25'
+                : 'bg-gradient-to-br from-muted/90 to-muted/70 text-muted-foreground hover:from-muted to-muted/80'
                                   }`}>
-                                  <Icon className="size-4 flex-shrink-0" />
+                                  <Icon className="size-4 flex-shrink-0 mt-0.5" />
                                 </div>
                                 {!isCollapsed && (
                                   <>
@@ -163,14 +163,15 @@ const AppSidebar = memo(function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
 
-          {/* Main Navigation - Moved to bottom */}
+
+          {/* Support Section - Moved to bottom */}
           <SidebarGroup className="mt-auto">
             <SidebarGroupLabel className="text-muted-foreground font-semibold text-xs uppercase tracking-wider px-4 py-2">
-              Ana Menü
+              Destek & Sistem
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {navigationItems.map((item) => {
+                {supportItems.map((item) => {
                   const Icon = item.icon
                   const isActive = isActiveItem(item)
                   const activeSubPage = getActiveSubPage(item)
@@ -183,17 +184,17 @@ const AppSidebar = memo(function AppSidebar() {
                             <PopoverTrigger asChild>
                               <SidebarMenuButton
                                 isActive={isActive}
-                                className={`w-full transition-all duration-200 hover:bg-secondary/5 hover:border-secondary/20 ${isActive
-                ? 'bg-secondary/10 border-secondary/30 text-secondary/80 shadow-sm'
-                : 'bg-white border-transparent text-foreground'
+                                className={`w-full transition-all duration-300 hover:bg-primary/8 hover:border-primary/30 hover:shadow-sm ${isActive
+                ? 'bg-primary/15 border-primary/40 text-primary/90 shadow-md'
+                : 'bg-white/80 border-transparent text-foreground hover:bg-white'
               }`}
                                 tooltip={isCollapsed ? item.title : undefined}
                               >
-                                <div className={`p-2 rounded-lg transition-all duration-200 ${isActive
-                                  ? 'bg-secondary text-white shadow-md'
-                : 'bg-muted/80 text-muted-foreground'
+                                <div className={`p-2.5 rounded-xl transition-all duration-300 ${isActive
+                                  ? 'bg-gradient-to-br from-primary to-primary/90 text-white shadow-lg shadow-primary/25'
+                : 'bg-gradient-to-br from-muted/90 to-muted/70 text-muted-foreground hover:from-muted to-muted/80'
                                   }`}>
-                                  <Icon className="size-4 flex-shrink-0" />
+                                  <Icon className="size-4 flex-shrink-0 mt-0.5" />
                                 </div>
                                 {!isCollapsed && (
                                   <>
@@ -229,7 +230,7 @@ const AppSidebar = memo(function AppSidebar() {
                           sideOffset={8}
                         >
                           <div className="grid gap-2">
-                            <div className="font-bold text-sm mb-3 px-2 py-2 bg-secondary/5 text-secondary/80 rounded-lg">
+                            <div className="font-bold text-sm mb-3 px-2 py-2 bg-primary/5 text-primary/80 rounded-lg">
                               {item.title}
                             </div>
                             {item.subPages.map((subPage) => (
@@ -238,7 +239,7 @@ const AppSidebar = memo(function AppSidebar() {
                                 variant={location.pathname === subPage.href ? "secondary" : "ghost"}
                                 size="sm"
                                 className={`w-full justify-start h-auto p-3 rounded-lg transition-all duration-200 ${location.pathname === subPage.href
-                                  ? 'bg-secondary/10 text-secondary/80 border border-secondary/20'
+                                  ? 'bg-primary/10 text-primary/80 border border-primary/20'
                 : 'hover:bg-muted'
                                   }`}
                                 onClick={() => startTransition(() => navigate(subPage.href))}
@@ -264,10 +265,11 @@ const AppSidebar = memo(function AppSidebar() {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
+
         </SidebarContent>
 
         {/* Enhanced Footer - User Profile */}
-        <SidebarFooter className="border-t border-sidebar-border bg-gradient-to-r from-bg-muted to-white">
+        <SidebarFooter className="border-t border-sidebar-border/50 bg-gradient-to-r from-bg-muted/30 via-white/95 to-white">
           <SidebarMenu>
             <SidebarMenuItem>
               <Popover>
@@ -276,7 +278,7 @@ const AppSidebar = memo(function AppSidebar() {
                     <PopoverTrigger asChild>
                       <SidebarMenuButton
                         size="lg"
-                        className="data-[state=open]:bg-primary/5 data-[state=open]:text-primary/80 hover:bg-primary/5 transition-all duration-200"
+                        className="data-[state=open]:bg-primary/10 data-[state=open]:text-primary/90 hover:bg-primary/8 hover:shadow-sm transition-all duration-300 bg-white/80"
                         tooltip={isCollapsed ? "Ahmet Kaya" : undefined}
                       >
                         <Avatar className="h-10 w-10 rounded-xl border-2 border-bg-primary/20 shadow-md">

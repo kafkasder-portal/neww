@@ -1,18 +1,24 @@
-import { useState, useEffect } from 'react'
-import { 
-  Users, 
-  FileText, 
-  DollarSign, 
-  Package, 
-  TrendingUp, 
+import { supabase } from '@lib/supabase'
+import {
   AlertCircle,
   CheckCircle,
   Clock,
-  Calendar
+  DollarSign,
+  FileText,
+  Package,
+  Plus,
+  TrendingUp,
+  Users
 } from 'lucide-react'
-import StatCard from '@components/StatCard'
-import { supabase } from '@lib/supabase'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+
+// New Design System Components
+import { AppContent, AppShell } from '../../components/layouts/AppShell'
+import { EmptyState } from '../../components/ui/EmptyState'
+import { PageHeader } from '../../components/ui/PageHeader'
+import { ContentGrid, PageSection } from '../../components/ui/PageSection'
+import { StatCardGroup } from '../../components/ui/StatCard'
 
 interface DashboardStats {
   totalBeneficiaries: number
@@ -151,6 +157,57 @@ export default function AidIndex() {
     }
   }
 
+  // Format stats for new StatCard components
+  const getDashboardStats = () => [
+    {
+      title: 'Toplam İhtiyaç Sahibi',
+      value: stats.totalBeneficiaries,
+      icon: <Users className="w-full h-full" />,
+      trend: { value: 5, direction: 'up' as const, label: 'önceki aya göre' },
+      description: 'Kayıtlı ihtiyaç sahibi',
+      color: 'primary' as const
+    },
+    {
+      title: 'Bekleyen Başvurular',
+      value: stats.pendingApplications,
+      icon: <Clock className="w-full h-full" />,
+      trend: { value: -3, direction: 'down' as const, label: 'önceki aya göre' },
+      description: 'İnceleme bekliyor',
+      color: 'warning' as const
+    },
+    {
+      title: 'Acil Başvurular',
+      value: stats.urgentApplications,
+      icon: <AlertCircle className="w-full h-full" />,
+      trend: { value: 2, direction: 'up' as const, label: 'önceki aya göre' },
+      description: 'Öncelikli başvuru',
+      color: 'danger' as const
+    },
+    {
+      title: 'Bu Ay Tamamlanan',
+      value: stats.completedAids,
+      icon: <CheckCircle className="w-full h-full" />,
+      trend: { value: 12, direction: 'up' as const, label: 'önceki aya göre' },
+      description: 'Tamamlanan yardım',
+      color: 'success' as const
+    },
+    {
+      title: 'Bu Ay Toplam Tutar',
+      value: formatCurrency(stats.monthlyAidAmount || 0),
+      icon: <DollarSign className="w-full h-full" />,
+      trend: { value: 8, direction: 'up' as const, label: 'önceki aya göre' },
+      description: 'Aylık yardım tutarı',
+      color: 'info' as const
+    },
+    {
+      title: 'Aktif Yardım Kayıtları',
+      value: stats.activeAidRecords,
+      icon: <Package className="w-full h-full" />,
+      trend: { value: 4, isPositive: true },
+      description: 'Devam eden yardımlar'
+    }
+  ];
+
   const formatCurrency = (amount: number) => {
     if (isNaN(amount) || amount === null || amount === undefined) {
       return '₺0,00'
@@ -195,171 +252,157 @@ export default function AidIndex() {
     )
   }
 
+  // Loading state
   if (loading) {
     return (
-      <div className="flex h-64 items-center justify-center">
-        <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-2"></div>
-          <p className="text-muted-foreground">Yükleniyor...</p>
+      <AppShell>
+        <div className="flex items-center justify-center min-h-96">
+          <div className="text-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-2"></div>
+            <p className="text-ink-3">Yardım yönetimi yükleniyor...</p>
+          </div>
         </div>
-      </div>
+      </AppShell>
     )
   }
 
   return (
-    <div className="space-y-6">
-      {/* Başlık */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Yardım Yönetimi</h1>
-          <p className="text-muted-foreground">Yardım süreçlerinizi takip edin ve yönetin</p>
-        </div>
-        <div className="flex gap-2">
-          <Link 
-            to="/aid/applications" 
-            className="rounded bg-primary px-4 py-2 text-sm text-primary-foreground hover:bg-primary/90"
-          >
-            Yeni Başvuru
-          </Link>
-        </div>
-      </div>
+    <AppShell>
+      {/* Page Header - Sticky header with breadcrumbs and actions */}
+      <PageHeader
+        title="Yardım Yönetimi"
+        subtitle="Yardım süreçlerinizi takip edin ve yönetin"
+        breadcrumbs={[
+          { label: 'Yardım', icon: <Package className="w-4 h-4" /> }
+        ]}
+        actions={[
+          {
+            label: 'Yeni Başvuru',
+            onClick: () => window.location.href = '/aid/applications',
+            variant: 'default',
+            icon: <Plus className="w-4 h-4" />
+          }
+        ]}
+      />
 
-      {/* İstatistik Kartları */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <StatCard 
-          title="Toplam İhtiyaç Sahibi" 
-          value={stats.totalBeneficiaries} 
-          icon={Users} 
-          accentClass="bg-blue-100" 
-        />
-        <StatCard 
-          title="Bekleyen Başvurular" 
-          value={stats.pendingApplications} 
-          icon={Clock} 
-          accentClass="bg-orange-100" 
-        />
-        <StatCard 
-          title="Acil Başvurular" 
-          value={stats.urgentApplications} 
-          icon={AlertCircle} 
-          accentClass="bg-red-100" 
-        />
-        <StatCard 
-          title="Bu Ay Tamamlanan" 
-          value={stats.completedAids} 
-          icon={CheckCircle} 
-          accentClass="bg-green-100" 
-        />
-        <StatCard 
-          title="Bu Ay Toplam Tutar" 
-          value={formatCurrency(stats.monthlyAidAmount || 0)} 
-          icon={DollarSign} 
-          accentClass="bg-purple-100" 
-        />
-        <StatCard 
-          title="Aktif Yardım Kayıtları" 
-          value={stats.activeAidRecords} 
-          icon={Package} 
-          accentClass="bg-indigo-100" 
-        />
-      </div>
+      <AppContent>
+        {/* Statistics Section */}
+        <PageSection
+          id="statistics"
+          title="Genel İstatistikler"
+          description="Yardım süreçlerinizin özet bilgileri"
+          spacing="md"
+        >
+          <StatCardGroup
+            cards={getDashboardStats()}
+            columns={3}
+            gap="md"
+          />
+        </PageSection>
 
-      {/* Ana İçerik */}
-      <div className="grid grid-cols-1 space-y-4 lg:grid-cols-2">
-        {/* Son Başvurular */}
-        <div className="rounded-lg border p-6 bg-card rounded-lg border">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Son Başvurular</h2>
-            <Link to="/aid/applications" className="text-sm text-primary hover:underline">
-              Tümünü Gör
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {recentApplications.length > 0 ? (
-              recentApplications.map((application) => (
-                <div key={application.id} className="flex items-center justify-between rounded border p-3">
-                  <div className="flex-1">
-                    <div className="font-medium">
-                      {application.beneficiaries?.name || 'İsim'} {application.beneficiaries?.surname || 'Soyisim'}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {application.description || 'Açıklama bulunmamaktadır'}
-                    </div>
-                    <div className="mt-1 flex items-center gap-2">
-                      {getStatusBadge(application.status || 'pending')}
-                      {getPriorityBadge(application.priority || 'normal')}
-                    </div>
-                  </div>
-                  <div className="text-right text-sm text-muted-foreground">
-                    {application.created_at ? formatDate(application.created_at) : 'Tarih yok'}
-                  </div>
+        {/* Recent Applications and Quick Actions */}
+        <PageSection
+          id="recent-activity"
+          title="Son Aktiviteler"
+          spacing="md"
+        >
+          <ContentGrid columns={2} gap="lg">
+            {/* Recent Applications Card */}
+            <div className="bg-surface border border-border rounded-lg shadow-card">
+              <div className="p-6 border-b border-border">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-hierarchy-h3">Son Başvurular</h3>
+                  <Link
+                    to="/aid/applications"
+                    className="text-sm text-primary hover:text-primary/80 transition-colors focus-ring rounded px-2 py-1"
+                  >
+                    Tümünü Gör
+                  </Link>
                 </div>
-              ))
-            ) : (
-              <div className="text-center text-muted-foreground py-8">
-                Henüz başvuru bulunmamaktadır.
               </div>
-            )}
-          </div>
-        </div>
+              <div className="p-6">
+                {recentApplications.length > 0 ? (
+                  <div className="space-y-4">
+                    {recentApplications.slice(0, 5).map((application) => (
+                      <div key={application.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-md hover:bg-muted/70 transition-colors">
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-ink-1 truncate">
+                            {application.beneficiaries?.name || 'İsim'} {application.beneficiaries?.surname || 'Soyisim'}
+                          </div>
+                          <div className="text-sm text-ink-3 truncate">
+                            {application.title}
+                          </div>
+                          <div className="text-xs text-ink-4">
+                            {new Date(application.created_at).toLocaleDateString('tr-TR')}
+                          </div>
+                        </div>
+                        <div className="flex-shrink-0 ml-4">
+                          <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${application.status === 'pending' ? 'bg-warning/10 text-warning' :
+                              application.status === 'approved' ? 'bg-success/10 text-success' :
+                                application.status === 'rejected' ? 'bg-danger/10 text-danger' :
+                                  'bg-ink-4/10 text-ink-4'
+                            }`}>
+                            {application.status === 'pending' ? 'Bekliyor' :
+                              application.status === 'approved' ? 'Onaylandı' :
+                                application.status === 'rejected' ? 'Reddedildi' :
+                                  'Bilinmiyor'}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <EmptyState
+                    icon={<FileText className="w-full h-full" />}
+                    title="Henüz başvuru yok"
+                    description="Yeni yardım başvuruları burada görünecek."
+                    size="sm"
+                  />
+                )}
+              </div>
+            </div>
 
-        {/* Hızlı Erişim */}
-        <div className="rounded-lg border p-6 bg-card rounded-lg border">
-          <h2 className="mb-4 text-lg font-semibold">Hızlı Erişim</h2>
-          <div className="grid grid-cols-2 gap-3">
-            <Link 
-              to="/aid/beneficiaries" 
-              className="flex flex-col items-center rounded border p-4 hover:bg-muted transition-colors"
-            >
-              <Users className="h-8 w-8 text-blue-600 mb-2" />
-              <span className="text-sm font-medium">İhtiyaç Sahipleri</span>
-            </Link>
-            <Link 
-              to="/aid/applications" 
-              className="flex flex-col items-center rounded border p-4 hover:bg-muted transition-colors"
-            >
-              <FileText className="h-8 w-8 text-orange-600 mb-2" />
-              <span className="text-sm font-medium">Başvurular</span>
-            </Link>
-            <Link 
-              to="/aid/cash-vault" 
-              className="flex flex-col items-center rounded border p-4 hover:bg-muted transition-colors"
-            >
-              <DollarSign className="h-8 w-8 text-green-600 mb-2" />
-              <span className="text-sm font-medium">Nakdi Yardım</span>
-            </Link>
-            <Link 
-              to="/aid/reports" 
-              className="flex flex-col items-center rounded border p-4 hover:bg-muted transition-colors"
-            >
-              <TrendingUp className="h-8 w-8 text-purple-600 mb-2" />
-              <span className="text-sm font-medium">Raporlar</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Aylık Özet */}
-      <div className="rounded-lg border p-6 bg-card rounded-lg border">
-        <h2 className="mb-4 text-lg font-semibold flex items-center gap-2">
-          <Calendar className="h-5 w-5" />
-          Bu Ay Özeti
-        </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{stats.completedAids}</div>
-            <div className="text-sm text-muted-foreground">Tamamlanan Yardım</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">{formatCurrency(stats.monthlyAidAmount || 0)}</div>
-            <div className="text-sm text-muted-foreground">Toplam Tutar</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-orange-600">{stats.pendingApplications}</div>
-            <div className="text-sm text-muted-foreground">Bekleyen Başvuru</div>
-          </div>
-        </div>
-      </div>
-    </div>
+            {/* Quick Actions Card */}
+            <div className="bg-surface border border-border rounded-lg shadow-card">
+              <div className="p-6 border-b border-border">
+                <h3 className="text-hierarchy-h3">Hızlı İşlemler</h3>
+              </div>
+              <div className="p-6">
+                <div className="space-y-3">
+                  <Link
+                    to="/aid/applications/new"
+                    className="flex items-center gap-3 p-3 text-ink-2 hover:text-ink-1 hover:bg-muted/50 rounded-md transition-all focus-ring"
+                  >
+                    <Plus className="w-5 h-5 text-primary" />
+                    <span className="font-medium">Yeni Başvuru Oluştur</span>
+                  </Link>
+                  <Link
+                    to="/aid/applications?status=pending"
+                    className="flex items-center gap-3 p-3 text-ink-2 hover:text-ink-1 hover:bg-muted/50 rounded-md transition-all focus-ring"
+                  >
+                    <Clock className="w-5 h-5 text-warning" />
+                    <span className="font-medium">Bekleyen Başvuruları İncele</span>
+                  </Link>
+                  <Link
+                    to="/aid/reports"
+                    className="flex items-center gap-3 p-3 text-ink-2 hover:text-ink-1 hover:bg-muted/50 rounded-md transition-all focus-ring"
+                  >
+                    <TrendingUp className="w-5 h-5 text-success" />
+                    <span className="font-medium">Yardım Raporları</span>
+                  </Link>
+                  <Link
+                    to="/beneficiaries"
+                    className="flex items-center gap-3 p-3 text-ink-2 hover:text-ink-1 hover:bg-muted/50 rounded-md transition-all focus-ring"
+                  >
+                    <Users className="w-5 h-5 text-info" />
+                    <span className="font-medium">İhtiyaç Sahipleri</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </ContentGrid>
+        </PageSection>
+      </AppContent>
+    </AppShell>
   )
 }

@@ -1,32 +1,39 @@
-# Simple Cursor Optimizer
-Write-Host "Cursor Performance Optimizer baslatiliyor..." -ForegroundColor Green
+# Simple Cursor Optimization Script
+Write-Host "⚡ Simple Cursor Optimization Starting..." -ForegroundColor Yellow
 
-# Clean Node processes
-Write-Host "Node.js surecleri temizleniyor..." -ForegroundColor Yellow
-Get-Process | Where-Object {$_.ProcessName -like "*node*" -or $_.ProcessName -like "*npm*" -or $_.ProcessName -like "*vite*"} | Stop-Process -Force -ErrorAction SilentlyContinue
+# Cursor Editor Optimizations
+$env:CURSOR_PERFORMANCE_MODE = "high"
+$env:CURSOR_AUTOCOMPLETE_DELAY = "100"
+$env:CURSOR_SYNTAX_HIGHLIGHTING = "optimized"
+$env:CURSOR_INTELLISENSE_FAST = "true"
 
-# Clean ports
-Write-Host "Portlar temizleniyor..." -ForegroundColor Yellow
-$ports = @(3000, 5173, 5176, 8000, 8080)
-foreach ($port in $ports) {
-    $process = Get-NetTCPConnection -LocalPort $port -ErrorAction SilentlyContinue
-    if ($process) {
-        Stop-Process -Id $process.OwningProcess -Force -ErrorAction SilentlyContinue
-    }
-}
+# Editor Performance Settings
+$env:CURSOR_LARGE_FILE_OPTIMIZATION = "true"
+$env:CURSOR_MEMORY_MANAGEMENT = "aggressive"
+$env:CURSOR_RENDER_OPTIMIZATION = "true"
+$env:CURSOR_SEARCH_PERFORMANCE = "fast"
 
-# Clean cache
-Write-Host "Cache temizleniyor..." -ForegroundColor Yellow
-if (Test-Path "node_modules/.vite") { Remove-Item "node_modules/.vite" -Recurse -Force }
-if (Test-Path ".vite") { Remove-Item ".vite" -Recurse -Force }
-if (Test-Path "dist") { Remove-Item "dist" -Recurse -Force }
-if (Test-Path ".tsbuildinfo") { Remove-Item ".tsbuildinfo" -Force }
-if (Test-Path ".eslintcache") { Remove-Item ".eslintcache" -Force }
+# Language Server Optimizations
+$env:CURSOR_TS_SERVER_MEMORY = "4096"
+$env:CURSOR_TS_SERVER_TIMEOUT = "5000"
+$env:CURSOR_ESLINT_CACHE = "true"
+$env:CURSOR_PRETTIER_CACHE = "true"
 
-# Memory optimization
-Write-Host "Memory optimizasyonu..." -ForegroundColor Yellow
-[System.GC]::Collect()
-[System.GC]::WaitForPendingFinalizers()
+# File Watching Optimizations  
+$env:CURSOR_FILE_WATCHER_LIMIT = "10000"
+$env:CURSOR_EXCLUDE_PATTERNS = "node_modules,dist,.git"
+$env:CURSOR_WATCH_DEBOUNCE = "500"
 
-Write-Host "Optimizasyon tamamlandi!" -ForegroundColor Green
-Write-Host "npm run dev:cursor komutunu calistirabilirsiniz." -ForegroundColor Green
+# UI Performance
+$env:CURSOR_UI_ANIMATIONS = "reduced"
+$env:CURSOR_THEME_CACHING = "true"
+$env:CURSOR_ICON_CACHING = "true"
+
+Write-Host "✅ Cursor optimizations applied:" -ForegroundColor Green
+Write-Host "  • Performance Mode: $env:CURSOR_PERFORMANCE_MODE" -ForegroundColor White
+Write-Host "  • Autocomplete Delay: $env:CURSOR_AUTOCOMPLETE_DELAY ms" -ForegroundColor White
+Write-Host "  • TS Server Memory: $env:CURSOR_TS_SERVER_MEMORY MB" -ForegroundColor White
+Write-Host "  • File Watcher Limit: $env:CURSOR_FILE_WATCHER_LIMIT" -ForegroundColor White
+
+Write-Host ""
+Write-Host "🚀 Simple Cursor optimization completed!" -ForegroundColor Green

@@ -1,0 +1,222 @@
+🎯 GÖREV: Kafkasder Yönetim Paneli – UI/UX makyajı ve tasarım sistemi güçlendirmesi (Slidebar yapısını bozmadan)
+ROLÜN
+
+Kıdemli Frontend Mimar + UI/UX Sistem Tasarımcısı olarak davran. Mevcut sidebar/slidebar yapısına dokunmadan, tüm uygulamaya modern, göz yormayan, tutarlı bir görünüm kazandır.
+
+BAĞLAM
+
+Teknoloji: React + TypeScript + Tailwind (veya CSS modülleri).
+
+Mevcut “slidebar/side bar” yapısı, modül adları ve navigasyon hiyerarşisi değişmeyecek.
+
+Ön sayfa modülleri ve alt sayfalar birbirine düzgün bağlanmalı (routing, breadcrumbs, alt/sekme navigasyon).
+
+Sayfalar çok uzun: 1080p üstü içeriklerde okunabilirliği düşüyor.
+
+Arayüz fazla beyaz: Kontrast yumuşak, göz yormayan bir açık tema ve düşük-ışık dostu seçenek gerek.
+
+İkonlar yüksek kalite ve tutarlı bir setten seçilmeli.
+
+Yazı tipi: Türkçe karakter desteği güçlü, modern, göz yormayan bir sans-serif (örn. Inter / Manrope / Plus Jakarta Sans).
+
+HEDEFLER (Öncelik sırası)
+
+Tasarım Token’ları: Renk, tipografi, gölge, radius, spacing gibi token’ları tanımla (Tailwind extend veya CSS vars).
+
+Tema: “Çok beyaz” hissini azaltan açık tema (ve mümkünse kolayca açılıp kapanan koyu tema alt yapısı).
+
+Tipografi: Başlık–gövde–ikincil metin için hiyerarşi, satır aralıkları, max text width.
+
+İkon Seti: Tek bir tutarlı ikon kütüphanesi (örn. Lucide, Phosphor veya Heroicons) ve boyut/kontrast standartları.
+
+Uzun Sayfalar: Sticky alt-sekme (subnav), bölüm başlıkları, içerik indeksleri; 1440px genişliğe optimize edilmiş container.
+
+İskelet: Modül → alt sayfa → detay yapısı; başlık, breadcrumbs, action bar şablonları; tutarlı sayfa başlatıcıları (PageHeader).
+
+Erişilebilirlik: WCAG AA kontrast, focus state’ler, klavye navigasyonu.
+
+KESİNLİKLE DOKUNMA
+
+Slidebar/Sidebar yapısı ve hiyerarşisi (sırası ve modül isimleri).
+
+Router path’leri (kırıcı değişiklik yapma).
+
+İş mantığı ve veri çağrıları.
+
+YAPILACAKLAR – ADIM ADIM
+
+Tasarım token katmanı oluştur:
+
+Renk paleti: --bg, --surface, --muted, --line, --ink-1/2/3, --brand-500/600/700, --ok, --warn, --danger.
+
+Border radius, spacing, gölge (--shadow-card), container genişlikleri (max-w-content, max-w-text).
+
+Tailwind kullanılıyorsa tailwind.config.(ts|js) altında extend ile tanımla.
+
+Tema (açık):
+
+Saf beyaz yerine çok açık nötr arka plan (#f6f8fb benzeri), kartlarda beyaz; katmanlı arka planlar (muted yüzeyler).
+
+Metin kontrastı: Başlıklar için ink-1, gövde ink-2, ikincil ink-3.
+
+Durum renkleri: ok/warn/danger’ı metin ve badge/label’larda kullan.
+
+Koyu temele hazırlık:
+
+Tüm renkleri CSS değişkenlerinden tüket; .theme-dark altında alternatif değerleri set edilebilir yap.
+
+Tipografi:
+
+Font: Inter (veya Manrope). Başlık 600/700; gövde 400/500.
+
+Başlık ölçekleri: H1 28–32px, H2 22–24px, H3 18–20px; body 14–16px.
+
+line-height: başlıklarda ~1.2–1.3, gövdede ~1.6–1.75.
+
+Okunabilirlik için metin bloklarında max-w-text: 72ch.
+
+İkon kütüphanesi:
+
+Tek set seç: Lucide veya Phosphor.
+
+Varsayılan boyut: 18–20px; stroke 1.5–2; butonlarda 16px padding.
+
+Renk: metin rengiyle uyumlu; disabled/ikincil için ink-3.
+
+Uzun sayfalar:
+
+Sticky PageHeader (başlık+breadcrumbs+actions) 64–72px yüksekliğinde.
+
+Sticky Subnav/Tabs bileşeni (üstte ya da içerik başında) – uzun modül sayfalarında bölümler arası hızlı geçiş.
+
+İçindekiler/Anchor listesi opsiyonu (sağ sütun veya yatay sekme).
+
+İçerik container: max-w-content: 1440px, responsive grid ve section spacing (48–64px).
+
+Sayfa iskeleti:
+
+AppShell (Sidebar sabit + Headbar)
+
+PageHeader (title, breadcrumbs, actions)
+
+Subnav (sekme/anchor)
+
+PageSection (başlık + açıklama + içerik)
+
+Card, DataList, FormRow, Modal, EmptyState, StatCard.
+
+Erişilebilirlik/Focus:
+
+Tüm interaktifler için net focus halkası (outline offset’i 2–3px).
+
+Kontrast min. 4.5:1; ikon-only butonlarda aria-label.
+
+Performans ve tutarlılık:
+
+Utility sınıflarıyla ortak desenleri soyutla; tekrar eden inline stilleri kaldır.
+
+İkonları tree-shake edebilir şekilde import et.
+
+ÜRÜNLEŞTİRME / DOSYA DÜZENİ (Örnek)
+src/
+  layouts/
+    AppShell.tsx           // Sidebar+Headbar sabit
+  components/ui/
+    PageHeader.tsx
+    Subnav.tsx
+    PageSection.tsx
+    Card.tsx
+    EmptyState.tsx
+    StatCard.tsx
+    FormRow.tsx
+  styles/
+    tokens.css             // CSS vars + tema
+  routes/
+    dashboard/
+      index.tsx
+    needy/
+      index.tsx            // liste
+      detail.tsx           // detay
+      edit.tsx             // düzenleme
+    finance/
+      ...
+
+KABUL KRİTERLERİ (Doğrulanabilir)
+
+ Sidebar/slidebar yapısı, modül sıraları ve path’ler değişmedi.
+
+ Uygulama genelinde tek ikon seti aktif ve tüm ikonlar aynı grid/boyut standardına uyuyor.
+
+ Yazı tipi Inter/Manrope; başlık/gövde ölçekleri ve satır aralıkları rehbere uygun.
+
+ Arkaplan artık saf beyaz değil; --bg açık nötr ve kartlar --surface.
+
+ Sticky PageHeader ve (gereken sayfalarda) Sticky Subnav çalışıyor.
+
+ 1920×1080 ve üstü çözünürlüklerde okuma genişliği kontrol altında (max-w-content: 1440px).
+
+ Tüm buton, link, input’larda focus ring var ve WCAG AA kontrastı sağlıyor.
+
+ En az 3 modül sayfası (örn. Dashboard, Needy List, Needy Detail) yeni iskeleti kullanıyor.
+
+ Lighthouse/axe ile erişilebilirlik puanı 80+ (yerel ölçüm).
+
+UI YÖNERGELERİ (Kısa)
+
+Kartlar: radius 10–12px, shadow-card hafif.
+
+Section başlıkları: H2; altında kısa açıklama (ikincil metin).
+
+Formlar: 12–16px; 8px iç boşluk; hata/metin yardımcı açıklaması ikincil renkte.
+
+Tablo/satır yüksekliği: 40–48px; zebra yok, satır hover hafif muted.
+
+Badge/Label: küçük radius, net renk kontrastı; durum renkleri token’dan.
+
+Boş durumlar: EmptyState bileşeni (ikon + mesaj + CTA).
+
+TEST PLANI / QA CHECKLIST
+
+ Ana başlıklar ve breadcrumbs tüm modüllerde doğru.
+
+ 1366×768, 1440×900, 1920×1080, 2560×1440’da satır kırılması ve spacing’ler düzgün.
+
+ Klavye ile tüm kritik akışlar (liste → detay → düzenle) gezilebilir.
+
+ Ikon-only butonların aria-label’ı var.
+
+ Kontrast kontrolleri (metin/ikon/ayırıcı).
+
+ÇIKTILAR / TESLİMAT
+
+styles/tokens.css (veya tailwind.config.ts extend)
+
+components/ui/ altında çekirdek UI kit bileşenleri
+
+3 demo sayfa yeni iskeletten geçirilmiş
+
+Kısa “Uygulama Stili Rehberi” (README: tipografi, renk, ikon, bileşen örnekleri)
+
+Commit mesajları:
+
+feat(ui): add design tokens and base theme
+
+feat(ui): add PageHeader/Subnav components + sticky behavior
+
+refactor(pages): apply new layout to dashboard/needy pages
+
+chore(a11y): add focus rings and aria labels
+
+İSTEK: UYGULAMA
+
+Gerekli dosyaları oluştur, var olan sayfaları bozmadan kademeli dönüştür.
+
+Kodun içine NET yorumlar ekle (// WHY & // HOW).
+
+En sonda, değişen dosyaların listesi + kısa değişim özeti ver.
+
+Not
+
+Gerekirse örnek font: Inter, alternatif: Manrope.
+İkon seti önerim: Lucide (tutarlı stroke ve isimlendirme).
+Renkler “çok beyaz” etkisini kıracak şekilde nötr açık + yumuşak kontrast katmanlarıyla veril

@@ -8,6 +8,8 @@ import { DonorCRMService } from '@services/donorCRMService'
 import type { Donor, DonorDashboardData, DonorSearchFilters, DonorTaskList } from '@/types/donors'
 import { toast } from 'sonner'
 import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
+import { DashboardLayout, DashboardSection, createAddButton } from '@/components/common/DashboardLayout'
+import { StatsGrid, StatsCardProps } from '@/components/common/StatsCard'
 import { 
   Users, 
   UserPlus, 
@@ -93,58 +95,43 @@ export default function DonorCRM() {
     }).format(amount)
   }
 
+  const getDashboardStats = (): StatsCardProps[] => [
+    {
+      title: 'Toplam Bağışçı',
+      value: dashboardData?.totalDonors || 0,
+      description: `+${dashboardData?.newDonorsThisMonth || 0} bu ay`,
+      icon: Users,
+      iconColor: 'text-blue-600',
+      valueColor: 'text-blue-600'
+    },
+    {
+      title: 'Aktif Bağışçı',
+      value: dashboardData?.activeDonors || 0,
+      description: `%${dashboardData ? Math.round((dashboardData.activeDonors / dashboardData.totalDonors) * 100) : 0} oran`,
+      icon: Heart,
+      iconColor: 'text-green-600',
+      valueColor: 'text-green-600'
+    },
+    {
+      title: 'Ortalama Bağış',
+      value: formatCurrency(dashboardData?.averageDonationAmount || 0),
+      icon: DollarSign,
+      iconColor: 'text-purple-600',
+      valueColor: 'text-purple-600'
+    },
+    {
+      title: 'Tutma Oranı',
+      value: `%${Math.round(dashboardData?.donorRetentionRate || 0)}`,
+      icon: Target,
+      iconColor: 'text-orange-600',
+      valueColor: 'text-orange-600'
+    }
+  ]
+
   const DashboardTab = () => (
     <div className="space-y-6">
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <CorporateCard className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Toplam Bağışçı</p>
-              <p className="text-2xl font-bold text-blue-600">{dashboardData?.totalDonors || 0}</p>
-              <p className="text-xs text-green-600">+{dashboardData?.newDonorsThisMonth || 0} bu ay</p>
-            </div>
-            <Users className="h-8 w-8 text-blue-600" />
-          </div>
-        </CorporateCard>
-
-        <CorporateCard className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Aktif Bağışçı</p>
-              <p className="text-2xl font-bold text-green-600">{dashboardData?.activeDonors || 0}</p>
-              <p className="text-xs text-gray-600">
-                %{dashboardData ? Math.round((dashboardData.activeDonors / dashboardData.totalDonors) * 100) : 0} oran
-              </p>
-            </div>
-            <Heart className="h-8 w-8 text-green-600" />
-          </div>
-        </CorporateCard>
-
-        <CorporateCard className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Ortalama Bağış</p>
-              <p className="text-2xl font-bold text-purple-600">
-                {formatCurrency(dashboardData?.averageDonationAmount || 0)}
-              </p>
-            </div>
-            <DollarSign className="h-8 w-8 text-purple-600" />
-          </div>
-        </CorporateCard>
-
-        <CorporateCard className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Tutma Oranı</p>
-              <p className="text-2xl font-bold text-orange-600">
-                %{Math.round(dashboardData?.donorRetentionRate || 0)}
-              </p>
-            </div>
-            <Target className="h-8 w-8 text-orange-600" />
-          </div>
-        </CorporateCard>
-      </div>
+      <StatsGrid stats={getDashboardStats()} columns={4} />
 
       {/* Donor Segmentation */}
       <div className="grid grid-cols-2">

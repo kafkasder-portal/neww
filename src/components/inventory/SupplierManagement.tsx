@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable } from '@/components/ui/corporate/CorporateComponents'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable, CorporateTableHeader, CorporateTableHeaderCell } from '@/components/ui/corporate/CorporateComponents'
 
 import { Input } from '@/components/ui/input'
 

@@ -373,6 +373,7 @@ export interface StockAlertFilters {
   type?: string
   severity?: string
   isResolved?: boolean
+  isActive?: boolean
   locationId?: string
   categoryId?: string
 }

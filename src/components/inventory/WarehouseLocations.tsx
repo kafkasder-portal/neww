@@ -45,7 +45,7 @@ import {
   XCircle
 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { CorporateBadge, CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable } from '@/components/ui/corporate/CorporateComponents'
+import { CorporateBadge, CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable, CorporateTableHeader, CorporateTableHeaderCell } from '@/components/ui/corporate/CorporateComponents'
 
 interface WarehouseLocationsProps {
   onLocationCreate?: (location: WarehouseLocationForm) => void

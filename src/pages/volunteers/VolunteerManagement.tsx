@@ -10,9 +10,11 @@ import type {
   VolunteerApplication, 
   VolunteerDashboard,
   VolunteerSearchFilters 
-} from '@types/volunteers'
+} from '../../types/volunteers'
 import { toast } from 'sonner'
 import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
+import { DashboardLayout, DashboardSection, createAddButton } from '@/components/common/DashboardLayout'
+import { StatsGrid, StatsCardProps } from '@/components/common/StatsCard'
 import { 
   Users, 
   UserPlus, 
@@ -105,52 +107,47 @@ export default function VolunteerManagement() {
     }
   }
 
+  const getDashboardStats = (): StatsCardProps[] => [
+    {
+      title: 'Aktif Gönüllü',
+      value: (dashboardData?.totalActiveVolunteers || 0).toString(),
+      icon: Users,
+      trend: { value: dashboardData?.newApplicationsThisWeek || 0, isPositive: true },
+      description: `+${dashboardData?.newApplicationsThisWeek || 0} yeni başvuru`
+    },
+    {
+      title: 'Bu Ay Saat',
+      value: (dashboardData?.hoursWorkedThisMonth || 0).toString(),
+      icon: Clock,
+      trend: { value: 8, isPositive: true },
+      description: 'gönüllü saati'
+    },
+    {
+      title: 'Yaklaşan Vardiya',
+      value: (dashboardData?.upcomingShifts || 0).toString(),
+      icon: Calendar,
+      trend: { value: 5, isPositive: false },
+      description: 'Bu hafta'
+    },
+    {
+      title: 'Tutma Oranı',
+      value: `%${dashboardData?.retentionRate || 0}`,
+      icon: TrendingUp,
+      trend: { value: 3, isPositive: true },
+      description: 'Geçen aya göre'
+    }
+  ];
+
   const DashboardTab = () => (
-    <div className="space-y-6">
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <CorporateCard className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Aktif Gönüllü</p>
-        <p className="text-2xl font-bold text-semantic-info">{dashboardData?.totalActiveVolunteers || 0}</p>
-        <p className="text-xs text-semantic-success">+{dashboardData?.newApplicationsThisWeek || 0} yeni başvuru</p>
-            </div>
-            <Users className="h-8 w-8 text-semantic-info" />
-          </div>
-        </CorporateCard>
-
-        <CorporateCard className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Bu Ay Saat</p>
-        <p className="text-2xl font-bold text-semantic-success">{dashboardData?.hoursWorkedThisMonth || 0}</p>
-        <p className="text-xs text-muted-foreground">gönüllü saati</p>
-            </div>
-            <Clock className="h-8 w-8 text-semantic-success" />
-          </div>
-        </CorporateCard>
-
-        <CorporateCard className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Yaklaşan Vardiya</p>
-              <p className="text-2xl font-bold text-purple-600">{dashboardData?.upcomingShifts || 0}</p>
-            </div>
-            <Calendar className="h-8 w-8 text-purple-600" />
-          </div>
-        </CorporateCard>
-
-        <CorporateCard className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Tutma Oranı</p>
-        <p className="text-2xl font-bold text-semantic-warning">%{dashboardData?.retentionRate || 0}</p>
-            </div>
-            <TrendingUp className="h-8 w-8 text-semantic-warning" />
-          </div>
-        </CorporateCard>
-      </div>
+    <DashboardLayout
+      title="Gönüllü Yönetimi"
+      subtitle="Gönüllü koordinasyonu ve program yönetimi"
+      actions={[createAddButton('Yeni Gönüllü', () => setShowVolunteerModal(true))]}
+      stats={getDashboardStats()}
+    >
+      <div className="space-y-6">
+        {/* Key Metrics */}
+        <StatsGrid stats={getDashboardStats()} />
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 space-y-4">
@@ -267,6 +264,7 @@ export default function VolunteerManagement() {
         </div>
       </CorporateCard>
     </div>
+    </DashboardLayout>
   )
 
   const VolunteersTab = () => {

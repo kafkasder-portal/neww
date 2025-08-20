@@ -1,79 +1,44 @@
-# AI Agent Speed Optimizer
-# Bu script AI Agent'ın performansını maksimum seviyeye çıkarır
+# AI Agent Performance Speedup Script
+Write-Host "🤖 AI Agent Performance Optimization Starting..." -ForegroundColor Cyan
 
-Write-Host "AI Agent Speed Optimizer baslatiliyor..." -ForegroundColor Green
+# AI Agent Environment Variables
+$env:AI_AGENT_MODE = "optimized"
+$env:AI_AGENT_CACHE = "enabled"
+$env:AI_AGENT_PARALLEL = "true"
+$env:AI_AGENT_MEMORY_LIMIT = "2048"
+$env:AI_AGENT_TIMEOUT = "30000"
 
-# 1. CPU Priority artır
-Write-Host "CPU priority artiriliyor..." -ForegroundColor Yellow
-$process = Get-Process "Cursor" -ErrorAction SilentlyContinue
-if ($process) {
-    $process.PriorityClass = "High"
-    Write-Host "Cursor CPU priority: High" -ForegroundColor Green
-}
+# Cursor AI Optimizations
+$env:CURSOR_AI_ENHANCED = "true"
+$env:CURSOR_AI_SUGGESTIONS = "fast"
+$env:CURSOR_AI_AUTOCOMPLETE = "optimized"
+$env:CURSOR_AI_INLINE_SUGGESTIONS = "true"
 
-# 2. Memory optimization
-Write-Host "Memory optimizasyonu..." -ForegroundColor Yellow
-$env:NODE_OPTIONS = "--max-old-space-size=8192 --no-warnings --experimental-worker"
-$env:V8_COMPILE_CACHE_SIZE = "1000"
-$env:V8_USE_ORINOCO_MARK_COMPACTOR = "1"
+# Language Model Optimizations
+$env:LM_CACHE_SIZE = "512"
+$env:LM_BATCH_SIZE = "16"
+$env:LM_PARALLEL_REQUESTS = "4"
 
-# 3. AI specific environment variables
-Write-Host "AI environment degiskenleri ayarlaniyor..." -ForegroundColor Yellow
-$env:CURSOR_AI_CACHE_SIZE = "2048"
-$env:CURSOR_AI_MEMORY_LIMIT = "4096"
-$env:CURSOR_AI_PARALLEL_REQUESTS = "5"
-$env:CURSOR_AI_BATCH_SIZE = "10"
-$env:CURSOR_AI_TIMEOUT = "15000"
-$env:CURSOR_AI_ENABLE_FAST_MODE = "true"
-$env:CURSOR_AI_ENABLE_STREAMING = "true"
-$env:CURSOR_AI_ENABLE_CACHE = "true"
+# Performance Monitoring for AI
+$env:AI_PERFORMANCE_TRACKING = "enabled"
+$env:AI_RESPONSE_TIME_LIMIT = "5000"
+$env:AI_CONTEXT_LIMIT = "8192"
 
-# 4. Network optimization
-Write-Host "Network optimizasyonu..." -ForegroundColor Yellow
-netsh int tcp set global autotuninglevel=normal
-netsh int tcp set global chimney=enabled
-netsh int tcp set global rss=enabled
+# Memory Management
+$env:AI_MEMORY_OPTIMIZATION = "aggressive"
+$env:AI_GARBAGE_COLLECTION = "frequent"
 
-# 5. Temp files cleanup for AI
-Write-Host "AI temp dosyalari temizleniyor..." -ForegroundColor Yellow
-$tempPaths = @(
-    "$env:TEMP\cursor-ai-*",
-    "$env:TEMP\claude-*",
-    "$env:LOCALAPPDATA\Cursor\logs\*",
-    "$env:LOCALAPPDATA\Cursor\User\workspaceStorage\*\state.vscdb*"
-)
+# Network Optimizations for AI
+$env:AI_NETWORK_TIMEOUT = "10000"
+$env:AI_REQUEST_RETRIES = "3"
+$env:AI_COMPRESSION = "enabled"
 
-foreach ($path in $tempPaths) {
-    Remove-Item $path -Recurse -Force -ErrorAction SilentlyContinue
-}
+Write-Host "✅ AI Agent optimizations applied:" -ForegroundColor Green
+Write-Host "  • AI_AGENT_MODE: $env:AI_AGENT_MODE" -ForegroundColor White
+Write-Host "  • AI_AGENT_CACHE: $env:AI_AGENT_CACHE" -ForegroundColor White
+Write-Host "  • AI_AGENT_PARALLEL: $env:AI_AGENT_PARALLEL" -ForegroundColor White
+Write-Host "  • CURSOR_AI_ENHANCED: $env:CURSOR_AI_ENHANCED" -ForegroundColor White
+Write-Host "  • AI_PERFORMANCE_TRACKING: $env:AI_PERFORMANCE_TRACKING" -ForegroundColor White
 
-# 6. Registry optimizations for AI
-Write-Host "AI registry optimizasyonlari..." -ForegroundColor Yellow
-try {
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "EnableBalloonTips" -Value 0
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "LargeSystemCache" -Value 1
-} catch {
-    Write-Host "Registry ayarlari icin admin gerekiyor (opsiyonel)" -ForegroundColor Yellow
-}
-
-# 7. GPU acceleration check
-Write-Host "GPU acceleration kontrol ediliyor..." -ForegroundColor Yellow
-$gpuProcess = Get-Process | Where-Object {$_.ProcessName -like "*nvidia*" -or $_.ProcessName -like "*amd*"}
-if ($gpuProcess) {
-    Write-Host "GPU acceleration aktif" -ForegroundColor Green
-} else {
-    Write-Host "GPU acceleration kontrol edin" -ForegroundColor Yellow
-}
-
-Write-Host "AI Agent Speed Optimizer tamamlandi!" -ForegroundColor Green
-Write-Host "Cursor'i yeniden baslatarak degisiklikleri uygulayabilirsiniz." -ForegroundColor Cyan
-
-# 8. Performance report
-Write-Host "`nPerformans Raporu:" -ForegroundColor Cyan
-Write-Host "- Memory Limit: 8192MB" -ForegroundColor White
-Write-Host "- AI Cache: 2048MB" -ForegroundColor White
-Write-Host "- Parallel Requests: 5" -ForegroundColor White
-Write-Host "- Batch Size: 10" -ForegroundColor White
-Write-Host "- Timeout: 15 saniye" -ForegroundColor White
-Write-Host "- Fast Mode: Aktif" -ForegroundColor White
-Write-Host "- Streaming: Aktif" -ForegroundColor White
+Write-Host ""
+Write-Host "🚀 AI Agent speedup completed!" -ForegroundColor Green

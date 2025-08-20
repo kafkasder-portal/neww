@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable } from '@/components/ui/corporate/CorporateComponents'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable, CorporateTableHeader, CorporateTableHeaderCell, CorporateTableRow } from '@/components/ui/corporate/CorporateComponents'
 
 import { Input } from '@/components/ui/input'
 
@@ -70,16 +70,18 @@ const mockAlerts: StockAlert[] = [
   {
     id: '1',
     type: 'low_stock',
+    alertType: 'low_stock',
     severity: 'high',
     itemId: 'item-1',
     itemName: 'Pirinç (1kg)',
     itemCode: 'FOOD-001',
     currentStock: 5,
     threshold: 20,
-    locationId: 'loc-1',
+    location: 'loc-1',
     locationName: 'Ana Depo',
     message: 'Pirinç stoku kritik seviyede (5 adet kaldı)',
     isResolved: false,
+    isRead: false,
     isActive: true,
     createdAt: '2024-01-22T10:30:00Z',
     updatedAt: '2024-01-22T10:30:00Z'
@@ -87,16 +89,18 @@ const mockAlerts: StockAlert[] = [
   {
     id: '2',
     type: 'out_of_stock',
+    alertType: 'out_of_stock',
     severity: 'critical',
     itemId: 'item-2',
     itemName: 'Deterjan (5L)',
     itemCode: 'CLEAN-002',
     currentStock: 0,
     threshold: 10,
-    locationId: 'loc-2',
+    location: 'loc-2',
     locationName: 'Temizlik Deposu',
     message: 'Deterjan stoku tükendi',
     isResolved: false,
+    isRead: false,
     isActive: true,
     createdAt: '2024-01-21T15:45:00Z',
     updatedAt: '2024-01-21T15:45:00Z'
@@ -104,17 +108,19 @@ const mockAlerts: StockAlert[] = [
   {
     id: '3',
     type: 'expiry_warning',
+    alertType: 'expiry_warning',
     severity: 'medium',
     itemId: 'item-3',
     itemName: 'Süt (1L)',
     itemCode: 'FOOD-003',
     currentStock: 25,
     threshold: 7,
-    locationId: 'loc-3',
+    location: 'loc-3',
     locationName: 'Soğuk Depo',
     message: '25 adet süt 7 gün içinde son kullanma tarihini geçecek',
     expiryDate: '2024-01-29T00:00:00Z',
     isResolved: false,
+    isRead: false,
     isActive: true,
     createdAt: '2024-01-22T08:15:00Z',
     updatedAt: '2024-01-22T08:15:00Z'
@@ -122,16 +128,18 @@ const mockAlerts: StockAlert[] = [
   {
     id: '4',
     type: 'overstock',
+    alertType: 'overstock',
     severity: 'low',
     itemId: 'item-4',
     itemName: 'Kağıt Havlu',
     itemCode: 'OFFICE-001',
     currentStock: 500,
     threshold: 100,
-    locationId: 'loc-1',
+    location: 'loc-1',
     locationName: 'Ana Depo',
     message: 'Kağıt havlu stoku normalin 5 katı (500 adet)',
     isResolved: false,
+    isRead: false,
     isActive: true,
     createdAt: '2024-01-20T12:00:00Z',
     updatedAt: '2024-01-20T12:00:00Z'
@@ -139,18 +147,20 @@ const mockAlerts: StockAlert[] = [
   {
     id: '5',
     type: 'low_stock',
+    alertType: 'low_stock',
     severity: 'medium',
     itemId: 'item-5',
     itemName: 'Eldiven (Kutu)',
     itemCode: 'MED-001',
     currentStock: 8,
     threshold: 15,
-    locationId: 'loc-4',
+    location: 'loc-4',
     locationName: 'Tıbbi Malzeme',
     message: 'Eldiven stoku azalıyor (8 kutu kaldı)',
     isResolved: true,
     resolvedAt: '2024-01-22T14:20:00Z',
     resolvedBy: 'admin',
+    isRead: true,
     isActive: false,
     createdAt: '2024-01-19T09:30:00Z',
     updatedAt: '2024-01-22T14:20:00Z'
@@ -478,17 +488,17 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
                 <div key={method} className="flex items-center space-x-2">
                   <Switch
                     id={method}
-                    checked={newRule.notificationMethods.includes(method as any)}
+                    checked={newRule.notificationMethods?.includes(method as any) || false}
                     onCheckedChange={(checked) => {
                       if (checked) {
                         setNewRule(prev => ({
                           ...prev,
-                          notificationMethods: [...prev.notificationMethods, method as any]
+                          notificationMethods: [...(prev.notificationMethods || []), method as any]
                         }))
                       } else {
                         setNewRule(prev => ({
                           ...prev,
-                          notificationMethods: prev.notificationMethods.filter(m => m !== method)
+                          notificationMethods: (prev.notificationMethods || []).filter(m => m !== method)
                         }))
                       }
                     }}
@@ -505,7 +515,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
             <Label htmlFor="recipients">Alıcılar (E-posta)</Label>
             <Input
               id="recipients"
-              value={newRule.recipients.join(', ')}
+              value={(newRule.recipients || []).join(', ')}
               onChange={(e) => setNewRule(prev => ({ 
                 ...prev, 
                 recipients: e.target.value.split(',').map(email => email.trim()).filter(Boolean)

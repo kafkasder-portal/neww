@@ -1,9 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable } from '@/components/ui/corporate/CorporateComponents'
+import { CorporateBadge, CorporateButton, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable, CorporateTableCell, CorporateTableHeader, CorporateTableHeaderCell, CorporateTableRow } from '@/components/ui/corporate/CorporateComponents'
+import React, { useEffect, useState } from 'react'
 
 import { Input } from '@/components/ui/input'
 
-import { 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -16,32 +24,24 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from '@/components/ui/table'
+import { InventoryFilters, InventoryItem } from '@/types/inventory'
+import { formatCurrency, formatNumber } from '@/utils/formatters'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { 
-  Search, 
-  Filter, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  MoreHorizontal,
-  Package,
   AlertTriangle,
   CheckCircle,
-  XCircle,
+  Edit,
+  Eye,
+  Filter,
+  MoreHorizontal,
+  Package,
+  Plus,
   QrCode,
-  Eye
+  Search,
+  Trash2,
+  XCircle
 } from 'lucide-react'
-import { InventoryItem, InventoryFilters } from '@/types/inventory'
-import { formatCurrency, formatNumber } from '@/utils/formatters'
 
 interface InventoryItemListProps {
   onItemSelect?: (item: InventoryItem) => void
@@ -144,7 +144,7 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
     // Arama filtresi
     if (filters.search) {
       const searchTerm = filters.search.toLowerCase()
-      filtered = filtered.filter(item => 
+      filtered = filtered.filter(item =>
         item.name.toLowerCase().includes(searchTerm) ||
         item.sku.toLowerCase().includes(searchTerm) ||
         item.description?.toLowerCase().includes(searchTerm) ||
@@ -210,15 +210,15 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
   }
 
   const handleCategoryFilter = (categoryId: string) => {
-    setFilters(prev => ({ 
-      ...prev, 
-      categoryId: categoryId === 'all' ? undefined : categoryId 
+    setFilters(prev => ({
+      ...prev,
+      categoryId: categoryId === 'all' ? undefined : categoryId
     }))
   }
 
   const handleStatusFilter = (status: string) => {
-    setFilters(prev => ({ 
-      ...prev, 
+    setFilters(prev => ({
+      ...prev,
       status: status === 'all' ? undefined : status as any
     }))
   }
@@ -318,30 +318,30 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
       {/* Items Table */}
       <CorporateCard>
         <CorporateCardContent className="p-0">
-          <CorporateTable>
-            <CorporateTableHeader>
-              <CorporateTableRow>
-                <CorporateTableHeaderCell>Ürün</CorporateTableHeaderCell>
-                <CorporateTableHeaderCell>SKU</CorporateTableHeaderCell>
-                <CorporateTableHeaderCell>Kategori</CorporateTableHeaderCell>
-                <CorporateTableHeaderCell>Lokasyon</CorporateTableHeaderCell>
-                <CorporateTableHeaderCell>Mevcut Stok</CorporateTableHeaderCell>
-                <CorporateTableHeaderCell>Birim Fiyat</CorporateTableHeaderCell>
-                <CorporateTableHeaderCell>Durum</CorporateTableHeaderCell>
-                <CorporateTableHeaderCell>Stok Durumu</CorporateTableHeaderCell>
-                <CorporateTableHeaderCell className="w-[50px]"></CorporateTableHeaderCell>
-              </CorporateTableRow>
-            </CorporateTableHeader>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Ürün</TableHead>
+                <TableHead>SKU</TableHead>
+                <TableHead>Kategori</TableHead>
+                <TableHead>Lokasyon</TableHead>
+                <TableHead>Mevcut Stok</TableHead>
+                <TableHead>Birim Fiyat</TableHead>
+                <TableHead>Durum</TableHead>
+                <TableHead>Stok Durumu</TableHead>
+                <TableHead className="w-[50px]"></TableHead>
+              </TableRow>
+            </TableHeader>
             <TableBody>
               {filteredItems.map((item) => {
                 const stockStatus = getStockStatus(item)
                 return (
-                  <CorporateTableRow 
+                  <TableRow 
                     key={item.id} 
                     className="cursor-pointer hover:bg-muted/50"
                     onClick={() => onItemSelect?.(item)}
                   >
-                    <CorporateTableCell>
+                    <TableCell>
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
                           <Package className="h-5 w-5 text-muted-foreground" />
@@ -353,8 +353,8 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                           </p>
                         </div>
                       </div>
-                    </CorporateTableCell>
-                    <CorporateTableCell>
+                    </TableCell>
+                    <TableCell>
                       <div className="font-mono text-sm">{item.sku}</div>
                       {item.barcode && (
                         <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -362,19 +362,19 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                           {item.barcode}
                         </div>
                       )}
-                    </CorporateTableCell>
-                    <CorporateTableCell>
+                    </TableCell>
+                    <TableCell>
                       <CorporateBadge variant="outline">
                         {item.category?.name}
                       </CorporateBadge>
-                    </CorporateTableCell>
-                    <CorporateTableCell>
+                    </TableCell>
+                    <TableCell>
                       <div className="text-sm">{item.location?.name}</div>
                       <div className="text-xs text-muted-foreground">
                         {item.location?.code}
                       </div>
-                    </CorporateTableCell>
-                    <CorporateTableCell>
+                    </TableCell>
+                    <TableCell>
                       <div className="text-right">
                         <div className="font-medium">
                           {formatNumber(item.currentStock)} {item.unitOfMeasure}
@@ -383,13 +383,13 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                           Min: {formatNumber(item.minimumStock)}
                         </div>
                       </div>
-                    </CorporateTableCell>
-                    <CorporateTableCell>
+                    </TableCell>
+                    <TableCell>
                       <div className="text-right font-medium">
                         {formatCurrency(item.unitPrice, 'TRY', 'tr-TR')}
                       </div>
-                    </CorporateTableCell>
-                    <CorporateTableCell>
+                    </TableCell>
+                    <TableCell>
                       <div className="flex items-center gap-2">
                         {getStatusIcon(item.status)}
                         <span className="text-sm capitalize">
@@ -397,13 +397,13 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                            item.status === 'inactive' ? 'Pasif' : 'Durdurulmuş'}
                         </span>
                       </div>
-                    </CorporateTableCell>
-                    <CorporateTableCell>
+                    </TableCell>
+                    <TableCell>
                       <CorporateBadge variant={stockStatus.color as any}>
                         {stockStatus.label}
                       </CorporateBadge>
-                    </CorporateTableCell>
-                    <CorporateTableCell>
+                    </TableCell>
+                    <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <CorporateButton variant="ghost" size="sm">
@@ -427,13 +427,13 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
-                    </CorporateTableCell>
+                    </TableCell>
                   </CorporateTableRow>
                 )
               })}
             </TableBody>
           </CorporateTable>
-          
+
           {filteredItems.length === 0 && (
             <div className="text-center py-8 text-muted-foreground">
               <Package className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
