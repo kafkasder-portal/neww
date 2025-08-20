@@ -19,15 +19,12 @@ const MainContent = memo(function MainContent({
 
       {/* Main Content */}
       <main className={cn(
-        "flex-1 overflow-auto relative min-h-screen",
-        "bg-background",
+        "flex-1 overflow-auto min-h-screen bg-background",
         className
       )}>
-        <div className="relative">
-          {/* Content Area */}
-          <div className="max-w-7xl mx-auto p-6">
-            {children}
-          </div>
+        {/* Content Area */}
+        <div className="max-w-7xl mx-auto p-6">
+          {children}
         </div>
       </main>
     </SidebarInset>
