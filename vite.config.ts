@@ -43,19 +43,8 @@ export default defineConfig({
     })
   ],
   esbuild: {
-    logOverride: { 'this-is-undefined-in-esm': 'silent' },
-    // Faster builds
-    target: 'esnext',
-    // Keep names for better debugging in development
-    keepNames: process.env.NODE_ENV === 'development',
-    // Completely disable source maps to prevent all JSON parse errors
-    sourcemap: false,
-    // Drop console in production
-    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
-    // Faster minification
-    minifyIdentifiers: process.env.NODE_ENV === 'production',
-    minifySyntax: process.env.NODE_ENV === 'production',
-    minifyWhitespace: process.env.NODE_ENV === 'production'
+    target: 'es2015',
+    sourcemap: false
   },
   build: {
     // Target modern browsers for better optimization
@@ -185,16 +174,8 @@ export default defineConfig({
     //     proxyTimeout: 30000,
     //   },
     // },
-    // Hot Module Replacement optimizations for cloud environment
-    hmr: {
-      port: 5173,
-      timeout: 30000,
-      overlay: false,
-      // Use same port as dev server for cloud compatibility
-      clientPort: 5173,
-      // Allow all hosts for cloud environment
-      host: true
-    },
+    // Hot Module Replacement - simplified for stability
+    hmr: true,
     // File watching optimizations for Cursor
     watch: {
       usePolling: false,
@@ -241,30 +222,12 @@ export default defineConfig({
     // Custom middleware for CSS MIME type fixes
     middlewareMode: false
   },
-  // Optimize dependencies for better performance
+  // Optimize dependencies for stability
   optimizeDeps: {
     include: [
       'react',
-      'react-dom',
-      'react/jsx-runtime',
-      '@supabase/supabase-js',
-      '@tanstack/react-query',
-      'react-hook-form',
-      'zod',
-      'date-fns',
-      'clsx',
-      'tailwind-merge',
-      'lucide-react',
-      'framer-motion',
-      'sonner',
-      'react-error-boundary'
-    ],
-    exclude: [],
-    force: true,
-    esbuildOptions: {
-      target: 'esnext',
-      sourcemap: false
-    }
+      'react-dom'
+    ]
   },
   // CSS optimization - completely disable source maps and fix MIME issues
   css: {
