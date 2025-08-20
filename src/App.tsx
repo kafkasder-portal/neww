@@ -11,7 +11,6 @@ import { onboardingSteps } from './constants/onboardingSteps.tsx'
 import { LanguageProvider } from './contexts/LanguageContext'
 import { SocketProvider } from './contexts/SocketContext'
 import { ThemeProvider } from './contexts/ThemeContext'
-import { useAuthStore } from './store/auth'
 import { PerformanceService } from './services/performanceService'
 
 import AppRoutes from './routes'
@@ -54,7 +53,7 @@ function AppContent({
   setShowOnboarding: (show: boolean) => void
 }) {
   return (
-    <PremiumLayout>
+    <SimpleLayout>
       <ErrorBoundary level="page">
         <Suspense fallback={
           <div className="flex items-center justify-center min-h-screen">
@@ -69,7 +68,7 @@ function AppContent({
         </Suspense>
       </ErrorBoundary>
 
-      {/* Global UI Components - sadece authenticated kullanıcılar için */}
+      {/* Global UI Components */}
       <Toaster 
         position="top-right"
         toastOptions={{
@@ -104,7 +103,7 @@ function AppContent({
           />
         </>
       )}
-    </PremiumLayout>
+    </SimpleLayout>
   )
 }
 
