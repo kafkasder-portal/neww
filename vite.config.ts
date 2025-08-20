@@ -175,15 +175,16 @@ export default defineConfig({
     port: 5173,
     host: true,
     strictPort: true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001',
-        changeOrigin: true,
-        secure: false,
-        timeout: 30000,
-        proxyTimeout: 30000,
-      },
-    },
+    // API proxy disabled - backend not running
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3001',
+    //     changeOrigin: true,
+    //     secure: false,
+    //     timeout: 30000,
+    //     proxyTimeout: 30000,
+    //   },
+    // },
     // Hot Module Replacement optimizations for Cursor
     hmr: {
       port: 5174,
