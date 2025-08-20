@@ -74,7 +74,7 @@ export const createRateLimit = (windowMs: number = 15 * 60 * 1000, max: number =
       console.warn(`Rate limit exceeded for IP: ${req.ip}, User: ${req.headers['x-user-id']}, Path: ${req.path}`);
       res.status(429).json({
         success: false,
-        error: message,
+        error: 'Too many requests from this IP, please try again later.',
         code: 'RATE_LIMIT_EXCEEDED',
         retryAfter: Math.ceil(windowMs / 1000)
       });
