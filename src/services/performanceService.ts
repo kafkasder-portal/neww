@@ -366,11 +366,19 @@ class PerformanceMonitoringService {
     this.metrics = []
 
     try {
+      // Get auth token
+      const token = localStorage.getItem('accessToken')
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
+
       const response = await fetch('/api/analytics/performance', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({
           type: 'performance',
           metrics: metricsToSend,
@@ -409,11 +417,19 @@ class PerformanceMonitoringService {
     this.apiMetrics = []
 
     try {
+      // Get auth token
+      const token = localStorage.getItem('accessToken')
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
+
       await fetch('/api/analytics/api-performance', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({
           type: 'api-performance',
           metrics: metricsToSend,
@@ -435,11 +451,19 @@ class PerformanceMonitoringService {
     this.renderMetrics = []
 
     try {
+      // Get auth token
+      const token = localStorage.getItem('accessToken')
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
+
       await fetch('/api/analytics/render-performance', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({
           type: 'render-performance',
           metrics: metricsToSend,

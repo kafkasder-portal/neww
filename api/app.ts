@@ -19,6 +19,7 @@ import errorsRoutes from './routes/errors';
 import smsRoutes from './routes/sms';
 import emailRoutes from './routes/email';
 import whatsappRoutes from './routes/whatsapp';
+import analyticsRoutes from './routes/analytics';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler';
@@ -106,6 +107,7 @@ app.use('/api/errors', errorsRoutes);
 app.use('/api/sms', smsRoutes);
 app.use('/api/email', emailRoutes);
 app.use('/api/whatsapp', whatsappRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {

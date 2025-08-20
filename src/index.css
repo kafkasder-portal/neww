@@ -2,16 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Modern CSS Variables */
+/* Modern CSS Variables - Enhanced for Corporate UI */
 :root {
-  /* Core colors */
+  /* Core colors - Updated for modern corporate design */
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
   --popover-foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
+  --primary: 220 85% 25%;
+  /* Updated to brand primary */
   --primary-foreground: 210 40% 98%;
   --secondary: 210 40% 96%;
   --secondary-foreground: 222.2 84% 4.9%;
@@ -23,7 +24,8 @@
   --destructive-foreground: 210 40% 98%;
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
+  --ring: 220 85% 25%;
+  /* Updated to match primary */
   --radius: 0.5rem;
 }
 
@@ -34,7 +36,8 @@
   --card-foreground: 210 40% 98%;
   --popover: 222.2 84% 4.9%;
   --popover-foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
+  --primary: 220 85% 35%;
+  /* Updated to brand primary light */
   --primary-foreground: 222.2 84% 4.9%;
   --secondary: 217.2 32.6% 17.5%;
   --secondary-foreground: 210 40% 98%;
@@ -46,7 +49,8 @@
   --destructive-foreground: 210 40% 98%;
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 94.1%;
+  --ring: 220 85% 35%;
+  /* Updated to match primary */
 }
 
 /* Base styles */
@@ -59,13 +63,13 @@ body {
   color: hsl(var(--foreground));
 }
 
-/* Modern component styles */
+/* Modern component styles - Enhanced for Corporate UI */
 .btn {
-  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
 }
 
 .btn-primary {
-  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  @apply bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:shadow-sm;
 }
 
 .btn-secondary {
@@ -96,9 +100,9 @@ body {
   @apply h-11 px-8 rounded-md;
 }
 
-/* Card styles */
+/* Card styles - Enhanced for Corporate UI */
 .card {
-  @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+  @apply rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
 }
 
 .card-header {

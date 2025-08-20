@@ -1,89 +1,197 @@
-import React from 'react';
-import { cn } from '@lib/utils';
+import { cva, type VariantProps } from "class-variance-authority"
 
-interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'text' | 'card' | 'avatar' | 'button';
-  size?: 'small' | 'medium' | 'large';
-}
+import { cn } from "@/lib/utils"
 
-const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
-  ({ className, variant = 'text', size = 'medium', ...props }, ref) => {
-    const baseClasses = 'skeleton';
-    
-    const variantClasses = {
-      text: 'skeleton-text',
-      card: 'skeleton-card',
-      avatar: 'skeleton-avatar',
-      button: 'skeleton-button'
-    };
-    
-    const sizeClasses = {
-      small: 'small',
-      medium: '',
-      large: 'large'
-    };
-    
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          baseClasses,
-          variantClasses[variant],
-          size !== 'medium' && sizeClasses[size],
-          className
-        )}
-        {...props}
-      />
-    );
+const skeletonVariants = cva(
+  [
+    // Base styles with enhanced UX
+    "animate-pulse rounded-md bg-muted",
+    "transition-all duration-200 ease-out",
+  ],
+  {
+    variants: {
+      variant: {
+        default: "bg-muted",
+        primary: "bg-primary/10",
+        secondary: "bg-secondary/10",
+        muted: "bg-muted/50",
+        dark: "bg-muted/80",
+      },
+      size: {
+        sm: "h-3",
+        default: "h-4",
+        lg: "h-6",
+        xl: "h-8",
+        "2xl": "h-12",
+      },
+      animation: {
+        default: "animate-pulse",
+        shimmer: "animate-shimmer",
+        wave: "animate-wave",
+        none: "",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+      animation: "default",
+    },
   }
-);
+)
 
-Skeleton.displayName = 'Skeleton';
-
-// Skeleton Group Component for multiple skeletons
-interface SkeletonGroupProps {
-  count?: number;
-  variant?: 'text' | 'card' | 'avatar' | 'button';
-  size?: 'small' | 'medium' | 'large';
-  className?: string;
+function Skeleton({
+  className,
+  variant,
+  size,
+  animation,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof skeletonVariants>) {
+  return (
+    <div
+      className={cn(skeletonVariants({ variant, size, animation, className }))}
+      {...props}
+    />
+  )
 }
 
-const SkeletonGroup: React.FC<SkeletonGroupProps> = ({
-  count = 3,
-  variant = 'text',
-  size = 'medium',
-  className
-}) => {
+// Predefined skeleton components
+const SkeletonText = ({
+  lines = 1,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { lines?: number }) => {
   return (
-    <div className={cn('space-y-6-group', className)}>
-      {Array.from({ length: count }).map((_, index) => (
-        <Skeleton key={index} variant={variant} size={size} />
+    <div className="space-y-2" {...props}>
+      {Array.from({ length: lines }).map((_, i) => (
+        <Skeleton
+          key={i}
+          className={cn(
+            i === lines - 1 ? "w-3/4" : "w-full",
+            className
+          )}
+        />
       ))}
     </div>
-  );
-};
+  )
+}
 
-// Card Skeleton Component
-const CardSkeleton: React.FC<{ className?: string }> = ({ className }) => {
+const SkeletonAvatar = ({
+  size = "default",
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { size?: "sm" | "default" | "lg" | "xl" }) => {
+  const sizeClasses = {
+    sm: "h-8 w-8",
+    default: "h-10 w-10",
+    lg: "h-12 w-12",
+    xl: "h-16 w-16",
+  }
+
   return (
-    <div className={cn('bg-card border border-border rounded-lg shadow-sm-enhanced p-6 bg-card rounded-lg border', className)}>
-      <div className="flex items-center space-x-4 mb-4">
-        <Skeleton variant="avatar" />
-        <div className="flex-1">
-          <Skeleton variant="text" size="large" className="w-3/4" />
-          <Skeleton variant="text" size="small" className="w-1/2" />
+    <Skeleton
+      className={cn("rounded-full", sizeClasses[size], className)}
+      {...props}
+    />
+  )
+}
+
+const SkeletonCard = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div className="space-y-3" {...props}>
+      <Skeleton className="h-4 w-3/4" />
+      <Skeleton className="h-4 w-1/2" />
+      <Skeleton className="h-4 w-5/6" />
+    </div>
+  )
+}
+
+const SkeletonTable = ({
+  rows = 5,
+  columns = 4,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { rows?: number; columns?: number }) => {
+  return (
+    <div className="space-y-3" {...props}>
+      {/* Header */}
+      <div className="flex space-x-4">
+        {Array.from({ length: columns }).map((_, i) => (
+          <Skeleton key={i} className="h-4 flex-1" />
+        ))}
+      </div>
+      {/* Rows */}
+      {Array.from({ length: rows }).map((_, rowIndex) => (
+        <div key={rowIndex} className="flex space-x-4">
+          {Array.from({ length: columns }).map((_, colIndex) => (
+            <Skeleton key={colIndex} className="h-4 flex-1" />
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+const SkeletonList = ({
+  items = 3,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { items?: number }) => {
+  return (
+    <div className="space-y-4" {...props}>
+      {Array.from({ length: items }).map((_, i) => (
+        <div key={i} className="flex items-center space-x-4">
+          <SkeletonAvatar size="sm" />
+          <div className="space-y-2 flex-1">
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-3 w-1/2" />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// CardSkeleton component for card-like loading states
+const CardSkeleton = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div className={cn("rounded-lg border bg-card p-6 space-y-4", className)} {...props}>
+      <div className="flex items-center space-x-4">
+        <SkeletonAvatar size="lg" />
+        <div className="space-y-2 flex-1">
+          <Skeleton className="h-5 w-3/4" />
+          <Skeleton className="h-4 w-1/2" />
         </div>
       </div>
-      <div className="space-y-6-group">
-        <Skeleton variant="text" className="w-full" />
-        <Skeleton variant="text" className="w-5/6" />
-        <Skeleton variant="text" className="w-4/6" />
-      </div>
-      <div className="flex justify-end mt-4">
-        <Skeleton variant="button" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-5/6" />
+      <div className="flex justify-between items-center pt-2">
+        <Skeleton className="h-8 w-20" />
+        <Skeleton className="h-8 w-24" />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export { Skeleton, SkeletonGroup, CardSkeleton };
+// SkeletonGroup component for grouping multiple skeletons
+const SkeletonGroup = ({
+  children,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div className={cn("space-y-4", className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+export {
+  CardSkeleton, Skeleton, SkeletonAvatar,
+  SkeletonCard, SkeletonGroup, SkeletonList, SkeletonTable, SkeletonText, skeletonVariants
+}

@@ -3,6 +3,10 @@
  * Unified CSS System - All patterns and colors in one file
  * ======================================== */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer base {
 
   /* ========================================

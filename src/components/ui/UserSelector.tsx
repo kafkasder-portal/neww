@@ -1,178 +1,251 @@
-import { useState, useEffect } from 'react'
-import { Search, X, User, Check } from 'lucide-react'
-import { useUserManagement } from '@/hooks/useUserManagement'
+"use client"
 
-interface UserSelectorProps {
-  selectedUserIds: string[]
-  onSelectionChange: (userIds: string[]) => void
-  placeholder?: string
-  excludeUserIds?: string[]
-  maxSelections?: number
-  className?: string
+import * as React from "react"
+import { Check, ChevronsUpDown, User } from "lucide-react"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+
+const userSelectorVariants = cva(
+  [
+    // Base styles with enhanced UX
+    "w-full justify-between",
+    "transition-all duration-200 ease-out",
+  ],
+  {
+    variants: {
+      variant: {
+        default: "",
+        outline: "border-2 border-border",
+        filled: "bg-muted/50",
+        ghost: "bg-transparent hover:bg-muted/50",
+      },
+      size: {
+        sm: "h-8 px-2 py-1 text-xs",
+        default: "h-10 px-3 py-2 text-sm",
+        lg: "h-12 px-4 py-3 text-base",
+        xl: "h-14 px-6 py-4 text-lg",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  avatar?: string
+  role?: string
+  status?: "online" | "offline" | "away" | "busy"
+  department?: string
 }
 
-export function UserSelector({
-  selectedUserIds,
-  onSelectionChange,
-  placeholder = "Kullanıcı ara...",
-  excludeUserIds = [],
-  maxSelections,
-  className = ""
-}: UserSelectorProps) {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [isOpen, setIsOpen] = useState(false)
-  const { users, isLoading, search } = useUserManagement()
+export interface UserSelectorProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof userSelectorVariants> {
+  users: User[]
+  selectedUser?: User
+  onUserSelect?: (user: User) => void
+  placeholder?: string
+  searchPlaceholder?: string
+  emptyText?: string
+  showAvatar?: boolean
+  showEmail?: boolean
+  showRole?: boolean
+  showStatus?: boolean
+  showDepartment?: boolean
+  multiple?: boolean
+  disabled?: boolean
+  loading?: boolean
+  error?: string
+}
 
-  useEffect(() => {
-    if (searchTerm.trim()) {
-      search.setSearchQuery(searchTerm)
-    }
-  }, [searchTerm, search])
+const UserSelector = React.forwardRef<HTMLDivElement, UserSelectorProps>(
+  ({ 
+    className, 
+    variant, 
+    size,
+    users,
+    selectedUser,
+    onUserSelect,
+    placeholder = "Select user...",
+    searchPlaceholder = "Search users...",
+    emptyText = "No users found.",
+    showAvatar = true,
+    showEmail = true,
+    showRole = false,
+    showStatus = false,
+    showDepartment = false,
+    multiple = false,
+    disabled = false,
+    loading = false,
+    error,
+    ...props 
+  }, ref) => {
+    const [open, setOpen] = React.useState(false)
 
-  const filteredUsers = users.filter(user => {
-    if (!searchTerm.trim()) return false
-    
-    return (
-      !excludeUserIds.includes(user.id) &&
-      (user.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       user.email?.toLowerCase().includes(searchTerm.toLowerCase()))
-    )
-  })
-
-  const selectedUsers = users.filter(user => selectedUserIds.includes(user.id))
-
-  const handleUserToggle = (userId: string) => {
-    if (selectedUserIds.includes(userId)) {
-      // Remove user
-      onSelectionChange(selectedUserIds.filter(id => id !== userId))
-    } else {
-      // Add user (check max limit)
-      if (!maxSelections || selectedUserIds.length < maxSelections) {
-        onSelectionChange([...selectedUserIds, userId])
+    const getStatusColor = (status?: string) => {
+      switch (status) {
+        case "online":
+          return "bg-green-500"
+        case "away":
+          return "bg-yellow-500"
+        case "busy":
+          return "bg-red-500"
+        default:
+          return "bg-gray-400"
       }
     }
-  }
 
-  const handleRemoveUser = (userId: string) => {
-    onSelectionChange(selectedUserIds.filter(id => id !== userId))
-  }
+    const getInitials = (name: string) => {
+      return name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    }
 
-  return (
-    <div className={`relative ${className}`}>
-      {/* Selected Users */}
-      {selectedUsers.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-2">
-          {selectedUsers.map(user => (
-            <div
-              key={user.id}
-              className="flex items-center gap-1 bg-blue-100 text-blue-800 border-blue-200 px-2 py-1 rounded-md text-sm"
+    const handleUserSelect = (user: User) => {
+      onUserSelect?.(user)
+      if (!multiple) {
+        setOpen(false)
+      }
+    }
+
+    return (
+      <div ref={ref} className={cn("w-full", className)} {...props}>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className={cn(
+                userSelectorVariants({ variant, size }),
+                "w-full justify-between",
+                error && "border-destructive focus:border-destructive"
+              )}
+              disabled={disabled || loading}
             >
-              <User className="h-3 w-3" />
-              <span>{user.full_name || user.email}</span>
-              <button
-                type="button"
-                onClick={() => handleRemoveUser(user.id)}
-                className="hover:bg-blue-200 rounded p-0.5"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Search Input */}
-      <div className="relative">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onFocus={() => setIsOpen(true)}
-            onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-            placeholder={placeholder}
-            className="w-full pl-10 pr-4 py-2 border border-input rounded-md focus:ring-2 focus:ring-ring focus:border-transparent"
-          />
-        </div>
-
-        {/* Dropdown */}
-        {isOpen && (
-          <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
-            {isLoading && (
-              <div className="p-3 text-center text-gray-500">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mx-auto"></div>
-                <span className="ml-2">Aranıyor...</span>
-              </div>
-            )}
-            
-            {!isLoading && filteredUsers.length === 0 && searchTerm && (
-              <div className="p-3 text-center text-gray-500">
-                Kullanıcı bulunamadı
-              </div>
-            )}
-            
-            {!isLoading && filteredUsers.length === 0 && !searchTerm && (
-              <div className="p-3 text-center text-gray-500">
-                Aramaya başlamak için yazın
-              </div>
-            )}
-
-            {!isLoading && filteredUsers.map(user => {
-              const isSelected = selectedUserIds.includes(user.id)
-              const isDisabled = Boolean(maxSelections && !isSelected && selectedUserIds.length >= maxSelections)
-              
-              return (
-                <button
-                  key={user.id}
-                  type="button"
-                  onClick={() => !isDisabled && handleUserToggle(user.id)}
-                  disabled={isDisabled}
-                  className={`w-full flex items-center gap-3 p-3 text-left hover:bg-gray-50 transition-colors ${
-                    isSelected ? 'bg-blue-50 text-blue-700' : ''
-                  } ${
-                    isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
-                  }`}
-                >
-                  <div className="flex-shrink-0">
-                    {user.avatar_url ? (
-                      <img
-                        src={user.avatar_url}
-                        alt={user.full_name || user.email}
-                        className="h-8 w-8 rounded-full object-cover"
-                      />
-                    ) : (
-                      <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                        <User className="h-4 w-4 text-gray-500" />
-                      </div>
+              {loading ? (
+                <div className="flex items-center space-x-2">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  <span>Loading...</span>
+                </div>
+              ) : selectedUser ? (
+                <div className="flex items-center space-x-2">
+                  {showAvatar && (
+                    <Avatar className="h-6 w-6">
+                      <AvatarImage src={selectedUser.avatar} alt={selectedUser.name} />
+                      <AvatarFallback className="text-xs">
+                        {getInitials(selectedUser.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
+                  <div className="flex flex-col items-start">
+                    <span className="font-medium">{selectedUser.name}</span>
+                    {showEmail && (
+                      <span className="text-xs text-muted-foreground">
+                        {selectedUser.email}
+                      </span>
                     )}
                   </div>
-                  
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium truncate">
-                      {user.full_name || 'İsimsiz Kullanıcı'}
-                    </div>
-                    <div className="text-sm text-gray-500 truncate">
-                      {user.email}
-                    </div>
-                  </div>
-                  
-                  {isSelected && (
-                    <Check className="h-4 w-4 text-blue-600 flex-shrink-0" />
+                  {showStatus && selectedUser.status && (
+                    <div className={cn("h-2 w-2 rounded-full", getStatusColor(selectedUser.status))} />
                   )}
-                </button>
-              )
-            })}
-          </div>
+                </div>
+              ) : (
+                <span className="text-muted-foreground">{placeholder}</span>
+              )}
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-full p-0" align="start">
+            <Command>
+              <CommandInput placeholder={searchPlaceholder} />
+              <CommandList>
+                <CommandEmpty>{emptyText}</CommandEmpty>
+                <CommandGroup>
+                  {users.map((user) => (
+                    <CommandItem
+                      key={user.id}
+                      value={user.name}
+                      onSelect={() => handleUserSelect(user)}
+                      className="flex items-center space-x-2 p-2"
+                    >
+                      <div className="flex items-center space-x-2 flex-1">
+                        {showAvatar && (
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={user.avatar} alt={user.name} />
+                            <AvatarFallback className="text-xs">
+                              {getInitials(user.name)}
+                            </AvatarFallback>
+                          </Avatar>
+                        )}
+                        <div className="flex flex-col flex-1">
+                          <div className="flex items-center space-x-2">
+                            <span className="font-medium">{user.name}</span>
+                            {showStatus && user.status && (
+                              <div className={cn("h-2 w-2 rounded-full", getStatusColor(user.status))} />
+                            )}
+                          </div>
+                          {showEmail && (
+                            <span className="text-xs text-muted-foreground">
+                              {user.email}
+                            </span>
+                          )}
+                          <div className="flex items-center space-x-2 mt-1">
+                            {showRole && user.role && (
+                              <Badge variant="secondary" className="text-xs">
+                                {user.role}
+                              </Badge>
+                            )}
+                            {showDepartment && user.department && (
+                              <Badge variant="outline" className="text-xs">
+                                {user.department}
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      {selectedUser?.id === user.id && (
+                        <Check className="h-4 w-4" />
+                      )}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+        {error && (
+          <p className="mt-1 text-xs text-destructive">{error}</p>
         )}
       </div>
-      
-      {/* Selection Info */}
-      {maxSelections && (
-        <div className="text-xs text-gray-500 mt-1">
-          {selectedUserIds.length} / {maxSelections} kullanıcı seçildi
-        </div>
-      )}
-    </div>
-  )
-}
+    )
+  }
+)
+UserSelector.displayName = "UserSelector"
+
+export { UserSelector, userSelectorVariants }

@@ -6,7 +6,7 @@ import App from './App'
 import { AuthErrorBoundary } from './components/AuthErrorBoundary'
 import ErrorFallback from './components/ErrorFallback'
 import './index.css'
-// Removed corporate UI enhancement CSS
+import './styles/optimized-system.css'
 
 const container = document.getElementById('root')
 if (!container) {
