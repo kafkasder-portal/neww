@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { AuthErrorBoundary } from './components/AuthErrorBoundary'
 import ErrorFallback from './components/ErrorFallback'
-import './styles/optimized-system.css'
+import './styles/premium-design-system.css'
 
 const container = document.getElementById('root')
 if (!container) {
