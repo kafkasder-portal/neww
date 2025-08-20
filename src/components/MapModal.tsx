@@ -47,7 +47,6 @@ export const MapModal = ({ isOpen, onClose, address, bankNumber, assignedTo }: M
       }
       return null
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error('Geocoding hatası:', error)
       return null
     }

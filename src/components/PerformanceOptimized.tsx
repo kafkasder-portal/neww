@@ -78,7 +78,6 @@ const PerformanceOptimized = () => {
 
   // Memoize callback functions
   const handleItemClick = useCallback((id: string) => {
-    // eslint-disable-next-line no-console
     console.log(`Item ${id} clicked`);
   }, []);
 

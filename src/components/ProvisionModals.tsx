@@ -199,19 +199,15 @@ export function ProvisionModals({
 
           try {
             // API çağrısı - gerçek implementasyon yapılana kadar console log
-            // eslint-disable-next-line no-console
             console.log('Yeni talep eklendi:', requestData)
 
             // Burada normalde API'ye POST isteği gönderilecek
             // await api.post('/provision-requests', requestData)
 
-            // eslint-disable-next-line no-alert
             alert('Talep başarıyla eklendi!')
             setIsAddModalOpen(false)
           } catch (error) {
-            // eslint-disable-next-line no-console
             console.error('Talep eklenirken hata:', error)
-            // eslint-disable-next-line no-alert
             alert('Talep eklenirken hata oluştu!')
           }
         }}>

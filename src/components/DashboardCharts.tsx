@@ -124,7 +124,6 @@ export const DashboardCharts = () => {
         loading: false
       })
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error('Dashboard data fetch error:', error)
       setData(prev => ({ ...prev, loading: false }))
     }

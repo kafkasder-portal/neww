@@ -26,8 +26,8 @@ const queryClient = new QueryClient({
   },
 })
 
-// Inner component that uses theme-dependent hooks
-function AppContent({
+// Inner component that uses theme-dependent hooks (unused for now)
+function _AppContent({
   resetOnboarding,
   setShowOnboarding
 }: {

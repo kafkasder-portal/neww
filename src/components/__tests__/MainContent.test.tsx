@@ -1,8 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useLocation } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import { MainContent } from '../MainContent';
+
+// Mock react-router-dom
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useLocation: vi.fn()
+  };
+});
 
 // Mock the navigation constants
 vi.mock('../../constants/navigation', () => ({
@@ -41,9 +50,7 @@ vi.mock('../ui/sidebar', () => ({
 }));
 
 const renderWithRouter = (component: React.ReactElement, pathname = '/') => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { useLocation } = require('react-router-dom');
-  useLocation.mockReturnValue({ pathname });
+  vi.mocked(useLocation).mockReturnValue({ pathname, search: '', hash: '', state: null, key: 'test' });
 
   return render(
     <BrowserRouter>

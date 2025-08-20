@@ -1,5 +1,6 @@
 import { SupabaseApi } from './supabase';
 import { supabase } from '../lib/supabase';
+import type { QueryParams } from './types';
 
 // Beneficiaries API
 export class BeneficiariesApi extends SupabaseApi {
@@ -8,7 +9,7 @@ export class BeneficiariesApi extends SupabaseApi {
   }
 
   // Custom search for beneficiaries
-  protected buildQuery(params?: any) {
+  protected buildQuery(params?: QueryParams) {
     let query = super.buildQuery(params);
     
     if (params?.search && params.search.trim()) {

@@ -16,7 +16,7 @@ export interface NotificationPayload {
   badge?: string
   image?: string
   tag?: string
-  data?: any
+  data?: Record<string, unknown>
   actions?: NotificationAction[]
   requireInteraction?: boolean
   silent?: boolean
@@ -32,7 +32,9 @@ export class NotificationManager {
   private static instance: NotificationManager
   private registration: ServiceWorkerRegistration | null = null
 
-  private constructor() {}
+  private constructor() {
+    // Private constructor for singleton pattern
+  }
 
   static getInstance(): NotificationManager {
     if (!NotificationManager.instance) {
