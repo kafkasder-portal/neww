@@ -193,7 +193,7 @@ router.post('/verify',
       }
 
       // Verify payment with provider
-      const verification = await paymentService.verifyPayment(provider, token);
+      const verification = await paymentService.verifyPayment(token);
 
       let transactionStatus = 'failed';
       let donationStatus = 'cancelled';
