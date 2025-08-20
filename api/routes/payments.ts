@@ -122,7 +122,7 @@ router.post('/initiate',
       if (!paymentResponse.success) {
         return res.status(400).json({
           error: 'Payment initiation failed',
-          details: paymentResponse.errorMessage
+          details: paymentResponse.error
         });
       }
 
