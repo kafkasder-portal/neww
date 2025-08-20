@@ -73,7 +73,8 @@ class PerformanceMonitoringService {
   constructor() {
     this.initializeWebVitals()
     this.initializeNavigationTiming()
-    this.startPeriodicFlush()
+    // Disabled temporarily - backend not running
+    // this.startPeriodicFlush()
   }
 
   /**

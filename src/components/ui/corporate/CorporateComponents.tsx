@@ -352,43 +352,55 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string
 }
 
-export const FormInput: React.FC<FormInputProps> = ({ className, ...props }) => {
-  return (
-    <input
-      className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', className)}
-      {...props}
-    />
-  )
-}
+export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <input
+        ref={ref}
+        className={cn('input-premium', className)}
+        {...props}
+      />
+    )
+  }
+)
+FormInput.displayName = 'FormInput'
 
 interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string
 }
 
-export const FormTextarea: React.FC<FormTextareaProps> = ({ className, ...props }) => {
-  return (
-    <textarea
-      className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical', className)}
-      {...props}
-    />
-  )
-}
+export const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <textarea
+        ref={ref}
+        className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical', className)}
+        {...props}
+      />
+    )
+  }
+)
+FormTextarea.displayName = 'FormTextarea'
 
 interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   children: React.ReactNode
   className?: string
 }
 
-export const FormSelect: React.FC<FormSelectProps> = ({ children, className, ...props }) => {
-  return (
-    <select
-      className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white', className)}
-      {...props}
-    >
-      {children}
-    </select>
-  )
-}
+export const FormSelect = React.forwardRef<HTMLSelectElement, FormSelectProps>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <select
+        ref={ref}
+        className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white', className)}
+        {...props}
+      >
+        {children}
+      </select>
+    )
+  }
+)
+FormSelect.displayName = 'FormSelect'
 
 /* ========================================
  * SIDEBAR-ALIGNED MODAL COMPONENTS
@@ -776,6 +788,3 @@ export {
   CorporateCardSubtitle as CardSubtitle,
   CorporateCardTitle as CardTitle
 }
-
-
-
