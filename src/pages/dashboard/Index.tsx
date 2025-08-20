@@ -137,44 +137,6 @@ export default function DashboardIndex() {
 
       </div>
 
-      {/* Charts Section */}
-      <div className="grid gap-6 md:grid-cols-2">
-        
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Bağış Trendi
-            </CardTitle>
-            <CardDescription>
-              Son 6 aylık bağış grafiği
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[200px] flex items-center justify-center text-muted-foreground">
-              Grafik verisi yükleniyor...
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5" />
-              Proje Dağılımı
-            </CardTitle>
-            <CardDescription>
-              Aktif projelerin kategori dağılımı
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[200px] flex items-center justify-center text-muted-foreground">
-              Grafik verisi yükleniyor...
-            </div>
-          </CardContent>
-        </Card>
-
-      </div>
     </div>
   )
 }
