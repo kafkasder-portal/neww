@@ -117,7 +117,7 @@ router.post('/initiate',
       };
 
       // Initiate payment with selected provider
-      const paymentResponse = await paymentService.processPayment(provider, paymentRequest);
+      const paymentResponse = await paymentService.processPayment(paymentRequest);
 
       if (!paymentResponse.success) {
         return res.status(400).json({
