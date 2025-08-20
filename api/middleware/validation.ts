@@ -180,7 +180,7 @@ export const validateRequest = (schema: ZodSchema) => {
       }
       
       securityLogger('VALIDATION_UNEXPECTED_ERROR', {
-        error: error.message,
+        error: error instanceof Error ? error.message : 'Unknown error',
         path: req.path,
         method: req.method
       }, req);
