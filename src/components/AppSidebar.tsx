@@ -337,25 +337,24 @@ const AppSidebar = memo(function AppSidebar() {
                 <PopoverContent
                   side="right"
                   align="end"
-                  className="w-72 p-4 bg-white border border-border shadow-xl rounded-xl"
+                  className="w-72 p-4 glass-card shadow-premium"
                   sideOffset={8}
                 >
-                  <div className="grid gap-3">
+                  <div className="grid gap-4">
                     {/* User Info */}
-                    <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-bg-primary/5 to-bg-primary/10 rounded-lg">
-                      <Avatar className="h-12 w-12 rounded-xl border-2 border-bg-primary/20">
-                        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-bg-primary to-bg-primary rounded-xl">
-                          <User className="h-6 w-6 text-white" />
-                        </div>
-                      </Avatar>
-                      <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-bold text-foreground">Ahmet Kaya</span>
-                <span className="truncate text-xs text-muted-foreground">
-                          ahmet@sirket.com
-                        </span>
-                        <span className="truncate text-xs text-bg-primary font-medium">
-                          Sistem Yöneticisi
-                        </span>
+                    <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-brand-accent-500/20 to-brand-primary-500/20 rounded-xl border border-white/20">
+                      <div className="relative">
+                        <Avatar className="h-12 w-12 rounded-2xl ring-2 ring-white/30">
+                          <div className="h-full w-full rounded-2xl bg-gradient-to-br from-brand-accent-400 to-brand-accent-600 flex items-center justify-center">
+                            <User className="h-6 w-6 text-white" />
+                          </div>
+                        </Avatar>
+                        <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-semantic-success border-2 border-white"></div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-white truncate">Admin Kullanıcı</p>
+                        <p className="text-xs text-white/70 truncate">admin@dernekpanel.com</p>
+                        <p className="text-xs text-brand-accent-200 font-medium truncate">Sistem Yöneticisi</p>
                       </div>
                     </div>
 
