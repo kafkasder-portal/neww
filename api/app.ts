@@ -42,7 +42,7 @@ try {
   validateEnvironment();
   console.log('✅ Environment validation passed');
 } catch (error) {
-  console.error('❌ Environment validation failed:', error.message);
+  console.error('❌ Environment validation failed:', error instanceof Error ? error.message : 'Unknown error');
   process.exit(1);
 }
 
