@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react'
 
 // Lazy load the QR scanner modal component
-const QRScannerModal = lazy(() => import('./QRCodeGenerator'))
+const QRScannerModal = lazy(() => import('./inventory/InventoryQRScanner'))
 
 interface LazyQRScannerModalProps {
     isOpen: boolean
@@ -18,6 +18,12 @@ export const LazyQRScannerModal: React.FC<LazyQRScannerModalProps> = ({
 }) => {
     if (!isOpen) return null
 
+    const handleScanSuccess = (data: any) => {
+        // Extract the code from the scanned data and pass it to onScan
+        const code = typeof data === 'string' ? data : data.code || JSON.stringify(data)
+        onScan(code)
+    }
+
     return (
         <Suspense fallback={
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -30,8 +36,7 @@ export const LazyQRScannerModal: React.FC<LazyQRScannerModalProps> = ({
             <QRScannerModal
                 isOpen={isOpen}
                 onClose={onClose}
-                onScan={onScan}
-                title={title}
+                onScanSuccess={handleScanSuccess}
             />
         </Suspense>
     )
