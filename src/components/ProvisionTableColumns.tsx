@@ -24,10 +24,10 @@ export function getRequestColumns({ onEdit, onViewItems, onViewPayments, onAppro
       header: 'Öncelik',
       render: (_, row) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          row.priority === 'acil' ? 'bg-red-100 text-red-800' :
+          row.priority === 'acil' ? 'bg-red-100 text-red-800 border-red-200' :
           row.priority === 'yüksek' ? 'bg-orange-100 text-orange-800' :
-          row.priority === 'normal' ? 'bg-blue-100 text-blue-800' :
-          'bg-gray-100 text-gray-800'
+          row.priority === 'normal' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+          'bg-gray-100 text-gray-800 border-gray-200'
         }`}>
           {row.priority}
         </span>
@@ -54,10 +54,10 @@ export function getRequestColumns({ onEdit, onViewItems, onViewPayments, onAppro
       header: 'Onay Durumu',
       render: (_, row) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          row.approvalStatus === 'onaylandı' ? 'bg-green-100 text-green-800' :
-          row.approvalStatus === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-          row.approvalStatus === 'reddedildi' ? 'bg-red-100 text-red-800' :
-          'bg-blue-100 text-blue-800'
+          row.approvalStatus === 'onaylandı' ? 'bg-green-100 text-green-800 border-green-200' :
+          row.approvalStatus === 'beklemede' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          row.approvalStatus === 'reddedildi' ? 'bg-red-100 text-red-800 border-red-200' :
+          'bg-blue-100 text-blue-800 border-blue-200'
         }`}>
           {row.approvalStatus}
         </span>
@@ -69,10 +69,10 @@ export function getRequestColumns({ onEdit, onViewItems, onViewPayments, onAppro
       render: (_, row) => (
         <div className="text-sm">
           <span className={`px-2 py-1 rounded text-xs ${
-            row.paymentStatus === 'tamamlandı' ? 'bg-green-100 text-green-800' :
-            row.paymentStatus === 'kısmi' ? 'bg-yellow-100 text-yellow-800' :
-            row.paymentStatus === 'beklemede' ? 'bg-gray-100 text-gray-800' :
-            'bg-red-100 text-red-800'
+            row.paymentStatus === 'tamamlandı' ? 'bg-green-100 text-green-800 border-green-200' :
+            row.paymentStatus === 'kısmi' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+            row.paymentStatus === 'beklemede' ? 'bg-gray-100 text-gray-800 border-gray-200' :
+            'bg-red-100 text-red-800 border-red-200'
           }`}>
             {row.paymentStatus}
           </span>
@@ -87,11 +87,11 @@ export function getRequestColumns({ onEdit, onViewItems, onViewPayments, onAppro
       header: 'Durum',
       render: (_, row) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          row.status === 'tamamlandı' ? 'bg-green-100 text-green-800' :
-          row.status === 'işlemde' ? 'bg-blue-100 text-blue-800' :
-          row.status === 'gönderildi' ? 'bg-yellow-100 text-yellow-800' :
-          row.status === 'taslak' ? 'bg-gray-100 text-gray-800' :
-          'bg-red-100 text-red-800'
+          row.status === 'tamamlandı' ? 'bg-green-100 text-green-800 border-green-200' :
+          row.status === 'işlemde' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+          row.status === 'gönderildi' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          row.status === 'taslak' ? 'bg-gray-100 text-gray-800 border-gray-200' :
+          'bg-red-100 text-red-800 border-red-200'
         }`}>
           {row.status}
         </span>
@@ -151,13 +151,13 @@ export function getItemColumns(requests: ProvisionRequest[]): Column<ProvisionIt
       header: 'Tip',
       render: (_, item) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          item.itemType === 'nakit' ? 'bg-green-100 text-green-800' :
-          item.itemType === 'gıda' ? 'bg-blue-100 text-blue-800' :
+          item.itemType === 'nakit' ? 'bg-green-100 text-green-800 border-green-200' :
+          item.itemType === 'gıda' ? 'bg-blue-100 text-blue-800 border-blue-200' :
           item.itemType === 'giyim' ? 'bg-purple-100 text-purple-800' :
           item.itemType === 'barınma' ? 'bg-orange-100 text-orange-800' :
-          item.itemType === 'sağlık' ? 'bg-red-100 text-red-800' :
+          item.itemType === 'sağlık' ? 'bg-red-100 text-red-800 border-red-200' :
           item.itemType === 'eğitim' ? 'bg-indigo-100 text-indigo-800' :
-          'bg-gray-100 text-gray-800'
+          'bg-gray-100 text-gray-800 border-gray-200'
         }`}>
           {item.itemType}
         </span>
@@ -191,11 +191,11 @@ export function getItemColumns(requests: ProvisionRequest[]): Column<ProvisionIt
       header: 'Durum',
       render: (_, item) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          item.status === 'teslim-edildi' ? 'bg-green-100 text-green-800' :
-          item.status === 'sipariş-verildi' ? 'bg-blue-100 text-blue-800' :
-          item.status === 'onaylandı' ? 'bg-yellow-100 text-yellow-800' :
-          item.status === 'beklemede' ? 'bg-gray-100 text-gray-800' :
-          'bg-red-100 text-red-800'
+          item.status === 'teslim-edildi' ? 'bg-green-100 text-green-800 border-green-200' :
+          item.status === 'sipariş-verildi' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+          item.status === 'onaylandı' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          item.status === 'beklemede' ? 'bg-gray-100 text-gray-800 border-gray-200' :
+          'bg-red-100 text-red-800 border-red-200'
         }`}>
           {item.status}
         </span>
@@ -229,8 +229,8 @@ export function getPaymentColumns(requests: ProvisionRequest[]): Column<Payment>
       header: 'Ödeme Yöntemi',
       render: (_, payment) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          payment.paymentMethod === 'nakit' ? 'bg-green-100 text-green-800' :
-          payment.paymentMethod === 'banka' ? 'bg-blue-100 text-blue-800' :
+          payment.paymentMethod === 'nakit' ? 'bg-green-100 text-green-800 border-green-200' :
+          payment.paymentMethod === 'banka' ? 'bg-blue-100 text-blue-800 border-blue-200' :
           payment.paymentMethod === 'kredi-kartı' ? 'bg-purple-100 text-purple-800' :
           'bg-orange-100 text-orange-800'
         }`}>
@@ -247,9 +247,9 @@ export function getPaymentColumns(requests: ProvisionRequest[]): Column<Payment>
       header: 'Durum',
       render: (_, payment) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          payment.status === 'tamamlandı' ? 'bg-green-100 text-green-800' :
-          payment.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-red-100 text-red-800'
+          payment.status === 'tamamlandı' ? 'bg-green-100 text-green-800 border-green-200' :
+          payment.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          'bg-red-100 text-red-800 border-red-200'
         }`}>
           {payment.status}
         </span>

@@ -17,8 +17,8 @@ import {
   ResponsiveContainer,
   ComposedChart
 } from 'recharts'
-import { Card } from '@/components/ui/card'
-import { CHART_COLORS_HEX } from '../../constants/colors'
+import { Card, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
+import { CHART_COLORS_HEX } from '@constants/colors'
 
 // Optimized color palette - WCAG AA compliant
 const COLORS = CHART_COLORS_HEX
@@ -51,7 +51,7 @@ export const LineChartComponent = ({
   // const { t } = useLanguageContext() // Kullanılmıyor
 
   return (
-    <Card className="p-4">
+    <CorporateCard className="p-4">
       <h3 className="text-lg font-semibold mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={height}>
         <LineChart data={data}>
@@ -70,7 +70,7 @@ export const LineChartComponent = ({
           />
         </LineChart>
       </ResponsiveContainer>
-    </Card>
+    </CorporateCard>
   )
 }
 
@@ -96,7 +96,7 @@ export const AreaChartComponent = ({
   showLegend = true
 }: AreaChartProps) => {
   return (
-    <Card className="p-4">
+    <CorporateCard className="p-4">
       <h3 className="text-lg font-semibold mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={height}>
         <AreaChart data={data}>
@@ -114,7 +114,7 @@ export const AreaChartComponent = ({
           />
         </AreaChart>
       </ResponsiveContainer>
-    </Card>
+    </CorporateCard>
   )
 }
 
@@ -138,7 +138,7 @@ export const BarChartComponent = ({
   showLegend = true
 }: BarChartProps) => {
   return (
-    <Card className="p-4">
+    <CorporateCard className="p-4">
       <h3 className="text-lg font-semibold mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={height}>
         <BarChart data={data}>
@@ -150,7 +150,7 @@ export const BarChartComponent = ({
           <Bar dataKey={dataKey} fill={fill} radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
-    </Card>
+    </CorporateCard>
   )
 }
 
@@ -168,7 +168,7 @@ export const PieChartComponent = ({
   showLegend = true
 }: PieChartProps) => {
   return (
-    <Card className="p-4">
+    <CorporateCard className="p-4">
       <h3 className="text-lg font-semibold mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={height}>
         <PieChart>
@@ -190,7 +190,7 @@ export const PieChartComponent = ({
           {showLegend && <Legend />}
         </PieChart>
       </ResponsiveContainer>
-    </Card>
+    </CorporateCard>
   )
 }
 
@@ -214,7 +214,7 @@ export const ComposedChartComponent = ({
   showLegend = true
 }: ComposedChartProps) => {
   return (
-    <Card className="p-4">
+    <CorporateCard className="p-4">
       <h3 className="text-lg font-semibold mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={height}>
         <ComposedChart data={data}>
@@ -227,7 +227,7 @@ export const ComposedChartComponent = ({
           <Line type="monotone" dataKey={lineDataKey} stroke={CHART_COLORS_HEX[3]} strokeWidth={2} />
         </ComposedChart>
       </ResponsiveContainer>
-    </Card>
+    </CorporateCard>
   )
 }
 

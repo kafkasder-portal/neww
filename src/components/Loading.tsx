@@ -90,7 +90,7 @@ export const SkeletonStats = () => (
 export const SkeletonForm = () => (
   <div className="space-y-4">
     {Array.from({ length: 6 }).map((_, i) => (
-      <div key={i} className="space-y-2">
+      <div key={i} className="space-y-6-group">
         <div className="h-4 bg-muted rounded w-1/4 animate-pulse"></div>
         <div className="h-10 bg-muted rounded animate-pulse"></div>
       </div>

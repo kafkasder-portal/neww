@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
+
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useDesignSystem } from '@/hooks/useDesignSystem'
@@ -16,22 +16,32 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-// Import Recharts components directly
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} from 'recharts'
+// Lazy load Recharts components
+import { lazy, Suspense } from 'react'
+
+const LazyBarChart = lazy(() => import('recharts').then(module => ({ default: module.BarChart })))
+const LazyBar = lazy(() => import('recharts').then(module => ({ default: module.Bar })))
+const LazyPieChart = lazy(() => import('recharts').then(module => ({ default: module.PieChart })))
+const LazyPie = lazy(() => import('recharts').then(module => ({ default: module.Pie })))
+const LazyLineChart = lazy(() => import('recharts').then(module => ({ default: module.LineChart })))
+const LazyLine = lazy(() => import('recharts').then(module => ({ default: module.Line })))
+const LazyCell = lazy(() => import('recharts').then(module => ({ default: module.Cell })))
+const LazyXAxis = lazy(() => import('recharts').then(module => ({ default: module.XAxis })))
+const LazyYAxis = lazy(() => import('recharts').then(module => ({ default: module.YAxis })))
+const LazyCartesianGrid = lazy(() => import('recharts').then(module => ({ default: module.CartesianGrid })))
+const LazyTooltip = lazy(() => import('recharts').then(module => ({ default: module.Tooltip })))
+const LazyLegend = lazy(() => import('recharts').then(module => ({ default: module.Legend })))
+const LazyResponsiveContainer = lazy(() => import('recharts').then(module => ({ default: module.ResponsiveContainer })))
+
+// Chart loading component
+const ChartLoading = () => (
+  <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+      <p className="text-sm text-gray-600">Grafik yükleniyor...</p>
+    </div>
+  </div>
+)
 
 // Loading component for charts (not used anymore)
 // const ChartLoading = () => (
@@ -216,26 +226,26 @@ export default function Reports() {
           <p className="text-muted-foreground">Yardım ve başvuru istatistikleri</p>
         </div>
         <div className="flex space-x-2">
-          <Button variant="outline" onClick={exportToCSV}>
+          <CorporateButton variant="outline" onClick={exportToCSV}>
             <Download className="h-4 w-4 mr-2" />
             CSV
-          </Button>
-          <Button variant="outline" onClick={exportToPDF}>
+          </CorporateButton>
+          <CorporateButton variant="outline" onClick={exportToPDF}>
             <Download className="h-4 w-4 mr-2" />
             PDF
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
       {/* Filtreler */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle className="flex items-center">
             <Filter className="h-5 w-5 mr-2" />
             Filtreler
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </CorporateCardTitle>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="text-sm font-medium">Başlangıç Tarihi</label>
@@ -287,13 +297,13 @@ export default function Reports() {
               </Select>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Özet Kartları */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 space-y-4">
+        <CorporateCard>
+          <CorporateCardContent className="p-6 bg-card rounded-lg border">
             <div className="flex items-center">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <DollarSign className="h-6 w-6 text-blue-600" />
@@ -305,11 +315,11 @@ export default function Reports() {
                 </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card>
-          <CardContent className="p-6">
+        <CorporateCard>
+          <CorporateCardContent className="p-6 bg-card rounded-lg border">
             <div className="flex items-center">
               <div className="p-2 bg-green-100 rounded-lg">
                 <Users className="h-6 w-6 text-green-600" />
@@ -321,11 +331,11 @@ export default function Reports() {
                 </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card>
-          <CardContent className="p-6">
+        <CorporateCard>
+          <CorporateCardContent className="p-6 bg-card rounded-lg border">
             <div className="flex items-center">
               <div className="p-2 bg-purple-100 rounded-lg">
                 <BarChart3 className="h-6 w-6 text-purple-600" />
@@ -335,11 +345,11 @@ export default function Reports() {
                 <p className="text-2xl font-bold">{reportData.aidTypeDistribution.length}</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card>
-          <CardContent className="p-6">
+        <CorporateCard>
+          <CorporateCardContent className="p-6 bg-card rounded-lg border">
             <div className="flex items-center">
               <div className="p-2 bg-orange-100 rounded-lg">
                 <TrendingUp className="h-6 w-6 text-orange-600" />
@@ -353,8 +363,8 @@ export default function Reports() {
                 </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
       {/* Grafikler */}
@@ -367,134 +377,146 @@ export default function Reports() {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
             {/* Aylık Yardım Grafiği */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Aylık Yardım Dağılımı</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={reportData.monthlyAids}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="amount" fill="colors.chart[1]" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Aylık Yardım Dağılımı</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <Suspense fallback={<ChartLoading />}>
+                  <LazyResponsiveContainer width="100%" height={300}>
+                    <LazyBarChart data={reportData.monthlyAids}>
+                      <LazyCartesianGrid strokeDasharray="3 3" />
+                      <LazyXAxis dataKey="month" />
+                      <LazyYAxis />
+                      <LazyTooltip />
+                      <LazyBar dataKey="amount" fill="colors.chart[1]" />
+                    </LazyBarChart>
+                  </LazyResponsiveContainer>
+                </Suspense>
+              </CorporateCardContent>
+            </CorporateCard>
 
             {/* Yardım Türü Dağılımı */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Yardım Türü Dağılımı</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={reportData.aidTypeDistribution}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      dataKey="value"
-                      label={({ name, percent }: { name: string; percent: number }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                    >
-                      {reportData.aidTypeDistribution.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Yardım Türü Dağılımı</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <Suspense fallback={<ChartLoading />}>
+                  <LazyResponsiveContainer width="100%" height={300}>
+                    <LazyPieChart>
+                      <LazyPie
+                        data={reportData.aidTypeDistribution}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        dataKey="value"
+                        label={({ name, percent }: { name: string; percent: number }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      >
+                        {reportData.aidTypeDistribution.map((entry, index) => (
+                          <LazyCell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </LazyPie>
+                      <LazyTooltip />
+                    </LazyPieChart>
+                  </LazyResponsiveContainer>
+                </Suspense>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
         </TabsContent>
 
         <TabsContent value="monthly" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Aylık Yardım Trendi</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={reportData.monthlyAids}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="amount" stroke="colors.chart[1]" strokeWidth={2} />
-                  <Line type="monotone" dataKey="count" stroke="colors.chart[2]" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle>Aylık Yardım Trendi</CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent>
+              <Suspense fallback={<ChartLoading />}>
+                <LazyResponsiveContainer width="100%" height={400}>
+                  <LazyLineChart data={reportData.monthlyAids}>
+                    <LazyCartesianGrid strokeDasharray="3 3" />
+                    <LazyXAxis dataKey="month" />
+                    <LazyYAxis />
+                    <LazyTooltip />
+                    <LazyLegend />
+                    <LazyLine type="monotone" dataKey="amount" stroke="colors.chart[1]" strokeWidth={2} />
+                    <LazyLine type="monotone" dataKey="count" stroke="colors.chart[2]" strokeWidth={2} />
+                  </LazyLineChart>
+                </LazyResponsiveContainer>
+              </Suspense>
+            </CorporateCardContent>
+          </CorporateCard>
         </TabsContent>
 
         <TabsContent value="distribution" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
             {/* İhtiyaç Sahibi Kategorileri */}
-            <Card>
-              <CardHeader>
-                <CardTitle>İhtiyaç Sahibi Kategorileri</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={reportData.beneficiaryCategories}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="category" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="count" fill="colors.chart[2]" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>İhtiyaç Sahibi Kategorileri</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <Suspense fallback={<ChartLoading />}>
+                  <LazyResponsiveContainer width="100%" height={300}>
+                    <LazyBarChart data={reportData.beneficiaryCategories}>
+                      <LazyCartesianGrid strokeDasharray="3 3" />
+                      <LazyXAxis dataKey="category" />
+                      <LazyYAxis />
+                      <LazyTooltip />
+                      <LazyBar dataKey="count" fill="colors.chart[2]" />
+                    </LazyBarChart>
+                  </LazyResponsiveContainer>
+                </Suspense>
+              </CorporateCardContent>
+            </CorporateCard>
 
             {/* Yardım Türü Detay */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Yardım Türü Detayı</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={reportData.aidTypeDistribution} layout="horizontal">
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" />
-                    <YAxis dataKey="name" type="category" />
-                    <Tooltip />
-                    <Bar dataKey="value" fill="colors.chart[1]" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Yardım Türü Detayı</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <Suspense fallback={<ChartLoading />}>
+                  <LazyResponsiveContainer width="100%" height={300}>
+                    <LazyBarChart data={reportData.aidTypeDistribution} layout="horizontal">
+                      <LazyCartesianGrid strokeDasharray="3 3" />
+                      <LazyXAxis type="number" />
+                      <LazyYAxis dataKey="name" type="category" />
+                      <LazyTooltip />
+                      <LazyBar dataKey="value" fill="colors.chart[1]" />
+                    </LazyBarChart>
+                  </LazyResponsiveContainer>
+                </Suspense>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
         </TabsContent>
 
         <TabsContent value="applications" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Başvuru Trendleri</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={reportData.applicationTrends}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="pending" stroke="colors.chart[3]" strokeWidth={2} />
-                  <Line type="monotone" dataKey="approved" stroke="colors.chart[2]" strokeWidth={2} />
-                  <Line type="monotone" dataKey="rejected" stroke="colors.chart[4]" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle>Başvuru Trendleri</CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent>
+              <Suspense fallback={<ChartLoading />}>
+                <LazyResponsiveContainer width="100%" height={400}>
+                  <LazyLineChart data={reportData.applicationTrends}>
+                    <LazyCartesianGrid strokeDasharray="3 3" />
+                    <LazyXAxis dataKey="date" />
+                    <LazyYAxis />
+                    <LazyTooltip />
+                    <LazyLegend />
+                    <LazyLine type="monotone" dataKey="pending" stroke="colors.chart[3]" strokeWidth={2} />
+                    <LazyLine type="monotone" dataKey="approved" stroke="colors.chart[2]" strokeWidth={2} />
+                    <LazyLine type="monotone" dataKey="rejected" stroke="colors.chart[4]" strokeWidth={2} />
+                  </LazyLineChart>
+                </LazyResponsiveContainer>
+              </Suspense>
+            </CorporateCardContent>
+          </CorporateCard>
         </TabsContent>
       </Tabs>
     </div>

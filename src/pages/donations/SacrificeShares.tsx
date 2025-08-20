@@ -272,11 +272,11 @@ export default function SacrificeShares() {
       header: 'Ödeme Durumu',
       render: (_, row) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          row.paymentStatus === 'ödendi' ? 'bg-green-100 text-green-800' :
-          row.paymentStatus === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
+          row.paymentStatus === 'ödendi' ? 'bg-green-100 text-green-800 border-green-200' :
+          row.paymentStatus === 'beklemede' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
           row.paymentStatus === 'kısmi' ? 'bg-orange-100 text-orange-800' :
           row.paymentStatus === 'iade' ? 'bg-purple-100 text-purple-800' :
-          'bg-red-100 text-red-800'
+          'bg-red-100 text-red-800 border-red-200'
         }`}>
           {row.paymentStatus}
         </span>
@@ -287,11 +287,11 @@ export default function SacrificeShares() {
       header: 'Dağıtım Durumu',
       render: (_, row) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          row.distributionStatus === 'teslim edildi' ? 'bg-green-100 text-green-800' :
-          row.distributionStatus === 'gönderildi' ? 'bg-blue-100 text-blue-800' :
-          row.distributionStatus === 'hazırlanıyor' ? 'bg-yellow-100 text-yellow-800' :
-          row.distributionStatus === 'beklemede' ? 'bg-gray-100 text-gray-800' :
-          'bg-red-100 text-red-800'
+          row.distributionStatus === 'teslim edildi' ? 'bg-green-100 text-green-800 border-green-200' :
+          row.distributionStatus === 'gönderildi' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+          row.distributionStatus === 'hazırlanıyor' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          row.distributionStatus === 'beklemede' ? 'bg-gray-100 text-gray-800 border-gray-200' :
+          'bg-red-100 text-red-800 border-red-200'
         }`}>
           {row.distributionStatus}
         </span>
@@ -502,7 +502,7 @@ export default function SacrificeShares() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 bg-card rounded-lg border rounded-lg shadow">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold">Kurban Hisseleri</h2>
@@ -532,7 +532,7 @@ export default function SacrificeShares() {
           {activeTab === 'shares' && (
             <button
               onClick={openAddModal}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Yeni Hisse
             </button>
@@ -639,7 +639,7 @@ export default function SacrificeShares() {
             <div className="flex gap-2 mb-4">
               <button
                 onClick={() => exportToCsv('kurban-hisseleri.csv', filteredShares)}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                className="bg-green-500 text-white hover:bg-green-600"
               >
                 Excel İndir
               </button>
@@ -671,24 +671,24 @@ export default function SacrificeShares() {
           <div className="space-y-6">
             {/* Genel İstatistikler */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-blue-50 p-6 rounded-lg">
+              <div className="bg-blue-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-blue-600 mb-2">Toplam Hisse Sayısı</h3>
                 <p className="text-3xl font-bold text-blue-900">{totalShares}</p>
                 <p className="text-sm text-blue-600 mt-1">Tüm dönemler</p>
               </div>
-              <div className="bg-green-50 p-6 rounded-lg">
+              <div className="bg-green-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-green-600 mb-2">Toplam Gelir</h3>
                 <p className="text-3xl font-bold text-green-900">{totalAmount.toLocaleString('tr-TR')} ₺</p>
                 <p className="text-sm text-green-600 mt-1">Brüt tutar</p>
               </div>
-              <div className="bg-purple-50 p-6 rounded-lg">
+              <div className="bg-purple-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-purple-600 mb-2">Ortalama Hisse</h3>
                 <p className="text-3xl font-bold text-purple-900">
                   {filteredShares.length > 0 ? (totalShares / filteredShares.length).toFixed(1) : '0'}
                 </p>
                 <p className="text-sm text-purple-600 mt-1">Bağışçı başına</p>
               </div>
-              <div className="bg-orange-50 p-6 rounded-lg">
+              <div className="bg-orange-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-orange-600 mb-2">Tahsilat Oranı</h3>
                 <p className="text-3xl font-bold text-orange-900">
                   {totalAmount > 0 ? Math.round((paidAmount / totalAmount) * 100) : 0}%
@@ -698,7 +698,7 @@ export default function SacrificeShares() {
             </div>
 
             {/* Dağıtım Alanları */}
-            <div className="bg-white border rounded-lg p-6">
+            <div className="bg-white border rounded-lg p-6 bg-card rounded-lg border">
               <h3 className="text-lg font-medium mb-4">Dağıtım Alanlarına Göre Dağılım</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {Object.entries(distributionAreaStats).map(([area, stats]) => (
@@ -719,7 +719,7 @@ export default function SacrificeShares() {
             </div>
 
             {/* Ödeme Durumu Dağılımı */}
-            <div className="bg-white border rounded-lg p-6">
+            <div className="bg-white border rounded-lg p-6 bg-card rounded-lg border">
               <h3 className="text-lg font-medium mb-4">Ödeme Durumu Dağılımı</h3>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 {['ödendi', 'beklemede', 'kısmi', 'iptal', 'iade'].map(status => {
@@ -740,7 +740,7 @@ export default function SacrificeShares() {
             </div>
 
             {/* Tekrarlayan Bağışlar */}
-            <div className="bg-white border rounded-lg p-6">
+            <div className="bg-white border rounded-lg p-6 bg-card rounded-lg border">
               <h3 className="text-lg font-medium mb-4">Tekrarlayan Bağış Analizi</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="border rounded p-4">
@@ -766,7 +766,7 @@ export default function SacrificeShares() {
             </div>
 
             {/* İşlem Durumları */}
-            <div className="bg-white border rounded-lg p-6">
+            <div className="bg-white border rounded-lg p-6 bg-card rounded-lg border">
               <h3 className="text-lg font-medium mb-4">İşlem Durumları</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="border rounded p-4">
@@ -1160,7 +1160,7 @@ export default function SacrificeShares() {
                   console.log('Makbuz yazdırılıyor:', selectedShare.shareNumber)
                   setIsReceiptModalOpen(false)
                 }}
-                className="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 Makbuz Yazdır
               </button>
@@ -1169,7 +1169,7 @@ export default function SacrificeShares() {
                   console.log('E-makbuz gönderiliyor:', selectedShare.donorEmail)
                   setIsReceiptModalOpen(false)
                 }}
-                className="flex-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                className="flex-1 bg-green-500 text-white hover:bg-green-600"
                 disabled={!selectedShare.donorEmail}
               >
                 E-Makbuz Gönder

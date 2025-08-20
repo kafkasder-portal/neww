@@ -219,7 +219,7 @@ export const ChatList: React.FC<ChatListProps> = ({
       {/* New Chat Panel */}
       {showNewChat && (
         <div className="p-4 border-b border-gray-200 bg-gray-50">
-          <h3 className="text-sm font-medium text-gray-700 mb-2">Yeni Sohbet Başlat</h3>
+          <h3 className="space-y-6-label mb-2">Yeni Sohbet Başlat</h3>
           <div className="relative mb-3">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input

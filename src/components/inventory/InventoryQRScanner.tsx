@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Camera, Scan, X, Package, MapPin, Tag, Calendar } from 'lucide-react'
 import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library'
@@ -256,9 +256,9 @@ export const InventoryQRScanner: React.FC<InventoryQRScannerProps> = ({
             <div className="text-center py-8 bg-gray-50 rounded-lg">
               <Camera className="w-12 h-12 mx-auto text-gray-400 mb-4" />
               <p className="text-gray-600 mb-4">Kamera erişimi sağlanamadı</p>
-              <Button onClick={() => window.location.reload()} variant="outline">
+              <CorporateButton onClick={() => window.location.reload()} variant="outline">
                 Sayfayı Yenile
-              </Button>
+              </CorporateButton>
             </div>
           )}
 
@@ -266,21 +266,21 @@ export const InventoryQRScanner: React.FC<InventoryQRScannerProps> = ({
           {hasCamera && (
             <div className="flex justify-center gap-2">
               {!isScanning ? (
-                <Button onClick={startScanning} className="flex items-center gap-2">
+                <CorporateButton onClick={startScanning} className="flex items-center gap-2">
                   <Camera className="w-4 h-4" />
                   Taramayı Başlat
-                </Button>
+                </CorporateButton>
               ) : (
                 <>
-                  <Button onClick={stopScanning} variant="destructive" className="flex items-center gap-2">
+                  <CorporateButton onClick={stopScanning} variant="danger" className="flex items-center gap-2">
                     <X className="w-4 h-4" />
                     Durdur
-                  </Button>
+                  </CorporateButton>
                   {cameraDevices.length > 1 && (
-                    <Button onClick={switchCamera} variant="outline" className="flex items-center gap-2">
+                    <CorporateButton onClick={switchCamera} variant="outline" className="flex items-center gap-2">
                       <Camera className="w-4 h-4" />
                       Kamera Değiştir
-                    </Button>
+                    </CorporateButton>
                   )}
                 </>
               )}
@@ -305,7 +305,7 @@ export const InventoryQRScanner: React.FC<InventoryQRScannerProps> = ({
                 <Package className="w-4 h-4" />
                 <span className="font-medium">QR Kod Başarıyla Tarandı</span>
               </div>
-              <div className="space-y-2 text-sm">
+              <div className="space-y-6-group text-sm">
                 <div className="flex items-center gap-2">
                   <Tag className="w-3 h-3 text-gray-500" />
                   <span className="text-gray-600">Kod:</span>

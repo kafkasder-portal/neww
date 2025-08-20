@@ -65,7 +65,7 @@ export function UserSelector({
           {selectedUsers.map(user => (
             <div
               key={user.id}
-              className="flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-sm"
+              className="flex items-center gap-1 bg-blue-100 text-blue-800 border-blue-200 px-2 py-1 rounded-md text-sm"
             >
               <User className="h-3 w-3" />
               <span>{user.full_name || user.email}</span>

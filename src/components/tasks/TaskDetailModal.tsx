@@ -22,7 +22,7 @@ import {
   RotateCcw
 } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { tasksApi } from '../../api/tasks'
 import { Task, TaskComment, TaskAttachment, TaskActivity } from '@/types/collaboration'
 
@@ -30,6 +30,7 @@ import { useAuthStore } from '@store/auth'
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 import { tr } from 'date-fns/locale'
+import { CorporateButton, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 
 interface TaskDetailModalProps {
   taskId: string
@@ -219,24 +220,24 @@ export default function TaskDetailModal({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
+        <div className="flex items-center justify-between p-6 bg-card rounded-lg border border-b">
           <div className="flex items-center space-x-3">
             <Target className="h-6 w-6 text-primary" />
             <h2 className="text-xl font-semibold">Görev Detayları</h2>
           </div>
           <div className="flex items-center space-x-2">
             {task && canEditTask && (
-              <Button 
+              <CorporateButton 
                 size="sm" 
                 variant="outline"
                 onClick={() => onEdit?.(task)}
               >
                 <Edit className="h-4 w-4 mr-2" />
                 Düzenle
-              </Button>
+              </CorporateButton>
             )}
             {canDeleteTask && (
-              <Button 
+              <CorporateButton 
                 size="sm" 
                 variant="outline"
                 onClick={handleDelete}
@@ -244,11 +245,11 @@ export default function TaskDetailModal({
               >
                 <Trash2 className="h-4 w-4 mr-2" />
                 Sil
-              </Button>
+              </CorporateButton>
             )}
-            <Button variant="ghost" size="sm" onClick={onClose}>
+            <CorporateButton variant="ghost" size="sm" onClick={onClose}>
               <X className="h-4 w-4" />
-            </Button>
+            </CorporateButton>
           </div>
         </div>
 
@@ -288,7 +289,7 @@ export default function TaskDetailModal({
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-6 bg-card rounded-lg border">
               {activeTab === 'overview' && (
                 <div className="space-y-6">
                   {/* Task Header */}
@@ -305,36 +306,36 @@ export default function TaskDetailModal({
                       {task.assigned_to === currentUserId && canCompleteTask && (
                         <div className="flex space-x-2 ml-4">
                           {task.status === 'pending' && (
-                            <Button
+                            <CorporateButton
                               size="sm"
                               onClick={() => handleStatusChange('in_progress')}
                               className="bg-blue-600 hover:bg-blue-700"
                             >
                               <Play className="h-4 w-4 mr-2" />
                               Başlat
-                            </Button>
+                            </CorporateButton>
                           )}
                           
                           {task.status === 'in_progress' && (
-                            <Button
+                            <CorporateButton
                               size="sm"
                               variant="outline"
                               onClick={() => handleStatusChange('pending')}
                             >
                               <Pause className="h-4 w-4 mr-2" />
                               Duraklat
-                            </Button>
+                            </CorporateButton>
                           )}
                           
                           {(task.status === 'pending' || task.status === 'in_progress') && (
-                            <Button
+                            <CorporateButton
                               size="sm"
                               onClick={() => handleStatusChange('completed')}
                               className="bg-green-600 hover:bg-green-700"
                             >
                               <CheckCircle className="h-4 w-4 mr-2" />
                               Tamamla
-                            </Button>
+                            </CorporateButton>
                           )}
                         </div>
                       )}
@@ -342,9 +343,9 @@ export default function TaskDetailModal({
                   </div>
 
                   {/* Task Info Cards */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-2">
                     {/* Status and Priority */}
-                    <Card className="p-4">
+                    <CorporateCard className="p-4">
                       <h4 className="font-medium mb-3">Durum ve Öncelik</h4>
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
@@ -366,10 +367,10 @@ export default function TaskDetailModal({
                           </div>
                         </div>
                       </div>
-                    </Card>
+                    </CorporateCard>
 
                     {/* Assignment and Dates */}
-                    <Card className="p-4">
+                    <CorporateCard className="p-4">
                       <h4 className="font-medium mb-3">Atama ve Tarihler</h4>
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
@@ -378,7 +379,7 @@ export default function TaskDetailModal({
                             <User className="h-4 w-4 text-muted-foreground" />
                             <span className="text-sm">Kullanıcı {task.assigned_to}</span>
                             {task.assigned_to === currentUserId && (
-                              <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                              <span className="text-xs bg-blue-100 text-blue-800 border-blue-200 px-2 py-1 rounded">
                                 Benim
                               </span>
                             )}
@@ -400,11 +401,11 @@ export default function TaskDetailModal({
                           </div>
                         )}
                       </div>
-                    </Card>
+                    </CorporateCard>
 
                     {/* Time Tracking */}
                     {(task.estimated_hours || task.actual_hours) && (
-                      <Card className="p-4">
+                      <CorporateCard className="p-4">
                         <h4 className="font-medium mb-3">Zaman Takibi</h4>
                         <div className="space-y-3">
                           {task.estimated_hours && (
@@ -430,17 +431,17 @@ export default function TaskDetailModal({
                             </div>
                           )}
                         </div>
-                      </Card>
+                      </CorporateCard>
                     )}
 
                     {/* Category and Dates */}
-                    <Card className="p-4">
+                    <CorporateCard className="p-4">
                       <h4 className="font-medium mb-3">Kategori ve Tarihler</h4>
                       <div className="space-y-3">
                         {task.category && (
                           <div className="flex items-center justify-between">
                             <span className="text-sm text-muted-foreground">Kategori</span>
-                            <span className="text-sm bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                            <span className="text-sm bg-gray-100 text-gray-800 border-gray-200 px-2 py-1 rounded">
                               {task.category}
                             </span>
                           </div>
@@ -466,17 +467,17 @@ export default function TaskDetailModal({
                           </div>
                         )}
                       </div>
-                    </Card>
+                    </CorporateCard>
                   </div>
 
                   {/* Completion Notes */}
                   {task.completion_notes && (
-                    <Card className="p-4">
+                    <CorporateCard className="p-4">
                       <h4 className="font-medium mb-3">Tamamlanma Notları</h4>
                       <p className="text-sm text-muted-foreground whitespace-pre-wrap">
                         {task.completion_notes}
                       </p>
-                    </Card>
+                    </CorporateCard>
                   )}
                 </div>
               )}
@@ -488,15 +489,15 @@ export default function TaskDetailModal({
                       Yorumlar ({comments.length})
                     </h3>
                     {!addingComment && (
-                      <Button size="sm" onClick={() => setAddingComment(true)}>
+                      <CorporateButton size="sm" onClick={() => setAddingComment(true)}>
                         <Plus className="h-4 w-4 mr-2" />
                         Yorum Ekle
-                      </Button>
+                      </CorporateButton>
                     )}
                   </div>
 
                   {addingComment && (
-                    <Card className="p-4">
+                    <CorporateCard className="p-4">
                       <div className="space-y-3">
                         <textarea
                           value={newComment}
@@ -505,25 +506,25 @@ export default function TaskDetailModal({
                           className="w-full h-24 p-3 border rounded-md resize-none"
                         />
                         <div className="flex space-x-2">
-                          <Button size="sm" onClick={handleAddComment}>
+                          <CorporateButton size="sm" onClick={handleAddComment}>
                             <Send className="h-4 w-4 mr-2" />
                             Gönder
-                          </Button>
-                          <Button size="sm" variant="outline" onClick={() => {
+                          </CorporateButton>
+                          <CorporateButton size="sm" variant="outline" onClick={() => {
                             setAddingComment(false)
                             setNewComment('')
                           }}>
                             İptal
-                          </Button>
+                          </CorporateButton>
                         </div>
                       </div>
-                    </Card>
+                    </CorporateCard>
                   )}
                   
                   {comments.length > 0 ? (
                     <div className="space-y-3">
                       {comments.map((comment) => (
-                        <Card key={comment.id} className="p-4">
+                        <CorporateCard key={comment.id} className="p-4">
                           <div className="flex items-start space-x-3">
                             <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm">
                               U
@@ -540,11 +541,11 @@ export default function TaskDetailModal({
                               </p>
                             </div>
                           </div>
-                        </Card>
+                        </CorporateCard>
                       ))}
                     </div>
                   ) : !addingComment && (
-                    <div className="text-center py-12 text-muted-foreground">
+                    <div className="text-center py-8 text-muted-foreground text-muted-foreground">
                       <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
                       <p>Henüz yorum eklenmemiş</p>
                     </div>
@@ -566,21 +567,21 @@ export default function TaskDetailModal({
                         onChange={handleFileUpload}
                         disabled={uploadingFile}
                       />
-                      <Button 
+                      <CorporateButton 
                         size="sm" 
                         onClick={() => document.getElementById('file-upload')?.click()}
                         disabled={uploadingFile}
                       >
                         <Plus className="h-4 w-4 mr-2" />
                         {uploadingFile ? 'Yükleniyor...' : 'Dosya Ekle'}
-                      </Button>
+                      </CorporateButton>
                     </div>
                   </div>
                   
                   {attachments.length > 0 ? (
                     <div className="grid gap-3">
                       {attachments.map((attachment) => (
-                        <Card key={attachment.id} className="p-4">
+                        <CorporateCard key={attachment.id} className="p-4">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-3">
                               <Paperclip className="h-5 w-5 text-muted-foreground" />
@@ -594,29 +595,29 @@ export default function TaskDetailModal({
                               </div>
                             </div>
                             <div className="flex space-x-2">
-                              <Button
+                              <CorporateButton
                                 size="sm"
                                 variant="outline"
                                 onClick={() => window.open(attachment.file_url, '_blank')}
                               >
                                 <Download className="h-4 w-4 mr-2" />
                                 İndir
-                              </Button>
-                              <Button
+                              </CorporateButton>
+                              <CorporateButton
                                 size="sm"
                                 variant="outline"
                                 onClick={() => handleDeleteAttachment(attachment.id)}
                                 className="text-red-600 hover:text-red-700"
                               >
                                 <Trash2 className="h-4 w-4" />
-                              </Button>
+                              </CorporateButton>
                             </div>
                           </div>
-                        </Card>
+                        </CorporateCard>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-12 text-muted-foreground">
+                    <div className="text-center py-8 text-muted-foreground text-muted-foreground">
                       <Paperclip className="h-12 w-12 mx-auto mb-4 opacity-50" />
                       <p>Henüz dosya eklenmemiş</p>
                     </div>
@@ -633,7 +634,7 @@ export default function TaskDetailModal({
                   {activities.length > 0 ? (
                     <div className="space-y-3">
                       {activities.map((activity) => (
-                        <Card key={activity.id} className="p-4">
+                        <CorporateCard key={activity.id} className="p-4">
                           <div className="flex items-start space-x-3">
                             <div className="mt-0.5">
                               {getActivityIcon(activity.activity_type)}
@@ -655,11 +656,11 @@ export default function TaskDetailModal({
                               )}
                             </div>
                           </div>
-                        </Card>
+                        </CorporateCard>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-12 text-muted-foreground">
+                    <div className="text-center py-8 text-muted-foreground text-muted-foreground">
                       <Activity className="h-12 w-12 mx-auto mb-4 opacity-50" />
                       <p>Henüz aktivite kaydı yok</p>
                     </div>

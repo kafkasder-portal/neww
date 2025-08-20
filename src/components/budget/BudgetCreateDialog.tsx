@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
+import { CardDescription } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -426,10 +427,10 @@ export function BudgetCreateDialog({ open, onOpenChange, onSuccess }: BudgetCrea
           <TabsContent value="categories" className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Bütçe Kategorileri</h3>
-              <Button onClick={addCategory} size="sm">
+              <CorporateButton onClick={addCategory} size="sm">
                 <Plus className="h-4 w-4 mr-2" />
                 Kategori Ekle
-              </Button>
+              </CorporateButton>
             </div>
 
             {errors.categories && (
@@ -441,22 +442,22 @@ export function BudgetCreateDialog({ open, onOpenChange, onSuccess }: BudgetCrea
 
             <div className="space-y-4">
               {formData.categories.map((category, categoryIndex) => (
-                <Card key={categoryIndex}>
-                  <CardHeader>
+                <CorporateCard key={categoryIndex}>
+                  <CorporateCardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-base">
+                      <CorporateCardTitle className="text-base">
                         Kategori {categoryIndex + 1}
-                      </CardTitle>
-                      <Button
+                      </CorporateCardTitle>
+                      <CorporateButton
                         variant="outline"
                         size="sm"
                         onClick={() => removeCategory(categoryIndex)}
                       >
                         <Trash2 className="h-4 w-4" />
-                      </Button>
+                      </CorporateButton>
                     </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
+                  </CorporateCardHeader>
+                  <CorporateCardContent className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="grid gap-2">
                         <Label>Kategori Adı *</Label>
@@ -522,7 +523,7 @@ export function BudgetCreateDialog({ open, onOpenChange, onSuccess }: BudgetCrea
 
                     {/* Subcategories */}
                     {category.subcategories && category.subcategories.length > 0 && (
-                      <div className="space-y-2">
+                      <div className="space-y-6-group">
                         <Label>Alt Kategoriler</Label>
                         {category.subcategories.map((subcategory, subIndex) => (
                           <div key={subIndex} className="flex items-center gap-2 p-2 border rounded">
@@ -545,60 +546,60 @@ export function BudgetCreateDialog({ open, onOpenChange, onSuccess }: BudgetCrea
                               placeholder="Tutar"
                               className="w-32"
                             />
-                            <Button
+                            <CorporateButton
                               variant="outline"
                               size="sm"
                               onClick={() => removeSubcategory(categoryIndex, subIndex)}
                             >
                               <Trash2 className="h-4 w-4" />
-                            </Button>
+                            </CorporateButton>
                           </div>
                         ))}
                       </div>
                     )}
 
-                    <Button
+                    <CorporateButton
                       variant="outline"
                       size="sm"
                       onClick={() => addSubcategory(categoryIndex)}
                     >
                       <Plus className="h-4 w-4 mr-2" />
                       Alt Kategori Ekle
-                    </Button>
-                  </CardContent>
-                </Card>
+                    </CorporateButton>
+                  </CorporateCardContent>
+                </CorporateCard>
               ))}
             </div>
 
             {formData.categories.length === 0 && (
-              <Card>
-                <CardContent className="pt-6">
+              <CorporateCard>
+                <CorporateCardContent className="pt-6">
                   <div className="text-center py-8">
                     <Calculator className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-lg font-semibold mb-2">Henüz kategori eklenmedi</h3>
                     <p className="text-muted-foreground mb-4">
                       Bütçeniz için gelir ve gider kategorileri ekleyin.
                     </p>
-                    <Button onClick={addCategory}>
+                    <CorporateButton onClick={addCategory}>
                       İlk kategoriyi ekle
-                    </Button>
+                    </CorporateButton>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             )}
           </TabsContent>
 
           {/* Summary Tab */}
           <TabsContent value="summary" className="space-y-4">
             <div className="grid gap-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Bütçe Özeti</CardTitle>
+              <CorporateCard>
+                <CorporateCardHeader>
+                  <CorporateCardTitle>Bütçe Özeti</CorporateCardTitle>
                   <CardDescription>
                     Oluşturduğunuz bütçenin genel görünümü
                   </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                </CorporateCardHeader>
+                <CorporateCardContent className="space-y-4">
                   <div className="grid grid-cols-3 gap-4">
                     <div className="text-center p-4 border rounded-lg">
                       <p className="text-sm text-muted-foreground">Toplam Gelir</p>
@@ -626,7 +627,7 @@ export function BudgetCreateDialog({ open, onOpenChange, onSuccess }: BudgetCrea
 
                   <div>
                     <h4 className="font-semibold mb-2">Bütçe Detayları</h4>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-6-group text-sm">
                       <div className="flex justify-between">
                         <span>Bütçe Adı:</span>
                         <span className="font-medium">{formData.name || 'Belirtilmedi'}</span>
@@ -674,8 +675,8 @@ export function BudgetCreateDialog({ open, onOpenChange, onSuccess }: BudgetCrea
                       </AlertDescription>
                     </Alert>
                   )}
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
           </TabsContent>
         </Tabs>
@@ -688,12 +689,12 @@ export function BudgetCreateDialog({ open, onOpenChange, onSuccess }: BudgetCrea
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
+          <CorporateButton variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
             İptal
-          </Button>
-          <Button onClick={handleSubmit} disabled={loading}>
+          </CorporateButton>
+          <CorporateButton onClick={handleSubmit} disabled={loading}>
             {loading ? 'Oluşturuluyor...' : 'Bütçe Oluştur'}
-          </Button>
+          </CorporateButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>

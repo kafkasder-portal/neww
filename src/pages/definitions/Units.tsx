@@ -82,7 +82,7 @@ export default function Units() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-card rounded-lg border">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <Building className="h-8 w-8 text-semantic-success" />
@@ -94,7 +94,7 @@ export default function Units() {
       </div>
 
       <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-border">
+        <div className="p-6 bg-card rounded-lg border border-b border-border">
           <div className="flex flex-col sm:flex-row gap-4 justify-between">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
@@ -175,8 +175,8 @@ export default function Units() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       unit.isActive 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800 border-green-200' 
+                        : 'bg-red-100 text-red-800 border-red-200'
                     }`}>
                       {unit.isActive ? 'Aktif' : 'Pasif'}
                     </span>
@@ -202,7 +202,7 @@ export default function Units() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className="p-6">
+        <div className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
             {editingUnit ? 'Birim Düzenle' : 'Yeni Birim Ekle'}
           </h3>
@@ -210,7 +210,7 @@ export default function Units() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block space-y-6-label dark:text-gray-300 mb-2">
                   Birim Adı
                 </label>
                 <input
@@ -221,7 +221,7 @@ export default function Units() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block space-y-6-label dark:text-gray-300 mb-2">
                   Birim Kodu
                 </label>
                 <input
@@ -233,7 +233,7 @@ export default function Units() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block space-y-6-label dark:text-gray-300 mb-2">
                   Açıklama
                 </label>
                 <textarea
@@ -244,7 +244,7 @@ export default function Units() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block space-y-6-label dark:text-gray-300 mb-2">
                   Üst Birim
                 </label>
                 <select className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800 dark:text-gray-100">
@@ -255,7 +255,7 @@ export default function Units() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block space-y-6-label dark:text-gray-300 mb-2">
                   Yönetici
                 </label>
                 <input
@@ -281,7 +281,7 @@ export default function Units() {
           <div className="flex gap-3 mt-6">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+              className="flex-1 px-4 py-2 space-y-6-label dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               İptal
             </button>

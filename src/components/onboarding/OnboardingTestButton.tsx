@@ -1,6 +1,7 @@
 // import React from 'react' // JSX için gerekli değil
 import { Button } from '../ui/button'
 import { RotateCcw, Play } from 'lucide-react'
+import { CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface OnboardingTestButtonProps {
   onReset: () => void
@@ -10,7 +11,7 @@ interface OnboardingTestButtonProps {
 export function OnboardingTestButton({ onReset, onStart }: OnboardingTestButtonProps) {
   return (
     <div className="fixed bottom-4 right-4 z-50 flex space-x-2">
-      <Button
+      <CorporateButton
         variant="outline"
         size="sm"
         onClick={onReset}
@@ -18,15 +19,15 @@ export function OnboardingTestButton({ onReset, onStart }: OnboardingTestButtonP
       >
         <RotateCcw className="w-4 h-4 mr-1" />
         Onboarding Sıfırla
-      </Button>
-      <Button
+      </CorporateButton>
+      <CorporateButton
         size="sm"
         onClick={onStart}
         className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
       >
         <Play className="w-4 h-4 mr-1" />
         Onboarding Başlat
-      </Button>
+      </CorporateButton>
     </div>
   )
 }

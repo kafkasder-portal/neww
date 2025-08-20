@@ -107,11 +107,11 @@ export default function BulkSendEnhanced() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 space-y-4">
         {/* Main Form */}
         <div className="lg:col-span-2 space-y-6">
           {/* Message Type Selection */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Mesaj Türü</h3>
             <div className="grid grid-cols-3 gap-4">
               {[
@@ -122,7 +122,7 @@ export default function BulkSendEnhanced() {
                 <button
                   key={type}
                   onClick={() => setMessageType(type)}
-                  className={`p-4 rounded-lg border-2 transition-all ${
+                  className={`p-4 border rounded-lg-2 transition-all ${
                     messageType === type
                       ? 'border-blue-500 bg-blue-50 text-blue-700'
                       : 'border-gray-200 hover:border-gray-300 text-gray-700'
@@ -137,7 +137,7 @@ export default function BulkSendEnhanced() {
           </div>
 
           {/* Recipient Selection */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Alıcı Seçimi</h3>
             
             <div className="flex gap-4 mb-4">
@@ -184,7 +184,7 @@ export default function BulkSendEnhanced() {
                 {availableGroups.map(group => (
                   <div
                     key={group.id}
-                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                    className={`p-4 border rounded-lg-2 cursor-pointer transition-all ${
                       selectedGroups.includes(group.id)
                         ? 'border-blue-500 bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300'
@@ -243,12 +243,12 @@ export default function BulkSendEnhanced() {
           </div>
 
           {/* Message Content */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Mesaj İçeriği</h3>
             
             {/* Template Selection */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block space-y-6-label mb-2">
                 Şablon Seç (Opsiyonel)
               </label>
               <select
@@ -275,7 +275,7 @@ export default function BulkSendEnhanced() {
 
             {/* Message Input */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block space-y-6-label mb-2">
                 Mesaj Metni
               </label>
               <textarea
@@ -314,7 +314,7 @@ export default function BulkSendEnhanced() {
             {/* Email Subject (only for email) */}
             {messageType === 'email' && (
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   E-posta Konusu
                 </label>
                 <input
@@ -332,12 +332,12 @@ export default function BulkSendEnhanced() {
           </div>
 
           {/* Scheduling */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Gönderim Ayarları</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   <Calendar className="h-4 w-4 inline mr-1" />
                   Gönderim Tarihi
                 </label>
@@ -350,7 +350,7 @@ export default function BulkSendEnhanced() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   <Clock className="h-4 w-4 inline mr-1" />
                   Gönderim Saati
                 </label>
@@ -364,7 +364,7 @@ export default function BulkSendEnhanced() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block space-y-6-label mb-2">
                 <Target className="h-4 w-4 inline mr-1" />
                 Öncelik
               </label>
@@ -385,7 +385,7 @@ export default function BulkSendEnhanced() {
         {/* Summary Sidebar */}
         <div className="space-y-6">
           {/* Summary */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Gönderim Özeti</h3>
             
             <div className="space-y-4">
@@ -424,7 +424,7 @@ export default function BulkSendEnhanced() {
           </div>
 
           {/* Cost Estimation */}
-          <div className="bg-gradient-to-r from-green-500 to-blue-600 text-white p-6 rounded-lg">
+          <div className="bg-gradient-to-r from-green-500 to-blue-600 text-white p-6 bg-card rounded-lg border rounded-lg">
             <h4 className="font-semibold mb-2">Tahmini Maliyet</h4>
             <div className="text-2xl font-bold mb-1">
               {messageType === 'sms' 
@@ -443,9 +443,9 @@ export default function BulkSendEnhanced() {
 
           {/* Selected Groups */}
           {selectedGroups.length > 0 && (
-            <div className="bg-white p-6 rounded-lg border">
+            <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
               <h4 className="font-semibold text-gray-900 mb-3">Seçili Gruplar</h4>
-              <div className="space-y-2">
+              <div className="space-y-6-group">
                 {selectedGroups.map(groupId => {
                   const group = availableGroups.find(g => g.id === groupId)
                   return group ? (

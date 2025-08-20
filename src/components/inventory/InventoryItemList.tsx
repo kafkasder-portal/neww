@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable } from '@/components/ui/corporate/CorporateComponents'
+
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
+
 import { 
   Select,
   SelectContent,
@@ -234,14 +234,14 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle className="flex items-center gap-2">
             <Filter className="h-5 w-5" />
             Filtreler
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </CorporateCardTitle>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Arama */}
             <div className="relative">
@@ -282,26 +282,26 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
 
             {/* Hızlı Filtreler */}
             <div className="flex gap-2">
-              <Button
+              <CorporateButton
                 variant={filters.lowStock ? 'default' : 'outline'}
                 size="sm"
                 onClick={toggleLowStockFilter}
               >
                 <AlertTriangle className="h-4 w-4 mr-1" />
                 Düşük Stok
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 variant={filters.outOfStock ? 'default' : 'outline'}
                 size="sm"
                 onClick={toggleOutOfStockFilter}
               >
                 <XCircle className="h-4 w-4 mr-1" />
                 Stokta Yok
-              </Button>
+              </CorporateButton>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Results Summary */}
       <div className="flex justify-between items-center">
@@ -309,39 +309,39 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
           {filteredItems.length} ürün gösteriliyor
           {filters.search && ` ("${filters.search}" araması için)`}
         </p>
-        <Button onClick={onAddNew}>
+        <CorporateButton onClick={onAddNew}>
           <Plus className="h-4 w-4 mr-2" />
           Yeni Ürün
-        </Button>
+        </CorporateButton>
       </div>
 
       {/* Items Table */}
-      <Card>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Ürün</TableHead>
-                <TableHead>SKU</TableHead>
-                <TableHead>Kategori</TableHead>
-                <TableHead>Lokasyon</TableHead>
-                <TableHead>Mevcut Stok</TableHead>
-                <TableHead>Birim Fiyat</TableHead>
-                <TableHead>Durum</TableHead>
-                <TableHead>Stok Durumu</TableHead>
-                <TableHead className="w-[50px]"></TableHead>
-              </TableRow>
-            </TableHeader>
+      <CorporateCard>
+        <CorporateCardContent className="p-0">
+          <CorporateTable>
+            <CorporateTableHeader>
+              <CorporateTableRow>
+                <CorporateTableHeaderCell>Ürün</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>SKU</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Kategori</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Lokasyon</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Mevcut Stok</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Birim Fiyat</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Durum</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Stok Durumu</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell className="w-[50px]"></CorporateTableHeaderCell>
+              </CorporateTableRow>
+            </CorporateTableHeader>
             <TableBody>
               {filteredItems.map((item) => {
                 const stockStatus = getStockStatus(item)
                 return (
-                  <TableRow 
+                  <CorporateTableRow 
                     key={item.id} 
                     className="cursor-pointer hover:bg-muted/50"
                     onClick={() => onItemSelect?.(item)}
                   >
-                    <TableCell>
+                    <CorporateTableCell>
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
                           <Package className="h-5 w-5 text-muted-foreground" />
@@ -353,8 +353,8 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                           </p>
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="font-mono text-sm">{item.sku}</div>
                       {item.barcode && (
                         <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -362,19 +362,19 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                           {item.barcode}
                         </div>
                       )}
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline">
+                    </CorporateTableCell>
+                    <CorporateTableCell>
+                      <CorporateBadge variant="outline">
                         {item.category?.name}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
+                      </CorporateBadge>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="text-sm">{item.location?.name}</div>
                       <div className="text-xs text-muted-foreground">
                         {item.location?.code}
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="text-right">
                         <div className="font-medium">
                           {formatNumber(item.currentStock)} {item.unitOfMeasure}
@@ -383,13 +383,13 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                           Min: {formatNumber(item.minimumStock)}
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="text-right font-medium">
                         {formatCurrency(item.unitPrice, 'TRY', 'tr-TR')}
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="flex items-center gap-2">
                         {getStatusIcon(item.status)}
                         <span className="text-sm capitalize">
@@ -397,18 +397,18 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                            item.status === 'inactive' ? 'Pasif' : 'Durdurulmuş'}
                         </span>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={stockStatus.color as any}>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
+                      <CorporateBadge variant={stockStatus.color as any}>
                         {stockStatus.label}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
+                      </CorporateBadge>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
+                          <CorporateButton variant="ghost" size="sm">
                             <MoreHorizontal className="h-4 w-4" />
-                          </Button>
+                          </CorporateButton>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>İşlemler</DropdownMenuLabel>
@@ -427,28 +427,28 @@ const InventoryItemList: React.FC<InventoryItemListProps> = ({
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
+                    </CorporateTableCell>
+                  </CorporateTableRow>
                 )
               })}
             </TableBody>
-          </Table>
+          </CorporateTable>
           
           {filteredItems.length === 0 && (
-            <div className="text-center py-12">
+            <div className="text-center py-8 text-muted-foreground">
               <Package className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
               <p className="text-muted-foreground mb-2">Ürün bulunamadı</p>
               <p className="text-sm text-muted-foreground mb-4">
                 Arama kriterlerinizi değiştirin veya yeni ürün ekleyin
               </p>
-              <Button onClick={onAddNew}>
+              <CorporateButton onClick={onAddNew}>
                 <Plus className="h-4 w-4 mr-2" />
                 Yeni Ürün Ekle
-              </Button>
+              </CorporateButton>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
     </div>
   )
 }

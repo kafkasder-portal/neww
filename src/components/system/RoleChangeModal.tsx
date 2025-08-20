@@ -91,7 +91,7 @@ export default function RoleChangeModal({
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50-content max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
           <div className="flex items-center">
@@ -110,7 +110,7 @@ export default function RoleChangeModal({
         </div>
 
         {/* Content */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 bg-card rounded-lg border space-y-6">
           {/* User Info */}
           <div className="bg-gray-50 rounded-lg p-4">
             <div className="flex items-center">
@@ -158,7 +158,7 @@ export default function RoleChangeModal({
 
           {/* Role Selection */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block space-y-6-label mb-3">
               Yeni Rol Seçin
             </label>
             <div className="space-y-3">
@@ -218,7 +218,7 @@ export default function RoleChangeModal({
 
           {/* Reason */}
           <div>
-            <label htmlFor="reason" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="reason" className="block space-y-6-label mb-2">
               Değişiklik Nedeni (Opsiyonel)
             </label>
             <textarea
@@ -256,7 +256,7 @@ export default function RoleChangeModal({
               type="button"
               onClick={handleClose}
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="px-4 py-2 space-y-6-label bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               İptal
             </button>

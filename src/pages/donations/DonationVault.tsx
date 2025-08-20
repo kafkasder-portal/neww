@@ -49,7 +49,7 @@ export default function DonationVault() {
       key: 'type',
       header: 'İşlem Türü',
       render: (_, row: VaultTransaction) => (
-        <span className={`px-2 py-1 rounded text-xs ${row.type === 'giriş' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+        <span className={`px-2 py-1 rounded text-xs ${row.type === 'giriş' ? 'bg-green-100 text-green-800 border-green-200' : 'bg-red-100 text-red-800 border-red-200'
           }`}>
           {row.type}
         </span>
@@ -73,10 +73,10 @@ export default function DonationVault() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 bg-card rounded-lg border rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-4">Bağış Kabul Veznesi</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 space-y-4 mb-8">
           <TotalDonationsCard
             title="Mevcut Bakiye"
             total={currentBalance}
@@ -97,7 +97,7 @@ export default function DonationVault() {
         </div>
 
         {/* Yeni İşlem Formu - Modernized */}
-        <div className="bg-gradient-to-br from-gray-50 to-slate-50 border border-gray-200 rounded-xl p-6 mb-8 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-50 to-slate-50 border border-gray-200 rounded-xl p-6 bg-card rounded-lg border mb-8 shadow-sm">
           <div className="flex items-center space-x-3 mb-6">
             <div className="p-2 bg-blue-100 rounded-lg">
               <Plus className="w-5 h-5 text-blue-600" />
@@ -105,8 +105,8 @@ export default function DonationVault() {
             <h3 className="text-lg font-semibold text-gray-900">Yeni İşlem</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">İşlem Türü</label>
+            <div className="space-y-6-group">
+              <label className="space-y-6-label">İşlem Türü</label>
               <select
                 value={newTransaction.type}
                 onChange={(e) => setNewTransaction({ ...newTransaction, type: e.target.value as 'giriş' | 'çıkış' })}
@@ -116,8 +116,8 @@ export default function DonationVault() {
                 <option value="çıkış">💸 Çıkış</option>
               </select>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Tutar (₺)</label>
+            <div className="space-y-6-group">
+              <label className="space-y-6-label">Tutar (₺)</label>
               <input
                 type="number"
                 placeholder="0.00"
@@ -126,8 +126,8 @@ export default function DonationVault() {
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Açıklama</label>
+            <div className="space-y-6-group">
+              <label className="space-y-6-label">Açıklama</label>
               <input
                 type="text"
                 placeholder="İşlem açıklaması"
@@ -136,8 +136,8 @@ export default function DonationVault() {
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">&nbsp;</label>
+            <div className="space-y-6-group">
+              <label className="space-y-6-label">&nbsp;</label>
               <button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2.5 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-sm hover:shadow-md">
                 İşlem Ekle
               </button>
@@ -147,7 +147,7 @@ export default function DonationVault() {
       </div>
 
       {/* İşlem Geçmişi - Modernized */}
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+      <div className="bg-white p-6 bg-card rounded-lg border rounded-xl shadow-sm border border-gray-200">
         <div className="flex items-center space-x-3 mb-6">
           <div className="p-2 bg-gray-100 rounded-lg">
             <History className="w-5 h-5 text-gray-600" />

@@ -141,7 +141,7 @@ export function AIAnalyticsModal({ isOpen, onClose, userId }: AIAnalyticsModalPr
                   <BarChart3 className="w-5 h-5" />
                   En Çok Kullanılan Komutlar
                 </h3>
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   {analytics.mostUsedCommands.map((cmd: any, index: number) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded">
                       <span className="font-medium">{cmd.command}</span>
@@ -194,7 +194,7 @@ export function AIAnalyticsModal({ isOpen, onClose, userId }: AIAnalyticsModalPr
                   <Clock className="w-5 h-5" />
                   Son Komut Geçmişi
                 </h3>
-                <div className="space-y-2 max-h-64 overflow-y-auto">
+                <div className="space-y-6-group max-h-64 overflow-y-auto">
                   {analytics.recentHistory.map((item: any, index: number) => (
                     <div 
                       key={index} 
@@ -235,7 +235,7 @@ export function AIAnalyticsModal({ isOpen, onClose, userId }: AIAnalyticsModalPr
                   <TrendingUp className="w-5 h-5" />
                   Son 7 Gün Kullanım Trendi
                 </h3>
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   {analytics.trends.dailyBreakdown.map(([day, count]: [string, number], index: number) => (
                     <div key={index} className="flex items-center justify-between">
                       <span className="text-sm">{new Date(day).toLocaleDateString('tr-TR')}</span>

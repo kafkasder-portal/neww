@@ -32,13 +32,13 @@ const AllocationChart: React.FC<AllocationChartProps> = ({ data }) => {
   };
   
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6">
+    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6 bg-card rounded-lg border">
       <h3 className="text-lg font-semibold text-financial-gray-900 mb-4 flex items-center">
         <PieChart className="w-5 h-5 mr-2 text-financial-primary" />
         Fon Dağılım Grafiği
       </h3>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
         {/* Pie Chart Placeholder */}
         <div className="flex items-center justify-center h-64 bg-financial-gray-50 rounded-lg">
           <div className="text-center">
@@ -84,7 +84,7 @@ interface AllocationTableProps {
 
 const AllocationTable: React.FC<AllocationTableProps> = ({ data }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6">
+    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6 bg-card rounded-lg border">
       <h3 className="text-lg font-semibold text-financial-gray-900 mb-4 flex items-center">
         <BarChart3 className="w-5 h-5 mr-2 text-financial-primary" />
         Detaylı Fon Dağılımı
@@ -259,7 +259,7 @@ const FundAllocationDashboard: React.FC = () => {
       </div>
       
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-4">
         <FundCard
           title="Toplam Tahsis"
           value={totalAllocated}
@@ -267,7 +267,7 @@ const FundAllocationDashboard: React.FC = () => {
           changeType="increase"
           period="Bu dönem"
           icon={Wallet}
-          variant="default"
+          variant="primary"
         />
         
         <FundCard
@@ -303,7 +303,7 @@ const FundAllocationDashboard: React.FC = () => {
       </div>
       
       {/* Charts and Tables */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 space-y-4">
         <AllocationChart data={mockAllocations} />
         <div className="space-y-6">
           {/* Fund Type Cards */}

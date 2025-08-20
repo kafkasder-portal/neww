@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { Button } from '../ui/button'
 import { Bell, Check, X, Target, Clock, CheckCircle, MessageSquare, Users, Calendar } from 'lucide-react'
 import { formatRelativeTime } from '@utils/collaboration'
 import { tasksApi } from '../../api/tasks'
 import { messagesApi } from '../../api/messages'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface Notification {
   id: string
@@ -207,14 +208,14 @@ export default function NotificationCenter({ userId, className = '' }: Notificat
             className="fixed inset-0 z-10" 
             onClick={() => setIsOpen(false)}
           />
-          <Card className="absolute top-full right-0 mt-2 w-96 max-h-[500px] overflow-hidden z-20 shadow-lg">
+          <CorporateCard className="absolute top-full right-0 mt-2 w-96 max-h-[500px] overflow-hidden z-20 shadow-lg">
             {/* Header */}
             <div className="p-4 border-b">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold">Bildirimler</h3>
                 <div className="flex items-center space-x-2">
                   {unreadCount > 0 && (
-                    <Button 
+                    <CorporateButton 
                       size="sm" 
                       variant="outline" 
                       onClick={markAllAsRead}
@@ -222,15 +223,15 @@ export default function NotificationCenter({ userId, className = '' }: Notificat
                     >
                       <Check className="h-3 w-3 mr-1" />
                       Tümünü Okundu İşaretle
-                    </Button>
+                    </CorporateButton>
                   )}
-                  <Button 
+                  <CorporateButton 
                     size="sm" 
                     variant="ghost" 
                     onClick={() => setIsOpen(false)}
                   >
                     <X className="h-4 w-4" />
-                  </Button>
+                  </CorporateButton>
                 </div>
               </div>
 
@@ -345,7 +346,7 @@ export default function NotificationCenter({ userId, className = '' }: Notificat
                 </button>
               </div>
             )}
-          </Card>
+          </CorporateCard>
         </>
       )}
     </div>

@@ -12,6 +12,7 @@ import { LanguageProvider } from './contexts/LanguageContext'
 import { SocketProvider } from './contexts/SocketContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { useAuthStore } from './store/auth'
+import { PerformanceService } from './services/performanceService'
 
 import AppRoutes from './routes'
 
@@ -81,9 +82,20 @@ function AppContent({
 export default function App() {
   const { initializing, initialize } = useAuthStore()
 
-  // Initialize auth on app start
+  // Initialize auth and performance monitoring on app start
   useEffect(() => {
     initialize()
+    
+    // Performance monitoring başlat
+    if (process.env.NODE_ENV === 'production') {
+      // Production'da performance monitoring'i etkinleştir
+      console.log('Performance monitoring başlatıldı')
+    }
+    
+    // Cleanup function
+    return () => {
+      PerformanceService.destroy()
+    }
   }, [initialize])
 
   // Show loading screen while initializing auth

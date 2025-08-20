@@ -4,7 +4,24 @@ import { exportToCsv } from '@lib/exportToCsv'
 import { TrendingUp, Edit, Trash2, Plus } from 'lucide-react'
 
 // Lazy load recharts components
-import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { lazy } from 'react'
+const LazyResponsiveContainer = lazy(() => import('recharts').then(module => ({ default: module.ResponsiveContainer })))
+const LazyBarChart = lazy(() => import('recharts').then(module => ({ default: module.BarChart })))
+const LazyPieChart = lazy(() => import('recharts').then(module => ({ default: module.PieChart })))
+const LazyBar = lazy(() => import('recharts').then(module => ({ default: module.Bar })))
+const LazyPie = lazy(() => import('recharts').then(module => ({ default: module.Pie })))
+const LazyCell = lazy(() => import('recharts').then(module => ({ default: module.Cell })))
+const LazyXAxis = lazy(() => import('recharts').then(module => ({ default: module.XAxis })))
+const LazyYAxis = lazy(() => import('recharts').then(module => ({ default: module.YAxis })))
+const LazyCartesianGrid = lazy(() => import('recharts').then(module => ({ default: module.CartesianGrid })))
+const LazyTooltip = lazy(() => import('recharts').then(module => ({ default: module.Tooltip })))
+
+// Chart loading component
+const ChartLoading = () => (
+  <div className="flex h-[300px] items-center justify-center">
+    <div className="text-sm text-muted-foreground">Grafik yükleniyor...</div>
+  </div>
+)
 import { useDesignSystem } from '@/hooks/useDesignSystem'
 import { COLORS } from '@/constants/design-system'
 
@@ -269,31 +286,31 @@ export default function SourcesExpenses() {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 space-y-4 lg:grid-cols-2">
         {/* Bar Chart */}
-        <div className="rounded border bg-card p-6">
+        <div className="rounded border bg-card p-6 bg-card rounded-lg border">
           <h3 className="mb-4 text-lg font-semibold">Kaynak vs Harcama</h3>
-          <Suspense fallback={<div className="flex h-[300px] items-center justify-center">Grafik yükleniyor...</div>}>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="kaynak" fill="COLORS.semantic.success" name="Kaynak" />
-                <Bar dataKey="harcama" fill="COLORS.semantic.danger" name="Harcama" />
-              </BarChart>
-            </ResponsiveContainer>
+          <Suspense fallback={<ChartLoading />}>
+            <LazyResponsiveContainer width="100%" height={300}>
+              <LazyBarChart data={chartData}>
+                <LazyCartesianGrid strokeDasharray="3 3" />
+                <LazyXAxis dataKey="name" />
+                <LazyYAxis />
+                <LazyTooltip />
+                <LazyBar dataKey="kaynak" fill="COLORS.semantic.success" name="Kaynak" />
+                <LazyBar dataKey="harcama" fill="COLORS.semantic.danger" name="Harcama" />
+              </LazyBarChart>
+            </LazyResponsiveContainer>
           </Suspense>
         </div>
 
         {/* Pie Chart */}
-        <div className="rounded border bg-card p-6">
+        <div className="rounded border bg-card p-6 bg-card rounded-lg border">
           <h3 className="mb-4 text-lg font-semibold">Kategori Dağılımı</h3>
-          <Suspense fallback={<div className="flex h-[300px] items-center justify-center">Grafik yükleniyor...</div>}>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
+          <Suspense fallback={<ChartLoading />}>
+            <LazyResponsiveContainer width="100%" height={300}>
+              <LazyPieChart>
+                <LazyPie
                   data={pieData}
                   cx="50%"
                   cy="50%"
@@ -304,12 +321,12 @@ export default function SourcesExpenses() {
                   dataKey="value"
                 >
                   {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
+                    <LazyCell key={`cell-${index}`} fill={entry.color} />
                   ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+                </LazyPie>
+                <LazyTooltip />
+              </LazyPieChart>
+            </LazyResponsiveContainer>
           </Suspense>
         </div>
       </div>
@@ -320,7 +337,7 @@ export default function SourcesExpenses() {
       {/* Add Source/Expense Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-lg rounded-lg bg-white p-6">
+          <div className="w-full max-w-lg rounded-lg bg-white p-6 bg-card rounded-lg border">
             <h2 className="mb-4 text-lg font-semibold">Yeni Kaynak/Harcama Ekle</h2>
             <form className="space-y-4">
               <div className="grid grid-cols-2 gap-4">

@@ -4,7 +4,7 @@ import { Modal } from '@components/Modal'
 import { exportToCsv } from '@lib/exportToCsv'
 import { Camera } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { LazyCameraScanner } from '../../components/LazyCameraScanner'
+import { LazyCameraScanner } from '@components/LazyCameraScanner'
 
 interface DonationNumber {
   id: string
@@ -154,10 +154,10 @@ export default function DonationNumbers() {
       key: 'status',
       header: 'Durum',
       render: (_, row: DonationNumber) => (
-        <span className={`px-2 py-1 rounded text-xs ${row.status === 'aktif' ? 'bg-green-100 text-green-800' :
-            row.status === 'tamamlandı' ? 'bg-blue-100 text-blue-800' :
-              row.status === 'süresi doldu' ? 'bg-red-100 text-red-800' :
-                'bg-gray-100 text-gray-800'
+        <span className={`px-2 py-1 rounded text-xs ${row.status === 'aktif' ? 'bg-green-100 text-green-800 border-green-200' :
+            row.status === 'tamamlandı' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+              row.status === 'süresi doldu' ? 'bg-red-100 text-red-800 border-red-200' :
+                'bg-gray-100 text-gray-800 border-gray-200'
           }`}>
           {row.status}
         </span>
@@ -329,12 +329,12 @@ export default function DonationNumbers() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 bg-card rounded-lg border rounded-lg shadow">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Bağış Numaraları</h2>
           <button
             onClick={openAddModal}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
           >
             Yeni Bağış Numarası
           </button>
@@ -413,7 +413,7 @@ export default function DonationNumbers() {
           />
           <button
             onClick={() => exportToCsv('bagis-numaralari.csv', filteredNumbers)}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            className="bg-green-500 text-white hover:bg-green-600"
           >
             Excel İndir
           </button>

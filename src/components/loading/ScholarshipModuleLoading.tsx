@@ -15,7 +15,7 @@ export const ScholarshipModuleLoading = ({ type = 'dashboard' }: ScholarshipModu
             <div className="h-6 bg-muted rounded w-36 animate-pulse"></div>
           </div>
           <SkeletonStats />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
             <div className="space-y-4">
               <div className="h-5 bg-muted rounded w-32 animate-pulse"></div>
               <SkeletonCard />
@@ -57,7 +57,7 @@ export const ScholarshipModuleLoading = ({ type = 'dashboard' }: ScholarshipModu
               <div className="h-5 bg-muted rounded w-32 animate-pulse"></div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="space-y-2">
+                  <div key={i} className="space-y-6-group">
                     <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
                     <div className="h-10 bg-muted rounded animate-pulse"></div>
                   </div>
@@ -70,7 +70,7 @@ export const ScholarshipModuleLoading = ({ type = 'dashboard' }: ScholarshipModu
               <div className="h-5 bg-muted rounded w-32 animate-pulse"></div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="space-y-2">
+                  <div key={i} className="space-y-6-group">
                     <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
                     <div className="h-10 bg-muted rounded animate-pulse"></div>
                   </div>
@@ -83,7 +83,7 @@ export const ScholarshipModuleLoading = ({ type = 'dashboard' }: ScholarshipModu
               <div className="h-5 bg-muted rounded w-32 animate-pulse"></div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="space-y-2">
+                  <div key={i} className="space-y-6-group">
                     <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
                     <div className="h-10 bg-muted rounded animate-pulse"></div>
                   </div>

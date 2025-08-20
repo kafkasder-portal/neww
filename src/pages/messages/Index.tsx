@@ -86,10 +86,10 @@ export default function MessagesIndex() {
 
   const getPriorityBadge = (priority: string) => {
     const colors = {
-      low: 'bg-gray-100 text-gray-800',
-      normal: 'bg-blue-100 text-blue-800',
+      low: 'bg-gray-100 text-gray-800 border-gray-200',
+      normal: 'bg-blue-100 text-blue-800 border-blue-200',
       high: 'bg-orange-100 text-orange-800',
-      urgent: 'bg-red-100 text-red-800'
+      urgent: 'bg-red-100 text-red-800 border-red-200'
     }
     return (
       <span className={`px-2 py-1 rounded-full text-xs font-medium ${colors[priority as keyof typeof colors]}`}>
@@ -100,8 +100,8 @@ export default function MessagesIndex() {
 
   const getTypeBadge = (type: string) => {
     const colors = {
-      sms: 'bg-green-100 text-green-800',
-      email: 'bg-blue-100 text-blue-800',
+      sms: 'bg-green-100 text-green-800 border-green-200',
+      email: 'bg-blue-100 text-blue-800 border-blue-200',
       notification: 'bg-purple-100 text-purple-800'
     }
     return (
@@ -228,7 +228,7 @@ export default function MessagesIndex() {
       </div>
 
       {/* Filtreler */}
-      <div className="bg-white p-4 rounded-lg border space-y-4">
+      <div className="bg-white p-4 border rounded-lg space-y-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-gray-400" />
           <input
@@ -242,7 +242,7 @@ export default function MessagesIndex() {
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-gray-400" />
-            <span className="text-sm font-medium text-gray-700">Filtreler:</span>
+            <span className="space-y-6-label">Filtreler:</span>
           </div>
           
           <select
@@ -294,7 +294,7 @@ export default function MessagesIndex() {
 
       {/* İstatistikler */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-100 rounded-lg">
               <Send className="h-5 w-5 text-blue-600" />
@@ -307,7 +307,7 @@ export default function MessagesIndex() {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-green-100 rounded-lg">
               <CheckCircle className="h-5 w-5 text-green-600" />
@@ -324,7 +324,7 @@ export default function MessagesIndex() {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-yellow-100 rounded-lg">
               <Clock className="h-5 w-5 text-yellow-600" />
@@ -339,7 +339,7 @@ export default function MessagesIndex() {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-red-100 rounded-lg">
               <AlertCircle className="h-5 w-5 text-red-600" />
@@ -354,7 +354,7 @@ export default function MessagesIndex() {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-orange-100 rounded-lg">
               <Target className="h-5 w-5 text-orange-600" />
@@ -385,11 +385,11 @@ export default function MessagesIndex() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Konu</label>
+                <label className="block space-y-6-label mb-1">Konu</label>
                 <p className="text-sm text-gray-900">{selectedMessage.subject}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Durum</label>
+                <label className="block space-y-6-label mb-1">Durum</label>
                 <div className="flex items-center gap-2">
                   {getStatusIcon(selectedMessage.status)}
                   <span className="text-sm">
@@ -400,35 +400,35 @@ export default function MessagesIndex() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Gönderen</label>
+                <label className="block space-y-6-label mb-1">Gönderen</label>
                 <p className="text-sm text-gray-900">{selectedMessage.sender}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Alıcı</label>
+                <label className="block space-y-6-label mb-1">Alıcı</label>
                 <p className="text-sm text-gray-900">{selectedMessage.recipient}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tür</label>
+                <label className="block space-y-6-label mb-1">Tür</label>
                 {getTypeBadge(selectedMessage.type)}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Öncelik</label>
+                <label className="block space-y-6-label mb-1">Öncelik</label>
                 {getPriorityBadge(selectedMessage.priority)}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tarih</label>
+                <label className="block space-y-6-label mb-1">Tarih</label>
                 <p className="text-sm text-gray-900">{selectedMessage.date} {selectedMessage.time}</p>
               </div>
               {selectedMessage.group && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Grup</label>
+                  <label className="block space-y-6-label mb-1">Grup</label>
                   <p className="text-sm text-gray-900">{selectedMessage.group}</p>
                 </div>
               )}
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Mesaj İçeriği</label>
+              <label className="block space-y-6-label mb-2">Mesaj İçeriği</label>
               <div className="bg-gray-50 p-3 rounded border">
                 <p className="text-sm text-gray-900 whitespace-pre-wrap">{selectedMessage.content}</p>
               </div>
@@ -446,7 +446,7 @@ export default function MessagesIndex() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Mesaj Türü</label>
+              <label className="block space-y-6-label mb-1">Mesaj Türü</label>
               <select className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="notification">Bildirim</option>
                 <option value="sms">SMS</option>
@@ -454,7 +454,7 @@ export default function MessagesIndex() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Öncelik</label>
+              <label className="block space-y-6-label mb-1">Öncelik</label>
               <select className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="normal">Normal</option>
                 <option value="low">Düşük</option>
@@ -465,7 +465,7 @@ export default function MessagesIndex() {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Alıcı</label>
+            <label className="block space-y-6-label mb-1">Alıcı</label>
             <input
               type="text"
               className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -474,7 +474,7 @@ export default function MessagesIndex() {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Konu</label>
+            <label className="block space-y-6-label mb-1">Konu</label>
             <input
               type="text"
               className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -483,7 +483,7 @@ export default function MessagesIndex() {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Mesaj İçeriği</label>
+            <label className="block space-y-6-label mb-1">Mesaj İçeriği</label>
             <textarea
               rows={4}
               className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"

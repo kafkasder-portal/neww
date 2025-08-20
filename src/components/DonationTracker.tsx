@@ -166,7 +166,7 @@ const DonationTracker: React.FC<DonationTrackerProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 space-y-4">
         <DonationCard
           title="Bugünkü Girişler"
           subtitle="Tamamlanan bağışlar"
@@ -204,7 +204,7 @@ const DonationTracker: React.FC<DonationTrackerProps> = ({
 
       {/* Live Activity Feed */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 bg-card rounded-lg border border-b border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-blue-100 rounded-lg">
@@ -241,7 +241,7 @@ const DonationTracker: React.FC<DonationTrackerProps> = ({
           </div>
         </div>
         
-        <div className="p-6">
+        <div className="p-6 bg-card rounded-lg border">
           <div className="space-y-4 max-h-96 overflow-y-auto">
             {activities.length === 0 ? (
               <div className="text-center py-8 text-gray-500">

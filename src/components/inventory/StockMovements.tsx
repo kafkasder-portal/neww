@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable } from '@/components/ui/corporate/CorporateComponents'
+
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
+
 import { 
   Select,
   SelectContent,
@@ -350,19 +350,19 @@ const StockMovements: React.FC<StockMovementsProps> = ({
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle className="flex items-center justify-between">
             <span className="flex items-center gap-2">
               <ArrowRightLeft className="h-5 w-5" />
               Stok Hareketleri
             </span>
             <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
               <DialogTrigger asChild>
-                <Button>
+                <CorporateButton>
                   <Plus className="h-4 w-4 mr-2" />
                   Yeni Hareket
-                </Button>
+                </CorporateButton>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -428,15 +428,15 @@ const StockMovements: React.FC<StockMovementsProps> = ({
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button type="submit" onClick={handleCreateMovement}>
+                  <CorporateButton type="submit" onClick={handleCreateMovement}>
                     Oluştur
-                  </Button>
+                  </CorporateButton>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </CorporateCardTitle>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Arama */}
             <div className="relative">
@@ -504,8 +504,8 @@ const StockMovements: React.FC<StockMovementsProps> = ({
               />
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Results Summary */}
       <div className="flex justify-between items-center">
@@ -515,26 +515,26 @@ const StockMovements: React.FC<StockMovementsProps> = ({
       </div>
 
       {/* Movements Table */}
-      <Card>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Tarih</TableHead>
-                <TableHead>Ürün</TableHead>
-                <TableHead>Hareket</TableHead>
-                <TableHead>Miktar</TableHead>
-                <TableHead>Lokasyon</TableHead>
-                <TableHead>Referans</TableHead>
-                <TableHead>Sebep</TableHead>
-                <TableHead>Durum</TableHead>
-                <TableHead>İşlemler</TableHead>
-              </TableRow>
-            </TableHeader>
+      <CorporateCard>
+        <CorporateCardContent className="p-0">
+          <CorporateTable>
+            <CorporateTableHeader>
+              <CorporateTableRow>
+                <CorporateTableHeaderCell>Tarih</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Ürün</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Hareket</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Miktar</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Lokasyon</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Referans</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Sebep</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Durum</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>İşlemler</CorporateTableHeaderCell>
+              </CorporateTableRow>
+            </CorporateTableHeader>
             <TableBody>
               {filteredMovements.map((movement) => (
-                <TableRow key={movement.id}>
-                  <TableCell>
+                <CorporateTableRow key={movement.id}>
+                  <CorporateTableCell>
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-muted-foreground" />
                       <div>
@@ -547,24 +547,24 @@ const StockMovements: React.FC<StockMovementsProps> = ({
                         </div>
                       </div>
                     </div>
-                  </TableCell>
-                  <TableCell>
+                  </CorporateTableCell>
+                  <CorporateTableCell>
                     <div>
                       <div className="font-medium">{movement.item?.name}</div>
                       <div className="text-sm text-muted-foreground">
                         {movement.item?.sku}
                       </div>
                     </div>
-                  </TableCell>
-                  <TableCell>
+                  </CorporateTableCell>
+                  <CorporateTableCell>
                     <div className="flex items-center gap-2">
                       {getMovementTypeIcon(movement.movementType)}
                       <span className="font-medium">
                         {getMovementTypeName(movement.movementType)}
                       </span>
                     </div>
-                  </TableCell>
-                  <TableCell>
+                  </CorporateTableCell>
+                  <CorporateTableCell>
                     <div className="text-right">
                       <div className="font-medium">
                         {movement.movementType === 'out' ? '-' : '+'}
@@ -576,8 +576,8 @@ const StockMovements: React.FC<StockMovementsProps> = ({
                         </div>
                       )}
                     </div>
-                  </TableCell>
-                  <TableCell>
+                  </CorporateTableCell>
+                  <CorporateTableCell>
                     <div className="text-sm">
                       {movement.fromLocation && (
                         <div className="flex items-center gap-1 text-red-600">
@@ -592,8 +592,8 @@ const StockMovements: React.FC<StockMovementsProps> = ({
                         </div>
                       )}
                     </div>
-                  </TableCell>
-                  <TableCell>
+                  </CorporateTableCell>
+                  <CorporateTableCell>
                     {movement.referenceNumber && (
                       <div className="flex items-center gap-1">
                         <FileText className="h-3 w-3 text-muted-foreground" />
@@ -602,50 +602,50 @@ const StockMovements: React.FC<StockMovementsProps> = ({
                         </span>
                       </div>
                     )}
-                  </TableCell>
-                  <TableCell>
+                  </CorporateTableCell>
+                  <CorporateTableCell>
                     <div className="text-sm">{movement.reason}</div>
                     {movement.notes && (
                       <div className="text-xs text-muted-foreground mt-1">
                         {movement.notes}
                       </div>
                     )}
-                  </TableCell>
-                  <TableCell>
+                  </CorporateTableCell>
+                  <CorporateTableCell>
                     <div className="flex items-center gap-2">
                       {getStatusIcon(movement.status)}
-                      <Badge variant={getStatusColor(movement.status) as any}>
+                      <CorporateBadge variant={getStatusColor(movement.status) as any}>
                         {getStatusName(movement.status)}
-                      </Badge>
+                      </CorporateBadge>
                     </div>
-                  </TableCell>
-                  <TableCell>
+                  </CorporateTableCell>
+                  <CorporateTableCell>
                     {movement.status === 'pending' && (
                       <div className="flex gap-1">
-                        <Button 
+                        <CorporateButton 
                           size="sm" 
                           variant="outline"
                           onClick={() => onMovementApprove?.(movement.id)}
                         >
                           <CheckCircle className="h-3 w-3" />
-                        </Button>
-                        <Button 
+                        </CorporateButton>
+                        <CorporateButton 
                           size="sm" 
                           variant="outline"
                           onClick={() => onMovementReject?.(movement.id)}
                         >
                           <XCircle className="h-3 w-3" />
-                        </Button>
+                        </CorporateButton>
                       </div>
                     )}
-                  </TableCell>
-                </TableRow>
+                  </CorporateTableCell>
+                </CorporateTableRow>
               ))}
             </TableBody>
-          </Table>
+          </CorporateTable>
           
           {filteredMovements.length === 0 && (
-            <div className="text-center py-12">
+            <div className="text-center py-8 text-muted-foreground">
               <ArrowRightLeft className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
               <p className="text-muted-foreground mb-2">Hareket bulunamadı</p>
               <p className="text-sm text-muted-foreground mb-4">
@@ -653,8 +653,8 @@ const StockMovements: React.FC<StockMovementsProps> = ({
               </p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
     </div>
   )
 }

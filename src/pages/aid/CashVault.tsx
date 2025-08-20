@@ -15,7 +15,7 @@ import { exportToCsv } from '@lib/exportToCsv'
 import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
 import { Modal } from '@components/Modal'
-import StatCard from '../../components/StatCard'
+import StatCard from '@components/StatCard'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -251,12 +251,12 @@ export default function CashVault() {
 
   const getStatusBadge = (status: string) => {
     const statusMap = {
-      approved: { label: 'Onaylandı', class: 'bg-green-100 text-green-800', icon: Check },
-      distributed: { label: 'Dağıtıldı', class: 'bg-blue-100 text-blue-800', icon: TrendingUp },
+      approved: { label: 'Onaylandı', class: 'bg-green-100 text-green-800 border-green-200', icon: Check },
+      distributed: { label: 'Dağıtıldı', class: 'bg-blue-100 text-blue-800 border-blue-200', icon: TrendingUp },
       completed: { label: 'Tamamlandı', class: 'bg-purple-100 text-purple-800', icon: Check },
-      cancelled: { label: 'İptal Edildi', class: 'bg-red-100 text-red-800', icon: X }
+      cancelled: { label: 'İptal Edildi', class: 'bg-red-100 text-red-800 border-red-200', icon: X }
     }
-    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800', icon: Check }
+    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800 border-gray-200', icon: Check }
     const Icon = statusInfo.icon
     return (
       <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${statusInfo.class}`}>
@@ -420,7 +420,7 @@ export default function CashVault() {
       </div>
 
       {/* Filtreler */}
-      <div className="flex flex-wrap items-center gap-4 rounded-lg border p-4">
+      <div className="flex flex-wrap items-center bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
@@ -487,7 +487,7 @@ export default function CashVault() {
           <div className="p-4 space-y-4">
             <div className="rounded border p-4 bg-gray-50">
               <h3 className="font-medium mb-2">Yardım Detayları</h3>
-              <div className="space-y-2 text-sm">
+              <div className="space-y-6-group text-sm">
                 <div><strong>İhtiyaç Sahibi:</strong> {distributingRecord.beneficiaries?.name} {distributingRecord.beneficiaries?.surname}</div>
                 <div><strong>Kategori:</strong> {distributingRecord.beneficiaries?.category}</div>
                 <div><strong>Tutar:</strong> {formatCurrency(distributingRecord.amount)}</div>

@@ -93,7 +93,7 @@ export default function BulkProvisioning() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 bg-card rounded-lg border rounded-lg shadow">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold">Toplu Provizyon Alma</h2>
@@ -143,7 +143,7 @@ export default function BulkProvisioning() {
           {activeTab === 'requests' && (
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Yeni Talep
             </button>

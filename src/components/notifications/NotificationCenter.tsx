@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Bell, Check, X, Trash2 } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { Badge } from '../ui/badge'
 import { useAuthStore } from '@store/auth'
 import { realtimeService } from '@services/realtimeService'
@@ -9,6 +9,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
 import { supabase } from '@lib/supabase'
 import { toast } from 'sonner'
+import { CorporateButton, CorporateBadge, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 
 interface Notification {
   id: string
@@ -242,16 +243,16 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
   const getNotificationColor = (type: string) => {
     switch (type) {
       case 'task_assigned':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-blue-100 text-blue-800 border-blue-200'
       case 'meeting_invite':
-        return 'bg-green-100 text-green-800'
+        return 'bg-green-100 text-green-800 border-green-200'
       case 'message':
         return 'bg-purple-100 text-purple-800'
       case 'reminder':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200'
       case 'system':
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
@@ -260,7 +261,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       {/* Notification Bell */}
-      <Button
+      <CorporateButton
         variant="ghost"
         size="sm"
         className="relative"
@@ -268,24 +269,24 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
-          <Badge 
+          <CorporateBadge 
             className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center text-xs bg-red-500 text-white"
           >
             {unreadCount > 99 ? '99+' : unreadCount}
-          </Badge>
+          </CorporateBadge>
         )}
-      </Button>
+      </CorporateButton>
 
       {/* Notification Dropdown */}
       {isOpen && (
-        <Card className="absolute right-0 top-12 w-96 max-h-96 overflow-hidden shadow-lg border z-50">
+        <CorporateCard className="absolute right-0 top-12 w-96 max-h-96 overflow-hidden shadow-lg border z-50">
           {/* Header */}
           <div className="p-4 border-b bg-gray-50">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold">Bildirimler</h3>
               <div className="flex items-center gap-2">
                 {unreadCount > 0 && (
-                  <Button
+                  <CorporateButton
                     onClick={markAllAsRead}
                     variant="ghost"
                     size="sm"
@@ -293,16 +294,16 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                   >
                     <Check className="w-4 h-4 mr-1" />
                     Tümünü Okundu İşaretle
-                  </Button>
+                  </CorporateButton>
                 )}
-                <Button
+                <CorporateButton
                   onClick={clearAllNotifications}
                   variant="ghost"
                   size="sm"
                   className="text-xs text-red-600 hover:text-red-700"
                 >
                   <Trash2 className="w-4 h-4" />
-                </Button>
+                </CorporateButton>
               </div>
             </div>
           </div>
@@ -338,9 +339,9 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                           <h4 className="font-medium text-gray-900 truncate">
                             {notification.title}
                           </h4>
-                          <Badge className={`text-xs ${getNotificationColor(notification.type)}`}>
+                          <CorporateBadge className={`text-xs ${getNotificationColor(notification.type)}`}>
                             {notification.type}
-                          </Badge>
+                          </CorporateBadge>
                         </div>
                         
                         <p className="text-sm text-gray-600 mb-2 line-clamp-2">
@@ -355,7 +356,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                             })}
                           </span>
                           
-                          <Button
+                          <CorporateButton
                             onClick={(e) => {
                               e.stopPropagation()
                               deleteNotification(notification.id)
@@ -365,7 +366,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                             className="opacity-0 group-hover:opacity-100 transition-opacity"
                           >
                             <X className="w-4 h-4" />
-                          </Button>
+                          </CorporateButton>
                         </div>
                       </div>
                     </div>
@@ -378,7 +379,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
           {/* Footer */}
           {notifications.length > 0 && (
             <div className="p-3 border-t bg-gray-50">
-              <Button
+              <CorporateButton
                 variant="ghost"
                 size="sm"
                 className="w-full text-center"
@@ -388,10 +389,10 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                 }}
               >
                 Tüm bildirimleri görüntüle
-              </Button>
+              </CorporateButton>
             </div>
           )}
-        </Card>
+        </CorporateCard>
       )}
     </div>
   )

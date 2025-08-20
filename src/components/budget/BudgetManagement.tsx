@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
+import { CardDescription } from '@/components/ui/card'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -286,9 +286,9 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
   const getStatusBadge = (status: string) => {
     const statusConfig = BUDGET_STATUSES.find(s => s.value === status)
     return (
-      <Badge variant={status === 'approved' || status === 'active' ? 'default' : 'secondary'}>
+      <CorporateBadge variant={status === 'approved' || status === 'active' ? 'default' : 'secondary'}>
         {statusConfig?.label || status}
-      </Badge>
+      </CorporateBadge>
     )
   }
 
@@ -322,15 +322,15 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
             Dernek bütçelerini oluşturun, yönetin ve analiz edin
           </p>
         </div>
-        <Button onClick={handleCreateBudget} className="flex items-center gap-2">
+        <CorporateButton onClick={handleCreateBudget} className="flex items-center gap-2">
           <Plus className="h-4 w-4" />
           Yeni Bütçe
-        </Button>
+        </CorporateButton>
       </div>
 
       {/* Alerts */}
       {dashboardData?.alerts && dashboardData.alerts.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-6-group">
           {dashboardData.alerts.slice(0, 2).map((alert) => (
             <Alert key={alert.id} className={alert.severity === 'high' ? 'border-red-200 bg-red-50' : 'border-yellow-200 bg-yellow-50'}>
               <AlertTriangle className="h-4 w-4" />
@@ -357,42 +357,42 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
             <>
               {/* Key Metrics */}
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Toplam Bütçe</CardTitle>
+                <CorporateCard>
+                  <CorporateCardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CorporateCardTitle className="text-sm font-medium">Toplam Bütçe</CorporateCardTitle>
                     <DollarSign className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
+                  </CorporateCardHeader>
+                  <CorporateCardContent>
                     <div className="text-2xl font-bold">
                       {formatCurrency(dashboardData.totalBudgetedAmount)}
                     </div>
                     <p className="text-xs text-muted-foreground">
                       {dashboardData.totalBudgets} aktif bütçe
                     </p>
-                  </CardContent>
-                </Card>
+                  </CorporateCardContent>
+                </CorporateCard>
 
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Gerçekleşen</CardTitle>
+                <CorporateCard>
+                  <CorporateCardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CorporateCardTitle className="text-sm font-medium">Gerçekleşen</CorporateCardTitle>
                     <Target className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
+                  </CorporateCardHeader>
+                  <CorporateCardContent>
                     <div className="text-2xl font-bold">
                       {formatCurrency(dashboardData.totalActualAmount)}
                     </div>
                     <p className="text-xs text-muted-foreground">
                       Toplam harcama
                     </p>
-                  </CardContent>
-                </Card>
+                  </CorporateCardContent>
+                </CorporateCard>
 
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Varyans</CardTitle>
+                <CorporateCard>
+                  <CorporateCardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CorporateCardTitle className="text-sm font-medium">Varyans</CorporateCardTitle>
                     {getVarianceIcon(dashboardData.overallVariance)}
-                  </CardHeader>
-                  <CardContent>
+                  </CorporateCardHeader>
+                  <CorporateCardContent>
                     <div className={`text-2xl font-bold ${getVarianceColor(dashboardData.overallVariance)}`}>
                       {formatCurrency(Math.abs(dashboardData.overallVariance))}
                     </div>
@@ -400,59 +400,59 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
                       %{Math.abs(dashboardData.overallVariancePercent).toFixed(1)} 
                       {dashboardData.overallVariance < 0 ? 'tasarruf' : 'aşım'}
                     </p>
-                  </CardContent>
-                </Card>
+                  </CorporateCardContent>
+                </CorporateCard>
 
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Onay Bekleyen</CardTitle>
+                <CorporateCard>
+                  <CorporateCardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CorporateCardTitle className="text-sm font-medium">Onay Bekleyen</CorporateCardTitle>
                     <Clock className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
+                  </CorporateCardHeader>
+                  <CorporateCardContent>
                     <div className="text-2xl font-bold">{dashboardData.pendingApprovals}</div>
                     <p className="text-xs text-muted-foreground">
                       Bütçe onayı gerekli
                     </p>
-                  </CardContent>
-                </Card>
+                  </CorporateCardContent>
+                </CorporateCard>
               </div>
 
               {/* Charts */}
               <div className="grid gap-4 md:grid-cols-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Aylık Trend</CardTitle>
+                <CorporateCard>
+                  <CorporateCardHeader>
+                    <CorporateCardTitle>Aylık Trend</CorporateCardTitle>
                     <CardDescription>
                       Bütçe vs gerçekleşen karşılaştırması
                     </CardDescription>
-                  </CardHeader>
-                  <CardContent>
+                  </CorporateCardHeader>
+                  <CorporateCardContent>
                     <BudgetComparisonChart data={dashboardData.monthlyTrends} />
-                  </CardContent>
-                </Card>
+                  </CorporateCardContent>
+                </CorporateCard>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Kategori Performansı</CardTitle>
+                <CorporateCard>
+                  <CorporateCardHeader>
+                    <CorporateCardTitle>Kategori Performansı</CorporateCardTitle>
                     <CardDescription>
                       En yüksek varyansa sahip kategoriler
                     </CardDescription>
-                  </CardHeader>
-                  <CardContent>
+                  </CorporateCardHeader>
+                  <CorporateCardContent>
                     <BudgetVarianceChart data={dashboardData.categoryPerformance} />
-                  </CardContent>
-                </Card>
+                  </CorporateCardContent>
+                </CorporateCard>
               </div>
 
               {/* Top Variances */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Önemli Varyanslar</CardTitle>
+              <CorporateCard>
+                <CorporateCardHeader>
+                  <CorporateCardTitle>Önemli Varyanslar</CorporateCardTitle>
                   <CardDescription>
                     Dikkat gerektiren bütçe sapmaları
                   </CardDescription>
-                </CardHeader>
-                <CardContent>
+                </CorporateCardHeader>
+                <CorporateCardContent>
                   <div className="space-y-4">
                     {dashboardData.topVariances.map((variance, index) => (
                       <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
@@ -477,8 +477,8 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
                       </div>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             </>
           )}
         </TabsContent>
@@ -486,8 +486,8 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
         {/* Budgets Tab */}
         <TabsContent value="budgets" className="space-y-4">
           {/* Filters */}
-          <Card>
-            <CardContent className="pt-6">
+          <CorporateCard>
+            <CorporateCardContent className="pt-6">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
                   <div className="relative">
@@ -533,22 +533,22 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
                   </SelectContent>
                 </Select>
               </div>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
 
           {/* Budget List */}
           <div className="grid gap-4">
             {filteredBudgets.map((budget) => (
-              <Card key={budget.id}>
-                <CardContent className="pt-6">
+              <CorporateCard key={budget.id}>
+                <CorporateCardContent className="pt-6">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="text-lg font-semibold">{budget.name}</h3>
                         {getStatusBadge(budget.status)}
-                        <Badge variant="outline">
+                        <CorporateBadge variant="outline">
                           {BUDGET_TYPES.find(t => t.value === budget.budgetType)?.label}
-                        </Badge>
+                        </CorporateBadge>
                       </div>
                       {budget.description && (
                         <p className="text-muted-foreground mb-3">{budget.description}</p>
@@ -587,56 +587,56 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
                       )}
                     </div>
                     <div className="flex items-center gap-2 ml-4">
-                      <Button
+                      <CorporateButton
                         variant="outline"
                         size="sm"
                         onClick={() => handleViewBudget(budget)}
                       >
                         <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button
+                      </CorporateButton>
+                      <CorporateButton
                         variant="outline"
                         size="sm"
                         onClick={() => handleEditBudget(budget)}
                       >
                         <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button
+                      </CorporateButton>
+                      <CorporateButton
                         variant="outline"
                         size="sm"
                         onClick={() => handleDeleteBudget(budget.id)}
                       >
                         <Trash2 className="h-4 w-4" />
-                      </Button>
+                      </CorporateButton>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             ))}
           </div>
 
           {filteredBudgets.length === 0 && (
-            <Card>
-              <CardContent className="pt-6">
+            <CorporateCard>
+              <CorporateCardContent className="pt-6">
                 <div className="text-center py-8">
                   <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                   <h3 className="text-lg font-semibold mb-2">Bütçe bulunamadı</h3>
                   <p className="text-muted-foreground mb-4">
                     Arama kriterlerinize uygun bütçe bulunamadı.
                   </p>
-                  <Button onClick={handleCreateBudget}>
+                  <CorporateButton onClick={handleCreateBudget}>
                     İlk bütçenizi oluşturun
-                  </Button>
+                  </CorporateButton>
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           )}
         </TabsContent>
 
         {/* Analysis Tab */}
         <TabsContent value="analysis">
-          <Card>
-            <CardContent className="pt-6">
+          <CorporateCard>
+            <CorporateCardContent className="pt-6">
               <div className="text-center py-8">
                 <PieChart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Gelişmiş Analiz</h3>
@@ -644,14 +644,14 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
                   Bütçe analiz araçları yakında eklenecek.
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         </TabsContent>
 
         {/* Reports Tab */}
         <TabsContent value="reports">
-          <Card>
-            <CardContent className="pt-6">
+          <CorporateCard>
+            <CorporateCardContent className="pt-6">
               <div className="text-center py-8">
                 <Download className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Bütçe Raporları</h3>
@@ -659,8 +659,8 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
                   Rapor oluşturma araçları yakında eklenecek.
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         </TabsContent>
       </Tabs>
 

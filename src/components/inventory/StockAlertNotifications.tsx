@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import { Bell, AlertTriangle, AlertCircle, Info, X, Check, Eye, Settings } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
@@ -84,18 +83,18 @@ const AlertItem: React.FC<{
           {getSeverityIcon(alert.severity)}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <Badge variant={getSeverityColor(alert.severity)} className="text-xs">
+              <CorporateBadge variant={getSeverityColor(alert.severity)} className="text-xs">
                 {getTypeLabel(alert.type)}
-              </Badge>
+              </CorporateBadge>
               {!isRead && (
-                <Badge variant="outline" className="text-xs bg-blue-100 text-blue-700">
+                <CorporateBadge variant="outline" className="text-xs bg-blue-100 text-blue-700">
                   Yeni
-                </Badge>
+                </CorporateBadge>
               )}
               {alert.isResolved && (
-                <Badge variant="outline" className="text-xs bg-green-100 text-green-700">
+                <CorporateBadge variant="outline" className="text-xs bg-green-100 text-green-700">
                   Çözümlendi
-                </Badge>
+                </CorporateBadge>
               )}
             </div>
             <h4 className="font-medium text-sm mb-1">{alert.itemName}</h4>
@@ -111,26 +110,26 @@ const AlertItem: React.FC<{
         
         <div className="flex items-center gap-1">
           {!isRead && (
-            <Button
+            <CorporateButton
               variant="ghost"
               size="sm"
               onClick={() => onMarkAsRead(alert.id)}
               className="h-8 w-8 p-0"
             >
               <Eye className="h-3 w-3" />
-            </Button>
+            </CorporateButton>
           )}
           
           {!alert.isResolved && (
             <Dialog open={showResolveDialog} onOpenChange={setShowResolveDialog}>
               <DialogTrigger asChild>
-                <Button
+                <CorporateButton
                   variant="ghost"
                   size="sm"
                   className="h-8 w-8 p-0 text-green-600 hover:text-green-700"
                 >
                   <Check className="h-3 w-3" />
-                </Button>
+                </CorporateButton>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
@@ -147,26 +146,26 @@ const AlertItem: React.FC<{
                     />
                   </div>
                   <div className="flex justify-end gap-2">
-                    <Button variant="outline" onClick={() => setShowResolveDialog(false)}>
+                    <CorporateButton variant="outline" onClick={() => setShowResolveDialog(false)}>
                       İptal
-                    </Button>
-                    <Button onClick={handleResolve}>
+                    </CorporateButton>
+                    <CorporateButton onClick={handleResolve}>
                       Çözümle
-                    </Button>
+                    </CorporateButton>
                   </div>
                 </div>
               </DialogContent>
             </Dialog>
           )}
           
-          <Button
+          <CorporateButton
             variant="ghost"
             size="sm"
             onClick={() => onDismiss(alert.id)}
             className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
           >
             <X className="h-3 w-3" />
-          </Button>
+          </CorporateButton>
         </div>
       </div>
     </div>
@@ -264,12 +263,12 @@ const AlertRuleForm: React.FC<{
       </div>
       
       <div className="flex justify-end gap-2">
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <CorporateButton type="button" variant="outline" onClick={onCancel}>
           İptal
-        </Button>
-        <Button type="submit">
+        </CorporateButton>
+        <CorporateButton type="submit">
           {rule ? 'Güncelle' : 'Oluştur'}
-        </Button>
+        </CorporateButton>
       </div>
     </form>
   )
@@ -358,47 +357,47 @@ export const StockAlertNotifications: React.FC<StockAlertNotificationsProps> = (
 
   if (error) {
     return (
-      <Card className={className}>
-        <CardContent className="p-4">
+      <CorporateCard className={className}>
+        <CorporateCardContent className="p-4">
           <div className="text-center text-red-600">
             <AlertTriangle className="h-8 w-8 mx-auto mb-2" />
             <p>Uyarılar yüklenemedi: {error}</p>
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
     )
   }
 
   return (
-    <Card className={className}>
-      <CardHeader className="pb-3">
+    <CorporateCard className={className}>
+      <CorporateCardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Bell className="h-5 w-5" />
-            <CardTitle className="text-lg">Stok Uyarıları</CardTitle>
+            <CorporateCardTitle className="text-lg">Stok Uyarıları</CorporateCardTitle>
             {unreadAlerts.length > 0 && (
-              <Badge variant="destructive" className="text-xs">
+              <CorporateBadge variant="danger" className="text-xs">
                 {unreadAlerts.length}
-              </Badge>
+              </CorporateBadge>
             )}
           </div>
           
           <div className="flex items-center gap-2">
-            <Button
+            <CorporateButton
               variant="outline"
               size="sm"
               onClick={handleRunStockCheck}
               disabled={loading}
             >
               Kontrol Et
-            </Button>
+            </CorporateButton>
             
             {showSettings && (
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
+                  <CorporateButton variant="outline" size="sm">
                     <Settings className="h-4 w-4" />
-                  </Button>
+                  </CorporateButton>
                 </DialogTrigger>
                 <DialogContent className="max-w-4xl">
                   <DialogHeader>
@@ -415,12 +414,12 @@ export const StockAlertNotifications: React.FC<StockAlertNotificationsProps> = (
                     <TabsContent value="rules" className="space-y-4">
                       <div className="flex justify-between items-center">
                         <h3 className="text-lg font-medium">Uyarı Kuralları</h3>
-                        <Button onClick={() => setShowRuleDialog(true)}>
+                        <CorporateButton onClick={() => setShowRuleDialog(true)}>
                           Yeni Kural
-                        </Button>
+                        </CorporateButton>
                       </div>
                       
-                      <div className="space-y-2">
+                      <div className="space-y-6-group">
                         {alertRules.map(rule => (
                           <div key={rule.id} className="flex items-center justify-between p-3 border rounded-lg">
                             <div>
@@ -430,10 +429,10 @@ export const StockAlertNotifications: React.FC<StockAlertNotificationsProps> = (
                               </p>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Badge variant={rule.isActive ? 'default' : 'secondary'}>
+                              <CorporateBadge variant={rule.isActive ? 'default' : 'secondary'}>
                                 {rule.isActive ? 'Aktif' : 'Pasif'}
-                              </Badge>
-                              <Button
+                              </CorporateBadge>
+                              <CorporateButton
                                 variant="outline"
                                 size="sm"
                                 onClick={() => {
@@ -442,14 +441,14 @@ export const StockAlertNotifications: React.FC<StockAlertNotificationsProps> = (
                                 }}
                               >
                                 Düzenle
-                              </Button>
-                              <Button
+                              </CorporateButton>
+                              <CorporateButton
                                 variant="outline"
                                 size="sm"
                                 onClick={() => handleDeleteRule(rule.id)}
                               >
                                 Sil
-                              </Button>
+                              </CorporateButton>
                             </div>
                           </div>
                         ))}
@@ -545,14 +544,14 @@ export const StockAlertNotifications: React.FC<StockAlertNotificationsProps> = (
           </div>
           
           {unreadAlerts.length > 0 && (
-            <Button variant="outline" size="sm" onClick={handleMarkAllAsRead}>
+            <CorporateButton variant="outline" size="sm" onClick={handleMarkAllAsRead}>
               Tümünü Okundu İşaretle
-            </Button>
+            </CorporateButton>
           )}
         </div>
-      </CardHeader>
+      </CorporateCardHeader>
       
-      <CardContent className="p-0">
+      <CorporateCardContent className="p-0">
         <ScrollArea className="px-4" style={{ maxHeight }}>
           {loading ? (
             <div className="text-center py-8 text-gray-500">
@@ -577,7 +576,7 @@ export const StockAlertNotifications: React.FC<StockAlertNotificationsProps> = (
             </div>
           )}
         </ScrollArea>
-      </CardContent>
+      </CorporateCardContent>
       
       {/* Kural Ekleme/Düzenleme Dialog */}
       <Dialog open={showRuleDialog} onOpenChange={setShowRuleDialog}>
@@ -597,7 +596,7 @@ export const StockAlertNotifications: React.FC<StockAlertNotificationsProps> = (
           />
         </DialogContent>
       </Dialog>
-    </Card>
+    </CorporateCard>
   )
 }
 

@@ -2,7 +2,7 @@ import { Settings, Users, Building, Workflow } from 'lucide-react'
 
 export default function Definitions() {
   return (
-    <div className="p-6">
+    <div className="p-6 bg-card rounded-lg border">
       <div className="max-w-6xl mx-auto">
         {/* Page Header */}
         <div className="mb-8">
@@ -13,8 +13,8 @@ export default function Definitions() {
         </div>
 
         {/* Quick Access Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-card rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+        <div className="grid grid-cols-4 mb-8">
+          <div className="bg-card rounded-lg shadow p-6 bg-card rounded-lg border hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <Users className="h-6 w-6 text-blue-600" />
@@ -24,7 +24,7 @@ export default function Definitions() {
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               Kullanıcı hesapları, roller ve yetki gruplarını yönetin
             </p>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <a href="/definitions/user-accounts" className="block text-sm text-blue-600 hover:text-blue-800">
                 Kullanıcı Hesapları
               </a>
@@ -37,7 +37,7 @@ export default function Definitions() {
             </div>
           </div>
 
-          <div className="bg-card rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+          <div className="bg-card rounded-lg shadow p-6 bg-card rounded-lg border hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-green-100 rounded-lg">
                 <Building className="h-6 w-6 text-green-600" />
@@ -47,7 +47,7 @@ export default function Definitions() {
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               Birimler, binalar ve organizasyon yapısını düzenleyin
             </p>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <a href="/definitions/units" className="block text-sm text-green-600 hover:text-green-800">
                 Birimler
               </a>
@@ -60,7 +60,7 @@ export default function Definitions() {
             </div>
           </div>
 
-          <div className="bg-card rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+          <div className="bg-card rounded-lg shadow p-6 bg-card rounded-lg border hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-purple-100 rounded-lg">
                 <Workflow className="h-6 w-6 text-purple-600" />
@@ -70,7 +70,7 @@ export default function Definitions() {
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               Süreç akışları ve operasyonel tanımları yapılandırın
             </p>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <a href="/definitions/process-flows" className="block text-sm text-purple-600 hover:text-purple-800">
                 Süreç Akışları
               </a>
@@ -83,7 +83,7 @@ export default function Definitions() {
             </div>
           </div>
 
-          <div className="bg-card rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+          <div className="bg-card rounded-lg shadow p-6 bg-card rounded-lg border hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-orange-100 rounded-lg">
                 <Settings className="h-6 w-6 text-orange-600" />
@@ -93,7 +93,7 @@ export default function Definitions() {
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               Genel sistem ayarları ve lokalizasyon seçenekleri
             </p>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <a href="/definitions/general-settings" className="block text-sm text-orange-600 hover:text-orange-800">
                 Genel Ayarlar
               </a>
@@ -108,10 +108,10 @@ export default function Definitions() {
         </div>
 
         {/* Additional Categories */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-card rounded-lg shadow p-6">
+        <div className="grid grid-cols-3 mb-8">
+          <div className="bg-card rounded-lg shadow p-6 bg-card rounded-lg border">
             <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Lokasyon Tanımları</h3>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <a href="/definitions/countries-cities" className="block text-sm text-blue-600 hover:text-blue-800">
                 Ülke ve Şehirler
               </a>
@@ -121,9 +121,9 @@ export default function Definitions() {
             </div>
           </div>
 
-          <div className="bg-card rounded-lg shadow p-6">
+          <div className="bg-card rounded-lg shadow p-6 bg-card rounded-lg border">
             <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Kurumsal Tanımlar</h3>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <a href="/definitions/institution-types" className="block text-sm text-green-600 hover:text-green-800">
                 Kurum Tür Tanımları
               </a>
@@ -139,9 +139,9 @@ export default function Definitions() {
             </div>
           </div>
 
-          <div className="bg-card rounded-lg shadow p-6">
+          <div className="bg-card rounded-lg shadow p-6 bg-card rounded-lg border">
             <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Yardım & Bilgi</h3>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <a href="/definitions/module-info" className="block text-sm text-purple-600 hover:text-purple-800">
                 Modül Bilgilendirme
               </a>
@@ -154,7 +154,7 @@ export default function Definitions() {
           <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Son Güncellemeler</h2>
           </div>
-          <div className="p-6">
+          <div className="p-6 bg-card rounded-lg border">
             <div className="space-y-4">
               <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>

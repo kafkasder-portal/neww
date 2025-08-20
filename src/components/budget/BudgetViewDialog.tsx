@@ -1,7 +1,8 @@
 import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
+import { CardDescription } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+
 import { Progress } from '@/components/ui/progress'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
@@ -38,7 +39,7 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
     }
     
     const config = statusConfig[status as keyof typeof statusConfig] || { label: status, variant: 'secondary' as const }
-    return <Badge variant={config.variant}>{config.label}</Badge>
+    return <CorporateBadge variant={config.variant}>{config.label}</CorporateBadge>
   }
 
   const getVarianceColor = (variance: number) => {
@@ -70,11 +71,11 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
             </div>
             <div className="flex items-center gap-2">
               {getStatusBadge(budget.status)}
-              <Badge variant="outline">
+              <CorporateBadge variant="outline">
                 {budget.budgetType === 'annual' ? 'Yıllık' : 
                  budget.budgetType === 'monthly' ? 'Aylık' : 
                  budget.budgetType === 'project' ? 'Proje' : 'Diğer'}
-              </Badge>
+              </CorporateBadge>
             </div>
           </div>
         </DialogHeader>
@@ -91,8 +92,8 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
           <TabsContent value="overview" className="space-y-6">
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card>
-                <CardContent className="pt-6">
+              <CorporateCard>
+                <CorporateCardContent className="pt-6">
                   <div className="flex items-center space-x-2">
                     <DollarSign className="h-4 w-4 text-green-600" />
                     <div className="space-y-1">
@@ -100,11 +101,11 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                       <p className="text-2xl font-bold">{formatCurrency(budget.totalBudgetRevenue, 'TRY', 'tr-TR')}</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
 
-              <Card>
-                <CardContent className="pt-6">
+              <CorporateCard>
+                <CorporateCardContent className="pt-6">
                   <div className="flex items-center space-x-2">
                     <Target className="h-4 w-4 text-blue-600" />
                     <div className="space-y-1">
@@ -112,11 +113,11 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                       <p className="text-2xl font-bold">{formatCurrency(budget.totalBudgetExpense, 'TRY', 'tr-TR')}</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
 
-              <Card>
-                <CardContent className="pt-6">
+              <CorporateCard>
+                <CorporateCardContent className="pt-6">
                   <div className="flex items-center space-x-2">
                     <div className={`flex items-center space-x-1 ${getVarianceColor(budget.variance)}`}>
                       {getVarianceIcon(budget.variance)}
@@ -126,11 +127,11 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
 
-              <Card>
-                <CardContent className="pt-6">
+              <CorporateCard>
+                <CorporateCardContent className="pt-6">
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4 text-purple-600" />
                     <div className="space-y-1">
@@ -138,20 +139,20 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                       <p className="text-2xl font-bold">{utilizationPercentage.toFixed(1)}%</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
 
             {/* Progress Bar */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Bütçe Kullanım Durumu</CardTitle>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Bütçe Kullanım Durumu</CorporateCardTitle>
                 <CardDescription>
                   Toplam bütçenin ne kadarının kullanıldığını gösterir
                 </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <div className="space-y-6-group">
                   <div className="flex justify-between text-sm">
                     <span>Kullanılan: {formatCurrency(budget.totalActualExpense, 'TRY', 'tr-TR')}</span>
                     <span>Toplam: {formatCurrency(budget.totalBudgetExpense, 'TRY', 'tr-TR')}</span>
@@ -163,16 +164,16 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                     <span>100%</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Finansal Özet</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+              <CorporateCard>
+                <CorporateCardHeader>
+                  <CorporateCardTitle>Finansal Özet</CorporateCardTitle>
+                </CorporateCardHeader>
+                <CorporateCardContent className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Bütçelenen Gelir:</span>
                     <span className="font-medium">{formatCurrency(budget.totalBudgetRevenue, 'TRY', 'tr-TR')}</span>
@@ -197,14 +198,14 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                       {formatCurrency(budget.netActual, 'TRY', 'tr-TR')}
                     </span>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Bütçe Bilgileri</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+              <CorporateCard>
+                <CorporateCardHeader>
+                  <CorporateCardTitle>Bütçe Bilgileri</CorporateCardTitle>
+                </CorporateCardHeader>
+                <CorporateCardContent className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Oluşturulma:</span>
                     <span className="font-medium">
@@ -229,8 +230,8 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                     <span className="text-sm text-muted-foreground">Kategori Sayısı:</span>
                     <span className="font-medium">{budget.categories.length}</span>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
           </TabsContent>
 
@@ -238,17 +239,17 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
           <TabsContent value="categories" className="space-y-4">
             <div className="grid gap-4">
               {budget.categories.map((category, index) => (
-                <Card key={index}>
-                  <CardHeader>
+                <CorporateCard key={index}>
+                  <CorporateCardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-base">{category.categoryName}</CardTitle>
-                      <Badge variant={category.budgetType === 'revenue' ? 'default' : 'secondary'}>
+                      <CorporateCardTitle className="text-base">{category.categoryName}</CorporateCardTitle>
+                      <CorporateBadge variant={category.budgetType === 'revenue' ? 'default' : 'secondary'}>
                         {category.budgetType === 'revenue' ? 'Gelir' : 'Gider'}
-                      </Badge>
+                      </CorporateBadge>
                     </div>
                     <CardDescription>{category.categoryCode}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
+                  </CorporateCardHeader>
+                  <CorporateCardContent>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <p className="text-sm text-muted-foreground">Bütçelenen</p>
@@ -269,7 +270,7 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                     {category.subcategories && category.subcategories.length > 0 && (
                       <div className="mt-4">
                         <h4 className="text-sm font-medium mb-2">Alt Kategoriler</h4>
-                        <div className="space-y-2">
+                        <div className="space-y-6-group">
                           {category.subcategories.map((sub, subIndex) => (
                             <div key={subIndex} className="flex justify-between items-center p-2 bg-muted rounded">
                               <span className="text-sm">{sub.subcategoryName}</span>
@@ -279,26 +280,26 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                         </div>
                       </div>
                     )}
-                  </CardContent>
-                </Card>
+                  </CorporateCardContent>
+                </CorporateCard>
               ))}
             </div>
           </TabsContent>
 
           {/* Monthly Breakdown Tab */}
           <TabsContent value="monthly" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Aylık Dağılım</CardTitle>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Aylık Dağılım</CorporateCardTitle>
                 <CardDescription>
                   Bütçenin aylara göre dağılımı
                 </CardDescription>
-              </CardHeader>
-              <CardContent>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {budget.monthlyBreakdown.map((month, index) => (
-                    <Card key={index}>
-                      <CardContent className="pt-4">
+                    <CorporateCard key={index}>
+                      <CorporateCardContent className="pt-4">
                         <div className="text-center">
                           <h4 className="font-medium">{month.month}</h4>
                           <p className="text-2xl font-bold mt-2">{formatCurrency(month.budgetedAmount, 'TRY', 'tr-TR')}</p>
@@ -306,25 +307,25 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                             Gerçekleşen: {formatCurrency(month.actualAmount || 0, 'TRY', 'tr-TR')}
                           </p>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </CorporateCardContent>
+                    </CorporateCard>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           </TabsContent>
 
           {/* Approval Process Tab */}
           <TabsContent value="approval" className="space-y-4">
             {budget.approvalWorkflow && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Onay Süreci</CardTitle>
+              <CorporateCard>
+                <CorporateCardHeader>
+                  <CorporateCardTitle>Onay Süreci</CorporateCardTitle>
                   <CardDescription>
                     Bütçe onay sürecinin durumu
                   </CardDescription>
-                </CardHeader>
-                <CardContent>
+                </CorporateCardHeader>
+                <CorporateCardContent>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium">Durum:</span>
@@ -332,13 +333,13 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                         {budget.approvalWorkflow.status === 'approved' && <CheckCircle className="h-4 w-4 text-green-600" />}
                         {budget.approvalWorkflow.status === 'pending' && <Clock className="h-4 w-4 text-yellow-600" />}
                         {budget.approvalWorkflow.status === 'rejected' && <AlertTriangle className="h-4 w-4 text-red-600" />}
-                        <Badge variant={
+                        <CorporateBadge variant={
                           budget.approvalWorkflow.status === 'approved' ? 'default' :
                           budget.approvalWorkflow.status === 'pending' ? 'secondary' : 'destructive'
                         }>
                           {budget.approvalWorkflow.status === 'approved' ? 'Onaylandı' :
                            budget.approvalWorkflow.status === 'pending' ? 'Beklemede' : 'Reddedildi'}
-                        </Badge>
+                        </CorporateBadge>
                       </div>
                     </div>
                     
@@ -354,9 +355,9 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                       className="h-2"
                     />
                     
-                    <div className="space-y-2">
+                    <div className="space-y-6-group">
                       <span className="text-sm font-medium">Onay Adımları:</span>
-                      <div className="space-y-2">
+                      <div className="space-y-6-group">
                         {budget.approvalWorkflow.steps.map((step, index) => (
                           <div key={index} className="flex items-center justify-between p-2 border rounded">
                             <div className="flex items-center gap-2">
@@ -378,8 +379,8 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             )}
           </TabsContent>
         </Tabs>

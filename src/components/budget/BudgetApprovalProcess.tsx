@@ -1,8 +1,7 @@
+import { CorporateBadge, CorporateButton, Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Progress } from '@/components/ui/progress'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -222,12 +221,12 @@ export function BudgetApprovalProcess({
 
   const getStatusBadge = (status: ApprovalStatus) => {
     const variants = {
-      approved: 'bg-green-100 text-green-800',
-      rejected: 'bg-red-100 text-red-800',
-      pending: 'bg-yellow-100 text-yellow-800',
-      waiting: 'bg-gray-100 text-gray-800',
-      skipped: 'bg-gray-100 text-gray-800',
-      completed: 'bg-blue-100 text-blue-800'
+      approved: 'bg-green-100 text-green-800 border-green-200',
+      rejected: 'bg-red-100 text-red-800 border-red-200',
+      pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      waiting: 'bg-gray-100 text-gray-800 border-gray-200',
+      skipped: 'bg-gray-100 text-gray-800 border-gray-200',
+      completed: 'bg-blue-100 text-blue-800 border-blue-200'
     }
 
     const labels = {
@@ -240,42 +239,42 @@ export function BudgetApprovalProcess({
     }
 
     return (
-      <Badge className={variants[status]}>
+      <CorporateBadge className={variants[status]}>
         {labels[status]}
-      </Badge>
+      </CorporateBadge>
     )
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card>
-        <CardHeader>
+      <CorporateCard>
+        <CorporateCardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="flex items-center space-x-2">
+              <CorporateCardTitle className="flex items-center space-x-2">
                 <FileText className="h-5 w-5" />
                 <span>Bütçe Onay Süreci</span>
-              </CardTitle>
+              </CorporateCardTitle>
               <CardDescription>
                 {budget.name} - {formatCurrency(budget.totalAmount)}
               </CardDescription>
             </div>
             <div className="flex items-center space-x-2">
-              <Button onClick={exportApprovalReport} size="sm" variant="outline">
+              <CorporateButton onClick={exportApprovalReport} size="sm" variant="outline">
                 <Download className="h-4 w-4 mr-2" />
                 Rapor İndir
-              </Button>
+              </CorporateButton>
               {canApprove && (
-                <Button onClick={() => setShowApprovalDialog(true)}>
+                <CorporateButton onClick={() => setShowApprovalDialog(true)}>
                   <CheckCircle2 className="h-4 w-4 mr-2" />
                   Onay Ver
-                </Button>
+                </CorporateButton>
               )}
             </div>
           </div>
-        </CardHeader>
-        <CardContent>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <div className="space-y-4">
             <div className="flex items-center justify-between text-sm">
               <span>Onay İlerlemesi</span>
@@ -283,8 +282,8 @@ export function BudgetApprovalProcess({
             </div>
             <Progress value={approvalProgress} className="h-2" />
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       <Tabs defaultValue="steps" className="space-y-4">
         <TabsList className="grid w-full grid-cols-3">
@@ -297,15 +296,15 @@ export function BudgetApprovalProcess({
           {/* Approval Steps */}
           <div className="space-y-4">
             {approvalSteps.map((step, _index) => (
-              <Card key={step.id} className={`${step.status === 'pending' ? 'border-yellow-200 bg-yellow-50' : ''
+              <CorporateCard key={step.id} className={`${step.status === 'pending' ? 'border-yellow-200 bg-yellow-50' : ''
                 }`}>
-                <CardContent className="pt-6">
+                <CorporateCardContent className="pt-6">
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0">
                       {getStatusIcon(step.status)}
                     </div>
 
-                    <div className="flex-1 space-y-2">
+                    <div className="flex-1 space-y-6-group">
                       <div className="flex items-center justify-between">
                         <div>
                           <h4 className="font-semibold">{step.stepName}</h4>
@@ -339,8 +338,8 @@ export function BudgetApprovalProcess({
                       )}
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             ))}
           </div>
         </TabsContent>
@@ -349,18 +348,18 @@ export function BudgetApprovalProcess({
           {/* Approval History */}
           <div className="space-y-4">
             {approvalHistory.length === 0 ? (
-              <Card>
-                <CardContent className="pt-6">
+              <CorporateCard>
+                <CorporateCardContent className="pt-6">
                   <div className="text-center py-8">
                     <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <p className="text-muted-foreground">Henüz onay geçmişi bulunmuyor.</p>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             ) : (
               approvalHistory.map((action) => (
-                <Card key={action.id}>
-                  <CardContent className="pt-6">
+                <CorporateCard key={action.id}>
+                  <CorporateCardContent className="pt-6">
                     <div className="flex items-start space-x-4">
                       <Avatar className="h-10 w-10">
                         <AvatarImage src={`/avatars/${action.userId}.jpg`} />
@@ -369,7 +368,7 @@ export function BudgetApprovalProcess({
                         </AvatarFallback>
                       </Avatar>
 
-                      <div className="flex-1 space-y-2">
+                      <div className="flex-1 space-y-6-group">
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="font-semibold">{action.userName}</p>
@@ -377,16 +376,16 @@ export function BudgetApprovalProcess({
                               {formatDate(action.timestamp)}
                             </p>
                           </div>
-                          <Badge
-                            className={`${action.type === 'approve' ? 'bg-green-100 text-green-800' :
-                              action.type === 'reject' ? 'bg-red-100 text-red-800' :
-                                'bg-yellow-100 text-yellow-800'
+                          <CorporateBadge
+                            className={`${action.type === 'approve' ? 'bg-green-100 text-green-800 border-green-200' :
+                              action.type === 'reject' ? 'bg-red-100 text-red-800 border-red-200' :
+                                'bg-yellow-100 text-yellow-800 border-yellow-200'
                               }`}
                           >
                             {action.type === 'approve' && 'Onayladı'}
                             {action.type === 'reject' && 'Reddetti'}
                             {action.type === 'request_changes' && 'Değişiklik İstedi'}
-                          </Badge>
+                          </CorporateBadge>
                         </div>
 
                         <div className="bg-gray-50 p-3 rounded-md">
@@ -394,8 +393,8 @@ export function BudgetApprovalProcess({
                         </div>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </CorporateCardContent>
+                </CorporateCard>
               ))
             )}
           </div>
@@ -403,12 +402,12 @@ export function BudgetApprovalProcess({
 
         <TabsContent value="details" className="space-y-4">
           {/* Budget Details */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Bütçe Özeti</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle>Bütçe Özeti</CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent>
+              <div className="grid grid-cols-2">
                 <div className="space-y-4">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Bütçe Adı</p>
@@ -451,15 +450,15 @@ export function BudgetApprovalProcess({
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
 
           {/* Categories Summary */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Kategori Dağılımı</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle>Kategori Dağılımı</CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent>
               <div className="space-y-3">
                 {budget.categories.map((category) => (
                   <div key={category.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
@@ -476,8 +475,8 @@ export function BudgetApprovalProcess({
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         </TabsContent>
       </Tabs>
 
@@ -493,30 +492,30 @@ export function BudgetApprovalProcess({
 
           <div className="space-y-4">
             <div className="grid grid-cols-3 gap-2">
-              <Button
+              <CorporateButton
                 variant={selectedAction === 'approve' ? 'default' : 'outline'}
                 onClick={() => setSelectedAction('approve')}
                 className="text-sm"
               >
                 <CheckCircle className="h-4 w-4 mr-1" />
                 Onayla
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 variant={selectedAction === 'request_changes' ? 'default' : 'outline'}
                 onClick={() => setSelectedAction('request_changes')}
                 className="text-sm"
               >
                 <MessageSquare className="h-4 w-4 mr-1" />
                 Değişiklik
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 variant={selectedAction === 'reject' ? 'default' : 'outline'}
                 onClick={() => setSelectedAction('reject')}
                 className="text-sm"
               >
                 <XCircle className="h-4 w-4 mr-1" />
                 Reddet
-              </Button>
+              </CorporateButton>
             </div>
 
             <div>
@@ -532,14 +531,14 @@ export function BudgetApprovalProcess({
           </div>
 
           <DialogFooter>
-            <Button
+            <CorporateButton
               variant="outline"
               onClick={() => setShowApprovalDialog(false)}
               disabled={loading}
             >
               İptal
-            </Button>
-            <Button
+            </CorporateButton>
+            <CorporateButton
               onClick={() => handleApprovalAction(selectedAction)}
               disabled={!approvalComment.trim() || loading}
             >
@@ -549,7 +548,7 @@ export function BudgetApprovalProcess({
                 <Send className="h-4 w-4 mr-2" />
               )}
               Gönder
-            </Button>
+            </CorporateButton>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -134,21 +134,21 @@ export const MapModal = ({ isOpen, onClose, address, bankNumber, assignedTo }: M
         <div className="flex flex-wrap gap-2">
           <button
             onClick={openGoogleMapsRoute}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
           >
             <span>🗺️</span>
             Google Maps&apos;te Rota
           </button>
           <button
             onClick={openAppleMapsRoute}
-            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 flex items-center gap-2"
+            className="bg-secondary text-secondary-foreground hover:bg-secondary/90 flex items-center gap-2"
           >
             <span>🍎</span>
             Apple Maps&apos;te Rota
           </button>
           <button
             onClick={openYandexMapsRoute}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 flex items-center gap-2"
+            className="bg-red-500 text-white hover:bg-red-600 flex items-center gap-2"
           >
             <span>🔍</span>
             Yandex Maps&apos;te Rota

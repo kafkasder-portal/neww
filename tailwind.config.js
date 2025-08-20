@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -121,6 +121,65 @@ export default {
           'accent-light': "hsl(var(--sidebar-accent-light))",
           'border': "hsl(var(--sidebar-border))",
           'bg-hover': "hsl(var(--sidebar-bg-hover))",
+        },
+        // Corporate Colors - Sidebar Aligned
+        'corporate': {
+          'primary': {
+            50: "hsl(var(--corporate-primary-50))",
+            100: "hsl(var(--corporate-primary-100))",
+            200: "hsl(var(--corporate-primary-200))",
+            300: "hsl(var(--corporate-primary-300))",
+            400: "hsl(var(--corporate-primary-400))",
+            500: "hsl(var(--corporate-primary-500))",
+            600: "hsl(var(--corporate-primary-600))",
+            700: "hsl(var(--corporate-primary-700))",
+            800: "hsl(var(--corporate-primary-800))",
+            900: "hsl(var(--corporate-primary-900))",
+            DEFAULT: "hsl(var(--corporate-primary-600))",
+          },
+          'secondary': {
+            50: "hsl(var(--corporate-secondary-50))",
+            100: "hsl(var(--corporate-secondary-100))",
+            200: "hsl(var(--corporate-secondary-200))",
+            300: "hsl(var(--corporate-secondary-300))",
+            400: "hsl(var(--corporate-secondary-400))",
+            500: "hsl(var(--corporate-secondary-500))",
+            600: "hsl(var(--corporate-secondary-600))",
+            700: "hsl(var(--corporate-secondary-700))",
+            800: "hsl(var(--corporate-secondary-800))",
+            900: "hsl(var(--corporate-secondary-900))",
+            DEFAULT: "hsl(var(--corporate-secondary-600))",
+          },
+          'accent': {
+            50: "hsl(var(--corporate-accent-50))",
+            100: "hsl(var(--corporate-accent-100))",
+            200: "hsl(var(--corporate-accent-200))",
+            300: "hsl(var(--corporate-accent-300))",
+            400: "hsl(var(--corporate-accent-400))",
+            500: "hsl(var(--corporate-accent-500))",
+            600: "hsl(var(--corporate-accent-600))",
+            700: "hsl(var(--corporate-accent-700))",
+            800: "hsl(var(--corporate-accent-800))",
+            900: "hsl(var(--corporate-accent-900))",
+            DEFAULT: "hsl(var(--corporate-accent-600))",
+          },
+          'neutral': {
+            50: "hsl(var(--corporate-neutral-50))",
+            100: "hsl(var(--corporate-neutral-100))",
+            200: "hsl(var(--corporate-neutral-200))",
+            300: "hsl(var(--corporate-neutral-300))",
+            400: "hsl(var(--corporate-neutral-400))",
+            500: "hsl(var(--corporate-neutral-500))",
+            600: "hsl(var(--corporate-neutral-600))",
+            700: "hsl(var(--corporate-neutral-700))",
+            800: "hsl(var(--corporate-neutral-800))",
+            900: "hsl(var(--corporate-neutral-900))",
+            950: "hsl(var(--corporate-neutral-950))",
+          },
+          'success': "hsl(var(--corporate-success))",
+          'warning': "hsl(var(--corporate-warning))",
+          'danger': "hsl(var(--corporate-danger))",
+          'info': "hsl(var(--corporate-info))",
         },
         // Interactive Colors
         'interactive': {

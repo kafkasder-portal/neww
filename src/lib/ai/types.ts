@@ -7,14 +7,43 @@ export interface Command {
 }
 
 export interface CommandResult {
-  success: boolean;
-  data?: unknown;
-  error?: string;
-  message: string;
-  timestamp: Date;
-  suggestions?: string[];
-  nextSteps?: string[];
-  confidence?: number;
+  success: boolean
+  message: string
+  data?: any
+  nextSteps?: string[]
+  suggestions?: string[]
+  timestamp: Date
+  confidence?: number
+}
+
+export interface ProcessedCommand {
+  command: Command
+  intent: Intent
+  metadata: any
+  confidence: number
+}
+
+export interface DataInsight {
+  id: string
+  type: 'pattern' | 'trend' | 'anomaly' | 'prediction' | 'recommendation'
+  title: string
+  description: string
+  confidence: number
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  data: any
+  timestamp: Date
+  category: string
+  actionable: boolean
+  action: string
+}
+
+export interface ErrorContext {
+  userId?: string
+  sessionId?: string
+  command?: string
+  context?: string
+  preferenceType?: string
+  metric?: any
 }
 
 export interface Intent {

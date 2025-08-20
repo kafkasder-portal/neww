@@ -144,7 +144,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl bg-white shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-financial-gray-200 p-6">
+        <div className="flex items-center justify-between border-b border-financial-gray-200 p-6 bg-card rounded-lg border">
           <div>
             <h2 className="text-2xl font-bold text-financial-gray-900">
               {mode === 'create' ? 'Yeni Fon Oluştur' : 'Fon Düzenle'}
@@ -189,12 +189,12 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
         </div>
         
         {/* Form Content */}
-        <div className="p-6 max-h-[60vh] overflow-y-auto">
+        <div className="p-6 bg-card rounded-lg border max-h-[60vh] overflow-y-auto">
           <form onSubmit={handleSubmit}>
             {/* Step 1: Basic Information */}
             {currentStep === 1 && (
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-2">
                   <div>
                     <label className="block text-sm font-medium text-financial-gray-700 mb-2">
                       <Tag className="w-4 h-4 inline mr-2" />
@@ -325,7 +325,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-financial-gray-700 mb-2">
                       Minimum Tutar *
@@ -397,7 +397,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
                 </div>
                 
                 {formData.type === 'Proje' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-2">
                     <div>
                       <label className="block text-sm font-medium text-financial-gray-700 mb-2">
                         <Calendar className="w-4 h-4 inline mr-2" />
@@ -488,7 +488,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
                     <Upload className="w-4 h-4 inline mr-2" />
                     Fon Görseli
                   </label>
-                  <div className="border-2 border-dashed border-financial-gray-300 rounded-lg p-6 text-center hover:border-financial-primary transition-colors">
+                  <div className="border-2 border-dashed border-financial-gray-300 rounded-lg p-6 bg-card rounded-lg border text-center hover:border-financial-primary transition-colors">
                     <Upload className="w-12 h-12 mx-auto text-financial-gray-400 mb-4" />
                     <p className="text-financial-gray-600 mb-2">Görsel yüklemek için tıklayın veya sürükleyin</p>
                     <p className="text-sm text-financial-gray-500">PNG, JPG veya SVG (max. 2MB)</p>
@@ -527,7 +527,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
         </div>
         
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-financial-gray-200 p-6 bg-financial-gray-50">
+        <div className="flex items-center justify-between border-t border-financial-gray-200 p-6 bg-card rounded-lg border bg-financial-gray-50">
           <div className="flex space-x-3">
             {currentStep > 1 && (
               <button

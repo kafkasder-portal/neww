@@ -1,5 +1,6 @@
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { CorporateBadge, Card, CardContent, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
+import { CardDescription } from '@/components/ui/card'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useDesignSystem } from '@/hooks/useDesignSystem'
 import { formatCurrency } from '@/utils/formatters'
@@ -95,14 +96,14 @@ export function BudgetVarianceChart({
   }
 
   return (
-    <Card className={className}>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
+    <CorporateCard className={className}>
+      <CorporateCardHeader>
+        <CorporateCardTitle>{title}</CorporateCardTitle>
         <CardDescription>
           Bütçelenen ve gerçekleşen tutarların karşılaştırmalı analizi
         </CardDescription>
-      </CardHeader>
-      <CardContent>
+      </CorporateCardHeader>
+      <CorporateCardContent>
         <Tabs defaultValue="category-bar" className="space-y-4">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="category-bar">Kategori Çubuk</TabsTrigger>
@@ -171,8 +172,8 @@ export function BudgetVarianceChart({
           <TabsContent value="variance-bar">
             <div className="space-y-4">
               <div className="flex gap-2">
-                <Badge variant="destructive">Aşım</Badge>
-                <Badge variant="default">Tasarruf</Badge>
+                <CorporateBadge variant="danger">Aşım</CorporateBadge>
+                <CorporateBadge variant="primary">Tasarruf</CorporateBadge>
               </div>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
@@ -251,8 +252,8 @@ export function BudgetVarianceChart({
 
         {/* Summary Statistics */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card>
-            <CardContent className="pt-4">
+          <CorporateCard>
+            <CorporateCardContent className="pt-4">
               <div className="text-center">
                 <p className="text-sm text-muted-foreground">Toplam Bütçelenen</p>
                 <p className="text-2xl font-bold text-blue-600">
@@ -263,11 +264,11 @@ export function BudgetVarianceChart({
                   )}
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
 
-          <Card>
-            <CardContent className="pt-4">
+          <CorporateCard>
+            <CorporateCardContent className="pt-4">
               <div className="text-center">
                 <p className="text-sm text-muted-foreground">Toplam Gerçekleşen</p>
                 <p className="text-2xl font-bold text-green-600">
@@ -278,11 +279,11 @@ export function BudgetVarianceChart({
                   )}
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
 
-          <Card>
-            <CardContent className="pt-4">
+          <CorporateCard>
+            <CorporateCardContent className="pt-4">
               <div className="text-center">
                 <p className="text-sm text-muted-foreground">Toplam Varyans</p>
                 <p className={`text-2xl font-bold ${categoryData.reduce((sum, item) => sum + item.variance, 0) > 0
@@ -296,11 +297,11 @@ export function BudgetVarianceChart({
                   )}
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         </div>
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   )
 }
 

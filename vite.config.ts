@@ -1,9 +1,9 @@
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
-import { defineConfig } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { defineConfig } from 'vite'
 import compression from 'vite-plugin-compression'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -48,8 +48,8 @@ export default defineConfig({
     target: 'esnext',
     // Keep names for better debugging in development
     keepNames: process.env.NODE_ENV === 'development',
-    // Faster source maps in development
-    sourcemap: process.env.NODE_ENV === 'development' ? 'inline' : false,
+    // Completely disable source maps to prevent all JSON parse errors
+    sourcemap: false,
     // Drop console in production
     drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
     // Faster minification
@@ -64,6 +64,8 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     // Enable minification
     minify: 'terser',
+    // Completely disable source maps in build
+    sourcemap: false,
     terserOptions: {
       compress: {
         drop_console: true,
@@ -79,23 +81,57 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html')
       },
       output: {
-        // Manual chunk splitting for better caching
-        manualChunks: {
-          // Vendor chunks
-          'react-vendor': ['react', 'react-dom'],
-          'router-vendor': ['react-router-dom'],
-          'ui-vendor': [
-            '@radix-ui/react-dialog',
-            '@radix-ui/react-dropdown-menu',
-            '@radix-ui/react-select',
-            '@radix-ui/react-tabs',
-            '@radix-ui/react-tooltip'
-          ],
-          'query-vendor': ['@tanstack/react-query'],
-          'form-vendor': ['react-hook-form', '@hookform/resolvers', 'zod'],
-          'chart-vendor': ['recharts'],
-          'utils-vendor': ['date-fns', 'clsx', 'tailwind-merge'],
-          'supabase-vendor': ['@supabase/supabase-js']
+        // Enhanced manual chunk splitting for optimal caching
+        manualChunks: (id) => {
+          // Core React chunks
+          if (id.includes('react') || id.includes('react-dom')) {
+            return 'react-core'
+          }
+
+          // Router chunk
+          if (id.includes('react-router')) {
+            return 'router'
+          }
+
+          // UI components chunk
+          if (id.includes('@radix-ui') || id.includes('lucide-react')) {
+            return 'ui-components'
+          }
+
+          // Data management chunk
+          if (id.includes('@tanstack/react-query') || id.includes('zustand')) {
+            return 'data-management'
+          }
+
+          // Form handling chunk
+          if (id.includes('react-hook-form') || id.includes('@hookform/resolvers') || id.includes('zod')) {
+            return 'form-handling'
+          }
+
+          // Charts and visualization chunk
+          if (id.includes('recharts') || id.includes('framer-motion')) {
+            return 'visualization'
+          }
+
+          // Utilities chunk
+          if (id.includes('date-fns') || id.includes('clsx') || id.includes('tailwind-merge')) {
+            return 'utils'
+          }
+
+          // Backend services chunk
+          if (id.includes('@supabase') || id.includes('axios')) {
+            return 'backend-services'
+          }
+
+          // Large third-party libraries
+          if (id.includes('tesseract') || id.includes('leaflet') || id.includes('jspdf')) {
+            return 'heavy-libs'
+          }
+
+          // Default vendor chunk for other dependencies
+          if (id.includes('node_modules')) {
+            return 'vendor'
+          }
         },
         // Optimize chunk file names
         chunkFileNames: (chunkInfo) => {
@@ -136,30 +172,32 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5174,
+    port: 5173,
     host: true,
     strictPort: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3004',
+        target: 'http://localhost:3001',
         changeOrigin: true,
         secure: false,
         timeout: 30000,
         proxyTimeout: 30000,
       },
     },
-    // Hot Module Replacement optimizations
+    // Hot Module Replacement optimizations for Cursor
     hmr: {
-      port: 5175,
-      timeout: 10000,
+      port: 5174,
+      timeout: 15000,
       overlay: false,
-      clientPort: 5175
+      clientPort: 5174,
+      // Cursor için özel HMR ayarları
+      host: 'localhost'
     },
-    // File watching optimizations
+    // File watching optimizations for Cursor
     watch: {
       usePolling: false,
-      interval: 300,
-      binaryInterval: 1000,
+      interval: 100,
+      binaryInterval: 500,
       ignored: [
         '**/node_modules/**',
         '**/.git/**',
@@ -169,22 +207,37 @@ export default defineConfig({
         '**/.vscode/**',
         '**/.idea/**',
         '**/tmp/**',
-        '**/temp/**'
+        '**/temp/**',
+        '**/*.backup',
+        '**/scripts/**',
+        '**/docs/**',
+        '**/e2e/**',
+        '**/migrations/**'
       ],
       // Use native file system events for better performance
       useFsEvents: true,
-      depth: 99
+      depth: 50
     },
-    // Faster startup
+    // Faster startup for Cursor
     warmup: {
       clientFiles: [
         './src/main.tsx',
         './src/App.tsx',
-        './src/components/**/*.tsx',
+        './src/components/ui/**/*.tsx',
         './src/pages/**/*.tsx',
         './src/hooks/**/*.ts'
       ]
-    }
+    },
+    // Cursor için özel ayarlar
+    cors: true,
+    // Fix MIME type issues
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    },
+    // Custom middleware for CSS MIME type fixes
+    middlewareMode: false
   },
   // Optimize dependencies for better performance
   optimizeDeps: {
@@ -200,27 +253,39 @@ export default defineConfig({
       'clsx',
       'tailwind-merge',
       'lucide-react',
-      'framer-motion'
+      'framer-motion',
+      'sonner',
+      'react-error-boundary'
     ],
-    exclude: [
-      'react-error-boundary',
-      'sonner'
-    ],
+    exclude: [],
     force: true,
     esbuildOptions: {
-      target: 'esnext'
+      target: 'esnext',
+      sourcemap: false
     }
   },
-  // CSS optimization
+  // CSS optimization - completely disable source maps and fix MIME issues
   css: {
     devSourcemap: false,
     preprocessorOptions: {
       scss: {
         charset: false
       }
+    },
+    // Fix CSS MIME type issues
+    modules: {
+      localsConvention: 'camelCase'
     }
   },
   // Better error handling
   logLevel: 'info',
   clearScreen: false,
+  // Global source map disable
+  define: {
+    __VITE_DISABLE_SOURCEMAP__: true
+  },
+  // Fix module resolution issues
+  publicDir: 'public',
+  // Ensure proper asset handling
+  assetsInclude: ['**/*.woff', '**/*.woff2', '**/*.ttf', '**/*.eot']
 })

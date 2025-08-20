@@ -4,6 +4,7 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 export interface SavedFilter {
     id: string
@@ -113,17 +114,17 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="bg-card border border-border rounded-lg shadow-sm max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-semibold">Gelişmiş Arama</h2>
-                    <Button
+                    <CorporateButton
                         variant="ghost"
                         size="sm"
                         onClick={onClose}
                         className="h-8 w-8 p-0"
                     >
                         <X className="h-4 w-4" />
-                    </Button>
+                    </CorporateButton>
                 </div>
 
                 {quickFilters.length > 0 && (
@@ -131,7 +132,7 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                         <h3 className="text-sm font-medium mb-2">Hızlı Filtreler</h3>
                         <div className="flex flex-wrap gap-2">
                             {quickFilters.map((quickFilter) => (
-                                <Button
+                                <CorporateButton
                                     key={quickFilter.id}
                                     variant="outline"
                                     size="sm"
@@ -147,7 +148,7 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                                     title={quickFilter.description}
                                 >
                                     {quickFilter.name}
-                                </Button>
+                                </CorporateButton>
                             ))}
                         </div>
                     </div>
@@ -183,7 +184,7 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                                 </Select>
                             )}
                             {field.type === 'multiSelect' && field.options && (
-                                <div className="space-y-2">
+                                <div className="space-y-6-group">
                                     {field.options.map((option) => (
                                         <div key={option.value} className="flex items-center space-x-2">
                                             <input
@@ -297,26 +298,26 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                 {savedFilters.length > 0 && (
                     <div className="mt-4">
                         <h3 className="text-sm font-medium mb-2">Kayıtlı Filtreler</h3>
-                        <div className="space-y-2">
+                        <div className="space-y-6-group">
                             {savedFilters.map((filter) => (
                                 <div key={filter.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
                                     <span className="text-sm">{filter.name}</span>
                                     <div className="space-x-2">
-                                        <Button
+                                        <CorporateButton
                                             size="sm"
                                             variant="outline"
                                             onClick={() => handleLoadFilter(filter)}
                                         >
                                             Yükle
-                                        </Button>
+                                        </CorporateButton>
                                         {onDeleteFilter && (
-                                            <Button
+                                            <CorporateButton
                                                 size="sm"
-                                                variant="destructive"
+                                                variant="danger"
                                                 onClick={() => onDeleteFilter(filter.id)}
                                             >
                                                 Sil
-                                            </Button>
+                                            </CorporateButton>
                                         )}
                                     </div>
                                 </div>
@@ -341,7 +342,7 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                                 value={filterName}
                                 onChange={(e) => setFilterName(e.target.value)}
                             />
-                            <Button
+                            <CorporateButton
                                 onClick={handleSaveFilter}
                                 disabled={!filterName}
                                 title={savedFilters.length >= maxSavedFilters ?
@@ -350,19 +351,19 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                                 }
                             >
                                 Kaydet
-                            </Button>
+                            </CorporateButton>
                         </div>
                     </div>
                 )}
 
                 <div className="flex justify-end space-x-2 mt-6">
-                    <Button variant="outline" onClick={onClose}>
+                    <CorporateButton variant="outline" onClick={onClose}>
                         İptal
-                    </Button>
-                    <Button onClick={handleSearch}>
+                    </CorporateButton>
+                    <CorporateButton onClick={handleSearch}>
                         <Search className="h-4 w-4 mr-2" />
                         Ara
-                    </Button>
+                    </CorporateButton>
                 </div>
             </div>
         </div>

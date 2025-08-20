@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
+
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
+
 import { Separator } from '@/components/ui/separator'
 import { useInventoryReports } from '@/hooks/useInventoryReports'
 import {
@@ -103,9 +103,9 @@ const InventoryReports: React.FC = () => {
         <div className="text-center">
           <AlertTriangle className="h-8 w-8 text-destructive mx-auto mb-2" />
           <p className="text-sm text-destructive">{error}</p>
-          <Button onClick={refreshReport} className="mt-2">
+          <CorporateButton onClick={refreshReport} className="mt-2">
             Tekrar Dene
-          </Button>
+          </CorporateButton>
         </div>
       </div>
     )
@@ -125,19 +125,19 @@ const InventoryReports: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Filtreler ve Kontroller */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle className="flex items-center gap-2">
             <Filter className="h-5 w-5" />
             Rapor Filtreleri
-          </CardTitle>
+          </CorporateCardTitle>
           <CardDescription>
             Rapor parametrelerini ayarlayın ve verileri filtreleyin
           </CardDescription>
-        </CardHeader>
-        <CardContent>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="startDate">Başlangıç Tarihi</Label>
               <Input
                 id="startDate"
@@ -146,7 +146,7 @@ const InventoryReports: React.FC = () => {
                 onChange={(e) => handleDateRangeChange('startDate', e.target.value)}
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="endDate">Bitiş Tarihi</Label>
               <Input
                 id="endDate"
@@ -155,7 +155,7 @@ const InventoryReports: React.FC = () => {
                 onChange={(e) => handleDateRangeChange('endDate', e.target.value)}
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label>İnaktif Ürünler</Label>
               <Select
                 value={filters.includeInactive ? 'true' : 'false'}
@@ -171,19 +171,19 @@ const InventoryReports: React.FC = () => {
               </Select>
             </div>
             <div className="flex items-end gap-2">
-              <Button onClick={generateReport} className="flex-1">
+              <CorporateButton onClick={generateReport} className="flex-1">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Raporu Yenile
-              </Button>
+              </CorporateButton>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Özet Kartları */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-6">
+        <CorporateCard>
+          <CorporateCardContent className="p-6 bg-card rounded-lg border">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Toplam Ürün</p>
@@ -191,11 +191,11 @@ const InventoryReports: React.FC = () => {
               </div>
               <Package className="h-8 w-8 text-blue-600" />
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card>
-          <CardContent className="p-6">
+        <CorporateCard>
+          <CorporateCardContent className="p-6 bg-card rounded-lg border">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Toplam Değer</p>
@@ -203,11 +203,11 @@ const InventoryReports: React.FC = () => {
               </div>
               <DollarSign className="h-8 w-8 text-green-600" />
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card>
-          <CardContent className="p-6">
+        <CorporateCard>
+          <CorporateCardContent className="p-6 bg-card rounded-lg border">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Düşük Stok</p>
@@ -215,11 +215,11 @@ const InventoryReports: React.FC = () => {
               </div>
               <TrendingDown className="h-8 w-8 text-orange-600" />
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card>
-          <CardContent className="p-6">
+        <CorporateCard>
+          <CorporateCardContent className="p-6 bg-card rounded-lg border">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Tükenen Ürünler</p>
@@ -227,28 +227,28 @@ const InventoryReports: React.FC = () => {
               </div>
               <AlertTriangle className="h-8 w-8 text-red-600" />
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
       {/* Eylem Butonları */}
       <div className="flex flex-wrap gap-2">
-        <Button onClick={() => exportReport('csv')} variant="outline">
+        <CorporateButton onClick={() => exportReport('csv')} variant="outline">
           <Download className="h-4 w-4 mr-2" />
           CSV İndir
-        </Button>
-        <Button onClick={() => exportReport('json')} variant="outline">
+        </CorporateButton>
+        <CorporateButton onClick={() => exportReport('json')} variant="outline">
           <Download className="h-4 w-4 mr-2" />
           JSON İndir
-        </Button>
-        <Button variant="outline">
+        </CorporateButton>
+        <CorporateButton variant="outline">
           <Printer className="h-4 w-4 mr-2" />
           Yazdır
-        </Button>
-        <Button variant="outline">
+        </CorporateButton>
+        <CorporateButton variant="outline">
           <Share2 className="h-4 w-4 mr-2" />
           Paylaş
-        </Button>
+        </CorporateButton>
       </div>
 
       {/* Raporlar */}
@@ -262,16 +262,16 @@ const InventoryReports: React.FC = () => {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
             {/* Kategori Dağılımı */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle className="flex items-center gap-2">
                   <PieChartIcon className="h-5 w-5" />
                   Kategori Dağılımı
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+                </CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
@@ -289,23 +289,23 @@ const InventoryReports: React.FC = () => {
                     <Tooltip formatter={(value, name) => [formatNumber(value as number), 'Adet']} />
                   </PieChart>
                 </ResponsiveContainer>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
             {/* En Değerli Ürünler */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
                   En Değerli Ürünler
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+                </CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <div className="space-y-3">
                   {reportData.topValueItems.slice(0, 5).map((item, index) => (
                     <div key={item.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                       <div className="flex items-center gap-3">
-                        <Badge variant="secondary">{index + 1}</Badge>
+                        <CorporateBadge variant="outline">{index + 1}</CorporateBadge>
                         <div>
                           <p className="font-medium">{item.name}</p>
                           <p className="text-sm text-muted-foreground">{item.category}</p>
@@ -318,19 +318,19 @@ const InventoryReports: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
 
           {/* Aylık Stok Değeri Trendi */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle className="flex items-center gap-2">
                 <BarChart3 className="h-5 w-5" />
                 Aylık Stok Değeri Trendi
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+              </CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <AreaChart data={reportData.monthlyStockValue}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -340,18 +340,18 @@ const InventoryReports: React.FC = () => {
                   <Area type="monotone" dataKey="totalValue" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.3} />
                 </AreaChart>
               </ResponsiveContainer>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         </TabsContent>
 
         <TabsContent value="distribution" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
             {/* Lokasyon Dağılımı */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Lokasyon Dağılımı</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Lokasyon Dağılımı</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={reportData.locationDistribution}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -361,15 +361,15 @@ const InventoryReports: React.FC = () => {
                     <Bar dataKey="count" fill="#10B981" />
                   </BarChart>
                 </ResponsiveContainer>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
             {/* Kategori Değer Dağılımı */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Kategori Değer Dağılımı</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Kategori Değer Dağılımı</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={reportData.categoryDistribution}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -379,18 +379,18 @@ const InventoryReports: React.FC = () => {
                     <Bar dataKey="value" fill="#F59E0B" />
                   </BarChart>
                 </ResponsiveContainer>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
         </TabsContent>
 
         <TabsContent value="trends" className="space-y-6">
           {/* Stok Hareket Trendleri */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Stok Hareket Trendleri (Son 30 Gün)</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle>Stok Hareket Trendleri (Son 30 Gün)</CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent>
               <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={reportData.stockMovementTrends}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -403,18 +403,18 @@ const InventoryReports: React.FC = () => {
                   <Line type="monotone" dataKey="net" stroke="#3B82F6" strokeWidth={2} name="Net" />
                 </LineChart>
               </ResponsiveContainer>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         </TabsContent>
 
         <TabsContent value="performance" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
             {/* Stok Devir Hızı */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Kategori Bazında Stok Devir Hızı</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Kategori Bazında Stok Devir Hızı</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <div className="space-y-3">
                   {reportData.stockTurnoverRate.map((item, index) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
@@ -429,21 +429,21 @@ const InventoryReports: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
             {/* Tedarikçi Performansı */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Tedarikçi Performansı</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Tedarikçi Performansı</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <div className="space-y-3">
                   {reportData.supplierPerformance.slice(0, 5).map((supplier, index) => (
                     <div key={index} className="p-3 bg-muted/50 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
                         <p className="font-medium">{supplier.supplier}</p>
-                        <Badge variant="outline">{formatNumber(supplier.totalOrders)} sipariş</Badge>
+                        <CorporateBadge variant="outline">{formatNumber(supplier.totalOrders)} sipariş</CorporateBadge>
                       </div>
                       <div className="grid grid-cols-3 gap-2 text-sm">
                         <div>
@@ -462,30 +462,30 @@ const InventoryReports: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
         </TabsContent>
 
         <TabsContent value="alerts" className="space-y-6">
           {/* Son Kullanma Tarihi Uyarıları */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle className="flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5" />
                 Son Kullanma Tarihi Uyarıları
-              </CardTitle>
+              </CorporateCardTitle>
               <CardDescription>
                 30 gün içinde sona erecek ürünler
               </CardDescription>
-            </CardHeader>
-            <CardContent>
+            </CorporateCardHeader>
+            <CorporateCardContent>
               {reportData.expiryAlerts.length > 0 ? (
                 <div className="space-y-3">
                   {reportData.expiryAlerts.map((alert) => (
                     <div key={alert.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                       <div className="flex items-center gap-3">
-                        <Badge 
+                        <CorporateBadge 
                           variant={
                             alert.severity === 'critical' ? 'destructive' :
                             alert.severity === 'warning' ? 'default' : 'secondary'
@@ -493,7 +493,7 @@ const InventoryReports: React.FC = () => {
                         >
                           {alert.severity === 'critical' ? 'Kritik' :
                            alert.severity === 'warning' ? 'Uyarı' : 'Bilgi'}
-                        </Badge>
+                        </CorporateBadge>
                         <div>
                           <p className="font-medium">{alert.name}</p>
                           <p className="text-sm text-muted-foreground">{alert.category}</p>
@@ -512,8 +512,8 @@ const InventoryReports: React.FC = () => {
                   <p>Yakın zamanda sona erecek ürün bulunmuyor</p>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         </TabsContent>
       </Tabs>
     </div>

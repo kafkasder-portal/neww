@@ -7,8 +7,8 @@ import { exportToCsv } from '@lib/exportToCsv'
 import { generateQRCode, generateUniqueBankNumber } from '@utils/qrCodeUtils'
 import { QrCode } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { LazyQRScannerModal } from '../../components/LazyQRScannerModal'
-import { QRCodeModal } from '../../components/QRCodeModal'
+import { LazyQRScannerModal } from '@components/LazyQRScannerModal'
+import { QRCodeModal } from '@components/QRCodeModal'
 
 interface PiggyBank {
   id: string
@@ -750,7 +750,7 @@ export default function PiggyBankTracking() {
 
   return (
     <div className="space-y-6 bg-background min-h-screen">
-      <div className="bg-card p-6 rounded-lg shadow border">
+      <div className="bg-card p-6 bg-card rounded-lg border rounded-lg shadow border">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold">Kumbara Takibi</h2>
@@ -797,14 +797,14 @@ export default function PiggyBankTracking() {
             <div className="flex gap-2">
               <button
                 onClick={handleOpenQRScanner}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 flex items-center gap-2"
+                className="bg-green-500 text-white hover:bg-green-600 flex items-center gap-2"
               >
                 <QrCode className="w-4 h-4" />
                 QR Tara
               </button>
               <button
                 onClick={openAddModal}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 Yeni Kumbara
               </button>
@@ -885,7 +885,7 @@ export default function PiggyBankTracking() {
               </select>
               <button
                 onClick={() => exportToCsv('kumbaralar.csv', filteredBanks)}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                className="bg-green-500 text-white hover:bg-green-600"
               >
                 Excel İndir
               </button>
@@ -927,22 +927,22 @@ export default function PiggyBankTracking() {
           <div className="space-y-6">
             {/* Genel İstatistikler */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-blue-50 p-6 rounded-lg">
+              <div className="bg-blue-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-blue-600 mb-2">Toplam Gelir</h3>
                 <p className="text-3xl font-bold text-blue-900">{totalCollectedAmount.toLocaleString('tr-TR')} ₺</p>
                 <p className="text-sm text-blue-600 mt-1">Tüm toplamalar</p>
               </div>
-              <div className="bg-green-50 p-6 rounded-lg">
+              <div className="bg-green-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-green-600 mb-2">Mevcut Tutar</h3>
                 <p className="text-3xl font-bold text-green-900">{totalCurrentAmount.toLocaleString('tr-TR')} ₺</p>
                 <p className="text-sm text-green-600 mt-1">Kumbaralarda</p>
               </div>
-              <div className="bg-purple-50 p-6 rounded-lg">
+              <div className="bg-purple-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-purple-600 mb-2">Kumbara Başına</h3>
                 <p className="text-3xl font-bold text-purple-900">{averagePerBank.toLocaleString('tr-TR')} ₺</p>
                 <p className="text-sm text-purple-600 mt-1">Ortalama gelir</p>
               </div>
-              <div className="bg-orange-50 p-6 rounded-lg">
+              <div className="bg-orange-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-orange-600 mb-2">Toplama Başına</h3>
                 <p className="text-3xl font-bold text-orange-900">{averagePerCollection.toLocaleString('tr-TR')} ₺</p>
                 <p className="text-sm text-orange-600 mt-1">Ortalama tutar</p>
@@ -950,7 +950,7 @@ export default function PiggyBankTracking() {
             </div>
 
             {/* Durum Dağılımı */}
-            <div className="bg-card border rounded-lg p-6">
+            <div className="bg-card border rounded-lg p-6 bg-card rounded-lg border">
               <h3 className="text-lg font-medium mb-4">Kumbara Durum Dağılımı</h3>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div className="border rounded p-4">
@@ -994,7 +994,7 @@ export default function PiggyBankTracking() {
             </div>
 
             {/* Lokasyon Performansı */}
-            <div className="bg-card border rounded-lg p-6">
+            <div className="bg-card border rounded-lg p-6 bg-card rounded-lg border">
               <h3 className="text-lg font-medium mb-4">Lokasyon Performansı</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
@@ -1030,7 +1030,7 @@ export default function PiggyBankTracking() {
             </div>
 
             {/* Kumbara Tipi Analizi */}
-            <div className="bg-card border rounded-lg p-6">
+            <div className="bg-card border rounded-lg p-6 bg-card rounded-lg border">
               <h3 className="text-lg font-medium mb-4">Kumbara Tipi Analizi</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {['standart', 'büyük', 'özel', 'dijital'].map(type => {

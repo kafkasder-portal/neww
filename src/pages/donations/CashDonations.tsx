@@ -7,7 +7,7 @@ import { exportDonationsToExcel } from '@utils/excelExport'
 import { exportDonationsToPDF } from '@utils/pdfExport'
 import { Camera, FileSpreadsheet, FileText, Filter, Plus, Search } from 'lucide-react'
 import React, { useMemo, useState } from 'react'
-import { LazyCameraScanner } from '../../components/LazyCameraScanner'
+import { LazyCameraScanner } from '@components/LazyCameraScanner'
 
 interface CashDonation {
   id: string
@@ -98,9 +98,9 @@ export default function CashDonations() {
       key: 'status',
       header: 'Durum',
       render: (_, row: CashDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${row.status === 'onaylandı' ? 'bg-green-100 text-green-800' :
-          row.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-            'bg-red-100 text-red-800'
+        <span className={`px-2 py-1 rounded text-xs ${row.status === 'onaylandı' ? 'bg-green-100 text-green-800 border-green-200' :
+          row.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+            'bg-red-100 text-red-800 border-red-200'
           }`}>
           {row.status}
         </span>
@@ -272,7 +272,7 @@ export default function CashDonations() {
         </div>
 
         {/* Özet Bilgiler */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 space-y-4 mb-8">
           <TotalDonationsCard
             title="Toplam Bağış"
             total={totalAmount}
@@ -293,7 +293,7 @@ export default function CashDonations() {
         </div>
 
         {/* Arama ve Filtreler */}
-        <div className="bg-gray-50 p-6 rounded-xl mb-8">
+        <div className="bg-gray-50 p-6 bg-card rounded-lg border rounded-xl mb-8">
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />

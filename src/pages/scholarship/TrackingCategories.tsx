@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Star,
   Plus,
@@ -157,7 +158,7 @@ export default function TrackingCategories() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <Star className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Takip Kategorileri</h1>
@@ -169,7 +170,7 @@ export default function TrackingCategories() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplam Kategori</p>
@@ -177,8 +178,8 @@ export default function TrackingCategories() {
             </div>
             <Star className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Kategori</p>
@@ -186,8 +187,8 @@ export default function TrackingCategories() {
             </div>
             <CheckCircle className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Takipteki Öğrenci</p>
@@ -195,8 +196,8 @@ export default function TrackingCategories() {
             </div>
             <Users className="h-8 w-8 text-brand-secondary" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Yüksek Öncelik</p>
@@ -204,13 +205,13 @@ export default function TrackingCategories() {
             </div>
             <TrendingUp className="h-8 w-8 text-semantic-danger" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 space-y-4">
         {/* Categories List */}
         <div className="lg:col-span-2 space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <div className="flex flex-col md:flex-row gap-4 justify-between mb-6">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -221,10 +222,10 @@ export default function TrackingCategories() {
                   className="pl-9 w-full md:w-80"
                 />
               </div>
-              <Button className="gap-2">
+              <CorporateButton className="gap-2">
                 <Plus className="h-4 w-4" />
                 Yeni Kategori
-              </Button>
+              </CorporateButton>
             </div>
 
             <div className="space-y-4">
@@ -233,7 +234,7 @@ export default function TrackingCategories() {
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-4 flex-1">
                       <div className={`w-4 h-4 rounded-full ${category.color} mt-1`} />
-                      <div className="flex-1 space-y-2">
+                      <div className="flex-1 space-y-6-group">
                         <div className="flex items-center justify-between">
                           <h3 className="font-semibold">{category.name}</h3>
                           <div className="flex items-center gap-2">
@@ -268,23 +269,23 @@ export default function TrackingCategories() {
                       </div>
                     </div>
                     <div className="flex gap-2 ml-4">
-                      <Button size="sm" variant="outline">
+                      <CorporateButton size="sm" variant="outline">
                         <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="destructive">
+                      </CorporateButton>
+                      <CorporateButton size="sm" variant="danger">
                         <Trash2 className="h-4 w-4" />
-                      </Button>
+                      </CorporateButton>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-          </Card>
+          </CorporateCard>
         </div>
 
         {/* Recent Activities */}
         <div className="space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h2 className="text-lg font-semibold mb-4">Son Aktiviteler</h2>
             <div className="space-y-4">
               {recentActivities.map((activity) => (
@@ -301,26 +302,26 @@ export default function TrackingCategories() {
                 </div>
               ))}
             </div>
-          </Card>
+          </CorporateCard>
 
           {/* Quick Actions */}
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h2 className="text-lg font-semibold mb-4">Hızlı İşlemler</h2>
-            <div className="space-y-2">
-              <Button variant="outline" className="w-full justify-start">
+            <div className="space-y-6-group">
+              <CorporateButton variant="outline" className="w-full justify-start">
                 <TrendingUp className="h-4 w-4 mr-2" />
                 Toplu Değerlendirme
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
+              </CorporateButton>
+              <CorporateButton variant="outline" className="w-full justify-start">
                 <Users className="h-4 w-4 mr-2" />
                 Öğrenci Atama
-              </Button>
-              <Button variant="outline" className="w-full justify-start">
+              </CorporateButton>
+              <CorporateButton variant="outline" className="w-full justify-start">
                 <Star className="h-4 w-4 mr-2" />
                 Kategori Raporu
-              </Button>
+              </CorporateButton>
             </div>
-          </Card>
+          </CorporateCard>
         </div>
       </div>
     </div>

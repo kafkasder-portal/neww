@@ -1,4 +1,5 @@
 import React from 'react'
+import { onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals'
 import { errorService, ErrorSeverity, ErrorCategory } from './errorService'
 
 /**
@@ -79,7 +80,39 @@ class PerformanceMonitoringService {
    * Web Vitals metriklerini başlat
    */
   private initializeWebVitals() {
-    // Core Web Vitals observer
+    // Web Vitals kütüphanesini kullan
+    try {
+      onCLS((metric) => {
+        this.recordWebVital('cls', metric.value, metric)
+      })
+      
+      onFCP((metric) => {
+        this.recordWebVital('fcp', metric.value, metric)
+      })
+      
+      onINP((metric) => {
+        this.recordWebVital('inp', metric.value, metric)
+      })
+      
+      onLCP((metric) => {
+        this.recordWebVital('lcp', metric.value, metric)
+      })
+      
+      onTTFB((metric) => {
+        this.recordWebVital('ttfb', metric.value, metric)
+      })
+
+    } catch (error) {
+      console.warn('Web Vitals desteklenmiyor:', error)
+      // Fallback to Performance Observer
+      this.initializeFallbackObserver()
+    }
+  }
+
+  /**
+   * Fallback Performance Observer
+   */
+  private initializeFallbackObserver() {
     try {
       this.observer = new PerformanceObserver((list) => {
         list.getEntries().forEach((entry) => {
@@ -101,6 +134,31 @@ class PerformanceMonitoringService {
 
     } catch (error) {
       console.warn('Performance Observer desteklenmiyor:', error)
+    }
+  }
+
+  /**
+   * Web Vital metriği kaydet
+   */
+  private recordWebVital(name: string, value: number, metric: any) {
+    const performanceMetric: PerformanceMetrics = {
+      page: window.location.pathname,
+      timestamp: Date.now(),
+      userAgent: navigator.userAgent,
+      [name]: value,
+    }
+
+    // Connection bilgisi ekle
+    if ('connection' in navigator) {
+      const connection = (navigator as Navigator & { connection?: { effectiveType: string } }).connection
+      performanceMetric.connection = connection?.effectiveType
+    }
+
+    this.addMetric(performanceMetric)
+    
+    // Console'da kritik metrikleri logla
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Web Vital ${name.toUpperCase()}: ${value}ms`, metric)
     }
   }
 

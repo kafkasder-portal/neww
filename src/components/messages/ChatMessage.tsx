@@ -59,7 +59,7 @@ export default function ChatMessage({
     // If editing and it's a text message, show edit input
     if (isEditing && message.message_type === 'text') {
       return (
-        <div className="space-y-2">
+        <div className="space-y-6-group">
           <textarea
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
@@ -86,7 +86,7 @@ export default function ChatMessage({
             </button>
             <button
               onClick={handleCancelEdit}
-              className="flex items-center gap-1 px-2 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600"
+              className="flex items-center gap-1 px-2 py-1 bg-gray-50 text-white rounded text-sm hover:bg-gray-600"
             >
               <X className="h-3 w-3" />
               İptal
@@ -122,7 +122,7 @@ export default function ChatMessage({
       
       case 'image':
         return (
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             {message.file_url && (
               <img
                 src={message.file_url}

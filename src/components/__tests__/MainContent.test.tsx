@@ -154,9 +154,9 @@ describe('MainContent', () => {
     expect(mainElement).toHaveClass('flex-1', 'overflow-auto', 'bg-background');
 
     // Check for content wrapper
-    const contentWrapper = mainElement.querySelector('.p-6');
+    const contentWrapper = mainElement.querySelector('.p-6 bg-card rounded-lg border');
     expect(contentWrapper).toBeInTheDocument();
-    expect(contentWrapper).toHaveClass('p-6', 'bg-background', 'min-h-screen');
+    expect(contentWrapper).toHaveClass('p-6 bg-card rounded-lg border', 'bg-background', 'min-h-screen');
   });
 
   it('renders breadcrumb section with proper styling', () => {

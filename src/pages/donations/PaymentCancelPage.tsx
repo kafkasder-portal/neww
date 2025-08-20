@@ -1,7 +1,7 @@
+import { Card, CardContent, CardHeader, CardTitle, CorporateButton, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import { useEffect, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { XCircle, ArrowLeft, RefreshCw, HelpCircle } from 'lucide-react'
 import { donationService } from '@/services/donationService'
@@ -99,11 +99,11 @@ export default function PaymentCancelPage() {
 
         {/* Donation Info (if available) */}
         {donation && (
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle className="text-lg">İptal Edilen Bağış</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+          <CorporateCard className="mb-6">
+            <CorporateCardHeader>
+              <CorporateCardTitle className="text-lg">İptal Edilen Bağış</CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-gray-600">Bağışçı:</span>
                 <span className="font-medium">{donation.donor_name}</span>
@@ -122,44 +122,44 @@ export default function PaymentCancelPage() {
                   <span className="font-medium">{donation.purpose}</span>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         )}
 
         {/* Action Buttons */}
         <div className="space-y-3">
-          <Button onClick={handleRetryPayment} className="w-full">
+          <CorporateButton onClick={handleRetryPayment} className="w-full">
             <RefreshCw className="h-4 w-4 mr-2" />
             Tekrar Dene
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             variant="outline" 
             onClick={() => navigate('/donations')}
             className="w-full"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Bağışlar Sayfasına Dön
-          </Button>
+          </CorporateButton>
 
-          <Button 
+          <CorporateButton 
             variant="outline" 
             onClick={() => navigate('/')}
             className="w-full"
           >
             Ana Sayfaya Dön
-          </Button>
+          </CorporateButton>
         </div>
 
         {/* Help Section */}
-        <Card className="mt-8">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
+        <CorporateCard className="mt-8">
+          <CorporateCardHeader>
+            <CorporateCardTitle className="text-lg flex items-center gap-2">
               <HelpCircle className="h-5 w-5" />
               Yardıma mı ihtiyacınız var?
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
+            </CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent className="space-y-3">
             <div className="text-sm text-gray-600">
               <p className="mb-2">Ödeme işlemi sırasında sorun yaşıyorsanız:</p>
               <ul className="list-disc list-inside space-y-1">
@@ -178,8 +178,8 @@ export default function PaymentCancelPage() {
                 🕐 Pazartesi-Cuma 09:00-17:00
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
         {/* Footer */}
         <div className="text-center mt-8 text-xs text-gray-500">

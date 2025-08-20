@@ -133,9 +133,9 @@ export default function CreditCardDonations() {
       header: 'Kart Tipi',
       render: (_, donation: CreditCardDonation) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          donation.cardType === 'Visa' ? 'bg-blue-100 text-blue-800' :
-          donation.cardType === 'Mastercard' ? 'bg-red-100 text-red-800' :
-          donation.cardType === 'Troy' ? 'bg-green-100 text-green-800' :
+          donation.cardType === 'Visa' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+          donation.cardType === 'Mastercard' ? 'bg-red-100 text-red-800 border-red-200' :
+          donation.cardType === 'Troy' ? 'bg-green-100 text-green-800 border-green-200' :
           'bg-purple-100 text-purple-800'
         }`}>
           {donation.cardType}
@@ -168,10 +168,10 @@ export default function CreditCardDonations() {
       header: 'Durum',
       render: (_, donation: CreditCardDonation) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          donation.status === 'başarılı' ? 'bg-green-100 text-green-800' :
-          donation.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-          donation.status === 'başarısız' ? 'bg-red-100 text-red-800' :
-          'bg-gray-100 text-gray-800'
+          donation.status === 'başarılı' ? 'bg-green-100 text-green-800 border-green-200' :
+          donation.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          donation.status === 'başarısız' ? 'bg-red-100 text-red-800 border-red-200' :
+          'bg-gray-100 text-gray-800 border-gray-200'
         }`}>
           {donation.status}
         </span>
@@ -334,12 +334,12 @@ export default function CreditCardDonations() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 bg-card rounded-lg border rounded-lg shadow">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Kredi Kartı Bağışları</h2>
           <button
             onClick={openAddModal}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
           >
             Yeni Kredi Kartı Bağışı
           </button>
@@ -414,7 +414,7 @@ export default function CreditCardDonations() {
           />
           <button
             onClick={() => exportToCsv('kredi-karti-bagislar.csv', filteredDonations)}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            className="bg-green-500 text-white hover:bg-green-600"
           >
             Excel İndir
           </button>

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Star,
   Plus,
@@ -138,7 +139,7 @@ export default function ScholarshipCampaigns() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <Star className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Burs Kampanyaları</h1>
@@ -150,7 +151,7 @@ export default function ScholarshipCampaigns() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplam Kampanya</p>
@@ -158,8 +159,8 @@ export default function ScholarshipCampaigns() {
             </div>
             <Star className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Kampanya</p>
@@ -167,8 +168,8 @@ export default function ScholarshipCampaigns() {
             </div>
             <Play className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Hedef Tutar</p>
@@ -176,8 +177,8 @@ export default function ScholarshipCampaigns() {
             </div>
             <Target className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplanan</p>
@@ -185,11 +186,11 @@ export default function ScholarshipCampaigns() {
             </div>
             <DollarSign className="h-8 w-8 text-semantic-warning" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Toolbar */}
-      <Card className="p-4">
+      <CorporateCard className="p-4">
         <div className="flex flex-col md:flex-row gap-4 justify-between">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -201,22 +202,22 @@ export default function ScholarshipCampaigns() {
             />
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" className="gap-2">
+            <CorporateButton variant="outline" className="gap-2">
               <BarChart3 className="h-4 w-4" />
               Raporlar
-            </Button>
-            <Button className="gap-2">
+            </CorporateButton>
+            <CorporateButton className="gap-2">
               <Plus className="h-4 w-4" />
               Yeni Kampanya
-            </Button>
+            </CorporateButton>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Campaigns Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
         {filteredCampaigns.map((campaign) => (
-          <Card key={campaign.id} className="p-6">
+          <CorporateCard key={campaign.id} className="p-6 bg-card rounded-lg border">
             <div className="space-y-4">
               {/* Header */}
               <div className="flex items-start justify-between">
@@ -235,7 +236,7 @@ export default function ScholarshipCampaigns() {
               </div>
 
               {/* Progress */}
-              <div className="space-y-2">
+              <div className="space-y-6-group">
                 <div className="flex items-center justify-between text-sm">
                   <span>Toplanan: ₺{campaign.raisedAmount.toLocaleString('tr-TR')}</span>
                   <span>Hedef: ₺{campaign.targetAmount.toLocaleString('tr-TR')}</span>
@@ -253,14 +254,14 @@ export default function ScholarshipCampaigns() {
 
               {/* Details */}
               <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <span className="text-muted-foreground">Başlangıç:</span>
                   </div>
                   <p className="ml-6">{new Date(campaign.startDate).toLocaleDateString('tr-TR')}</p>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <span className="text-muted-foreground">Bitiş:</span>
@@ -281,32 +282,32 @@ export default function ScholarshipCampaigns() {
 
               {/* Actions */}
               <div className="flex gap-2 pt-2 border-t">
-                <Button size="sm" variant="outline" className="flex-1">
+                <CorporateButton size="sm" variant="outline" className="flex-1">
                   <Eye className="h-4 w-4 mr-1" />
                   Detay
-                </Button>
+                </CorporateButton>
                 {campaign.status === 'Aktif' && (
-                  <Button size="sm" variant="outline">
+                  <CorporateButton size="sm" variant="outline">
                     <Pause className="h-4 w-4 mr-1" />
                     Duraklat
-                  </Button>
+                  </CorporateButton>
                 )}
                 {campaign.status === 'Beklemede' && (
-                  <Button size="sm" variant="outline">
+                  <CorporateButton size="sm" variant="outline">
                     <Play className="h-4 w-4 mr-1" />
                     Başlat
-                  </Button>
+                  </CorporateButton>
                 )}
-                <Button size="sm" variant="outline">
+                <CorporateButton size="sm" variant="outline">
                   <Edit className="h-4 w-4 mr-1" />
                   Düzenle
-                </Button>
-                <Button size="sm" variant="destructive">
+                </CorporateButton>
+                <CorporateButton size="sm" variant="danger">
                   <Trash2 className="h-4 w-4" />
-                </Button>
+                </CorporateButton>
               </div>
             </div>
-          </Card>
+          </CorporateCard>
         ))}
       </div>
     </div>

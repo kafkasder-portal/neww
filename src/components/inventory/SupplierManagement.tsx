@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable } from '@/components/ui/corporate/CorporateComponents'
+
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
+
 import { 
   Select,
   SelectContent,
@@ -379,7 +379,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="name">Tedarikçi Adı *</Label>
               <Input
                 id="name"
@@ -388,7 +388,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
                 placeholder="Gıda Tedarik A.Ş."
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="code">Tedarikçi Kodu *</Label>
               <Input
                 id="code"
@@ -400,7 +400,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
           </div>
           
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="type">Tür</Label>
               <Select 
                 value={newSupplier.type} 
@@ -415,7 +415,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="category">Kategori</Label>
               <Select 
                 value={newSupplier.category} 
@@ -437,7 +437,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="contactPerson">İletişim Kişisi</Label>
               <Input
                 id="contactPerson"
@@ -446,7 +446,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
                 placeholder="Ahmet Yılmaz"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="phone">Telefon</Label>
               <Input
                 id="phone"
@@ -457,7 +457,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <Label htmlFor="email">E-posta</Label>
             <Input
               id="email"
@@ -468,7 +468,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <Label htmlFor="address">Adres</Label>
             <Textarea
               id="address"
@@ -480,7 +480,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="taxNumber">Vergi Numarası</Label>
               <Input
                 id="taxNumber"
@@ -489,7 +489,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
                 placeholder="1234567890"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="paymentTerms">Ödeme Vadesi (gün)</Label>
               <Input
                 id="paymentTerms"
@@ -501,7 +501,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <Label htmlFor="creditLimit">Kredi Limiti (TL)</Label>
             <Input
               id="creditLimit"
@@ -512,7 +512,7 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <Label htmlFor="notes">Notlar</Label>
             <Textarea
               id="notes"
@@ -533,9 +533,9 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={onSubmit}>
+          <CorporateButton type="submit" onClick={onSubmit}>
             {title.includes('Düzenle') ? 'Güncelle' : 'Oluştur'}
-          </Button>
+          </CorporateButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -544,24 +544,24 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle className="flex items-center justify-between">
             <span className="flex items-center gap-2">
               <Building2 className="h-5 w-5" />
               Tedarikçi Yönetimi
             </span>
             <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
               <DialogTrigger asChild>
-                <Button>
+                <CorporateButton>
                   <Plus className="h-4 w-4 mr-2" />
                   Yeni Tedarikçi
-                </Button>
+                </CorporateButton>
               </DialogTrigger>
             </Dialog>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </CorporateCardTitle>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Arama */}
             <div className="relative">
@@ -651,8 +651,8 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
               </SelectContent>
             </Select>
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Results Summary */}
       <div className="flex justify-between items-center">
@@ -662,40 +662,40 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
       </div>
 
       {/* Suppliers Table */}
-      <Card>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Tedarikçi</TableHead>
-                <TableHead>İletişim</TableHead>
-                <TableHead>Kategori</TableHead>
-                <TableHead>Değerlendirme</TableHead>
-                <TableHead>Finansal</TableHead>
-                <TableHead>Son Sipariş</TableHead>
-                <TableHead>Durum</TableHead>
-                <TableHead>İşlemler</TableHead>
-              </TableRow>
-            </TableHeader>
+      <CorporateCard>
+        <CorporateCardContent className="p-0">
+          <CorporateTable>
+            <CorporateTableHeader>
+              <CorporateTableRow>
+                <CorporateTableHeaderCell>Tedarikçi</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>İletişim</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Kategori</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Değerlendirme</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Finansal</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Son Sipariş</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Durum</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>İşlemler</CorporateTableHeaderCell>
+              </CorporateTableRow>
+            </CorporateTableHeader>
             <TableBody>
               {filteredSuppliers.map((supplier) => {
                 const creditStatus = getCreditStatus(supplier)
                 return (
-                  <TableRow key={supplier.id}>
-                    <TableCell>
+                  <CorporateTableRow key={supplier.id}>
+                    <CorporateTableCell>
                       <div>
                         <div className="font-medium">{supplier.name}</div>
                         <div className="text-sm text-muted-foreground font-mono">
                           {supplier.code}
                         </div>
                         <div className="flex items-center gap-1 mt-1">
-                          <Badge variant="outline" className="text-xs">
+                          <CorporateBadge variant="outline" className="text-xs">
                             {getTypeName(supplier.type)}
-                          </Badge>
+                          </CorporateBadge>
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="space-y-1">
                         {supplier.contactPerson && (
                           <div className="flex items-center gap-1 text-sm">
@@ -716,13 +716,13 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
                           </div>
                         )}
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">
+                    </CorporateTableCell>
+                    <CorporateTableCell>
+                      <CorporateBadge variant="outline">
                         {getCategoryName(supplier.category)}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
+                      </CorporateBadge>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       {supplier.rating ? (
                         <div className="space-y-1">
                           <div className="flex items-center gap-1">
@@ -735,8 +735,8 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
                       ) : (
                         <span className="text-muted-foreground text-sm">-</span>
                       )}
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="space-y-1">
                         {supplier.creditLimit && (
                           <div className="text-sm">
@@ -759,8 +759,8 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
                           </div>
                         )}
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       {supplier.lastOrderDate ? (
                         <div className="text-sm">
                           <div className="flex items-center gap-1">
@@ -776,48 +776,48 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
                       ) : (
                         <span className="text-muted-foreground text-sm">-</span>
                       )}
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="flex items-center gap-2">
                         {supplier.isActive ? (
                           <CheckCircle className="h-4 w-4 text-green-500" />
                         ) : (
                           <XCircle className="h-4 w-4 text-red-500" />
                         )}
-                        <Badge variant={supplier.isActive ? 'default' : 'secondary'}>
+                        <CorporateBadge variant={supplier.isActive ? 'default' : 'secondary'}>
                           {supplier.isActive ? 'Aktif' : 'Pasif'}
-                        </Badge>
+                        </CorporateBadge>
                         {creditStatus === 'critical' && (
                           <AlertTriangle className="h-4 w-4 text-red-500" />
                         )}
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="flex gap-1">
-                        <Button 
+                        <CorporateButton 
                           size="sm" 
                           variant="outline"
                           onClick={() => handleEditSupplier(supplier)}
                         >
                           <Edit className="h-3 w-3" />
-                        </Button>
-                        <Button 
+                        </CorporateButton>
+                        <CorporateButton 
                           size="sm" 
                           variant="outline"
                           onClick={() => onSupplierDelete?.(supplier.id)}
                         >
                           <Trash2 className="h-3 w-3" />
-                        </Button>
+                        </CorporateButton>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </CorporateTableCell>
+                  </CorporateTableRow>
                 )
               })}
             </TableBody>
-          </Table>
+          </CorporateTable>
           
           {filteredSuppliers.length === 0 && (
-            <div className="text-center py-12">
+            <div className="text-center py-8 text-muted-foreground">
               <Building2 className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
               <p className="text-muted-foreground mb-2">Tedarikçi bulunamadı</p>
               <p className="text-sm text-muted-foreground mb-4">
@@ -825,8 +825,8 @@ const SupplierManagement: React.FC<SupplierManagementProps> = ({
               </p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Create Dialog */}
       <SupplierDialog

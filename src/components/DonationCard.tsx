@@ -1,6 +1,7 @@
 import { Calendar, TrendingUp, Users } from 'lucide-react'
 import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from './ui/corporate/CorporateComponents'
+import { CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 
 interface TotalDonationsCardProps {
   total: number
@@ -20,12 +21,12 @@ export const TotalDonationsCard: React.FC<TotalDonationsCardProps> = ({
   const isPositive = change && change > 0
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+    <CorporateCard>
+      <CorporateCardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CorporateCardTitle className="text-sm font-medium">{title}</CorporateCardTitle>
         <TrendingUp className="h-4 w-4 text-muted-foreground" />
-      </CardHeader>
-      <CardContent>
+      </CorporateCardHeader>
+      <CorporateCardContent>
         <div className="text-2xl font-bold">
           {currency}{total.toLocaleString()}
         </div>
@@ -34,8 +35,8 @@ export const TotalDonationsCard: React.FC<TotalDonationsCardProps> = ({
             {isPositive ? '+' : ''}{change}% {period}
           </p>
         )}
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   )
 }
 
@@ -53,18 +54,18 @@ export const MonthlyDonationsCard: React.FC<MonthlyDonationsCardProps> = ({
   title = 'Aylık Bağış'
 }) => {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+    <CorporateCard>
+      <CorporateCardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CorporateCardTitle className="text-sm font-medium">{title}</CorporateCardTitle>
         <Calendar className="h-4 w-4 text-muted-foreground" />
-      </CardHeader>
-      <CardContent>
+      </CorporateCardHeader>
+      <CorporateCardContent>
         <div className="text-2xl font-bold">
           {currency}{amount.toLocaleString()}
         </div>
         <p className="text-xs text-muted-foreground">{month}</p>
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   )
 }
 
@@ -84,20 +85,20 @@ export const DonorCountCard: React.FC<DonorCountCardProps> = ({
   const isPositive = change && change > 0
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+    <CorporateCard>
+      <CorporateCardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CorporateCardTitle className="text-sm font-medium">{title}</CorporateCardTitle>
         <Users className="h-4 w-4 text-muted-foreground" />
-      </CardHeader>
-      <CardContent>
+      </CorporateCardHeader>
+      <CorporateCardContent>
         <div className="text-2xl font-bold">{count.toLocaleString()}</div>
         {change && (
           <p className={`text-xs ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
             {isPositive ? '+' : ''}{change}% {period}
           </p>
         )}
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   )
 }
 
@@ -119,12 +120,12 @@ export const OnlineDonationsCard: React.FC<OnlineDonationsCardProps> = ({
   const isPositive = change && change > 0
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+    <CorporateCard>
+      <CorporateCardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CorporateCardTitle className="text-sm font-medium">{title}</CorporateCardTitle>
         <TrendingUp className="h-4 w-4 text-muted-foreground" />
-      </CardHeader>
-      <CardContent>
+      </CorporateCardHeader>
+      <CorporateCardContent>
         <div className="text-2xl font-bold">
           {currency}{amount.toLocaleString()}
         </div>
@@ -133,8 +134,8 @@ export const OnlineDonationsCard: React.FC<OnlineDonationsCardProps> = ({
             {isPositive ? '+' : ''}{change}% {period}
           </p>
         )}
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   )
 }
 

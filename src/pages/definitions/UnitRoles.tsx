@@ -86,7 +86,7 @@ export default function UnitRoles() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-card rounded-lg border">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <UserCheck className="h-8 w-8 text-blue-600" />
@@ -243,7 +243,7 @@ export default function UnitRoles() {
                       {role.permissions.map((permission, index) => (
                         <span 
                           key={index}
-                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border-blue-200"
                         >
                           {permission}
                         </span>
@@ -256,8 +256,8 @@ export default function UnitRoles() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       role.isActive 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800 border-green-200' 
+                        : 'bg-red-100 text-red-800 border-red-200'
                     }`}>
                       {role.isActive ? 'Aktif' : 'Pasif'}
                     </span>
@@ -283,14 +283,14 @@ export default function UnitRoles() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className="p-6">
+        <div className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-medium text-gray-900 mb-4">
             {editingRole ? 'Rol Düzenle' : 'Yeni Rol Ekle'}
           </h3>
           
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block space-y-6-label mb-2">
                 Rol Adı
               </label>
               <input
@@ -301,7 +301,7 @@ export default function UnitRoles() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block space-y-6-label mb-2">
                 Açıklama
               </label>
               <textarea
@@ -312,7 +312,7 @@ export default function UnitRoles() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block space-y-6-label mb-2">
                 Yetkiler
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -333,7 +333,7 @@ export default function UnitRoles() {
           <div className="flex gap-3 mt-6">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="flex-1 px-4 py-2 space-y-6-label bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
               İptal
             </button>

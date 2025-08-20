@@ -14,6 +14,7 @@ import {
   Info
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 export default function ScholarshipIndex() {
   const modules = [
@@ -120,7 +121,7 @@ export default function ScholarshipIndex() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-brand-primary to-brand-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-600 rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <GraduationCap className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Burs Yönetimi</h1>
@@ -132,7 +133,7 @@ export default function ScholarshipIndex() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Öğrenci</p>
@@ -140,8 +141,8 @@ export default function ScholarshipIndex() {
             </div>
             <Users className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Bu Ay Burs</p>
@@ -149,8 +150,8 @@ export default function ScholarshipIndex() {
             </div>
             <DollarSign className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Anlaşmalı Okul</p>
@@ -158,8 +159,8 @@ export default function ScholarshipIndex() {
             </div>
             <GraduationCap className="h-8 w-8 text-brand-secondary" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Kampanya</p>
@@ -167,14 +168,14 @@ export default function ScholarshipIndex() {
             </div>
             <Star className="h-8 w-8 text-semantic-warning" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Module Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {modules.map((module, index) => (
           <Link key={index} to={module.link}>
-            <Card className="p-4 hover:shadow-lg transition-all duration-200 hover:scale-105 h-full">
+            <CorporateCard className="p-4 hover:shadow-lg transition-all duration-200 hover:scale-105 h-full">
               <div className="flex flex-col items-center text-center space-y-3">
                 <div className={`p-3 rounded-lg ${module.color} text-white`}>
                   {module.icon}
@@ -186,41 +187,41 @@ export default function ScholarshipIndex() {
                   </p>
                 </div>
               </div>
-            </Card>
+            </CorporateCard>
           </Link>
         ))}
       </div>
 
       {/* Quick Actions */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h2 className="text-lg font-semibold mb-4">Hızlı İşlemler</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link to="/scholarship/orphans-students">
-            <Button className="h-auto p-4 w-full">
-              <div className="flex flex-col items-center space-y-2">
+            <CorporateButton className="h-auto p-4 w-full">
+              <div className="flex flex-col items-center space-y-6-group">
                 <Users className="h-6 w-6" />
                 <span>Yeni Öğrenci Ekle</span>
               </div>
-            </Button>
+            </CorporateButton>
           </Link>
           <Link to="/scholarship/reports">
-            <Button variant="outline" className="h-auto p-4 w-full">
-              <div className="flex flex-col items-center space-y-2">
+            <CorporateButton variant="outline" className="h-auto p-4 w-full">
+              <div className="flex flex-col items-center space-y-6-group">
                 <BarChart3 className="h-6 w-6" />
                 <span>Raporları Görüntüle</span>
               </div>
-            </Button>
+            </CorporateButton>
           </Link>
           <Link to="/scholarship/campaigns">
-            <Button variant="outline" className="h-auto p-4 w-full">
-              <div className="flex flex-col items-center space-y-2">
+            <CorporateButton variant="outline" className="h-auto p-4 w-full">
+              <div className="flex flex-col items-center space-y-6-group">
                 <Star className="h-6 w-6" />
                 <span>Kampanya Yönet</span>
               </div>
-            </Button>
+            </CorporateButton>
           </Link>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

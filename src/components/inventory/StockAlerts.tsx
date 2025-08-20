@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable } from '@/components/ui/corporate/CorporateComponents'
+
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
+
 import { 
   Select,
   SelectContent,
@@ -408,7 +408,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <Label htmlFor="ruleName">Kural Adı *</Label>
             <Input
               id="ruleName"
@@ -419,7 +419,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
           </div>
           
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="ruleType">Uyarı Türü</Label>
               <Select 
                 value={newRule.type} 
@@ -436,7 +436,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <Label htmlFor="threshold">Eşik Değeri</Label>
               <Input
                 id="threshold"
@@ -448,7 +448,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <Label htmlFor="category">Kategori (Opsiyonel)</Label>
             <Select 
               value={newRule.category || 'all'} 
@@ -471,9 +471,9 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
             </Select>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <Label>Bildirim Yöntemleri</Label>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               {['system', 'email', 'sms'].map((method) => (
                 <div key={method} className="flex items-center space-x-2">
                   <Switch
@@ -501,7 +501,7 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <Label htmlFor="recipients">Alıcılar (E-posta)</Label>
             <Input
               id="recipients"
@@ -524,9 +524,9 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={selectedRule ? handleUpdateRule : handleCreateRule}>
+          <CorporateButton onClick={selectedRule ? handleUpdateRule : handleCreateRule}>
             {selectedRule ? 'Güncelle' : 'Oluştur'}
-          </Button>
+          </CorporateButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -545,8 +545,8 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
 
       {/* Header with Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardContent className="p-4">
+        <CorporateCard>
+          <CorporateCardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Aktif Uyarılar</p>
@@ -556,11 +556,11 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
               </div>
               <Bell className="h-8 w-8 text-orange-500" />
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
         
-        <Card>
-          <CardContent className="p-4">
+        <CorporateCard>
+          <CorporateCardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Kritik Uyarılar</p>
@@ -570,11 +570,11 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
               </div>
               <AlertTriangle className="h-8 w-8 text-red-500" />
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
         
-        <Card>
-          <CardContent className="p-4">
+        <CorporateCard>
+          <CorporateCardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Aktif Kurallar</p>
@@ -582,55 +582,55 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
               </div>
               <Settings className="h-8 w-8 text-blue-500" />
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
       {/* Tabs */}
       <div className="flex space-x-1 bg-muted p-1 rounded-lg w-fit">
-        <Button
+        <CorporateButton
           variant={activeTab === 'alerts' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => setActiveTab('alerts')}
         >
           <Bell className="h-4 w-4 mr-2" />
           Uyarılar
-        </Button>
-        <Button
+        </CorporateButton>
+        <CorporateButton
           variant={activeTab === 'rules' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => setActiveTab('rules')}
         >
           <Settings className="h-4 w-4 mr-2" />
           Kurallar
-        </Button>
-        <Button
+        </CorporateButton>
+        <CorporateButton
           variant="outline"
           size="sm"
           onClick={() => setShowNotifications(!showNotifications)}
         >
           <Bell className="h-4 w-4 mr-2" />
           Canlı Bildirimler
-        </Button>
+        </CorporateButton>
       </div>
 
       {activeTab === 'alerts' && (
         <>
           {/* Filters */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle className="flex items-center justify-between">
                 <span className="flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5" />
                   Stok Uyarıları
                 </span>
-                <Button size="sm" variant="outline">
+                <CorporateButton size="sm" variant="outline">
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Yenile
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+                </CorporateButton>
+              </CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {/* Arama */}
                 <div className="relative">
@@ -719,29 +719,29 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
                   </SelectContent>
                 </Select>
               </div>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
 
           {/* Alerts Table */}
-          <Card>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Uyarı</TableHead>
-                    <TableHead>Ürün</TableHead>
-                    <TableHead>Lokasyon</TableHead>
-                    <TableHead>Stok Durumu</TableHead>
-                    <TableHead>Önem</TableHead>
-                    <TableHead>Tarih</TableHead>
-                    <TableHead>Durum</TableHead>
-                    <TableHead>İşlemler</TableHead>
-                  </TableRow>
-                </TableHeader>
+          <CorporateCard>
+            <CorporateCardContent className="p-0">
+              <CorporateTable>
+                <CorporateTableHeader>
+                  <CorporateTableRow>
+                    <CorporateTableHeaderCell>Uyarı</CorporateTableHeaderCell>
+                    <CorporateTableHeaderCell>Ürün</CorporateTableHeaderCell>
+                    <CorporateTableHeaderCell>Lokasyon</CorporateTableHeaderCell>
+                    <CorporateTableHeaderCell>Stok Durumu</CorporateTableHeaderCell>
+                    <CorporateTableHeaderCell>Önem</CorporateTableHeaderCell>
+                    <CorporateTableHeaderCell>Tarih</CorporateTableHeaderCell>
+                    <CorporateTableHeaderCell>Durum</CorporateTableHeaderCell>
+                    <CorporateTableHeaderCell>İşlemler</CorporateTableHeaderCell>
+                  </CorporateTableRow>
+                </CorporateTableHeader>
                 <TableBody>
                   {filteredAlerts.map((alert) => (
-                    <TableRow key={alert.id}>
-                      <TableCell>
+                    <CorporateTableRow key={alert.id}>
+                      <CorporateTableCell>
                         <div className="flex items-start gap-3">
                           <div className={`p-2 rounded-lg ${getSeverityColor(alert.severity)}`}>
                             {getAlertTypeIcon(alert.type)}
@@ -755,22 +755,22 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
                             </div>
                           </div>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </CorporateTableCell>
+                      <CorporateTableCell>
                         <div>
                           <div className="font-medium">{alert.itemName}</div>
                           <div className="text-sm text-muted-foreground font-mono">
                             {alert.itemCode}
                           </div>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </CorporateTableCell>
+                      <CorporateTableCell>
                         <div className="flex items-center gap-1">
                           <Package className="h-3 w-3 text-muted-foreground" />
                           {alert.locationName}
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </CorporateTableCell>
+                      <CorporateTableCell>
                         <div className="space-y-1">
                           <div className="text-sm">
                             <span className="font-medium">{formatNumber(alert.currentStock)}</span>
@@ -784,13 +784,13 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
                             </div>
                           )}
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className={getSeverityColor(alert.severity)}>
+                      </CorporateTableCell>
+                      <CorporateTableCell>
+                        <CorporateBadge className={getSeverityColor(alert.severity)}>
                           {getSeverityName(alert.severity)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
+                        </CorporateBadge>
+                      </CorporateTableCell>
+                      <CorporateTableCell>
                         <div className="text-sm">
                           <div>{formatDate(alert.createdAt)}</div>
                           {alert.resolvedAt && (
@@ -799,8 +799,8 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
                             </div>
                           )}
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </CorporateTableCell>
+                      <CorporateTableCell>
                         <div className="flex items-center gap-2">
                           {alert.isResolved ? (
                             <CheckCircle className="h-4 w-4 text-green-500" />
@@ -809,40 +809,40 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
                           ) : (
                             <XCircle className="h-4 w-4 text-gray-500" />
                           )}
-                          <Badge variant={alert.isResolved ? 'default' : alert.isActive ? 'destructive' : 'secondary'}>
+                          <CorporateBadge variant={alert.isResolved ? 'default' : alert.isActive ? 'destructive' : 'secondary'}>
                             {alert.isResolved ? 'Çözüldü' : alert.isActive ? 'Aktif' : 'Pasif'}
-                          </Badge>
+                          </CorporateBadge>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </CorporateTableCell>
+                      <CorporateTableCell>
                         <div className="flex gap-1">
                           {!alert.isResolved && alert.isActive && (
                             <>
-                              <Button 
+                              <CorporateButton 
                                 size="sm" 
                                 variant="outline"
                                 onClick={() => handleResolveAlert(alert.id)}
                               >
                                 <CheckCircle className="h-3 w-3" />
-                              </Button>
-                              <Button 
+                              </CorporateButton>
+                              <CorporateButton 
                                 size="sm" 
                                 variant="outline"
                                 onClick={() => handleDismissAlert(alert.id)}
                               >
                                 <XCircle className="h-3 w-3" />
-                              </Button>
+                              </CorporateButton>
                             </>
                           )}
                         </div>
-                      </TableCell>
-                    </TableRow>
+                      </CorporateTableCell>
+                    </CorporateTableRow>
                   ))}
                 </TableBody>
-              </Table>
+              </CorporateTable>
               
               {filteredAlerts.length === 0 && (
-                <div className="text-center py-12">
+                <div className="text-center py-8 text-muted-foreground">
                   <Bell className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
                   <p className="text-muted-foreground mb-2">Uyarı bulunamadı</p>
                   <p className="text-sm text-muted-foreground mb-4">
@@ -850,107 +850,107 @@ const StockAlerts: React.FC<StockAlertsProps> = ({
                   </p>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         </>
       )}
 
       {activeTab === 'rules' && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle className="flex items-center justify-between">
               <span className="flex items-center gap-2">
                 <Settings className="h-5 w-5" />
                 Uyarı Kuralları
               </span>
               <Dialog open={isRuleDialogOpen} onOpenChange={setIsRuleDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button>
+                  <CorporateButton>
                     <Plus className="h-4 w-4 mr-2" />
                     Yeni Kural
-                  </Button>
+                  </CorporateButton>
                 </DialogTrigger>
               </Dialog>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Kural Adı</TableHead>
-                  <TableHead>Tür</TableHead>
-                  <TableHead>Eşik</TableHead>
-                  <TableHead>Kategori</TableHead>
-                  <TableHead>Bildirim</TableHead>
-                  <TableHead>Durum</TableHead>
-                  <TableHead>İşlemler</TableHead>
-                </TableRow>
-              </TableHeader>
+            </CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent className="p-0">
+            <CorporateTable>
+              <CorporateTableHeader>
+                <CorporateTableRow>
+                  <CorporateTableHeaderCell>Kural Adı</CorporateTableHeaderCell>
+                  <CorporateTableHeaderCell>Tür</CorporateTableHeaderCell>
+                  <CorporateTableHeaderCell>Eşik</CorporateTableHeaderCell>
+                  <CorporateTableHeaderCell>Kategori</CorporateTableHeaderCell>
+                  <CorporateTableHeaderCell>Bildirim</CorporateTableHeaderCell>
+                  <CorporateTableHeaderCell>Durum</CorporateTableHeaderCell>
+                  <CorporateTableHeaderCell>İşlemler</CorporateTableHeaderCell>
+                </CorporateTableRow>
+              </CorporateTableHeader>
               <TableBody>
                 {alertRules.map((rule) => (
-                  <TableRow key={rule.id}>
-                    <TableCell>
+                  <CorporateTableRow key={rule.id}>
+                    <CorporateTableCell>
                       <div className="font-medium">{rule.name}</div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline">
+                    </CorporateTableCell>
+                    <CorporateTableCell>
+                      <CorporateBadge variant="outline">
                         {getAlertTypeName(rule.type)}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
+                      </CorporateBadge>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <span className="font-mono">{rule.threshold}</span>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       {rule.category ? (
-                        <Badge variant="secondary">
+                        <CorporateBadge variant="outline">
                           {rule.category === 'food' ? 'Gıda' : 
                            rule.category === 'cleaning' ? 'Temizlik' :
                            rule.category === 'office' ? 'Ofis' :
                            rule.category === 'medical' ? 'Tıbbi' : 'Diğer'}
-                        </Badge>
+                        </CorporateBadge>
                       ) : (
                         <span className="text-muted-foreground">Tümü</span>
                       )}
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="flex gap-1">
                         {rule.notificationMethods.map((method) => (
-                          <Badge key={method} variant="outline" className="text-xs">
+                          <CorporateBadge key={method} variant="outline" className="text-xs">
                             {method === 'system' ? 'Sistem' : 
                              method === 'email' ? 'E-posta' : 'SMS'}
-                          </Badge>
+                          </CorporateBadge>
                         ))}
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={rule.isActive ? 'default' : 'secondary'}>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
+                      <CorporateBadge variant={rule.isActive ? 'default' : 'secondary'}>
                         {rule.isActive ? 'Aktif' : 'Pasif'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
+                      </CorporateBadge>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="flex gap-1">
-                        <Button 
+                        <CorporateButton 
                           size="sm" 
                           variant="outline"
                           onClick={() => handleEditRule(rule)}
                         >
                           <Edit className="h-3 w-3" />
-                        </Button>
-                        <Button 
+                        </CorporateButton>
+                        <CorporateButton 
                           size="sm" 
                           variant="outline"
                           onClick={() => onRuleDelete?.(rule.id)}
                         >
                           <Trash2 className="h-3 w-3" />
-                        </Button>
+                        </CorporateButton>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </CorporateTableCell>
+                  </CorporateTableRow>
                 ))}
               </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+            </CorporateTable>
+          </CorporateCardContent>
+        </CorporateCard>
       )}
 
       <RuleDialog />

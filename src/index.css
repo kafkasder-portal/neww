@@ -1,241 +1,198 @@
-/* ========================================
- * ENHANCED MAIN STYLES - DERNEK YÖNETİM PANELİ
- * Modern and comprehensive design system
- * ======================================== */
-
-/* Import enhanced design system */
-@import './styles/enhanced-design-system.css';
-@import './styles/enhanced-animations.css';
-@import './styles/responsive-utilities.css';
-
-/* Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Tailwind variables are now handled by optimized-system.css */
-
-@layer base {
-  * { @apply border-border; }
-  html { @apply bg-background; }
-  body { @apply bg-background text-foreground min-h-screen; }
-  #root { @apply bg-background min-h-screen; }
+/* Modern CSS Variables */
+:root {
+  /* Core colors */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
 }
 
-@layer utilities {
-  /* ========================================
-   * ENHANCED STATUS UTILITIES
-   * ======================================== */
-  .status-success {
-    @apply bg-semantic-success/10 text-semantic-success border-semantic-success/20;
-  }
-  
-  .status-success-solid {
-    @apply bg-semantic-success text-white;
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 94.1%;
+}
+
+/* Base styles */
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* Modern component styles */
+.btn {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+}
+
+.btn-primary {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+}
+
+.btn-destructive {
+  @apply bg-destructive text-destructive-foreground hover:bg-destructive/90;
+}
+
+.btn-outline {
+  @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+}
+
+.btn-ghost {
+  @apply hover:bg-accent hover:text-accent-foreground;
+}
+
+.btn-sm {
+  @apply h-9 px-3 rounded-md;
+}
+
+.btn-md {
+  @apply h-10 px-4 py-2;
+}
+
+.btn-lg {
+  @apply h-11 px-8 rounded-md;
+}
+
+/* Card styles */
+.card {
+  @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+}
+
+.card-header {
+  @apply flex flex-col space-y-1.5 p-6;
+}
+
+.card-title {
+  @apply text-2xl font-semibold leading-none tracking-tight;
+}
+
+.card-description {
+  @apply text-sm text-muted-foreground;
+}
+
+.card-content {
+  @apply p-6 pt-0;
+}
+
+.card-footer {
+  @apply flex items-center p-6 pt-0;
+}
+
+/* Input styles */
+.input {
+  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+/* Label styles */
+.label {
+  @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+}
+
+/* Badge styles */
+.badge {
+  @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+}
+
+.badge-default {
+  @apply border-transparent bg-primary text-primary-foreground hover:bg-primary/80;
+}
+
+.badge-secondary {
+  @apply border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80;
+}
+
+.badge-destructive {
+  @apply border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80;
+}
+
+.badge-outline {
+  @apply text-foreground;
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
 
-  .status-warning {
-    @apply bg-semantic-warning/10 text-semantic-warning border-semantic-warning/20;
+  to {
+    opacity: 1;
   }
-  
-  .status-warning-solid {
-    @apply bg-semantic-warning text-white;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
   }
 
-  .status-error {
-    @apply bg-semantic-danger/10 text-semantic-danger border-semantic-danger/20;
+  to {
+    transform: translateX(0);
   }
-  
-  .status-error-solid {
-    @apply bg-semantic-danger text-white;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
 
-  .status-info {
-    @apply bg-semantic-info/10 text-semantic-info border-semantic-info/20;
-  }
-  
-  .status-info-solid {
-    @apply bg-semantic-info text-white;
-  }
-
-  .status-pending {
-    @apply bg-neutral-100 text-neutral-700 border-neutral-200;
-  }
-  
-  .status-pending-solid {
-    @apply bg-neutral-500 text-white;
-  }
-
-  /* ========================================
-   * GRID & TABLE UTILITIES
-   * ======================================== */
-  .grid-hover {
-    @apply hover:bg-interactive-hover transition-colors duration-150;
-  }
-
-  .grid-selected {
-    @apply bg-interactive-active border-brand-primary/50;
-  }
-
-  .table-row-hover {
-    @apply hover:bg-muted/50 transition-colors duration-150;
-  }
-
-  .grid-card {
-    @apply bg-card border border-border rounded-lg shadow-sm;
-  }
-
-  .grid-card-hover {
-    @apply grid-card hover:shadow-md hover:border-brand-primary/20 transition-all duration-200;
-  }
-
-  /* ========================================
-   * ANIMATION UTILITIES
-   * ======================================== */
-  .animation-delay-2000 {
-    animation-delay: 2s;
-  }
-  
-  .animation-delay-4000 {
-    animation-delay: 4s;
-  }
-  
-  .animation-delay-6000 {
-    animation-delay: 6s;
-  }
-  
-  /* Enhanced animations */
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-  }
-  
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out;
-  }
-  
-  .animate-slide-down {
-    animation: slideDown 0.4s ease-out;
-  }
-  
-  .animate-shake {
-    animation: shake 0.5s ease-in-out;
-  }
-  
-  .animate-pulse-slow {
-    animation: pulseSlow 2s ease-in-out infinite;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes shake {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    10%, 30%, 50%, 70%, 90% {
-      transform: translateX(-2px);
-    }
-    20%, 40%, 60%, 80% {
-      transform: translateX(2px);
-    }
-  }
-  
-  @keyframes pulseSlow {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.7;
-    }
-  }
-  
-  /* ========================================
-   * MOBILE ENHANCED UTILITIES
-   * ======================================== */
-  .touch-target {
-    min-height: 44px;
-    min-width: 44px;
-    touch-action: manipulation;
-  }
-
-  .swipeable-card {
-    touch-action: pan-y;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-  }
-
-  .mobile-button {
-    min-height: 48px;
-    min-width: 48px;
-    padding: 12px 16px;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .mobile-input {
-    min-height: 48px;
-    padding: 12px 16px;
-    font-size: 16px;
-    touch-action: manipulation;
-  }
-
-  .mobile-nav-item {
-    min-height: 56px;
-    padding: 16px;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* Mobile-specific responsive utilities */
-  @media (max-width: 640px) {
-    .mobile-padding {
-      padding: 16px;
-    }
-    
-    .mobile-margin {
-      margin: 8px;
-    }
-    
-    .mobile-text {
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    
-    .mobile-grid {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

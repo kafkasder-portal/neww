@@ -155,7 +155,7 @@ export function SafeHtmlDemo() {
   const sampleMarkdown = 'Bu **kalın** ve *italik* metin içerir.\nYeni satır da var.'
   
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 bg-card rounded-lg border space-y-6">
       <h2 className="text-2xl font-bold mb-4">Güvenli HTML Render Örnekleri</h2>
       
       <div className="space-y-4">

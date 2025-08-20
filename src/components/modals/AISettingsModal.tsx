@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { X, Save, Volume2, Zap, Clock, MessageSquare } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { toast } from 'sonner'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface AISettingsModalProps {
   isOpen: boolean
@@ -73,8 +74,8 @@ export function AISettingsModal({ isOpen, onClose }: AISettingsModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
+      <CorporateCard className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="p-6 bg-card rounded-lg border">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
@@ -210,30 +211,30 @@ export function AISettingsModal({ isOpen, onClose }: AISettingsModalProps) {
 
           {/* Actions */}
           <div className="flex justify-between pt-6 border-t mt-6">
-            <Button
+            <CorporateButton
               variant="outline"
               onClick={handleReset}
               className="text-red-600 border-red-300 hover:bg-red-50"
             >
               Sıfırla
-            </Button>
+            </CorporateButton>
             
             <div className="flex gap-3">
-              <Button variant="outline" onClick={onClose}>
+              <CorporateButton variant="outline" onClick={onClose}>
                 İptal
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 onClick={handleSave}
                 disabled={!hasChanges}
                 className="bg-blue-500 hover:bg-blue-600"
               >
                 <Save className="h-4 w-4 mr-2" />
                 Kaydet
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

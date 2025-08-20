@@ -3,6 +3,7 @@ import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Database, Search, RefreshCw, AlertTriangle, CheckCircle, X, FileText, Users } from 'lucide-react'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 export default function DataControl() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -22,7 +23,7 @@ export default function DataControl() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <Database className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Veri Kontrolü</h1>
@@ -31,7 +32,7 @@ export default function DataControl() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplam Kayıt</p>
@@ -39,8 +40,8 @@ export default function DataControl() {
             </div>
             <Users className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Geçerli Kayıt</p>
@@ -48,8 +49,8 @@ export default function DataControl() {
             </div>
             <CheckCircle className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Sorun Bulunan</p>
@@ -57,8 +58,8 @@ export default function DataControl() {
             </div>
             <AlertTriangle className="h-8 w-8 text-semantic-danger" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Çözülen</p>
@@ -66,24 +67,24 @@ export default function DataControl() {
             </div>
             <RefreshCw className="h-8 w-8 text-brand-secondary" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex justify-between mb-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Veri sorunu ara..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-9 w-80" />
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" className="gap-2">
+            <CorporateButton variant="outline" className="gap-2">
               <RefreshCw className="h-4 w-4" />
               Veri Kontrolü Çalıştır
-            </Button>
-            <Button className="gap-2">
+            </CorporateButton>
+            <CorporateButton className="gap-2">
               <FileText className="h-4 w-4" />
               Rapor Oluştur
-            </Button>
+            </CorporateButton>
           </div>
         </div>
 
@@ -113,18 +114,18 @@ export default function DataControl() {
                   <p className="text-sm text-muted-foreground">Öğrenci: {issue.student}</p>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline">
+                  <CorporateButton size="sm" variant="outline">
                     <CheckCircle className="h-4 w-4" />
-                  </Button>
-                  <Button size="sm" variant="destructive">
+                  </CorporateButton>
+                  <CorporateButton size="sm" variant="danger">
                     <X className="h-4 w-4" />
-                  </Button>
+                  </CorporateButton>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

@@ -17,12 +17,12 @@ import { exportToCsv } from '@lib/exportToCsv'
 import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
 import { Modal } from '@components/Modal'
-import StatCard from '../../components/StatCard'
+import StatCard from '@components/StatCard'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
-import { getErrorMessage, logErrorSafely } from '../../utils/errorMessageUtils'
+import { getErrorMessage, logErrorSafely } from '@utils/errorMessageUtils'
 
 interface BankOrder {
   id: string
@@ -288,13 +288,13 @@ export default function BankOrders() {
 
   const getStatusBadge = (status: string) => {
     const statusMap = {
-      pending: { label: 'Beklemede', class: 'bg-yellow-100 text-yellow-800', icon: Clock },
-      sent: { label: 'Gönderildi', class: 'bg-blue-100 text-blue-800', icon: Send },
-      completed: { label: 'Tamamlandı', class: 'bg-green-100 text-green-800', icon: Check },
-      failed: { label: 'Başarısız', class: 'bg-red-100 text-red-800', icon: X },
-      cancelled: { label: 'İptal Edildi', class: 'bg-gray-100 text-gray-800', icon: X }
+      pending: { label: 'Beklemede', class: 'bg-yellow-100 text-yellow-800 border-yellow-200', icon: Clock },
+      sent: { label: 'Gönderildi', class: 'bg-blue-100 text-blue-800 border-blue-200', icon: Send },
+      completed: { label: 'Tamamlandı', class: 'bg-green-100 text-green-800 border-green-200', icon: Check },
+      failed: { label: 'Başarısız', class: 'bg-red-100 text-red-800 border-red-200', icon: X },
+      cancelled: { label: 'İptal Edildi', class: 'bg-gray-100 text-gray-800 border-gray-200', icon: X }
     }
-    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800', icon: AlertCircle }
+    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800 border-gray-200', icon: AlertCircle }
     const Icon = statusInfo.icon
     return (
       <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${statusInfo.class}`}>
@@ -471,7 +471,7 @@ export default function BankOrders() {
       </div>
 
       {/* Filtreler */}
-      <div className="flex flex-wrap items-center gap-4 rounded-lg border p-4">
+      <div className="flex flex-wrap items-center bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input

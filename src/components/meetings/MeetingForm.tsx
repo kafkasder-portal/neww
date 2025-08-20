@@ -4,13 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Calendar, Clock, MapPin, Users, Video, Save, X } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { UserSelector } from '@/components/ui/UserSelector'
 import { meetingsApi } from '@/api/meetings'
 import { CreateMeetingData } from '@/types/meetings'
 // import { usePermissions } from '@/hooks/usePermissions' // Temporarily disabled
 import { useAuthStore } from '@/store/auth'
 import { toast } from 'sonner'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 const meetingSchema = z.object({
   title: z.string().min(1, 'Toplantı başlığı zorunludur'),
@@ -119,15 +120,15 @@ export default function MeetingForm({
   }
 
   return (
-    <Card className="p-6">
+    <CorporateCard className="p-6 bg-card rounded-lg border">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold">
           {isEditMode ? 'Toplantı Düzenle' : 'Yeni Toplantı Oluştur'}
         </h2>
         {onCancel && (
-          <Button variant="ghost" size="sm" onClick={onCancel}>
+          <CorporateButton variant="ghost" size="sm" onClick={onCancel}>
             <X className="h-4 w-4" />
-          </Button>
+          </CorporateButton>
         )}
       </div>
 
@@ -286,16 +287,16 @@ export default function MeetingForm({
         {/* Actions */}
         <div className="flex justify-end space-x-3 pt-6 border-t">
           {onCancel && (
-            <Button type="button" variant="outline" onClick={onCancel}>
+            <CorporateButton type="button" variant="outline" onClick={onCancel}>
               İptal
-            </Button>
+            </CorporateButton>
           )}
-          <Button type="submit" disabled={loading}>
+          <CorporateButton type="submit" disabled={loading}>
             <Save className="h-4 w-4 mr-2" />
             {loading ? 'Kaydediliyor...' : isEditMode ? 'Güncelle' : 'Oluştur'}
-          </Button>
+          </CorporateButton>
         </div>
       </form>
-    </Card>
+    </CorporateCard>
   )
 }

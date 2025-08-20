@@ -46,7 +46,7 @@ export function ProtectedRoute({
   if (profile && !profile.is_active) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center space-y-4 max-w-md mx-auto p-6">
+        <div className="text-center space-y-4 max-w-md mx-auto p-6 bg-card rounded-lg border">
           <h2 className="text-2xl font-bold text-destructive">Hesap Deaktif</h2>
           <p className="text-muted-foreground">
             Hesabınız deaktif edilmiştir. Erişim için sistem yöneticisiyle iletişime geçin.
@@ -73,7 +73,7 @@ export function ProtectedRoute({
   //   if (userRoleIndex < requiredRoleIndex) {
   //     return (
   //       <div className="min-h-screen flex items-center justify-center bg-background">
-  //         <div className="text-center space-y-4 max-w-md mx-auto p-6">
+  //         <div className="text-center space-y-4 max-w-md mx-auto p-6 bg-card rounded-lg border">
   //           <h2 className="text-2xl font-bold text-destructive">Erişim Engellendi</h2>
   //           <p className="text-muted-foreground">
   //             Bu sayfaya erişim için {requiredRole} yetkisi gereklidir.
@@ -115,7 +115,7 @@ export function ProtectedRoute({
   //   if (!hasPermissions) {
   //     return (
   //       <div className="min-h-screen flex items-center justify-center bg-background">
-  //         <div className="text-center space-y-4 max-w-md mx-auto p-6">
+  //         <div className="text-center space-y-4 max-w-md mx-auto p-6 bg-card rounded-lg border">
   //           <h2 className="text-2xl font-bold text-destructive">Yetkisiz Erişim</h2>
   //           <p className="text-muted-foreground">
   //             Bu işlemi gerçekleştirmek için gerekli yetkiniz bulunmuyor.

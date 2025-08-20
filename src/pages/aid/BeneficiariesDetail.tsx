@@ -89,7 +89,7 @@ export default function BeneficiariesDetail() {
   }
 
   if (loading) {
-    return <div className="p-6 text-sm text-muted-foreground">Yükleniyor...</div>
+    return <div className="p-6 bg-card rounded-lg border text-sm text-muted-foreground">Yükleniyor...</div>
   }
 
   return (
@@ -101,7 +101,7 @@ export default function BeneficiariesDetail() {
             <button className="px-3 py-1 bg-green-500 hover:bg-green-400 rounded text-xs transition-colors">
               Kaydet
             </button>
-            <button className="px-3 py-1 bg-gray-500 hover:bg-gray-400 rounded text-xs transition-colors">
+            <button className="px-3 py-1 bg-gray-50 hover:bg-gray-400 rounded text-xs transition-colors">
               İptal
             </button>
           </div>
@@ -109,8 +109,8 @@ export default function BeneficiariesDetail() {
         
         <div className="flex">
           {/* Left Side - Form */}
-          <div className="flex-1 p-6">
-            <div className="grid grid-cols-4 gap-6 text-sm">
+          <div className="flex-1 p-6 bg-card rounded-lg border">
+            <div className="grid grid-cols-4 space-y-4 text-sm">
               
               {/* Photo Section */}
               <div className="col-span-1">
@@ -127,7 +127,7 @@ export default function BeneficiariesDetail() {
 
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Sponsorluk Tipi</label>
+                    <label className="block space-y-6-label mb-2">Sponsorluk Tipi</label>
                     <select
                       value={sponsorType}
                       onChange={(e) => setSponsorType(e.target.value)}
@@ -142,7 +142,7 @@ export default function BeneficiariesDetail() {
               {/* Personal Information */}
               <div className="col-span-1 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Ad</label>
+                  <label className="block space-y-6-label mb-2">Ad</label>
                   <input
                     type="text"
                     value={name}
@@ -153,7 +153,7 @@ export default function BeneficiariesDetail() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Soyad</label>
+                  <label className="block space-y-6-label mb-2">Soyad</label>
                   <input
                     type="text"
                     value={surname}
@@ -164,7 +164,7 @@ export default function BeneficiariesDetail() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Uyruk</label>
+                  <label className="block space-y-6-label mb-2">Uyruk</label>
                   <div className="flex rounded-md shadow-sm">
                     <input
                       type="text"
@@ -180,9 +180,9 @@ export default function BeneficiariesDetail() {
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Kimlik No</label>
+                    <label className="block space-y-6-label mb-2">Kimlik No</label>
                     <input
                       type="text"
                       value={identityNo}
@@ -205,7 +205,7 @@ export default function BeneficiariesDetail() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                  <label className="block space-y-6-label mb-2">Kategori</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
@@ -218,7 +218,7 @@ export default function BeneficiariesDetail() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Fon Bölgesi</label>
+                  <label className="block space-y-6-label mb-2">Fon Bölgesi</label>
                   <select
                     value={fundRegion}
                     onChange={(e) => setFundRegion(e.target.value)}
@@ -230,7 +230,7 @@ export default function BeneficiariesDetail() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Dosya Bağlantısı</label>
+                  <label className="block space-y-6-label mb-2">Dosya Bağlantısı</label>
                   <select
                     value={fileRelation}
                     onChange={(e) => setFileRelation(e.target.value)}
@@ -242,7 +242,7 @@ export default function BeneficiariesDetail() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Dosya Numarası</label>
+                  <label className="block space-y-6-label mb-2">Dosya Numarası</label>
                   <div className="flex space-x-2">
                     <input
                       type="text"
@@ -262,7 +262,7 @@ export default function BeneficiariesDetail() {
               </div>
 
               {/* Contact & Guardian Information */}
-              <div className="col-span-1 space-y-2">
+              <div className="col-span-1 space-y-6-group">
                 <div>
                   <label className="block text-xs mb-1">Cep Telefonu</label>
                   <div className="flex space-x-1">
@@ -377,7 +377,7 @@ export default function BeneficiariesDetail() {
               </div>
 
               {/* Location & Status */}
-              <div className="col-span-1 space-y-2">
+              <div className="col-span-1 space-y-6-group">
                 <div>
                   <label className="block text-xs mb-1">Ülke</label>
                   <select 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CorporateButton, CorporateBadge, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
+
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
   MapPin, 
@@ -89,8 +89,6 @@ export const MapDashboard: React.FC = () => {
     capacity: 0
   })
 
-
-
   // Filtrelenmiş lokasyonlar
   const filteredLocations = locations.filter(location => {
     const matchesSearch = location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -169,23 +167,23 @@ export const MapDashboard: React.FC = () => {
 
   const getLocationTypeColor = (type: MapLocation['type']) => {
     switch (type) {
-      case 'help_center': return 'bg-blue-100 text-blue-800'
-      case 'distribution_center': return 'bg-green-100 text-green-800'
-      case 'user_location': return 'bg-yellow-100 text-yellow-800'
-      case 'event_location': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'help_center': return 'bg-blue-100 text-blue-800 border-blue-200'
+      case 'distribution_center': return 'bg-green-100 text-green-800 border-green-200'
+      case 'user_location': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+      case 'event_location': return 'bg-red-100 text-red-800 border-red-200'
+      default: return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
   return (
     <div className="space-y-6">
       {/* Başlık ve Kontroller */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center space-x-3">
             <MapPin className="w-6 h-6 text-blue-600" />
             <h2 className="text-xl font-semibold">Harita Yönetimi</h2>
-            <Badge variant="outline">{locations.length} Lokasyon</Badge>
+            <CorporateBadge variant="outline">{locations.length} Lokasyon</CorporateBadge>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -212,13 +210,13 @@ export const MapDashboard: React.FC = () => {
             </Select>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Ana İçerik */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 space-y-4">
         {/* Harita */}
         <div className="lg:col-span-2">
-          <Card className="p-4">
+          <CorporateCard className="p-4">
             <div className="relative">
               <InteractiveMap
                 center={mapCenter}
@@ -235,22 +233,22 @@ export const MapDashboard: React.FC = () => {
               />
               {/* MapControls component mevcut değil */}
             </div>
-          </Card>
+          </CorporateCard>
         </div>
 
         {/* Yan Panel */}
         <div className="space-y-6">
           {/* Lokasyon Listesi */}
-          <Card className="p-4">
+          <CorporateCard className="p-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Lokasyonlar</h3>
-              <Button size="sm" onClick={() => setActiveTab('add')}>
+              <CorporateButton size="sm" onClick={() => setActiveTab('add')}>
                 <Plus className="w-4 h-4 mr-1" />
                 Ekle
-              </Button>
+              </CorporateButton>
             </div>
             
-            <div className="space-y-2 max-h-96 overflow-y-auto">
+            <div className="space-y-6-group max-h-96 overflow-y-auto">
               {filteredLocations.map((location) => (
                 <div
                   key={location.id}
@@ -265,19 +263,19 @@ export const MapDashboard: React.FC = () => {
                         <p className="text-xs text-gray-600">{location.description}</p>
                       </div>
                     </div>
-                    <Badge className={getLocationTypeColor(location.type)}>
+                    <CorporateBadge className={getLocationTypeColor(location.type)}>
                       {location.type === 'help_center' ? 'Yardım' :
                        location.type === 'distribution_center' ? 'Dağıtım' :
                        location.type === 'user_location' ? 'Kullanıcı' : 'Etkinlik'}
-                    </Badge>
+                    </CorporateBadge>
                   </div>
                 </div>
               ))}
             </div>
-          </Card>
+          </CorporateCard>
 
           {/* İstatistikler */}
-          <Card className="p-4">
+          <CorporateCard className="p-4">
             <h3 className="text-lg font-semibold mb-4">İstatistikler</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
@@ -299,7 +297,7 @@ export const MapDashboard: React.FC = () => {
                 <span className="font-semibold">{areas.length}</span>
               </div>
             </div>
-          </Card>
+          </CorporateCard>
         </div>
       </div>
 
@@ -314,40 +312,40 @@ export const MapDashboard: React.FC = () => {
         {/* Detaylar Sekmesi */}
         <TabsContent value="details" className="space-y-4">
           {selectedLocation ? (
-            <Card className="p-6">
+            <CorporateCard className="p-6 bg-card rounded-lg border">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-semibold">{selectedLocation.name}</h3>
                 <div className="flex space-x-2">
-                  <Button size="sm" variant="outline">
+                  <CorporateButton size="sm" variant="outline">
                     <Edit className="w-4 h-4 mr-1" />
                     Düzenle
-                  </Button>
-                  <Button 
+                  </CorporateButton>
+                  <CorporateButton 
                     size="sm" 
                     variant="outline" 
                     onClick={() => handleDeleteLocation(selectedLocation.id)}
                   >
                     <Trash2 className="w-4 h-4 mr-1" />
                     Sil
-                  </Button>
+                  </CorporateButton>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2">
                 <div>
                   <h4 className="font-semibold mb-2">Temel Bilgiler</h4>
-                  <div className="space-y-2">
+                  <div className="space-y-6-group">
                     <p><strong>Tür:</strong> {selectedLocation.type}</p>
                     <p><strong>Açıklama:</strong> {selectedLocation.description}</p>
                     <p><strong>Durum:</strong> 
-                      <Badge className={`ml-2 ${
-                        selectedLocation.status === 'active' ? 'bg-green-100 text-green-800' :
-                        selectedLocation.status === 'inactive' ? 'bg-red-100 text-red-800' :
-                        'bg-yellow-100 text-yellow-800'
+                      <CorporateBadge className={`ml-2 ${
+                        selectedLocation.status === 'active' ? 'bg-green-100 text-green-800 border-green-200' :
+                        selectedLocation.status === 'inactive' ? 'bg-red-100 text-red-800 border-red-200' :
+                        'bg-yellow-100 text-yellow-800 border-yellow-200'
                       }`}>
                         {selectedLocation.status === 'active' ? 'Aktif' :
                          selectedLocation.status === 'inactive' ? 'Pasif' : 'Geçici'}
-                      </Badge>
+                      </CorporateBadge>
                     </p>
                     {selectedLocation.capacity && (
                       <p><strong>Kapasite:</strong> {selectedLocation.currentOccupancy || 0}/{selectedLocation.capacity}</p>
@@ -357,7 +355,7 @@ export const MapDashboard: React.FC = () => {
 
                 <div>
                   <h4 className="font-semibold mb-2">İletişim Bilgileri</h4>
-                  <div className="space-y-2">
+                  <div className="space-y-6-group">
                     {selectedLocation.address && (
                       <p><strong>Adres:</strong> {selectedLocation.address}</p>
                     )}
@@ -371,18 +369,18 @@ export const MapDashboard: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </Card>
+            </CorporateCard>
           ) : (
-            <Card className="p-6 text-center">
+            <CorporateCard className="p-6 bg-card rounded-lg border text-center">
               <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-600">Detayları görüntülemek için bir lokasyon seçin</p>
-            </Card>
+            </CorporateCard>
           )}
         </TabsContent>
 
         {/* Yeni Ekleme Sekmesi */}
         <TabsContent value="add" className="space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-xl font-semibold mb-4">Yeni Lokasyon Ekle</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -475,12 +473,12 @@ export const MapDashboard: React.FC = () => {
             </div>
             
             <div className="mt-6 flex justify-end">
-              <Button onClick={handleAddLocation} disabled={!newLocation.name}>
+              <CorporateButton onClick={handleAddLocation} disabled={!newLocation.name}>
                 <Plus className="w-4 h-4 mr-1" />
                 Lokasyon Ekle
-              </Button>
+              </CorporateButton>
             </div>
-          </Card>
+          </CorporateCard>
         </TabsContent>
       </Tabs>
     </div>

@@ -1,97 +1,177 @@
 # Dernek Yönetim Paneli - Modern NGO Management System
 
-## 🚀 Performance Optimization
+Bu proje, dernek ve sivil toplum kuruluşları için geliştirilmiş modern bir yönetim panelidir.
 
-### AI Agent Performance Commands
+## 🚀 Hızlı Başlangıç
 
-For optimal AI agent performance on powerful computers:
+### Gereksinimler
+- Node.js >= 18.0.0
+- npm >= 9.0.0
 
+### Kurulum
+
+1. **Bağımlılıkları yükleyin:**
 ```bash
-# Standard AI optimization
-npm run ai:optimize
-
-# Ultimate AI optimization (maximum performance)
-npm run ai:ultimate
-
-# Start development with AI optimization
-npm run dev:ai
-
-# Start development with ultimate AI optimization
-npm run dev:ultimate
+npm install
 ```
 
-### Terminal Performance Commands
-
-For terminal hanging issues:
-
+2. **Projeyi başlatın:**
 ```bash
-# Fix terminal hanging
-npm run cleanup
-
-# Safe development start
-npm run dev:safe
+npm run dev
 ```
 
-### Windows Batch Files
+### Port Yapılandırması
 
-```bash
-# High-performance development start
-start-dev.bat
+- **Frontend (Vite):** http://localhost:5173
+- **Backend API:** http://localhost:3001
+- **HMR (Hot Module Replacement):** http://localhost:5174
+
+## 📁 Proje Yapısı
+
+```
+neww/
+├── src/                    # Frontend kaynak kodları
+│   ├── components/         # React bileşenleri
+│   ├── pages/             # Sayfa bileşenleri
+│   ├── hooks/             # Custom React hooks
+│   ├── services/          # API servisleri
+│   ├── store/             # Zustand store
+│   ├── types/             # TypeScript tip tanımları
+│   └── utils/             # Yardımcı fonksiyonlar
+├── api/                   # Backend API
+│   ├── routes/            # API rotaları
+│   ├── middleware/        # Express middleware
+│   ├── services/          # Backend servisleri
+│   └── tests/             # API testleri
+├── supabase/              # Supabase yapılandırması
+└── scripts/               # Yardımcı scriptler
 ```
 
-### Performance Scripts
+## 🛠️ Geliştirme Komutları
 
-- `scripts/ai-performance-optimizer.ps1` - Standard AI optimization
-- `scripts/ultimate-performance-optimizer.ps1` - Maximum AI performance
-- `scripts/fix-terminal-hanging.ps1` - Fix terminal issues
-- `scripts/terminal-optimization.ps1` - Terminal optimization
+### Temel Komutlar
+```bash
+# Geliştirme sunucusunu başlat
+npm run dev
+
+# Sadece frontend'i başlat
+npm run client:dev
+
+# Sadece backend'i başlat
+npm run server:dev
+
+# Hızlı başlatma (optimizasyonlar ile)
+npm run dev:fast
+```
+
+### Test Komutları
+```bash
+# Tüm testleri çalıştır
+npm run test
+
+# Test coverage raporu
+npm run test:coverage
+
+# E2E testleri
+npm run test:e2e
+```
+
+### Build Komutları
+```bash
+# Production build
+npm run build
+
+# Bundle analizi
+npm run analyze:bundle
+
+# Performance analizi
+npm run performance:analyze
+```
+
+### Linting ve Formatting
+```bash
+# ESLint kontrolü
+npm run lint
+
+# Otomatik düzeltme
+npm run lint:fix
+
+# TypeScript tip kontrolü
+npm run type-check
+```
+
+## 🔧 Yapılandırma
 
 ### Environment Variables
 
-The scripts automatically set these high-performance environment variables:
+`.env` dosyası oluşturun:
 
-- `NODE_OPTIONS`: `--max-old-space-size=16384 --no-warnings --experimental-worker`
-- `UV_THREADPOOL_SIZE`: `32`
-- `NODE_ENV`: `development`
-- `VITE_DISABLE_TELEMETRY`: `1`
+```env
+# Supabase
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-### Performance Tips
+# API
+API_PORT=3001
 
-1. **Restart Cursor** after running optimization scripts
-2. **Use specific prompts** for faster AI responses
-3. **Break large requests** into smaller chunks
-4. **Keep Cursor updated** to latest version
-5. **Clear cache regularly** with optimization scripts
-
-## Quick Start
-
-```bash
-# Install dependencies
-npm install
-
-# Start with ultimate performance
-npm run dev:ultimate
+# Development
+NODE_ENV=development
 ```
 
-## Features
+### Vite Yapılandırması
 
-- Modern React + TypeScript frontend
-- Express.js backend API
-- Supabase database integration
-- Real-time collaboration
-- AI-powered features
-- Comprehensive testing
-- Performance optimized
+Proje `vite.config.ts` dosyasında yapılandırılmıştır:
+- Port: 5173
+- HMR Port: 5174
+- API Proxy: localhost:3001
 
-## Development
+## 🎯 Özellikler
 
-```bash
-# Standard development
-npm run dev
+- **Modern UI/UX:** Tailwind CSS ve Radix UI
+- **Type Safety:** TypeScript ile tam tip güvenliği
+- **State Management:** Zustand ile hafif state yönetimi
+- **API Integration:** TanStack Query ile veri yönetimi
+- **Form Handling:** React Hook Form + Zod validation
+- **Real-time:** Supabase real-time özellikleri
+- **Testing:** Vitest + Testing Library
+- **Performance:** Bundle optimizasyonu ve lazy loading
 
-# High-performance development
-npm run dev:ai
+## 🚀 Performance Optimizasyonları
 
-# Ultimate performance development
-npm run dev:ultimate
-```
+Proje Cursor IDE için optimize edilmiştir:
+
+- **Bundle Splitting:** Manuel chunk bölme
+- **Tree Shaking:** Kullanılmayan kodları kaldırma
+- **Lazy Loading:** Sayfa bazlı kod bölme
+- **Caching:** Akıllı cache stratejileri
+- **Compression:** Gzip ve Brotli sıkıştırma
+
+## 📊 Monitoring ve Analytics
+
+- **Bundle Analysis:** Rollup visualizer
+- **Performance Monitoring:** Web Vitals
+- **Error Tracking:** Sentry entegrasyonu
+- **Analytics:** Custom analytics dashboard
+
+## 🤝 Katkıda Bulunma
+
+1. Fork yapın
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Commit yapın (`git commit -m 'Add amazing feature'`)
+4. Push yapın (`git push origin feature/amazing-feature`)
+5. Pull Request oluşturun
+
+## 📝 Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır.
+
+## 🆘 Destek
+
+Sorunlarınız için:
+- GitHub Issues kullanın
+- Dokümantasyonu kontrol edin
+- Community forumlarını ziyaret edin
+
+---
+
+**Not:** Bu proje localhost:5173 portunda çalışacak şekilde yapılandırılmıştır. Backend API localhost:3001 portunda çalışır. Eğer port değişikliği gerekirse `vite.config.ts`, `package.json` ve `api/server.ts` dosyalarını güncelleyin.

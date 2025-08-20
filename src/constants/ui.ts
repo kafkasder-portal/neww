@@ -238,7 +238,7 @@ export const TABLE_CONSTANTS = {
 
 export const FORM_CONSTANTS = {
   fieldSpacing: 'space-y-4',
-  labelClasses: 'block text-sm font-medium text-gray-700',
+  labelClasses: 'block space-y-6-label',
   inputClasses: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500',
   errorClasses: 'mt-1 text-sm text-red-600',
   helpTextClasses: 'mt-1 text-sm text-gray-500'

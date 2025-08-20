@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { BarChart3, Activity, Database, TrendingUp, TrendingDown, RefreshCw } from 'lucide-react'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { useCacheManager } from '@/lib/cacheStrategies'
 import { queryClient } from '@/lib/queryClient'
+import { CorporateCard, CorporateButton, CorporateBadge } from '@/components/ui/corporate/CorporateComponents'
 
 interface CacheMonitorProps {
   isOpen: boolean
@@ -57,13 +58,13 @@ export function CacheMonitor({ isOpen, onClose }: CacheMonitorProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl max-h-[90vh] overflow-hidden bg-white shadow-2xl">
+      <CorporateCard className="w-full max-w-4xl max-h-[90vh] overflow-hidden bg-white shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
+        <div className="flex items-center justify-between p-6 bg-card rounded-lg border border-b">
           <div className="flex items-center space-x-3">
             <Database className="w-6 h-6 text-blue-600" />
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-lg font-semibold text-foreground">
                 Cache Performans Monitörü
               </h2>
               <p className="text-sm text-gray-600">
@@ -73,7 +74,7 @@ export function CacheMonitor({ isOpen, onClose }: CacheMonitorProps) {
           </div>
           
           <div className="flex items-center space-x-2">
-            <Button
+            <CorporateButton
               variant="outline"
               size="sm"
               onClick={() => setAutoRefresh(!autoRefresh)}
@@ -81,32 +82,32 @@ export function CacheMonitor({ isOpen, onClose }: CacheMonitorProps) {
             >
               <RefreshCw className={`w-4 h-4 mr-1 ${autoRefresh ? 'animate-spin' : ''}`} />
               {autoRefresh ? 'Otomatik' : 'Manuel'}
-            </Button>
-            <Button
+            </CorporateButton>
+            <CorporateButton
               variant="outline"
               size="sm"
               onClick={updateStats}
             >
               <Activity className="w-4 h-4 mr-1" />
               Yenile
-            </Button>
-            <Button
+            </CorporateButton>
+            <CorporateButton
               variant="ghost"
               size="sm"
               onClick={onClose}
             >
               ✕
-            </Button>
+            </CorporateButton>
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <div className="p-6 bg-card rounded-lg border overflow-y-auto max-h-[calc(90vh-120px)]">
           {/* Memory Usage */}
           {memoryUsage && (
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Bellek Kullanımı</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="p-4">
+                <CorporateCard className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-gray-600">Toplam Query</p>
@@ -114,8 +115,8 @@ export function CacheMonitor({ isOpen, onClose }: CacheMonitorProps) {
                     </div>
                     <Database className="w-8 h-8 text-blue-500" />
                   </div>
-                </Card>
-                <Card className="p-4">
+                </CorporateCard>
+                <CorporateCard className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-gray-600">Toplam Boyut</p>
@@ -123,8 +124,8 @@ export function CacheMonitor({ isOpen, onClose }: CacheMonitorProps) {
                     </div>
                     <BarChart3 className="w-8 h-8 text-green-500" />
                   </div>
-                </Card>
-                <Card className="p-4">
+                </CorporateCard>
+                <CorporateCard className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-gray-600">Ortalama Boyut</p>
@@ -132,7 +133,7 @@ export function CacheMonitor({ isOpen, onClose }: CacheMonitorProps) {
                     </div>
                     <TrendingUp className="w-8 h-8 text-purple-500" />
                   </div>
-                </Card>
+                </CorporateCard>
               </div>
             </div>
           )}
@@ -143,18 +144,18 @@ export function CacheMonitor({ isOpen, onClose }: CacheMonitorProps) {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Cache Performansı</h3>
               <div className="space-y-4">
                 {Object.entries(performanceReport).map(([strategy, stats]: [string, any]) => (
-                  <Card key={strategy} className="p-4">
+                  <CorporateCard key={strategy} className="p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h4 className="font-semibold text-gray-900 capitalize">{strategy}</h4>
                         <p className="text-sm text-gray-600">{stats.hits + stats.misses} toplam istek</p>
                       </div>
-                      <Badge 
+                      <CorporateBadge 
                         variant={parseFloat(stats.hitRate) > 80 ? 'default' : 
                                parseFloat(stats.hitRate) > 60 ? 'secondary' : 'destructive'}
                       >
                         {stats.hitRate} Hit Rate
-                      </Badge>
+                      </CorporateBadge>
                     </div>
                     
                     <div className="grid grid-cols-3 gap-4 text-sm">
@@ -188,7 +189,7 @@ export function CacheMonitor({ isOpen, onClose }: CacheMonitorProps) {
                         />
                       </div>
                     </div>
-                  </Card>
+                  </CorporateCard>
                 ))}
               </div>
             </div>
@@ -201,26 +202,26 @@ export function CacheMonitor({ isOpen, onClose }: CacheMonitorProps) {
               <p className="text-sm text-gray-600">Cache performansını optimize edin</p>
             </div>
             <div className="flex space-x-2">
-              <Button
+              <CorporateButton
                 variant="outline"
                 onClick={handleOptimize}
                 className="bg-green-50 border-green-200 text-green-700 hover:bg-green-100"
               >
                 <TrendingUp className="w-4 h-4 mr-1" />
                 Optimize Et
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 variant="outline"
                 onClick={handleClearCache}
                 className="bg-red-50 border-red-200 text-red-700 hover:bg-red-100"
               >
                 <TrendingDown className="w-4 h-4 mr-1" />
                 Cache Temizle
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

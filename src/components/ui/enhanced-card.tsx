@@ -103,7 +103,7 @@ const enhancedCardVariants = cva(
       
       size: {
         sm: "p-4",
-        md: "p-6",
+        md: "p-6 bg-card rounded-lg border",
         lg: "p-8",
         xl: "p-10",
       },
@@ -111,7 +111,7 @@ const enhancedCardVariants = cva(
       padding: {
         none: "p-0",
         sm: "p-4",
-        md: "p-6",
+        md: "p-6 bg-card rounded-lg border",
         lg: "p-8",
         xl: "p-10",
       },
@@ -141,7 +141,7 @@ const enhancedCardHeaderVariants = cva(
       padding: {
         none: "p-0",
         sm: "p-4",
-        md: "p-6",
+        md: "p-6 bg-card rounded-lg border",
         lg: "p-8",
       },
     },
@@ -158,7 +158,7 @@ const enhancedCardContentVariants = cva(
       padding: {
         none: "p-0",
         sm: "p-4 pt-0",
-        md: "p-6 pt-0",
+        md: "p-6 bg-card rounded-lg border pt-0",
         lg: "p-8 pt-0",
       },
     },
@@ -175,7 +175,7 @@ const enhancedCardFooterVariants = cva(
       padding: {
         none: "p-0",
         sm: "p-4 pt-0",
-        md: "p-6 pt-0",
+        md: "p-6 bg-card rounded-lg border pt-0",
         lg: "p-8 pt-0",
       },
       justify: {

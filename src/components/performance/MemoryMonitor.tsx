@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef, memo, useCallback, useMemo } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/corporate/CorporateComponents'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { AlertTriangle, Trash2, RefreshCw, TrendingUp, TrendingDown } from 'lucide-react'
 import { useDesignSystem } from '@/hooks/useDesignSystem'
 import { COLORS } from '@/constants/design-system'
+import { CorporateCard, CorporateButton, CorporateBadge, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 
 interface MemoryInfo {
   used: number
@@ -200,17 +201,17 @@ const MemoryMonitor = memo(function MemoryMonitor() {
 
   if (!isSupported) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-yellow-500" />
             Memory API Desteklenmiyor
-          </CardTitle>
+          </CorporateCardTitle>
           <CardDescription>
             Bu tarayıcı Memory API&apos;sını desteklemiyor. Chrome veya Edge kullanmayı deneyin.
           </CardDescription>
-        </CardHeader>
-      </Card>
+        </CorporateCardHeader>
+      </CorporateCard>
     )
   }
 
@@ -228,7 +229,7 @@ const MemoryMonitor = memo(function MemoryMonitor() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button
+          <CorporateButton
             onClick={forceGarbageCollection}
             variant="outline"
             size="sm"
@@ -236,8 +237,8 @@ const MemoryMonitor = memo(function MemoryMonitor() {
           >
             <Trash2 className="h-4 w-4" />
             GC Tetikle
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             onClick={toggleMonitoring}
             variant={isMonitoring ? "destructive" : "default"}
             size="sm"
@@ -245,19 +246,19 @@ const MemoryMonitor = memo(function MemoryMonitor() {
           >
             <RefreshCw className={`h-4 w-4 ${isMonitoring ? 'animate-spin' : ''}`} />
             {isMonitoring ? 'Durdur' : 'Başlat'}
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
       {/* Memory Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Kullanılan Bellek</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <CorporateCard>
+          <CorporateCardHeader className="pb-2">
+            <CorporateCardTitle className="text-sm font-medium">Kullanılan Bellek</CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             {memoryInfo && (
-              <div className="space-y-2">
+              <div className="space-y-6-group">
                 <div className={`text-2xl font-bold ${memoryStatus?.color}`}>
                   {formatBytes(memoryInfo.used)}
                 </div>
@@ -275,16 +276,16 @@ const MemoryMonitor = memo(function MemoryMonitor() {
                 </div>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Heap Boyutu</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <CorporateCard>
+          <CorporateCardHeader className="pb-2">
+            <CorporateCardTitle className="text-sm font-medium">Heap Boyutu</CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             {memoryInfo && (
-              <div className="space-y-2">
+              <div className="space-y-6-group">
                 <div className="text-2xl font-bold text-blue-600">
                   {formatBytes(memoryInfo.total)}
                 </div>
@@ -305,16 +306,16 @@ const MemoryMonitor = memo(function MemoryMonitor() {
                 )}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">DOM Durumu</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <CorporateCard>
+          <CorporateCardHeader className="pb-2">
+            <CorporateCardTitle className="text-sm font-medium">DOM Durumu</CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             {domInfo && (
-              <div className="space-y-2">
+              <div className="space-y-6-group">
                 <div className="text-2xl font-bold text-purple-600">
                   {domInfo.nodeCount.toLocaleString()}
                 </div>
@@ -326,31 +327,31 @@ const MemoryMonitor = memo(function MemoryMonitor() {
                 </div>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
       {/* Memory History Chart */}
       {memoryHistory.length > 0 && (
-        <Card>
-          <CardHeader>
+        <CorporateCard>
+          <CorporateCardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Bellek Kullanım Geçmişi</CardTitle>
+                <CorporateCardTitle>Bellek Kullanım Geçmişi</CorporateCardTitle>
                 <CardDescription>
                   Son {memoryHistory.length} ölçüm
                 </CardDescription>
               </div>
-              <Button
+              <CorporateButton
                 onClick={clearHistory}
                 variant="outline"
                 size="sm"
               >
                 Geçmişi Temizle
-              </Button>
+              </CorporateButton>
             </div>
-          </CardHeader>
-          <CardContent>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             <div className="space-y-4">
               {/* Simple ASCII chart */}
               <div className="relative h-32 border border-gray-200 rounded bg-gray-50 p-2">
@@ -383,7 +384,7 @@ const MemoryMonitor = memo(function MemoryMonitor() {
               </div>
               
               {/* Recent entries */}
-              <div className="space-y-2">
+              <div className="space-y-6-group">
                 <div className="text-sm font-medium">Son Ölçümler</div>
                 <div className="space-y-1 max-h-32 overflow-y-auto">
                   {memoryHistory.slice(-10).reverse().map((entry) => {
@@ -394,9 +395,9 @@ const MemoryMonitor = memo(function MemoryMonitor() {
                           {new Date(entry.timestamp).toLocaleTimeString('tr-TR')}
                         </span>
                         <div className="flex items-center gap-2">
-                          <Badge className={`${status.bg} ${status.color} text-xs`}>
+                          <CorporateBadge className={`${status.bg} ${status.color} text-xs`}>
                             %{entry.memory.percentage}
-                          </Badge>
+                          </CorporateBadge>
                           <span className="text-gray-600">
                             {formatBytes(entry.memory.used)}
                           </span>
@@ -407,21 +408,21 @@ const MemoryMonitor = memo(function MemoryMonitor() {
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       )}
 
       {/* Performance Tips */}
       {memoryInfo && memoryInfo.percentage > 70 && (
-        <Card className="border-yellow-200 bg-yellow-50">
-          <CardHeader>
-            <CardTitle className="text-yellow-800 flex items-center gap-2">
+        <CorporateCard className="border-yellow-200 bg-yellow-50">
+          <CorporateCardHeader>
+            <CorporateCardTitle className="text-yellow-800 flex items-center gap-2">
               <AlertTriangle className="h-5 w-5" />
               Bellek Kullanımı Yüksek
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2 text-sm text-yellow-800">
+            </CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
+            <div className="space-y-6-group text-sm text-yellow-800">
               <p>Bellek kullanımınız yüksek. Performansı artırmak için:</p>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Kullanılmayan sekmelerinizi kapatın</li>
@@ -430,8 +431,8 @@ const MemoryMonitor = memo(function MemoryMonitor() {
                 <li>Browser extension&apos;larını devre dışı bırakın</li>
               </ul>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       )}
     </div>
   )

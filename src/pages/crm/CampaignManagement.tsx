@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import { CorporateButton, Card, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
+
 import { Input } from '@/components/ui/input'
 import { DonorCRMService } from '@/services/donorCRMService'
 import type {
@@ -101,10 +101,10 @@ function Modal({ isOpen, onClose, title, children }: ModalProps) {
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75" onClick={onClose}></div>
+          <div className="absolute inset-0 bg-gray-50 opacity-75" onClick={onClose}></div>
         </div>
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 bg-card rounded-lg border sm:pb-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">{title}</h3>
               <button
@@ -121,8 +121,6 @@ function Modal({ isOpen, onClose, title, children }: ModalProps) {
     </div>
   )
 }
-
-
 
 interface CampaignManagementProps {
   donors: Donor[]
@@ -191,12 +189,12 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800'
-      case 'draft': return 'bg-gray-100 text-gray-800'
-      case 'paused': return 'bg-yellow-100 text-yellow-800'
-      case 'completed': return 'bg-blue-100 text-blue-800'
-      case 'cancelled': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'active': return 'bg-green-100 text-green-800 border-green-200'
+      case 'draft': return 'bg-gray-100 text-gray-800 border-gray-200'
+      case 'paused': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+      case 'completed': return 'bg-blue-100 text-blue-800 border-blue-200'
+      case 'cancelled': return 'bg-red-100 text-red-800 border-red-200'
+      default: return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
@@ -332,7 +330,7 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
       title: 'İşlemler',
       render: (campaign) => (
         <div className="flex items-center space-x-1">
-          <Button
+          <CorporateButton
             variant="ghost"
             size="sm"
             onClick={() => {
@@ -342,8 +340,8 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             title="Detayları Görüntüle"
           >
             <Eye className="w-4 h-4" />
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             variant="ghost"
             size="sm"
             onClick={() => {
@@ -353,31 +351,31 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             title="Düzenle"
           >
             <Edit className="w-4 h-4" />
-          </Button>
+          </CorporateButton>
           {campaign.status === 'active' ? (
-            <Button
+            <CorporateButton
               variant="ghost"
               size="sm"
               title="Duraklat"
             >
               <Pause className="w-4 h-4" />
-            </Button>
+            </CorporateButton>
           ) : campaign.status === 'paused' ? (
-            <Button
+            <CorporateButton
               variant="ghost"
               size="sm"
               title="Devam Ettir"
             >
               <Play className="w-4 h-4" />
-            </Button>
+            </CorporateButton>
           ) : null}
-          <Button
+          <CorporateButton
             variant="ghost"
             size="sm"
             title="Daha Fazla"
           >
             <MoreHorizontal className="w-4 h-4" />
-          </Button>
+          </CorporateButton>
         </div>
       )
     }
@@ -391,7 +389,7 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Aktif Kampanyalar</p>
@@ -399,8 +397,8 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             </div>
             <Target className="h-8 w-8 text-green-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Toplanan Tutar</p>
@@ -408,8 +406,8 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             </div>
             <DollarSign className="h-8 w-8 text-blue-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Hedef Tutar</p>
@@ -417,8 +415,8 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             </div>
             <TrendingUp className="h-8 w-8 text-purple-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Toplam Katılımcı</p>
@@ -426,15 +424,15 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             </div>
             <Users className="h-8 w-8 text-orange-600" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
     )
   }
 
   const CampaignOverview = () => (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
       {/* Top Performing Campaigns */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4 flex items-center">
           <Star className="w-5 h-5 mr-2 text-yellow-500" />
           En Başarılı Kampanyalar
@@ -465,10 +463,10 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             })
           }
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Recent Activities */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4 flex items-center">
           <Activity className="w-5 h-5 mr-2 text-blue-500" />
           Son Aktiviteler
@@ -493,7 +491,7 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             ))
           }
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 
@@ -506,14 +504,14 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
           <p className="text-gray-600">Bağış kampanyalarını oluşturun ve yönetin</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => DonorCRMService.exportCampaigns()}>
+          <CorporateButton variant="outline" onClick={() => DonorCRMService.exportCampaigns()}>
             <Download className="w-4 h-4 mr-2" />
             Dışa Aktar
-          </Button>
-          <Button onClick={() => setShowAddModal(true)}>
+          </CorporateButton>
+          <CorporateButton onClick={() => setShowAddModal(true)}>
             <Plus className="w-4 h-4 mr-2" />
             Yeni Kampanya
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
@@ -552,7 +550,7 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
       {activeTab === 'campaigns' && (
         <>
           {/* Search and Filters */}
-          <Card className="p-4">
+          <CorporateCard className="p-4">
             <div className="flex items-center space-x-4 mb-4">
               <div className="flex-1">
                 <div className="relative">
@@ -566,22 +564,22 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
                   />
                 </div>
               </div>
-              <Button onClick={handleSearch} disabled={loading}>
+              <CorporateButton onClick={handleSearch} disabled={loading}>
                 <Search className="w-4 h-4 mr-2" />
                 Ara
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 variant="outline"
                 onClick={() => setShowFilters(!showFilters)}
               >
                 <Filter className="w-4 h-4 mr-2" />
                 Filtreler
-              </Button>
+              </CorporateButton>
               {(searchQuery || Object.keys(filters).length > 0) && (
-                <Button variant="outline" onClick={clearFilters}>
+                <CorporateButton variant="outline" onClick={clearFilters}>
                   <X className="w-4 h-4 mr-2" />
                   Temizle
-                </Button>
+                </CorporateButton>
               )}
             </div>
 
@@ -647,17 +645,17 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
                 </div>
               </div>
             )}
-          </Card>
+          </CorporateCard>
 
           {/* Campaigns Table */}
-          <Card>
+          <CorporateCard>
             <DataTable
               data={campaigns}
               columns={columns}
               loading={loading}
               emptyMessage="Kampanya bulunamadı"
             />
-          </Card>
+          </CorporateCard>
         </>
       )}
 
@@ -672,7 +670,7 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
           title={selectedCampaign ? 'Kampanya Düzenle' : 'Yeni Kampanya Oluştur'}
           size="xl"
         >
-          <div className="p-6 space-y-6">
+          <div className="p-6 bg-card rounded-lg border space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Kampanya Adı</label>
@@ -729,13 +727,13 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
               </div>
             </div>
             <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setShowAddModal(false)}>
+              <CorporateButton variant="outline" onClick={() => setShowAddModal(false)}>
                 İptal
-              </Button>
-              <Button>
+              </CorporateButton>
+              <CorporateButton>
                 <Send className="w-4 h-4 mr-2" />
                 {selectedCampaign ? 'Güncelle' : 'Oluştur'}
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </Modal>
@@ -752,7 +750,7 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
           title={selectedCampaign.campaignName}
           size="xl"
         >
-          <div className="p-6 space-y-6">
+          <div className="p-6 bg-card rounded-lg border space-y-6">
             {/* Campaign Header */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
@@ -785,8 +783,8 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             </div>
 
             {/* Progress Section */}
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gray-50 p-6 bg-card rounded-lg border rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-3 space-y-4">
                 <div className="text-center">
                   <p className="text-sm text-gray-600 mb-1">Toplanan</p>
                   <p className="text-2xl font-bold text-green-600">{formatCurrency(selectedCampaign.raisedAmount || 0)}</p>
@@ -813,10 +811,10 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             </div>
 
             {/* Campaign Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2">
               <div>
                 <h4 className="font-semibold mb-3">Kampanya Bilgileri</h4>
-                <div className="space-y-2 text-sm">
+                <div className="space-y-6-group text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Başlangıç:</span>
                     <span>{formatDate(selectedCampaign.startDate)}</span>
@@ -837,7 +835,7 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
               </div>
               <div>
                 <h4 className="font-semibold mb-3">Performans Metrikleri</h4>
-                <div className="space-y-2 text-sm">
+                <div className="space-y-6-group text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Ortalama Bağış:</span>
                     <span>{formatCurrency((selectedCampaign.raisedAmount || 0) / Math.max(selectedCampaign.participantCount || 1, 1))}</span>
@@ -855,16 +853,16 @@ export default function CampaignManagement({ donors }: CampaignManagementProps) 
             </div>
 
             <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setShowDetailModal(false)}>
+              <CorporateButton variant="outline" onClick={() => setShowDetailModal(false)}>
                 Kapat
-              </Button>
-              <Button onClick={() => {
+              </CorporateButton>
+              <CorporateButton onClick={() => {
                 setShowDetailModal(false)
                 setShowAddModal(true)
               }}>
                 <Edit className="w-4 h-4 mr-2" />
                 Düzenle
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </Modal>

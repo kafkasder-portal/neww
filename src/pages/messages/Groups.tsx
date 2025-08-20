@@ -148,8 +148,8 @@ export default function Groups() {
 
   const getStatusBadge = (status: string) => {
     const colors = {
-      active: 'bg-green-100 text-green-800',
-      inactive: 'bg-gray-100 text-gray-800'
+      active: 'bg-green-100 text-green-800 border-green-200',
+      inactive: 'bg-gray-100 text-gray-800 border-gray-200'
     }
     return (
       <span className={`px-2 py-1 rounded-full text-xs font-medium ${colors[status as keyof typeof colors]}`}>
@@ -312,7 +312,7 @@ export default function Groups() {
       </div>
 
       {/* Filtreler */}
-      <div className="bg-white p-4 rounded-lg border space-y-4">
+      <div className="bg-white p-4 border rounded-lg space-y-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-gray-400" />
           <input
@@ -326,7 +326,7 @@ export default function Groups() {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-gray-400" />
-            <span className="text-sm font-medium text-gray-700">Durum:</span>
+            <span className="space-y-6-label">Durum:</span>
           </div>
           
           <select
@@ -343,7 +343,7 @@ export default function Groups() {
 
       {/* İstatistikler */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <Users className="h-5 w-5 text-blue-500" />
             <div>
@@ -353,7 +353,7 @@ export default function Groups() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <UserPlus className="h-5 w-5 text-green-500" />
             <div>
@@ -365,7 +365,7 @@ export default function Groups() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <Users className="h-5 w-5 text-purple-500" />
             <div>
@@ -377,7 +377,7 @@ export default function Groups() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <UserMinus className="h-5 w-5 text-gray-500" />
             <div>
@@ -405,25 +405,25 @@ export default function Groups() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Grup Adı</label>
+                <label className="block space-y-6-label mb-1">Grup Adı</label>
                 <p className="text-sm text-gray-900">{selectedGroup.name}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Durum</label>
+                <label className="block space-y-6-label mb-1">Durum</label>
                 {getStatusBadge(selectedGroup.status)}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Üye Sayısı</label>
+                <label className="block space-y-6-label mb-1">Üye Sayısı</label>
                 <p className="text-sm text-gray-900">{selectedGroup.memberCount}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Oluşturulma Tarihi</label>
+                <label className="block space-y-6-label mb-1">Oluşturulma Tarihi</label>
                 <p className="text-sm text-gray-900">{selectedGroup.createdAt}</p>
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Açıklama</label>
+              <label className="block space-y-6-label mb-2">Açıklama</label>
               <div className="bg-gray-50 p-3 rounded border">
                 <p className="text-sm text-gray-900">{selectedGroup.description}</p>
               </div>
@@ -440,7 +440,7 @@ export default function Groups() {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Grup Adı</label>
+            <label className="block space-y-6-label mb-1">Grup Adı</label>
             <input
               type="text"
               value={groupName}
@@ -451,7 +451,7 @@ export default function Groups() {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Açıklama</label>
+            <label className="block space-y-6-label mb-1">Açıklama</label>
             <textarea
               value={groupDescription}
               onChange={(e) => setGroupDescription(e.target.value)}
@@ -483,7 +483,7 @@ export default function Groups() {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Grup Adı</label>
+            <label className="block space-y-6-label mb-1">Grup Adı</label>
             <input
               type="text"
               value={groupName}
@@ -494,7 +494,7 @@ export default function Groups() {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Açıklama</label>
+            <label className="block space-y-6-label mb-1">Açıklama</label>
             <textarea
               value={groupDescription}
               onChange={(e) => setGroupDescription(e.target.value)}

@@ -403,10 +403,10 @@ export default function RamadanPeriods() {
       header: 'Durum',
       render: (_, period: RamadanPeriod) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          period.status === 'aktif' ? 'bg-green-100 text-green-800' :
-          period.status === 'tamamlandı' ? 'bg-blue-100 text-blue-800' :
-          period.status === 'planlama' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-red-100 text-red-800'
+          period.status === 'aktif' ? 'bg-green-100 text-green-800 border-green-200' :
+          period.status === 'tamamlandı' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+          period.status === 'planlama' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          'bg-red-100 text-red-800 border-red-200'
         }`}>
           {period.status}
         </span>
@@ -449,12 +449,12 @@ export default function RamadanPeriods() {
       header: 'Bağış Tipi',
       render: (_, donation: RamadanDonation) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          donation.donationType === 'fitr' ? 'bg-green-100 text-green-800' :
-          donation.donationType === 'iftar' ? 'bg-blue-100 text-blue-800' :
+          donation.donationType === 'fitr' ? 'bg-green-100 text-green-800 border-green-200' :
+          donation.donationType === 'iftar' ? 'bg-blue-100 text-blue-800 border-blue-200' :
           donation.donationType === 'sahur' ? 'bg-purple-100 text-purple-800' :
           donation.donationType === 'gida-paketi' ? 'bg-orange-100 text-orange-800' :
-          donation.donationType === 'fidye' ? 'bg-red-100 text-red-800' :
-          'bg-gray-100 text-gray-800'
+          donation.donationType === 'fidye' ? 'bg-red-100 text-red-800 border-red-200' :
+          'bg-gray-100 text-gray-800 border-gray-200'
         }`}>
           {donation.donationType === 'gida-paketi' ? 'Gıda Paketi' :
            donation.donationType === 'fidye' ? 'Fidye' :
@@ -482,9 +482,9 @@ export default function RamadanPeriods() {
       header: 'Durum',
       render: (_, donation: RamadanDonation) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          donation.paymentStatus === 'ödendi' ? 'bg-green-100 text-green-800' :
-          donation.paymentStatus === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-red-100 text-red-800'
+          donation.paymentStatus === 'ödendi' ? 'bg-green-100 text-green-800 border-green-200' :
+          donation.paymentStatus === 'beklemede' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          'bg-red-100 text-red-800 border-red-200'
         }`}>
           {donation.paymentStatus}
         </span>
@@ -679,7 +679,7 @@ export default function RamadanPeriods() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 bg-card rounded-lg border rounded-lg shadow">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold">Ramazan Dönemleri</h2>
@@ -719,7 +719,7 @@ export default function RamadanPeriods() {
           {activeTab === 'periods' && (
             <button
               onClick={openAddModal}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Yeni Dönem
             </button>
@@ -787,7 +787,7 @@ export default function RamadanPeriods() {
               </select>
               <button
                 onClick={() => exportToCsv('ramazan-donemleri.csv', filteredPeriods)}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                className="bg-green-500 text-white hover:bg-green-600"
               >
                 Excel İndir
               </button>
@@ -815,22 +815,22 @@ export default function RamadanPeriods() {
           <div className="space-y-6">
             {/* Genel İstatistikler */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-blue-50 p-6 rounded-lg">
+              <div className="bg-blue-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-blue-600 mb-2">Toplam Bağış</h3>
                 <p className="text-3xl font-bold text-blue-900">{totalDonations}</p>
                 <p className="text-sm text-blue-600 mt-1">Tüm dönemler</p>
               </div>
-              <div className="bg-green-50 p-6 rounded-lg">
+              <div className="bg-green-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-green-600 mb-2">Toplam Gelir</h3>
                 <p className="text-3xl font-bold text-green-900">{totalCollectedAmount.toLocaleString('tr-TR')} ₺</p>
                 <p className="text-sm text-green-600 mt-1">Brüt tutar</p>
               </div>
-              <div className="bg-purple-50 p-6 rounded-lg">
+              <div className="bg-purple-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-purple-600 mb-2">Fıtır Geliri</h3>
                 <p className="text-3xl font-bold text-purple-900">{totalFitrCollected.toLocaleString('tr-TR')} ₺</p>
                 <p className="text-sm text-purple-600 mt-1">Sadece fıtır</p>
               </div>
-              <div className="bg-orange-50 p-6 rounded-lg">
+              <div className="bg-orange-50 p-6 bg-card rounded-lg border rounded-lg">
                 <h3 className="text-lg font-medium text-orange-600 mb-2">İftar Geliri</h3>
                 <p className="text-3xl font-bold text-orange-900">{totalIftarRevenue.toLocaleString('tr-TR')} ₺</p>
                 <p className="text-sm text-orange-600 mt-1">İftar sponsorluğu</p>
@@ -838,7 +838,7 @@ export default function RamadanPeriods() {
             </div>
 
             {/* Dönem Karşılaştırması */}
-            <div className="bg-white border rounded-lg p-6">
+            <div className="bg-white border rounded-lg p-6 bg-card rounded-lg border">
               <h3 className="text-lg font-medium mb-4">Dönem Karşılaştırması</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
@@ -860,9 +860,9 @@ export default function RamadanPeriods() {
                         <td className="text-right py-2">{period.collectedAmount.toLocaleString('tr-TR')} ₺</td>
                         <td className="text-right py-2">
                           <span className={`px-2 py-1 rounded text-xs ${
-                            (period.collectedAmount / period.targetAmount) * 100 >= 100 ? 'bg-green-100 text-green-800' :
-                            (period.collectedAmount / period.targetAmount) * 100 >= 75 ? 'bg-yellow-100 text-yellow-800' :
-                            'bg-red-100 text-red-800'
+                            (period.collectedAmount / period.targetAmount) * 100 >= 100 ? 'bg-green-100 text-green-800 border-green-200' :
+                            (period.collectedAmount / period.targetAmount) * 100 >= 75 ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+                            'bg-red-100 text-red-800 border-red-200'
                           }`}>
                             {period.targetAmount > 0 ? Math.round((period.collectedAmount / period.targetAmount) * 100) : 0}%
                           </span>
@@ -877,7 +877,7 @@ export default function RamadanPeriods() {
             </div>
 
             {/* Bağış Türü Dağılımı */}
-            <div className="bg-white border rounded-lg p-6">
+            <div className="bg-white border rounded-lg p-6 bg-card rounded-lg border">
               <h3 className="text-lg font-medium mb-4">Bağış Türü Dağılımı</h3>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div className="border rounded p-4">
@@ -1305,7 +1305,7 @@ export default function RamadanPeriods() {
               <h4 className="font-medium mb-4">Dağıtım Alanları</h4>
               <div className="flex flex-wrap gap-2">
                 {selectedPeriod.distributionAreas.map((area, index) => (
-                  <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded text-sm">
+                  <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 border-blue-200 rounded text-sm">
                     {area}
                   </span>
                 ))}
@@ -1316,7 +1316,7 @@ export default function RamadanPeriods() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white border rounded p-4">
                 <h4 className="font-medium mb-4">Kampanyalar</h4>
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   {selectedPeriod.campaigns.map((campaign, index) => (
                     <div key={index} className="text-sm p-2 bg-gray-50 rounded">{campaign}</div>
                   ))}
@@ -1324,7 +1324,7 @@ export default function RamadanPeriods() {
               </div>
               <div className="bg-white border rounded p-4">
                 <h4 className="font-medium mb-4">Özel Programlar</h4>
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   {selectedPeriod.specialPrograms.map((program, index) => (
                     <div key={index} className="text-sm p-2 bg-gray-50 rounded">{program}</div>
                   ))}
@@ -1337,7 +1337,7 @@ export default function RamadanPeriods() {
               <h4 className="font-medium mb-4">Partner Kuruluşlar</h4>
               <div className="flex flex-wrap gap-2">
                 {selectedPeriod.partnerOrganizations.map((org, index) => (
-                  <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded text-sm">
+                  <span key={index} className="px-3 py-1 bg-green-100 text-green-800 border-green-200 rounded text-sm">
                     {org}
                   </span>
                 ))}

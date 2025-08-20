@@ -305,7 +305,7 @@ export default function AidCategories() {
       {/* Add Category Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-lg rounded-lg bg-white p-6">
+          <div className="w-full max-w-lg rounded-lg bg-white p-6 bg-card rounded-lg border">
             <h2 className="mb-4 text-lg font-semibold">Yeni Yardım Kategorisi Ekle</h2>
             <form className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -378,7 +378,7 @@ export default function AidCategories() {
       {/* Category Detail Modal */}
       {selectedCategory && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-2xl rounded-lg bg-white p-6">
+          <div className="w-full max-w-2xl rounded-lg bg-white p-6 bg-card rounded-lg border">
             <h2 className="mb-4 text-lg font-semibold">Kategori Detayları</h2>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">

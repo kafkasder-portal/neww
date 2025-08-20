@@ -346,7 +346,7 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
       <div key={message.id} className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
         <div className={`flex max-w-[80%] ${isUser ? 'flex-row-reverse' : 'flex-row'} items-start gap-2`}>
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-            isUser ? 'bg-blue-500' : isSystem ? 'bg-gray-500' : 'bg-green-500'
+            isUser ? 'bg-blue-500' : isSystem ? 'bg-gray-50' : 'bg-green-500'
           }`}>
             {isUser ? <User className="w-4 h-4 text-white" /> : 
              isSystem ? <Zap className="w-4 h-4 text-white" /> : 

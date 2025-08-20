@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Search, Users, Check, X, User } from 'lucide-react'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
+import { CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 
 interface UserData {
   id: string
@@ -213,7 +214,7 @@ export default function UserSelector({
             className="fixed inset-0 z-10" 
             onClick={() => setIsOpen(false)}
           />
-          <Card className="absolute top-full left-0 right-0 mt-1 z-20 max-h-80 overflow-hidden">
+          <CorporateCard className="absolute top-full left-0 right-0 mt-1 z-20 max-h-80 overflow-hidden">
             {/* Search */}
             <div className="p-3 border-b">
               <div className="relative">
@@ -292,7 +293,7 @@ export default function UserSelector({
                 </div>
               </div>
             )}
-          </Card>
+          </CorporateCard>
         </>
       )}
     </div>

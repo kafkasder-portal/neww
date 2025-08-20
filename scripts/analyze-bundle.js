@@ -5,9 +5,8 @@
  * Vite build sonrasında bundle boyutlarını ve bağımlılıkları analiz eder
  */
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
 
 console.log('🔍 Analyzing bundle size...\n');
 
@@ -24,10 +23,10 @@ try {
   console.log('\n📋 Checking for large dependencies...');
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
   const dependencies = { ...packageJson.dependencies, ...packageJson.devDependencies };
-  
+
   console.log('\n📈 Bundle Analysis Summary:');
   console.log('========================');
-  
+
   // List all dependencies
   Object.entries(dependencies).forEach(([name, version]) => {
     console.log(`📦 ${name}: ${version}`);

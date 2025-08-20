@@ -112,11 +112,11 @@ const DonorProfile: React.FC<DonorProfileProps> = ({ className = '', onClose }) 
   const getStatusColor = (status: DonorInfo['status']) => {
     switch (status) {
       case 'vip':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200 border-yellow-200';
       case 'active':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return 'bg-green-100 text-green-800 border-green-200 border-green-200';
       case 'inactive':
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-100 text-gray-800 border-gray-200 border-gray-200';
     }
   };
 
@@ -145,7 +145,7 @@ const DonorProfile: React.FC<DonorProfileProps> = ({ className = '', onClose }) 
   return (
     <div className={`bg-white rounded-xl shadow-lg border border-gray-200 ${className}`}>
       {/* Header */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 bg-card rounded-lg border border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
@@ -205,7 +205,7 @@ const DonorProfile: React.FC<DonorProfileProps> = ({ className = '', onClose }) 
         </div>
       </div>
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 bg-card rounded-lg border space-y-6">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <DonationCard
@@ -237,13 +237,13 @@ const DonorProfile: React.FC<DonorProfileProps> = ({ className = '', onClose }) 
             value={loyaltyScore}
             currency="%"
             icon={Award}
-            variant="default"
+            variant="primary"
           />
         </div>
 
         {/* Contact Information */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-gray-50 rounded-lg p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
+          <div className="bg-gray-50 rounded-lg p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <User className="w-5 h-5 mr-2" />
               İletişim Bilgileri
@@ -300,12 +300,12 @@ const DonorProfile: React.FC<DonorProfileProps> = ({ className = '', onClose }) 
           </div>
 
           {/* Preferences and Notes */}
-          <div className="bg-gray-50 rounded-lg p-6">
+          <div className="bg-gray-50 rounded-lg p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Tercihler ve Notlar</h3>
             
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">Tercih Edilen Yöntem</label>
+                <label className="space-y-6-label mb-2 block">Tercih Edilen Yöntem</label>
                 {isEditing ? (
                   <select
                     value={editedDonor.preferredMethod}
@@ -326,7 +326,7 @@ const DonorProfile: React.FC<DonorProfileProps> = ({ className = '', onClose }) 
               </div>
               
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">Notlar</label>
+                <label className="space-y-6-label mb-2 block">Notlar</label>
                 {isEditing ? (
                   <textarea
                     value={editedDonor.notes || ''}
@@ -343,7 +343,7 @@ const DonorProfile: React.FC<DonorProfileProps> = ({ className = '', onClose }) 
         </div>
 
         {/* Donation History */}
-        <div className="bg-gray-50 rounded-lg p-6">
+        <div className="bg-gray-50 rounded-lg p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Bağış Geçmişi</h3>
           
           <div className="space-y-3 max-h-64 overflow-y-auto">

@@ -325,7 +325,7 @@ export default function Templates() {
       </div>
 
       {/* Filtreler */}
-      <div className="bg-white p-4 rounded-lg border space-y-4">
+      <div className="bg-white p-4 border rounded-lg space-y-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-gray-400" />
           <input
@@ -339,7 +339,7 @@ export default function Templates() {
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-gray-400" />
-            <span className="text-sm font-medium text-gray-700">Filtreler:</span>
+            <span className="space-y-6-label">Filtreler:</span>
           </div>
           
           <select
@@ -370,7 +370,7 @@ export default function Templates() {
 
       {/* İstatistikler */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <FileText className="h-5 w-5 text-blue-500" />
             <div>
@@ -380,7 +380,7 @@ export default function Templates() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <Star className="h-5 w-5 text-yellow-500" />
             <div>
@@ -392,7 +392,7 @@ export default function Templates() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <Copy className="h-5 w-5 text-green-500" />
             <div>
@@ -404,7 +404,7 @@ export default function Templates() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <FileText className="h-5 w-5 text-purple-500" />
             <div>
@@ -430,40 +430,40 @@ export default function Templates() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Şablon Adı</label>
+                <label className="block space-y-6-label mb-1">Şablon Adı</label>
                 <p className="text-sm text-gray-900">{selectedTemplate.name}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                <label className="block space-y-6-label mb-1">Kategori</label>
                 {getCategoryBadge(selectedTemplate.category || 'general')}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tür</label>
+                <label className="block space-y-6-label mb-1">Tür</label>
                 {getTypeBadge(selectedTemplate.type)}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Kullanım Sayısı</label>
+                <label className="block space-y-6-label mb-1">Kullanım Sayısı</label>
                 <p className="text-sm text-gray-900">{selectedTemplate.usageCount || 0}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Oluşturulma Tarihi</label>
+                <label className="block space-y-6-label mb-1">Oluşturulma Tarihi</label>
                 <p className="text-sm text-gray-900">{selectedTemplate.createdAt}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Favori</label>
+                <label className="block space-y-6-label mb-1">Favori</label>
                 <p className="text-sm text-gray-900">{selectedTemplate.isFavorite ? 'Evet' : 'Hayır'}</p>
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Konu</label>
+              <label className="block space-y-6-label mb-2">Konu</label>
               <div className="bg-gray-50 p-3 rounded border">
                 <p className="text-sm text-gray-900">{selectedTemplate.subject}</p>
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">İçerik</label>
+              <label className="block space-y-6-label mb-2">İçerik</label>
               <div className="bg-gray-50 p-3 rounded border">
                 <p className="text-sm text-gray-900 whitespace-pre-wrap">{selectedTemplate.content}</p>
               </div>
@@ -500,7 +500,7 @@ export default function Templates() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Şablon Adı</label>
+              <label className="block space-y-6-label mb-1">Şablon Adı</label>
               <input
                 type="text"
                 value={templateName}
@@ -513,7 +513,7 @@ export default function Templates() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+              <label className="block space-y-6-label mb-1">Kategori</label>
               <select
                 value={templateCategory}
                 onChange={(e) => setTemplateCategory(e.target.value)}
@@ -527,7 +527,7 @@ export default function Templates() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tür</label>
+              <label className="block space-y-6-label mb-1">Tür</label>
               <select
                 value={templateType}
                 onChange={(e) => setTemplateType(e.target.value as 'notification' | 'sms' | 'email')}
@@ -546,13 +546,13 @@ export default function Templates() {
                   onChange={(e) => setIsFavorite(e.target.checked)}
                   className="rounded"
                 />
-                <span className="text-sm font-medium text-gray-700">Favori olarak işaretle</span>
+                <span className="space-y-6-label">Favori olarak işaretle</span>
               </label>
             </div>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Konu</label>
+            <label className="block space-y-6-label mb-1">Konu</label>
             <input
               type="text"
               value={templateSubject}
@@ -566,7 +566,7 @@ export default function Templates() {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">İçerik</label>
+            <label className="block space-y-6-label mb-1">İçerik</label>
             <textarea
               value={templateContent}
               onChange={createSanitizedChangeHandler(
@@ -605,7 +605,7 @@ export default function Templates() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Şablon Adı</label>
+              <label className="block space-y-6-label mb-1">Şablon Adı</label>
               <input
                 type="text"
                 value={templateName}
@@ -618,7 +618,7 @@ export default function Templates() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+              <label className="block space-y-6-label mb-1">Kategori</label>
               <select
                 value={templateCategory}
                 onChange={(e) => setTemplateCategory(e.target.value)}
@@ -632,7 +632,7 @@ export default function Templates() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tür</label>
+              <label className="block space-y-6-label mb-1">Tür</label>
               <select
                 value={templateType}
                 onChange={(e) => setTemplateType(e.target.value as 'notification' | 'sms' | 'email')}
@@ -651,13 +651,13 @@ export default function Templates() {
                   onChange={(e) => setIsFavorite(e.target.checked)}
                   className="rounded"
                 />
-                <span className="text-sm font-medium text-gray-700">Favori olarak işaretle</span>
+                <span className="space-y-6-label">Favori olarak işaretle</span>
               </label>
             </div>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Konu</label>
+            <label className="block space-y-6-label mb-1">Konu</label>
             <input
               type="text"
               value={templateSubject}
@@ -671,7 +671,7 @@ export default function Templates() {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">İçerik</label>
+            <label className="block space-y-6-label mb-1">İçerik</label>
             <textarea
               value={templateContent}
               onChange={createSanitizedChangeHandler(

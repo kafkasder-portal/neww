@@ -29,7 +29,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
-import { getErrorMessage, logErrorSafely } from '../../utils/errorMessageUtils'
+import { getErrorMessage, logErrorSafely } from '@utils/errorMessageUtils'
 
 interface Application {
   id: string
@@ -354,12 +354,12 @@ export default function Applications() {
 
   const getStatusBadge = (status: string) => {
     const statusMap = {
-      pending: { label: 'Bekliyor', class: 'bg-yellow-100 text-yellow-800', icon: Clock },
-      approved: { label: 'Onaylandı', class: 'bg-green-100 text-green-800', icon: Check },
-      rejected: { label: 'Reddedildi', class: 'bg-red-100 text-red-800', icon: X },
-      completed: { label: 'Tamamlandı', class: 'bg-blue-100 text-blue-800', icon: Check }
+      pending: { label: 'Bekliyor', class: 'bg-yellow-100 text-yellow-800 border-yellow-200', icon: Clock },
+      approved: { label: 'Onaylandı', class: 'bg-green-100 text-green-800 border-green-200', icon: Check },
+      rejected: { label: 'Reddedildi', class: 'bg-red-100 text-red-800 border-red-200', icon: X },
+      completed: { label: 'Tamamlandı', class: 'bg-blue-100 text-blue-800 border-blue-200', icon: Check }
     }
-    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800', icon: Clock }
+    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800 border-gray-200', icon: Clock }
     const Icon = statusInfo.icon
     return (
       <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${statusInfo.class}`}>
@@ -371,12 +371,12 @@ export default function Applications() {
 
   const getPriorityBadge = (priority: string) => {
     const priorityMap = {
-      low: { label: 'Düşük', class: 'bg-gray-100 text-gray-800' },
-      normal: { label: 'Normal', class: 'bg-blue-100 text-blue-800' },
+      low: { label: 'Düşük', class: 'bg-gray-100 text-gray-800 border-gray-200' },
+      normal: { label: 'Normal', class: 'bg-blue-100 text-blue-800 border-blue-200' },
       high: { label: 'Yüksek', class: 'bg-orange-100 text-orange-800' },
-      urgent: { label: 'Acil', class: 'bg-red-100 text-red-800' }
+      urgent: { label: 'Acil', class: 'bg-red-100 text-red-800 border-red-200' }
     }
-    const priorityInfo = priorityMap[priority as keyof typeof priorityMap] || { label: priority, class: 'bg-gray-100 text-gray-800' }
+    const priorityInfo = priorityMap[priority as keyof typeof priorityMap] || { label: priority, class: 'bg-gray-100 text-gray-800 border-gray-200' }
     return (
       <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${priorityInfo.class}`}>
         {priorityInfo.label}
@@ -521,7 +521,7 @@ export default function Applications() {
       </div>
 
       {/* Filtreler */}
-      <div className="flex flex-wrap items-center gap-4 rounded-lg border p-4">
+      <div className="flex flex-wrap items-center bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
@@ -784,7 +784,7 @@ export default function Applications() {
           <div className="p-4 space-y-4">
             <div className="rounded border p-4 bg-gray-50">
               <h3 className="font-medium mb-2">Başvuru Detayları</h3>
-              <div className="space-y-2 text-sm">
+              <div className="space-y-6-group text-sm">
                 <div><strong>İhtiyaç Sahibi:</strong> {evaluatingApplication.beneficiaries?.name} {evaluatingApplication.beneficiaries?.surname}</div>
                 <div><strong>Yardım Türü:</strong> {getAidTypeName(evaluatingApplication.aid_type)}</div>
                 {evaluatingApplication.amount && (

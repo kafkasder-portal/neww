@@ -1,4 +1,5 @@
 // import React from 'react' // JSX kullanımı için gerekli değil
+import { Card, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Home, 
   Users, 
@@ -11,7 +12,6 @@ import {
   FileText,
   Building
 } from 'lucide-react'
-import { Card } from '@/components/ui/card'
 
 export const onboardingSteps = [
   {
@@ -50,21 +50,21 @@ export const onboardingSteps = [
     content: (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="p-4 text-center">
+          <CorporateCard className="p-4 text-center">
             <BarChart3 className="w-8 h-8 text-blue-600 mx-auto mb-2" />
             <h4 className="font-semibold text-gray-900">İstatistikler</h4>
             <p className="text-sm text-gray-600">Güncel veriler ve grafikler</p>
-          </Card>
-          <Card className="p-4 text-center">
+          </CorporateCard>
+          <CorporateCard className="p-4 text-center">
             <MessageSquare className="w-8 h-8 text-green-600 mx-auto mb-2" />
             <h4 className="font-semibold text-gray-900">Aktiviteler</h4>
             <p className="text-sm text-gray-600">Son aktiviteler ve bildirimler</p>
-          </Card>
-          <Card className="p-4 text-center">
+          </CorporateCard>
+          <CorporateCard className="p-4 text-center">
             <CheckSquare className="w-8 h-8 text-purple-600 mx-auto mb-2" />
             <h4 className="font-semibold text-gray-900">Görevler</h4>
             <p className="text-sm text-gray-600">Bekleyen görevler ve öncelikler</p>
-          </Card>
+          </CorporateCard>
         </div>
         <div className="bg-blue-50 p-4 rounded-lg">
           <p className="text-sm text-blue-800">
@@ -141,7 +141,7 @@ export const onboardingSteps = [
       <div className="space-y-4">
         <div className="bg-gray-50 p-4 rounded-lg">
           <h4 className="font-semibold text-gray-900 mb-2">Sol Menü</h4>
-          <ul className="space-y-2 text-sm">
+          <ul className="space-y-6-group text-sm">
             <li className="flex items-center space-x-2">
               <Home className="w-4 h-4 text-blue-600" />
               <span>Dashboard - Ana sayfa</span>
@@ -162,7 +162,7 @@ export const onboardingSteps = [
         </div>
         <div className="bg-blue-50 p-4 rounded-lg">
           <h4 className="font-semibold text-gray-900 mb-2">Üst Menü</h4>
-          <ul className="space-y-2 text-sm">
+          <ul className="space-y-6-group text-sm">
             <li>🔍 <strong>Arama</strong> - Hızlı arama yapın</li>
             <li>🔔 <strong>Bildirimler</strong> - Yeni mesajlar ve uyarılar</li>
             <li>👤 <strong>Profil</strong> - Hesap ayarları</li>
@@ -182,12 +182,12 @@ export const onboardingSteps = [
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg">
           <h4 className="font-semibold text-gray-900 mb-2">AI Asistan Özellikleri</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <p className="text-sm"><strong>💬 Doğal Dil:</strong> Türkçe konuşun</p>
               <p className="text-sm"><strong>🎯 Hızlı İşlemler:</strong> Komutlarla işlem yapın</p>
               <p className="text-sm"><strong>📊 Raporlar:</strong> Otomatik rapor oluşturun</p>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <p className="text-sm"><strong>🔍 Arama:</strong> Akıllı arama yapın</p>
               <p className="text-sm"><strong>📈 Analiz:</strong> Veri analizi yapın</p>
               <p className="text-sm"><strong>⚡ Otomasyon:</strong> Tekrarlayan işlemler</p>
@@ -196,7 +196,7 @@ export const onboardingSteps = [
         </div>
         <div className="bg-yellow-50 p-4 rounded-lg">
           <h4 className="font-semibold text-gray-900 mb-2">Örnek Komutlar</h4>
-          <div className="space-y-2 text-sm">
+          <div className="space-y-6-group text-sm">
             <p>&quot;<strong>Hak sahibi listele</strong>&quot; - Tüm ihtiyaç sahiplerini göster</p>
             <p>&quot;<strong>Yeni bağış ekle: 1000 TL</strong>&quot; - Bağış kaydı oluştur</p>
             <p>&quot;<strong>Bu ay bağış raporu al</strong>&quot; - Aylık rapor oluştur</p>
@@ -216,7 +216,7 @@ export const onboardingSteps = [
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-3">
             <h4 className="font-semibold text-gray-900">Kullanıcı Rolleri</h4>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <div className="flex items-center justify-between p-2 bg-red-50 rounded">
                 <span className="text-sm font-medium">Super Admin</span>
                 <span className="text-xs text-red-600">Tam yetki</span>
@@ -245,7 +245,7 @@ export const onboardingSteps = [
           </div>
           <div className="space-y-3">
             <h4 className="font-semibold text-gray-900">Güvenlik Özellikleri</h4>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-6-group text-sm">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span>JWT tabanlı kimlik doğrulama</span>

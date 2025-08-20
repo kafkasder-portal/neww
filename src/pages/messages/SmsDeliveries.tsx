@@ -186,10 +186,10 @@ export default function SmsDeliveries() {
 
   const getStatusBadge = (status: string) => {
     const colors = {
-      sent: 'bg-blue-100 text-blue-800',
-      delivered: 'bg-green-100 text-green-800',
-      failed: 'bg-red-100 text-red-800',
-      pending: 'bg-yellow-100 text-yellow-800'
+      sent: 'bg-blue-100 text-blue-800 border-blue-200',
+      delivered: 'bg-green-100 text-green-800 border-green-200',
+      failed: 'bg-red-100 text-red-800 border-red-200',
+      pending: 'bg-yellow-100 text-yellow-800 border-yellow-200'
     }
     const labels = {
       sent: 'Gönderildi',
@@ -332,7 +332,7 @@ export default function SmsDeliveries() {
       </div>
 
       {/* Filtreler */}
-      <div className="bg-white p-4 rounded-lg border space-y-4">
+      <div className="bg-white p-4 border rounded-lg space-y-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-gray-400" />
           <input
@@ -346,7 +346,7 @@ export default function SmsDeliveries() {
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-gray-400" />
-            <span className="text-sm font-medium text-gray-700">Filtreler:</span>
+            <span className="space-y-6-label">Filtreler:</span>
           </div>
           
           <select
@@ -388,7 +388,7 @@ export default function SmsDeliveries() {
 
       {/* İstatistikler */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <Smartphone className="h-5 w-5 text-blue-500" />
             <div>
@@ -398,7 +398,7 @@ export default function SmsDeliveries() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <CheckCircle className="h-5 w-5 text-green-500" />
             <div>
@@ -408,7 +408,7 @@ export default function SmsDeliveries() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <XCircle className="h-5 w-5 text-red-500" />
             <div>
@@ -418,7 +418,7 @@ export default function SmsDeliveries() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-purple-500" />
             <div>
@@ -428,7 +428,7 @@ export default function SmsDeliveries() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <Calendar className="h-5 w-5 text-orange-500" />
             <div>
@@ -454,56 +454,56 @@ export default function SmsDeliveries() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">SMS ID</label>
+                <label className="block space-y-6-label mb-1">SMS ID</label>
                 <p className="text-sm text-gray-900 font-mono">{selectedDelivery.id}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Durum</label>
+                <label className="block space-y-6-label mb-1">Durum</label>
                 <div className="flex items-center gap-2">
                   {getStatusIcon(selectedDelivery.status)}
                   {getStatusBadge(selectedDelivery.status)}
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Alıcı</label>
+                <label className="block space-y-6-label mb-1">Alıcı</label>
                 <p className="text-sm text-gray-900">{selectedDelivery.recipient}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Telefon</label>
+                <label className="block space-y-6-label mb-1">Telefon</label>
                 <p className="text-sm text-gray-900">{selectedDelivery.phone}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Operatör</label>
+                <label className="block space-y-6-label mb-1">Operatör</label>
                 <p className="text-sm text-gray-900">{selectedDelivery.provider}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Maliyet</label>
+                <label className="block space-y-6-label mb-1">Maliyet</label>
                 <p className="text-sm text-gray-900">₺{selectedDelivery.cost.toFixed(2)}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Gönderim Zamanı</label>
+                <label className="block space-y-6-label mb-1">Gönderim Zamanı</label>
                 <p className="text-sm text-gray-900">{selectedDelivery.sentAt}</p>
               </div>
               {selectedDelivery.deliveredAt && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Teslim Zamanı</label>
+                  <label className="block space-y-6-label mb-1">Teslim Zamanı</label>
                   <p className="text-sm text-gray-900">{selectedDelivery.deliveredAt}</p>
                 </div>
               )}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Mesaj Uzunluğu</label>
+                <label className="block space-y-6-label mb-1">Mesaj Uzunluğu</label>
                 <p className="text-sm text-gray-900">{selectedDelivery.messageLength} karakter ({selectedDelivery.parts} parça)</p>
               </div>
               {selectedDelivery.campaignName && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Kampanya</label>
+                  <label className="block space-y-6-label mb-1">Kampanya</label>
                   <p className="text-sm text-gray-900">{selectedDelivery.campaignName}</p>
                 </div>
               )}
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Mesaj İçeriği</label>
+              <label className="block space-y-6-label mb-2">Mesaj İçeriği</label>
               <div className="bg-gray-50 p-3 rounded border">
                 <p className="text-sm text-gray-900 whitespace-pre-wrap">{selectedDelivery.content}</p>
               </div>
@@ -511,7 +511,7 @@ export default function SmsDeliveries() {
             
             {selectedDelivery.failureReason && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Hata Nedeni</label>
+                <label className="block space-y-6-label mb-2">Hata Nedeni</label>
                 <div className="bg-red-50 p-3 rounded border border-red-200">
                   <p className="text-sm text-red-800">{selectedDelivery.failureReason}</p>
                 </div>

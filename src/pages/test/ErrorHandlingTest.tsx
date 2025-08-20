@@ -1,6 +1,6 @@
 import React from 'react'
 import { toast } from 'sonner'
-import { getErrorMessage, createOperationErrorMessage, logErrorSafely, isNetworkError, isAuthError } from '../../utils/errorMessageUtils'
+import { getErrorMessage, createOperationErrorMessage, logErrorSafely, isNetworkError, isAuthError } from '@utils/errorMessageUtils'
 
 const ErrorHandlingTest: React.FC = () => {
   const testErrorMessages = () => {
@@ -95,7 +95,7 @@ const ErrorHandlingTest: React.FC = () => {
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 bg-card rounded-lg border max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Error Handling Test Page</h1>
       
       <div className="space-y-4">

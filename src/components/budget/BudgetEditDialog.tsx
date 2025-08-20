@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
+import { CardDescription } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -454,19 +455,19 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
               )}
 
               {/* Current Status */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Mevcut Durum</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
+              <CorporateCard>
+                <CorporateCardHeader>
+                  <CorporateCardTitle className="text-base">Mevcut Durum</CorporateCardTitle>
+                </CorporateCardHeader>
+                <CorporateCardContent className="space-y-6-group">
                   <div className="flex justify-between text-sm">
                     <span>Durum:</span>
-                    <Badge variant={budget.status === 'approved' ? 'default' : 'secondary'}>
+                    <CorporateBadge variant={budget.status === 'approved' ? 'default' : 'secondary'}>
                       {budget.status === 'draft' && 'Taslak'}
                       {budget.status === 'pending_approval' && 'Onay Bekliyor'}
                       {budget.status === 'approved' && 'Onaylandı'}
                       {budget.status === 'rejected' && 'Reddedildi'}
-                    </Badge>
+                    </CorporateBadge>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Son Güncelleme:</span>
@@ -476,8 +477,8 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
                     <span>Revizyon Sayısı:</span>
                     <span>{budgetRevisions.length}</span>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
           </TabsContent>
 
@@ -485,10 +486,10 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
           <TabsContent value="categories" className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Bütçe Kategorileri</h3>
-              <Button onClick={addCategory} size="sm">
+              <CorporateButton onClick={addCategory} size="sm">
                 <Plus className="h-4 w-4 mr-2" />
                 Kategori Ekle
-              </Button>
+              </CorporateButton>
             </div>
 
             {errors.categories && (
@@ -500,22 +501,22 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
 
             <div className="space-y-4">
               {formData.categories.map((category, categoryIndex) => (
-                <Card key={categoryIndex}>
-                  <CardHeader>
+                <CorporateCard key={categoryIndex}>
+                  <CorporateCardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-base">
+                      <CorporateCardTitle className="text-base">
                         {category.categoryName || `Kategori ${categoryIndex + 1}`}
-                      </CardTitle>
-                      <Button
+                      </CorporateCardTitle>
+                      <CorporateButton
                         variant="outline"
                         size="sm"
                         onClick={() => removeCategory(categoryIndex)}
                       >
                         <Trash2 className="h-4 w-4" />
-                      </Button>
+                      </CorporateButton>
                     </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
+                  </CorporateCardHeader>
+                  <CorporateCardContent className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="grid gap-2">
                         <Label>Kategori Adı *</Label>
@@ -581,7 +582,7 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
 
                     {/* Subcategories */}
                     {category.subcategories && category.subcategories.length > 0 && (
-                      <div className="space-y-2">
+                      <div className="space-y-6-group">
                         <Label>Alt Kategoriler</Label>
                         {category.subcategories.map((subcategory, subIndex) => (
                           <div key={subIndex} className="flex items-center gap-2 p-2 border rounded">
@@ -604,28 +605,28 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
                               placeholder="Tutar"
                               className="w-32"
                             />
-                            <Button
+                            <CorporateButton
                               variant="outline"
                               size="sm"
                               onClick={() => removeSubcategory(categoryIndex, subIndex)}
                             >
                               <Trash2 className="h-4 w-4" />
-                            </Button>
+                            </CorporateButton>
                           </div>
                         ))}
                       </div>
                     )}
 
-                    <Button
+                    <CorporateButton
                       variant="outline"
                       size="sm"
                       onClick={() => addSubcategory(categoryIndex)}
                     >
                       <Plus className="h-4 w-4 mr-2" />
                       Alt Kategori Ekle
-                    </Button>
-                  </CardContent>
-                </Card>
+                    </CorporateButton>
+                  </CorporateCardContent>
+                </CorporateCard>
               ))}
             </div>
           </TabsContent>
@@ -636,8 +637,8 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
               <h3 className="text-lg font-semibold">Revizyon Geçmişi</h3>
               
               {budgetRevisions.length === 0 ? (
-                <Card>
-                  <CardContent className="pt-6">
+                <CorporateCard>
+                  <CorporateCardContent className="pt-6">
                     <div className="text-center py-8">
                       <History className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                       <h3 className="text-lg font-semibold mb-2">Henüz revizyon yok</h3>
@@ -645,26 +646,26 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
                         Bu bütçe için henüz revizyon yapılmamış.
                       </p>
                     </div>
-                  </CardContent>
-                </Card>
+                  </CorporateCardContent>
+                </CorporateCard>
               ) : (
                 <div className="space-y-3">
                   {budgetRevisions.map((revision) => (
-                    <Card key={revision.id}>
-                      <CardHeader>
+                    <CorporateCard key={revision.id}>
+                      <CorporateCardHeader>
                         <div className="flex items-center justify-between">
-                          <CardTitle className="text-base">
+                          <CorporateCardTitle className="text-base">
                             Revizyon #{revision.revisionNumber}
-                          </CardTitle>
-                          <Badge variant="outline">
+                          </CorporateCardTitle>
+                          <CorporateBadge variant="outline">
                             {new Date(revision.revisedAt).toLocaleDateString('tr-TR')}
-                          </Badge>
+                          </CorporateBadge>
                         </div>
                         <CardDescription>
                           {revision.revisionNote}
                         </CardDescription>
-                      </CardHeader>
-                      <CardContent>
+                      </CorporateCardHeader>
+                      <CorporateCardContent>
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
                             <p className="font-medium">Değişiklikler:</p>
@@ -690,8 +691,8 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
                             </p>
                           </div>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </CorporateCardContent>
+                    </CorporateCard>
                   ))}
                 </div>
               )}
@@ -701,18 +702,18 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
           {/* Summary Tab */}
           <TabsContent value="summary" className="space-y-4">
             <div className="grid gap-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Bütçe Karşılaştırması</CardTitle>
+              <CorporateCard>
+                <CorporateCardHeader>
+                  <CorporateCardTitle>Bütçe Karşılaştırması</CorporateCardTitle>
                   <CardDescription>
                     Mevcut bütçe ile önerilen değişiklikler
                   </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                </CorporateCardHeader>
+                <CorporateCardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-3">
                       <h4 className="font-semibold">Mevcut Bütçe</h4>
-                      <div className="space-y-2">
+                      <div className="space-y-6-group">
                         <div className="flex justify-between text-sm">
                           <span>Toplam Gelir:</span>
                           <span className="font-medium text-green-600">
@@ -736,7 +737,7 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
 
                     <div className="space-y-3">
                       <h4 className="font-semibold">Yeni Bütçe</h4>
-                      <div className="space-y-2">
+                      <div className="space-y-6-group">
                         <div className="flex justify-between text-sm">
                           <span>Toplam Gelir:</span>
                           <span className="font-medium text-green-600">
@@ -788,8 +789,8 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
                       </AlertDescription>
                     </Alert>
                   )}
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
           </TabsContent>
         </Tabs>
@@ -802,13 +803,13 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
+          <CorporateButton variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
             İptal
-          </Button>
-          <Button onClick={handleSubmit} disabled={loading || !hasChanges}>
+          </CorporateButton>
+          <CorporateButton onClick={handleSubmit} disabled={loading || !hasChanges}>
             <Save className="h-4 w-4 mr-2" />
             {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
-          </Button>
+          </CorporateButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -7,13 +7,14 @@ import {
   Users,
   Settings
 } from 'lucide-react'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { useAuthStore } from '@store/auth'
 import { realtimeService } from '@services/realtimeService'
 import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
+import { CorporateCard, CorporateButton, CorporateBadge } from '@/components/ui/corporate/CorporateComponents'
 
 interface ActivityItem {
   id: string
@@ -247,14 +248,14 @@ export function RealtimeActivityFeed({
 
   if (loading) {
     return (
-      <Card className={`p-6 ${className}`}>
+      <CorporateCard className={`p-6 bg-card rounded-lg border ${className}`}>
         <div className="animate-pulse space-y-4">
           <div className="h-6 bg-gray-200 rounded w-1/3"></div>
           <div className="space-y-3">
             {[1, 2, 3, 4, 5].map(i => (
               <div key={i} className="flex gap-3">
                 <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
-                <div className="flex-1 space-y-2">
+                <div className="flex-1 space-y-6-group">
                   <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                   <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                 </div>
@@ -262,12 +263,12 @@ export function RealtimeActivityFeed({
             ))}
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     )
   }
 
   return (
-    <Card className={`p-6 ${className}`}>
+    <CorporateCard className={`p-6 bg-card rounded-lg border ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -284,41 +285,41 @@ export function RealtimeActivityFeed({
       {/* Filters */}
       {showFilters && (
         <div className="flex items-center gap-2 mb-4 overflow-x-auto">
-          <Button
+          <CorporateButton
             size="sm"
             variant={filter === 'all' ? 'default' : 'outline'}
             onClick={() => setFilter('all')}
           >
             Tümü
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             size="sm"
             variant={filter === 'task' ? 'default' : 'outline'}
             onClick={() => setFilter('task')}
           >
             Görevler
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             size="sm"
             variant={filter === 'meeting' ? 'default' : 'outline'}
             onClick={() => setFilter('meeting')}
           >
             Toplantılar
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             size="sm"
             variant={filter === 'message' ? 'default' : 'outline'}
             onClick={() => setFilter('message')}
           >
             Mesajlar
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             size="sm"
             variant={filter === 'system' ? 'default' : 'outline'}
             onClick={() => setFilter('system')}
           >
             Sistem
-          </Button>
+          </CorporateButton>
         </div>
       )}
 
@@ -350,9 +351,9 @@ export function RealtimeActivityFeed({
                     <h4 className="font-medium text-gray-900 truncate">
                       {activity.title}
                     </h4>
-                    <Badge variant="outline" className="text-xs">
+                    <CorporateBadge variant="outline" className="text-xs">
                       {activity.category}
-                    </Badge>
+                    </CorporateBadge>
                   </div>
                   
                   <p className="text-sm text-gray-600 mb-2 line-clamp-2">
@@ -384,12 +385,12 @@ export function RealtimeActivityFeed({
       {/* Footer */}
       {filteredActivities.length > 0 && (
         <div className="mt-4 pt-4 border-t">
-          <Button variant="outline" size="sm" className="w-full">
+          <CorporateButton variant="outline" size="sm" className="w-full">
             Tüm aktiviteleri görüntüle
-          </Button>
+          </CorporateButton>
         </div>
       )}
-    </Card>
+    </CorporateCard>
   )
 }
 

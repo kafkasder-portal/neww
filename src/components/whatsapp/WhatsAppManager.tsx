@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CorporateButton, CorporateBadge, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
+
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select' // Kullanılmıyor
-import { Badge } from '@/components/ui/badge'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
   Send, 
@@ -23,7 +23,6 @@ export const WhatsAppManager: React.FC = () => {
   const [activeTab, setActiveTab] = useState('connection')
   const [connectionStatus, setConnectionStatus] = useState({ isReady: false, isConnected: false })
 
-  
   // Mesaj gönderme
   const [recipient, setRecipient] = useState('')
   const [messageContent, setMessageContent] = useState('')
@@ -122,17 +121,17 @@ export const WhatsAppManager: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Bağlantı Durumu */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className={`w-3 h-3 rounded-full ${connectionStatus.isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
             <h2 className="text-xl font-semibold">WhatsApp Bağlantısı</h2>
-            <Badge variant={connectionStatus.isReady ? 'default' : 'secondary'}>
+            <CorporateBadge variant={connectionStatus.isReady ? 'default' : 'secondary'}>
               {connectionStatus.isReady ? 'Bağlı' : 'Bağlantı Yok'}
-            </Badge>
+            </CorporateBadge>
           </div>
           <div className="flex space-x-2">
-            <Button
+            <CorporateButton
               variant="outline"
               size="sm"
               onClick={handleConnect}
@@ -140,8 +139,8 @@ export const WhatsAppManager: React.FC = () => {
             >
               <Wifi className="w-4 h-4 mr-1" />
               Bağlan
-            </Button>
-            <Button
+            </CorporateButton>
+            <CorporateButton
               variant="outline"
               size="sm"
               onClick={handleDisconnect}
@@ -149,18 +148,18 @@ export const WhatsAppManager: React.FC = () => {
             >
               <WifiOff className="w-4 h-4 mr-1" />
               Bağlantıyı Kes
-            </Button>
-            <Button
+            </CorporateButton>
+            <CorporateButton
               variant="outline"
               size="sm"
               onClick={loadData}
             >
               <RefreshCw className="w-4 h-4 mr-1" />
               Yenile
-            </Button>
+            </CorporateButton>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Ana İçerik */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -175,18 +174,18 @@ export const WhatsAppManager: React.FC = () => {
 
         {/* Bağlantı Sekmesi */}
         <TabsContent value="connection" className="space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">QR Kod Tarama</h3>
             <div className="text-center py-8">
               <QrCode className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-600">QR kod bekleniyor...</p>
             </div>
-          </Card>
+          </CorporateCard>
         </TabsContent>
 
         {/* Mesaj Gönderme Sekmesi */}
         <TabsContent value="send" className="space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">Mesaj Gönder</h3>
             <div className="space-y-4">
               <div>
@@ -206,63 +205,63 @@ export const WhatsAppManager: React.FC = () => {
                   rows={4}
                 />
               </div>
-              <Button
+              <CorporateButton
                 onClick={handleSendMessage}
                 disabled={isSending || !recipient || !messageContent}
                 className="w-full"
               >
                 <Send className="w-4 h-4 mr-2" />
                 {isSending ? 'Gönderiliyor...' : 'Gönder'}
-              </Button>
+              </CorporateButton>
             </div>
-          </Card>
+          </CorporateCard>
         </TabsContent>
 
         {/* Şablonlar Sekmesi */}
         <TabsContent value="templates" className="space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Mesaj Şablonları</h3>
-              <Button size="sm">
+              <CorporateButton size="sm">
                 <Plus className="w-4 h-4 mr-1" />
                 Yeni Şablon
-              </Button>
+              </CorporateButton>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {templates.map((template) => (
-                <Card key={template.id} className="p-4">
+                <CorporateCard key={template.id} className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium">{template.name}</h4>
-                    <Badge variant={template.isActive ? 'default' : 'secondary'}>
+                    <CorporateBadge variant={template.isActive ? 'default' : 'secondary'}>
                       {template.isActive ? 'Aktif' : 'Pasif'}
-                    </Badge>
+                    </CorporateBadge>
                   </div>
                   <p className="text-sm text-gray-600 mb-2">{template.content}</p>
                   <div className="flex items-center justify-between">
-                    <Badge variant="outline">{template.category}</Badge>
+                    <CorporateBadge variant="outline">{template.category}</CorporateBadge>
                     <div className="flex space-x-1">
-                      <Button size="sm" variant="ghost">
+                      <CorporateButton size="sm" variant="ghost">
                         <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button size="sm" variant="ghost">
+                      </CorporateButton>
+                      <CorporateButton size="sm" variant="ghost">
                         <Trash2 className="w-4 h-4" />
-                      </Button>
+                      </CorporateButton>
                     </div>
                   </div>
-                </Card>
+                </CorporateCard>
               ))}
             </div>
-          </Card>
+          </CorporateCard>
         </TabsContent>
 
         {/* Zamanlanmış Mesajlar Sekmesi */}
         <TabsContent value="scheduled" className="space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">Zamanlanmış Mesajlar</h3>
             <div className="space-y-4">
               {scheduledMessages.map((message) => (
-                <Card key={message.id} className="p-4">
+                <CorporateCard key={message.id} className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium">{formatPhoneNumber(message.to)}</p>
@@ -271,56 +270,56 @@ export const WhatsAppManager: React.FC = () => {
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Badge variant={
+                      <CorporateBadge variant={
                         message.status === 'pending' ? 'default' :
                         message.status === 'sent' ? 'secondary' :
                         'destructive'
                       }>
                         {message.status}
-                      </Badge>
+                      </CorporateBadge>
                       {message.status === 'pending' && (
-                        <Button size="sm" variant="ghost" onClick={() => handleCancelScheduled(message.id)}>
+                        <CorporateButton size="sm" variant="ghost" onClick={() => handleCancelScheduled(message.id)}>
                           <Trash2 className="w-4 h-4" />
-                        </Button>
+                        </CorporateButton>
                       )}
                     </div>
                   </div>
-                </Card>
+                </CorporateCard>
               ))}
             </div>
-          </Card>
+          </CorporateCard>
         </TabsContent>
 
         {/* Mesaj Geçmişi Sekmesi */}
         <TabsContent value="history" className="space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">Mesaj Geçmişi</h3>
-            <div className="space-y-2 max-h-96 overflow-y-auto">
+            <div className="space-y-6-group max-h-96 overflow-y-auto">
               {messageHistory.map((message) => (
-                <Card key={message.id} className="p-3">
+                <CorporateCard key={message.id} className="p-3">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium">{formatPhoneNumber(message.from)}</p>
                       <p className="text-sm text-gray-600">{message.body}</p>
                       <p className="text-xs text-gray-500">{formatDate(message.timestamp)}</p>
                     </div>
-                    <Badge variant={
+                    <CorporateBadge variant={
                       message.status === 'sent' ? 'default' :
                       message.status === 'delivered' ? 'secondary' :
                       'destructive'
                     }>
                       {message.status}
-                    </Badge>
+                    </CorporateBadge>
                   </div>
-                </Card>
+                </CorporateCard>
               ))}
             </div>
-          </Card>
+          </CorporateCard>
         </TabsContent>
 
         {/* İstatistikler Sekmesi */}
         <TabsContent value="stats" className="space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">İstatistikler</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
@@ -340,7 +339,7 @@ export const WhatsAppManager: React.FC = () => {
                 <div className="text-sm text-gray-600">Başarısız</div>
               </div>
             </div>
-          </Card>
+          </CorporateCard>
         </TabsContent>
       </Tabs>
     </div>

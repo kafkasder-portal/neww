@@ -162,7 +162,7 @@ export default function FundRegions() {
       {/* Add Region Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-md rounded-lg bg-white p-6">
+          <div className="w-full max-w-md rounded-lg bg-white p-6 bg-card rounded-lg border">
             <h2 className="mb-4 text-lg font-semibold">Yeni Bölge Ekle</h2>
             <form className="space-y-4">
               <div>

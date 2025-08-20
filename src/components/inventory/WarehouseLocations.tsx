@@ -1,6 +1,5 @@
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+
+
 import {
   Dialog,
   DialogContent,
@@ -46,6 +45,7 @@ import {
   XCircle
 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { CorporateBadge, CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle, CorporateTable } from '@/components/ui/corporate/CorporateComponents'
 
 interface WarehouseLocationsProps {
   onLocationCreate?: (location: WarehouseLocationForm) => void
@@ -388,9 +388,9 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={onSubmit}>
+          <CorporateButton type="submit" onClick={onSubmit}>
             {title.includes('Düzenle') ? 'Güncelle' : 'Oluştur'}
-          </Button>
+          </CorporateButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -399,24 +399,24 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle className="flex items-center justify-between">
             <span className="flex items-center gap-2">
               <MapPin className="h-5 w-5" />
               Depo Lokasyonları
             </span>
             <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
               <DialogTrigger asChild>
-                <Button>
+                <CorporateButton>
                   <Plus className="h-4 w-4 mr-2" />
                   Yeni Lokasyon
-                </Button>
+                </CorporateButton>
               </DialogTrigger>
             </Dialog>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </CorporateCardTitle>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Arama */}
             <div className="relative">
@@ -468,8 +468,8 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
               </SelectContent>
             </Select>
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Results Summary */}
       <div className="flex justify-between items-center">
@@ -479,27 +479,27 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
       </div>
 
       {/* Locations Table */}
-      <Card>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Lokasyon</TableHead>
-                <TableHead>Tür</TableHead>
-                <TableHead>Kapasite</TableHead>
-                <TableHead>Doluluk</TableHead>
-                <TableHead>Adres</TableHead>
-                <TableHead>QR/Barkod</TableHead>
-                <TableHead>Durum</TableHead>
-                <TableHead>İşlemler</TableHead>
-              </TableRow>
-            </TableHeader>
+      <CorporateCard>
+        <CorporateCardContent className="p-0">
+          <CorporateTable>
+            <CorporateTableHeader>
+              <CorporateTableRow>
+                <CorporateTableHeaderCell>Lokasyon</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Tür</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Kapasite</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Doluluk</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Adres</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>QR/Barkod</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>Durum</CorporateTableHeaderCell>
+                <CorporateTableHeaderCell>İşlemler</CorporateTableHeaderCell>
+              </CorporateTableRow>
+            </CorporateTableHeader>
             <TableBody>
               {filteredLocations.map((location) => {
                 const occupancyPercentage = getOccupancyPercentage(location)
                 return (
-                  <TableRow key={location.id}>
-                    <TableCell>
+                  <CorporateTableRow key={location.id}>
+                    <CorporateTableCell>
                       <div>
                         <div className="font-medium">{location.name}</div>
                         <div className="text-sm text-muted-foreground font-mono">
@@ -511,14 +511,14 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
                           </div>
                         )}
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="flex items-center gap-2">
                         {getLocationTypeIcon(location.type)}
                         <span>{getLocationTypeName(location.type)}</span>
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       {location.capacity ? (
                         <div className="text-sm">
                           <div className="font-medium">{location.capacity} birim</div>
@@ -531,8 +531,8 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
                       ) : (
                         <span className="text-muted-foreground">-</span>
                       )}
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       {location.capacity && location.currentOccupancy ? (
                         <div className="space-y-1">
                           <div className="flex items-center justify-between text-sm">
@@ -553,13 +553,13 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
                       ) : (
                         <span className="text-muted-foreground">-</span>
                       )}
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="text-sm">
                         {location.address || '-'}
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="space-y-1">
                         {location.qrCode && (
                           <div className="flex items-center gap-1 text-xs">
@@ -574,45 +574,45 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
                           </div>
                         )}
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="flex items-center gap-2">
                         {location.isActive ? (
                           <CheckCircle className="h-4 w-4 text-green-500" />
                         ) : (
                           <XCircle className="h-4 w-4 text-red-500" />
                         )}
-                        <Badge variant={location.isActive ? 'default' : 'secondary'}>
+                        <CorporateBadge variant={location.isActive ? 'default' : 'secondary'}>
                           {location.isActive ? 'Aktif' : 'Pasif'}
-                        </Badge>
+                        </CorporateBadge>
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </CorporateTableCell>
+                    <CorporateTableCell>
                       <div className="flex gap-1">
-                        <Button
+                        <CorporateButton
                           size="sm"
                           variant="outline"
                           onClick={() => handleEditLocation(location)}
                         >
                           <Edit className="h-3 w-3" />
-                        </Button>
-                        <Button
+                        </CorporateButton>
+                        <CorporateButton
                           size="sm"
                           variant="outline"
                           onClick={() => onLocationDelete?.(location.id)}
                         >
                           <Trash2 className="h-3 w-3" />
-                        </Button>
+                        </CorporateButton>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </CorporateTableCell>
+                  </CorporateTableRow>
                 )
               })}
             </TableBody>
-          </Table>
+          </CorporateTable>
 
           {filteredLocations.length === 0 && (
-            <div className="text-center py-12">
+            <div className="text-center py-8 text-muted-foreground">
               <MapPin className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
               <p className="text-muted-foreground mb-2">Lokasyon bulunamadı</p>
               <p className="text-sm text-muted-foreground mb-4">
@@ -620,8 +620,8 @@ const WarehouseLocations: React.FC<WarehouseLocationsProps> = ({
               </p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Create Dialog */}
       <LocationDialog

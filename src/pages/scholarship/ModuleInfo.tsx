@@ -1,5 +1,6 @@
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Info, 
   Book, 
@@ -60,7 +61,7 @@ export default function ScholarshipModuleInfo() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-gray-500 to-gray-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-gray-500 to-gray-600 rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <Info className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Burs Yönetimi Modülü</h1>
@@ -72,7 +73,7 @@ export default function ScholarshipModuleInfo() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Öğrenci</p>
@@ -80,8 +81,8 @@ export default function ScholarshipModuleInfo() {
             </div>
             <Users className="h-8 w-8 text-blue-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Kampanya</p>
@@ -89,8 +90,8 @@ export default function ScholarshipModuleInfo() {
             </div>
             <Star className="h-8 w-8 text-green-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aylık Ödeme</p>
@@ -98,8 +99,8 @@ export default function ScholarshipModuleInfo() {
             </div>
             <Calendar className="h-8 w-8 text-purple-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Başarı Oranı</p>
@@ -107,13 +108,13 @@ export default function ScholarshipModuleInfo() {
             </div>
             <BarChart3 className="h-8 w-8 text-orange-600" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 space-y-4">
         {/* Module Features */}
         <div className="lg:col-span-2 space-y-6">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <Settings className="h-5 w-5" />
               Modül Özellikleri
@@ -141,15 +142,15 @@ export default function ScholarshipModuleInfo() {
                 </div>
               ))}
             </div>
-          </Card>
+          </CorporateCard>
 
           {/* System Requirements */}
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <Book className="h-5 w-5" />
               Sistem Gereksinimleri
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2">
               <div>
                 <h3 className="font-medium mb-2">Minimum Gereksinimler</h3>
                 <ul className="space-y-1 text-sm text-muted-foreground">
@@ -171,12 +172,12 @@ export default function ScholarshipModuleInfo() {
                 </ul>
               </div>
             </div>
-          </Card>
+          </CorporateCard>
         </div>
 
         {/* Help Resources */}
         <div className="space-y-6">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <HelpCircle className="h-5 w-5" />
               Yardım Kaynakları
@@ -193,16 +194,16 @@ export default function ScholarshipModuleInfo() {
                       </p>
                     </div>
                   </div>
-                  <Button size="sm" variant="outline">
+                  <CorporateButton size="sm" variant="outline">
                     <Download className="h-4 w-4" />
-                  </Button>
+                  </CorporateButton>
                 </div>
               ))}
             </div>
-          </Card>
+          </CorporateCard>
 
           {/* Contact Support */}
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h2 className="text-lg font-semibold mb-4">Teknik Destek</h2>
             <div className="space-y-3">
               <div className="text-sm">
@@ -218,15 +219,15 @@ export default function ScholarshipModuleInfo() {
                 <p className="text-muted-foreground">Pazartesi - Cuma: 09:00 - 18:00</p>
               </div>
             </div>
-            <Button className="w-full mt-4">
+            <CorporateButton className="w-full mt-4">
               Destek Talebi Oluştur
-            </Button>
-          </Card>
+            </CorporateButton>
+          </CorporateCard>
 
           {/* Version Info */}
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h2 className="text-lg font-semibold mb-4">Sürüm Bilgileri</h2>
-            <div className="space-y-2 text-sm">
+            <div className="space-y-6-group text-sm">
               <div className="flex justify-between">
                 <span>Modül Sürümü:</span>
                 <span className="font-medium">v2.1.4</span>
@@ -244,7 +245,7 @@ export default function ScholarshipModuleInfo() {
                 <span className="text-green-600 font-medium">Aktif</span>
               </div>
             </div>
-          </Card>
+          </CorporateCard>
         </div>
       </div>
     </div>

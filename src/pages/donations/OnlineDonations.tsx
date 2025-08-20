@@ -339,12 +339,12 @@ function OnlineDonations() {
       key: 'platform',
       header: 'Platform',
       render: (_, row: OnlineDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${row.platform === 'Website' ? 'bg-blue-100 text-blue-800' :
-          row.platform === 'Mobile App' ? 'bg-green-100 text-green-800' :
-            row.platform === 'Facebook' ? 'bg-blue-100 text-blue-800' :
+        <span className={`px-2 py-1 rounded text-xs ${row.platform === 'Website' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+          row.platform === 'Mobile App' ? 'bg-green-100 text-green-800 border-green-200' :
+            row.platform === 'Facebook' ? 'bg-blue-100 text-blue-800 border-blue-200' :
               row.platform === 'Instagram' ? 'bg-pink-100 text-pink-800' :
-                row.platform === 'WhatsApp' ? 'bg-green-100 text-green-800' :
-                  'bg-gray-100 text-gray-800'
+                row.platform === 'WhatsApp' ? 'bg-green-100 text-green-800 border-green-200' :
+                  'bg-gray-100 text-gray-800 border-gray-200'
           }`}>
           {row.platform}
         </span>
@@ -360,7 +360,7 @@ function OnlineDonations() {
       key: 'isRecurring',
       header: 'Düzenli',
       render: (_, row: OnlineDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${row.isRecurring ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+        <span className={`px-2 py-1 rounded text-xs ${row.isRecurring ? 'bg-green-100 text-green-800 border-green-200' : 'bg-gray-100 text-gray-800 border-gray-200'
           }`}>
           {row.isRecurring ? `Evet (${row.recurringPeriod})` : 'Hayır'}
         </span>
@@ -372,10 +372,10 @@ function OnlineDonations() {
       key: 'status',
       header: 'Durum',
       render: (_, row: OnlineDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${row.status === 'başarılı' ? 'bg-green-100 text-green-800' :
-          row.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-            row.status === 'başarısız' ? 'bg-red-100 text-red-800' :
-              row.status === 'iptal' ? 'bg-gray-100 text-gray-800' :
+        <span className={`px-2 py-1 rounded text-xs ${row.status === 'başarılı' ? 'bg-green-100 text-green-800 border-green-200' :
+          row.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+            row.status === 'başarısız' ? 'bg-red-100 text-red-800 border-red-200' :
+              row.status === 'iptal' ? 'bg-gray-100 text-gray-800 border-gray-200' :
                 'bg-orange-100 text-orange-800'
           }`}>
           {row.status}
@@ -614,7 +614,7 @@ function OnlineDonations() {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-4">
           <TotalDonationsCard
             title="Toplam Bağış"
             total={totalAmount}
@@ -641,7 +641,7 @@ function OnlineDonations() {
         </div>
 
         {/* Platform Distribution */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20">
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 bg-card rounded-lg border shadow-xl border border-white/20">
           <h3 className="text-xl font-semibold text-slate-800 mb-6 flex items-center gap-2">
             <Globe className="text-blue-600" size={24} />
             Platform Dağılımı
@@ -661,7 +661,7 @@ function OnlineDonations() {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20">
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 bg-card rounded-lg border shadow-xl border border-white/20">
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 mb-6">
             <button
               onClick={() => setAdvancedSearchOpen(true)}
@@ -673,7 +673,7 @@ function OnlineDonations() {
               <Filter size={16} />
               Gelişmiş Filtre
               {Object.keys(activeFilters).length > 0 && (
-                <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                <span className="bg-blue-100 text-blue-800 border-blue-200 text-xs px-2 py-1 rounded-full">
                   {Object.keys(activeFilters).length}
                 </span>
               )}
@@ -938,7 +938,7 @@ function OnlineDonations() {
           {/* Platform İstatistikleri */}
           <div>
             <h3 className="text-lg font-medium mb-3">Platform Performansı</h3>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               {platformStats.map((stat) => (
                 <div key={stat.platform} className="flex justify-between items-center p-3 bg-gray-50 rounded">
                   <span className="font-medium">{stat.platform}</span>
@@ -954,7 +954,7 @@ function OnlineDonations() {
           {/* Yönlendirme Kaynakları */}
           <div>
             <h3 className="text-lg font-medium mb-3">Yönlendirme Kaynakları</h3>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               {referralStats.map((stat) => (
                 <div key={stat.source} className="flex justify-between items-center p-3 bg-gray-50 rounded">
                   <span className="font-medium">{stat.source}</span>

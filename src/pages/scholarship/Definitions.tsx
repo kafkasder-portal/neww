@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import { CorporateButton, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Settings,
   Plus,
@@ -201,12 +202,12 @@ export default function ScholarshipDefinitions() {
             </td>
             <td className="p-3">
               <div className="flex gap-2">
-                <Button size="sm" variant="outline">
+                <CorporateButton size="sm" variant="outline">
                   <Edit className="h-4 w-4" />
-                </Button>
-                <Button size="sm" variant="destructive">
+                </CorporateButton>
+                <CorporateButton size="sm" variant="danger">
                   <Trash2 className="h-4 w-4" />
-                </Button>
+                </CorporateButton>
               </div>
             </td>
           </tr>
@@ -220,19 +221,19 @@ export default function ScholarshipDefinitions() {
             <td className="p-3">₺{item.maxAmount}</td>
             <td className="p-3">
               <span className={`px-2 py-1 rounded-full text-xs ${
-                item.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                item.isActive ? 'bg-green-100 text-green-800 border-green-200' : 'bg-gray-100 text-gray-800 border-gray-200'
               }`}>
                 {item.isActive ? 'Aktif' : 'Pasif'}
               </span>
             </td>
             <td className="p-3">
               <div className="flex gap-2">
-                <Button size="sm" variant="outline">
+                <CorporateButton size="sm" variant="outline">
                   <Edit className="h-4 w-4" />
-                </Button>
-                <Button size="sm" variant="destructive">
+                </CorporateButton>
+                <CorporateButton size="sm" variant="danger">
                   <Trash2 className="h-4 w-4" />
-                </Button>
+                </CorporateButton>
               </div>
             </td>
           </tr>
@@ -245,19 +246,19 @@ export default function ScholarshipDefinitions() {
             <td className="p-3">{item.frequency} kez</td>
             <td className="p-3">
               <span className={`px-2 py-1 rounded-full text-xs ${
-                item.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                item.isActive ? 'bg-green-100 text-green-800 border-green-200' : 'bg-gray-100 text-gray-800 border-gray-200'
               }`}>
                 {item.isActive ? 'Aktif' : 'Pasif'}
               </span>
             </td>
             <td className="p-3">
               <div className="flex gap-2">
-                <Button size="sm" variant="outline">
+                <CorporateButton size="sm" variant="outline">
                   <Edit className="h-4 w-4" />
-                </Button>
-                <Button size="sm" variant="destructive">
+                </CorporateButton>
+                <CorporateButton size="sm" variant="danger">
                   <Trash2 className="h-4 w-4" />
-                </Button>
+                </CorporateButton>
               </div>
             </td>
           </tr>
@@ -270,19 +271,19 @@ export default function ScholarshipDefinitions() {
             <td className="p-3">₺{item.budgetLimit}</td>
             <td className="p-3">
               <span className={`px-2 py-1 rounded-full text-xs ${
-                item.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                item.isActive ? 'bg-green-100 text-green-800 border-green-200' : 'bg-gray-100 text-gray-800 border-gray-200'
               }`}>
                 {item.isActive ? 'Aktif' : 'Pasif'}
               </span>
             </td>
             <td className="p-3">
               <div className="flex gap-2">
-                <Button size="sm" variant="outline">
+                <CorporateButton size="sm" variant="outline">
                   <Edit className="h-4 w-4" />
-                </Button>
-                <Button size="sm" variant="destructive">
+                </CorporateButton>
+                <CorporateButton size="sm" variant="danger">
                   <Trash2 className="h-4 w-4" />
-                </Button>
+                </CorporateButton>
               </div>
             </td>
           </tr>
@@ -295,7 +296,7 @@ export default function ScholarshipDefinitions() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <Settings className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Burs Tanımlamaları</h1>
@@ -307,7 +308,7 @@ export default function ScholarshipDefinitions() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Burs Türü</p>
@@ -315,8 +316,8 @@ export default function ScholarshipDefinitions() {
             </div>
             <Tag className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Eğitim Seviyesi</p>
@@ -324,8 +325,8 @@ export default function ScholarshipDefinitions() {
             </div>
             <GraduationCap className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Ödeme Planı</p>
@@ -333,8 +334,8 @@ export default function ScholarshipDefinitions() {
             </div>
             <Calendar className="h-8 w-8 text-brand-secondary" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Harcama Kategorisi</p>
@@ -342,11 +343,11 @@ export default function ScholarshipDefinitions() {
             </div>
             <DollarSign className="h-8 w-8 text-semantic-warning" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Tabs */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex flex-col space-y-6">
           {/* Tab Navigation */}
           <div className="flex space-x-1 bg-muted p-1 rounded-lg">
@@ -377,10 +378,10 @@ export default function ScholarshipDefinitions() {
                 className="pl-9 w-full md:w-80"
               />
             </div>
-            <Button className="gap-2">
+            <CorporateButton className="gap-2">
               <Plus className="h-4 w-4" />
               Yeni Ekle
-            </Button>
+            </CorporateButton>
           </div>
 
           {/* Table */}
@@ -401,7 +402,7 @@ export default function ScholarshipDefinitions() {
             </table>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

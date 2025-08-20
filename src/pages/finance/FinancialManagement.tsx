@@ -22,6 +22,7 @@ import {
   Target
 } from 'lucide-react'
 import { BudgetManagement } from '@/components/budget/BudgetManagement'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 export default function FinancialManagement() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'accounts' | 'journal' | 'reports' | 'budget' | 'grants'>('dashboard')
@@ -120,7 +121,7 @@ export default function FinancialManagement() {
     <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Toplam Varlıklar</p>
@@ -128,9 +129,9 @@ export default function FinancialManagement() {
             </div>
             <Building className="h-8 w-8 text-green-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Toplam Borçlar</p>
@@ -138,9 +139,9 @@ export default function FinancialManagement() {
             </div>
             <CreditCard className="h-8 w-8 text-red-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Aylık Gelir</p>
@@ -148,9 +149,9 @@ export default function FinancialManagement() {
             </div>
             <TrendingUp className="h-8 w-8 text-blue-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Net Gelir</p>
@@ -160,53 +161,53 @@ export default function FinancialManagement() {
             </div>
             <DollarSign className="h-8 w-8 text-purple-600" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Quick Actions */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4">Hızlı İşlemler</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Button 
+          <CorporateButton 
             onClick={() => setShowJournalModal(true)}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <Plus className="h-6 w-6 mb-2" />
             Yevmiye Kaydı
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             onClick={() => setActiveTab('reports')}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <FileText className="h-6 w-6 mb-2" />
             Mali Raporlar
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             onClick={() => setActiveTab('budget')}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <Target className="h-6 w-6 mb-2" />
             Bütçe Yönetimi
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             onClick={() => setShowGrantModal(true)}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <Receipt className="h-6 w-6 mb-2" />
             Hibe Kaydı
-          </Button>
+          </CorporateButton>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Recent Activity */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4">Son İşlemler</h3>
         <div className="space-y-3">
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
@@ -231,7 +232,7 @@ export default function FinancialManagement() {
             <span className="text-red-600 font-bold">-{formatCurrency(5000)}</span>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 
@@ -239,13 +240,13 @@ export default function FinancialManagement() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Hesap Planı</h2>
-        <Button onClick={() => setShowAccountModal(true)}>
+        <CorporateButton onClick={() => setShowAccountModal(true)}>
           <Plus className="h-4 w-4 mr-2" />
           Yeni Hesap
-        </Button>
+        </CorporateButton>
       </div>
 
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -264,9 +265,9 @@ export default function FinancialManagement() {
                   <td className="p-2">{account.accountNameTR}</td>
                   <td className="p-2">
                     <span className={`px-2 py-1 rounded text-xs ${
-                      account.accountType === 'varlık' ? 'bg-green-100 text-green-800' :
-                      account.accountType === 'borç' ? 'bg-red-100 text-red-800' :
-                      account.accountType === 'öz_kaynak' ? 'bg-blue-100 text-blue-800' :
+                      account.accountType === 'varlık' ? 'bg-green-100 text-green-800 border-green-200' :
+                      account.accountType === 'borç' ? 'bg-red-100 text-red-800 border-red-200' :
+                      account.accountType === 'öz_kaynak' ? 'bg-blue-100 text-blue-800 border-blue-200' :
                       account.accountType === 'gelir' ? 'bg-purple-100 text-purple-800' :
                       'bg-orange-100 text-orange-800'
                     }`}>
@@ -275,16 +276,16 @@ export default function FinancialManagement() {
                   </td>
                   <td className="p-2 font-mono">{formatCurrency(account.currentBalance)}</td>
                   <td className="p-2">
-                    <Button variant="outline" size="sm">
+                    <CorporateButton variant="outline" size="sm">
                       <Eye className="h-3 w-3" />
-                    </Button>
+                    </CorporateButton>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 
@@ -294,10 +295,10 @@ export default function FinancialManagement() {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Trial Balance */}
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Mizan</h3>
           <p className="text-sm text-gray-600 mb-4">Tüm hesapların borç/alacak durumu</p>
-          <Button 
+          <CorporateButton 
             onClick={() => {
               // Generate and download trial balance
               toast.success('Mizan raporu oluşturuluyor...')
@@ -306,14 +307,14 @@ export default function FinancialManagement() {
           >
             <Download className="h-4 w-4 mr-2" />
             İndir
-          </Button>
-        </Card>
+          </CorporateButton>
+        </CorporateCard>
 
         {/* Income Statement */}
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Gelir Gider Tablosu</h3>
           <p className="text-sm text-gray-600 mb-4">Belirli dönem gelir ve gider analizi</p>
-          <Button 
+          <CorporateButton 
             onClick={() => {
               toast.success('Gelir gider raporu oluşturuluyor...')
             }}
@@ -321,14 +322,14 @@ export default function FinancialManagement() {
           >
             <Download className="h-4 w-4 mr-2" />
             İndir
-          </Button>
-        </Card>
+          </CorporateButton>
+        </CorporateCard>
 
         {/* Balance Sheet */}
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Bilanço</h3>
           <p className="text-sm text-gray-600 mb-4">Finansal durum raporu</p>
-          <Button 
+          <CorporateButton 
             onClick={() => {
               toast.success('Bilanço raporu oluşturuluyor...')
             }}
@@ -336,13 +337,13 @@ export default function FinancialManagement() {
           >
             <Download className="h-4 w-4 mr-2" />
             İndir
-          </Button>
-        </Card>
+          </CorporateButton>
+        </CorporateCard>
       </div>
 
       {/* Quick Trial Balance Preview */}
       {trialBalance.length > 0 && (
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Mizan Özeti</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -375,7 +376,7 @@ export default function FinancialManagement() {
               ve {trialBalance.length - 10} hesap daha...
             </p>
           )}
-        </Card>
+        </CorporateCard>
       )}
     </div>
   )
@@ -399,10 +400,10 @@ export default function FinancialManagement() {
           <h1 className="text-2xl font-bold">Mali Yönetim</h1>
           <p className="text-gray-600">Muhasebe, bütçe ve finansal raporlama</p>
         </div>
-        <Button onClick={() => loadFinancialData()}>
+        <CorporateButton onClick={() => loadFinancialData()}>
           <Settings className="h-4 w-4 mr-2" />
           Yenile
-        </Button>
+        </CorporateButton>
       </div>
 
       {/* Tabs */}
@@ -437,14 +438,14 @@ export default function FinancialManagement() {
       {activeTab === 'accounts' && <AccountsTab />}
       {activeTab === 'reports' && <ReportsTab />}
       {activeTab === 'journal' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Yevmiye defteri modülü yakında...</p>
         </div>
       )}
       {activeTab === 'budget' && <BudgetManagement />}
       {activeTab === 'grants' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Receipt className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Hibe yönetimi modülü yakında...</p>
         </div>

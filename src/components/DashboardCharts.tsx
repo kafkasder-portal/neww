@@ -132,7 +132,7 @@ export const DashboardCharts = () => {
 
   if (data.loading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />
@@ -161,9 +161,9 @@ export const DashboardCharts = () => {
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
         {/* Donation Trend Chart */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Bağış Trendi</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -181,7 +181,7 @@ export const DashboardCharts = () => {
         </div>
 
         {/* Aid Distribution Chart */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Yardım Dağılımı</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -207,7 +207,7 @@ export const DashboardCharts = () => {
         </div>
 
         {/* Weekly Stats Chart */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Haftalık İstatistikler</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -225,7 +225,7 @@ export const DashboardCharts = () => {
         </div>
 
         {/* Regional Data Chart */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Bölgesel Veriler</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">

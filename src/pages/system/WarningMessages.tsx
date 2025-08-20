@@ -4,6 +4,7 @@ import type { Column } from '@components/DataTable'
 import { exportToCsv } from '@lib/exportToCsv'
 import { AlertTriangle, Trash2, RefreshCw, Search } from 'lucide-react'
 import { Button } from '@components/ui/button'
+import { CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface WarningMessage {
   id: string
@@ -197,9 +198,9 @@ export default function WarningMessages() {
       header: 'İşlemler',
       render: (record: WarningMessage) => (
         <div className="flex items-center justify-end gap-2">
-          <Button variant="soft-destructive" size="icon">
+          <CorporateButton variant="soft-destructive" size="icon">
             <Trash2 className="h-4 w-4" />
-          </Button>
+          </CorporateButton>
         </div>
       )
     }
@@ -209,20 +210,20 @@ export default function WarningMessages() {
     <div className="space-y-4">
       <div className="flex items-center gap-2 overflow-x-auto rounded border p-2">
         <div className="flex gap-2">
-          <Button
-            variant="destructive"
+          <CorporateButton
+            variant="danger"
             size="sm"
             startIcon={<Trash2 className="h-4 w-4" />}
           >
             Tümünü Sil
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             variant="soft-primary"
             size="sm"
             startIcon={<RefreshCw className="h-4 w-4" />}
           >
             Yenile
-          </Button>
+          </CorporateButton>
         </div>
         <select
           value={selectedSeverity}
@@ -250,20 +251,20 @@ export default function WarningMessages() {
           className="min-w-64 flex-1 rounded border px-2 py-1 text-sm"
           placeholder="Uyarı mesajı ara..."
         />
-        <Button
+        <CorporateButton
           variant="success"
           size="sm"
           startIcon={<Search className="h-4 w-4" />}
         >
           Ara
-        </Button>
-        <Button
+        </CorporateButton>
+        <CorporateButton
           variant='soft-primary'
           size='sm'
           onClick={() => exportToCsv('uyari-mesajlari.csv', filtered)}
         >
           İndir
-        </Button>
+        </CorporateButton>
         <div className="ml-auto text-sm text-muted-foreground">
           {totalWarnings} Kayıt
         </div>

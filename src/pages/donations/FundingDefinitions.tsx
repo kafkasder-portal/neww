@@ -197,13 +197,13 @@ export default function FundingDefinitions() {
       header: 'Kategori',
       render: (_, definition: FundingDefinition) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          definition.category === 'genel' ? 'bg-gray-100 text-gray-800' :
-          definition.category === 'eğitim' ? 'bg-blue-100 text-blue-800' :
-          definition.category === 'sağlık' ? 'bg-red-100 text-red-800' :
-          definition.category === 'gıda' ? 'bg-green-100 text-green-800' :
+          definition.category === 'genel' ? 'bg-gray-100 text-gray-800 border-gray-200' :
+          definition.category === 'eğitim' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+          definition.category === 'sağlık' ? 'bg-red-100 text-red-800 border-red-200' :
+          definition.category === 'gıda' ? 'bg-green-100 text-green-800 border-green-200' :
           definition.category === 'kurban' ? 'bg-purple-100 text-purple-800' :
-          definition.category === 'ramazan' ? 'bg-yellow-100 text-yellow-800' :
-          definition.category === 'acil' ? 'bg-red-100 text-red-800' :
+          definition.category === 'ramazan' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          definition.category === 'acil' ? 'bg-red-100 text-red-800 border-red-200' :
           'bg-indigo-100 text-indigo-800'
         }`}>
           {definition.category}
@@ -244,10 +244,10 @@ export default function FundingDefinitions() {
       header: 'Öncelik',
       render: (_, definition: FundingDefinition) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          definition.priority === 'kritik' ? 'bg-red-100 text-red-800' :
+          definition.priority === 'kritik' ? 'bg-red-100 text-red-800 border-red-200' :
           definition.priority === 'yüksek' ? 'bg-orange-100 text-orange-800' :
-          definition.priority === 'orta' ? 'bg-yellow-100 text-yellow-800' :
-          'bg-gray-100 text-gray-800'
+          definition.priority === 'orta' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+          'bg-gray-100 text-gray-800 border-gray-200'
         }`}>
           {definition.priority}
         </span>
@@ -260,7 +260,7 @@ export default function FundingDefinitions() {
       header: 'Durum',
       render: (_, definition: FundingDefinition) => (
         <span className={`px-2 py-1 rounded text-xs ${
-          definition.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+          definition.isActive ? 'bg-green-100 text-green-800 border-green-200' : 'bg-red-100 text-red-800 border-red-200'
         }`}>
           {definition.isActive ? 'Aktif' : 'Pasif'}
         </span>
@@ -412,12 +412,12 @@ export default function FundingDefinitions() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-white p-6 bg-card rounded-lg border rounded-lg shadow">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Fonlama Tanımları</h2>
           <button
             onClick={openAddModal}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
           >
             Yeni Fonlama Tanımı
           </button>
@@ -503,7 +503,7 @@ export default function FundingDefinitions() {
           />
           <button
             onClick={() => exportToCsv('fonlama-tanimlari.csv', filteredDefinitions)}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            className="bg-green-500 text-white hover:bg-green-600"
           >
             Excel İndir
           </button>

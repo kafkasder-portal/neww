@@ -1,9 +1,9 @@
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+
+
 import { InventoryItem } from '@/types/inventory'
 import { BarChart3, Copy, Eye, Package, QrCode } from 'lucide-react'
 import React, { useState } from 'react'
+import { CorporateBadge, CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import { BarcodeScanner } from './BarcodeScanner'
 import { InventoryQRScanner } from './InventoryQRScanner'
 import { QRCodeGenerator } from './QRCodeGenerator'
@@ -84,47 +84,47 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Ana Kontrol Paneli */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle className="flex items-center gap-2">
             <Package className="w-5 h-5" />
             QR Kod & Barkod Yönetimi
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </CorporateCardTitle>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* QR Kod Oluştur */}
-            <Button
+            <CorporateButton
               onClick={() => setShowQRGenerator(true)}
               className="h-20 flex flex-col items-center justify-center gap-2"
               variant="outline"
             >
               <QrCode className="w-6 h-6" />
               <span className="text-sm">QR Kod Oluştur</span>
-            </Button>
+            </CorporateButton>
 
             {/* QR Kod Tara */}
-            <Button
+            <CorporateButton
               onClick={() => setShowQRScanner(true)}
               className="h-20 flex flex-col items-center justify-center gap-2"
               variant="outline"
             >
               <QrCode className="w-6 h-6" />
               <span className="text-sm">QR Kod Tara</span>
-            </Button>
+            </CorporateButton>
 
             {/* Barkod Tara */}
-            <Button
+            <CorporateButton
               onClick={() => setShowBarcodeScanner(true)}
               className="h-20 flex flex-col items-center justify-center gap-2"
               variant="outline"
             >
               <BarChart3 className="w-6 h-6" />
               <span className="text-sm">Barkod Tara</span>
-            </Button>
+            </CorporateButton>
 
             {/* Geçmiş */}
-            <Button
+            <CorporateButton
               onClick={() => setSelectedCode(scannedCodes[0] || null)}
               className="h-20 flex flex-col items-center justify-center gap-2"
               variant="outline"
@@ -133,22 +133,22 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
               <Eye className="w-6 h-6" />
               <span className="text-sm">Tarama Geçmişi</span>
               {scannedCodes.length > 0 && (
-                <Badge variant="secondary" className="text-xs">
+                <CorporateBadge variant="outline" className="text-xs">
                   {scannedCodes.length}
-                </Badge>
+                </CorporateBadge>
               )}
-            </Button>
+            </CorporateButton>
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Mevcut Ürün Bilgisi */}
       {item && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Seçili Ürün</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle className="text-lg">Seçili Ürün</CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-medium">{item.name}</h3>
@@ -156,27 +156,27 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
                 <p className="text-sm text-gray-600">Kategori: {item.category}</p>
               </div>
               <div className="flex gap-2">
-                <Button
+                <CorporateButton
                   size="sm"
                   variant="outline"
                   onClick={() => setShowQRGenerator(true)}
                 >
                   <QrCode className="w-4 h-4 mr-1" />
                   QR Oluştur
-                </Button>
+                </CorporateButton>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       )}
 
       {/* Son Taramalar */}
       {scannedCodes.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Son Taramalar</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle className="text-lg">Son Taramalar</CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             <div className="space-y-3">
               {scannedCodes.slice(0, 5).map((scannedCode, index) => (
                 <div
@@ -207,33 +207,33 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
                     </div>
                   </div>
                   <div className="flex gap-1">
-                    <Button
+                    <CorporateButton
                       size="sm"
                       variant="ghost"
                       onClick={() => showCodeDetails(scannedCode)}
                     >
                       <Eye className="w-4 h-4" />
-                    </Button>
-                    <Button
+                    </CorporateButton>
+                    <CorporateButton
                       size="sm"
                       variant="ghost"
                       onClick={() => copyCode(scannedCode.code)}
                     >
                       <Copy className="w-4 h-4" />
-                    </Button>
+                    </CorporateButton>
                   </div>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       )}
 
       {/* Kod Detayları Modal */}
       {selectedCode && (
-        <Card className="border-2 border-blue-200">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
+        <CorporateCard className="border-2 border-blue-200">
+          <CorporateCardHeader>
+            <CorporateCardTitle className="flex items-center justify-between">
               <span className="flex items-center gap-2">
                 {selectedCode.type === 'qr' ? (
                   <QrCode className="w-5 h-5" />
@@ -242,16 +242,16 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
                 )}
                 Kod Detayları
               </span>
-              <Button
+              <CorporateButton
                 size="sm"
                 variant="ghost"
                 onClick={() => setSelectedCode(null)}
               >
                 ×
-              </Button>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+              </CorporateButton>
+            </CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             <div className="space-y-4">
               <div>
                 <label className="text-sm font-medium text-gray-600">Kod:</label>
@@ -262,9 +262,9 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
 
               <div>
                 <label className="text-sm font-medium text-gray-600">Tip:</label>
-                <Badge variant={selectedCode.type === 'qr' ? 'default' : 'secondary'}>
+                <CorporateBadge variant={selectedCode.type === 'qr' ? 'default' : 'secondary'}>
                   {selectedCode.type === 'qr' ? 'QR Kod' : 'Barkod'}
-                </Badge>
+                </CorporateBadge>
               </div>
 
               <div>
@@ -286,7 +286,7 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
               )}
 
               <div className="flex gap-2">
-                <Button
+                <CorporateButton
                   size="sm"
                   variant="outline"
                   onClick={() => copyCode(selectedCode.code)}
@@ -294,11 +294,11 @@ export const InventoryCodeManager: React.FC<InventoryCodeManagerProps> = ({
                 >
                   <Copy className="w-4 h-4" />
                   Kopyala
-                </Button>
+                </CorporateButton>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       )}
 
       {/* Modal Bileşenleri */}

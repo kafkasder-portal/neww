@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils'
 import React from 'react'
 import { Button } from './button'
+import { CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface ButtonEnhancedProps extends React.ComponentProps<typeof Button> {
     loading?: boolean
@@ -13,7 +14,7 @@ export const ButtonEnhanced = React.forwardRef<
     ButtonEnhancedProps
 >(({ loading, icon, iconPosition = 'left', children, className, disabled, ...props }, ref) => {
     return (
-        <Button
+        <CorporateButton
             ref={ref}
             className={cn(className)}
             disabled={disabled || loading}
@@ -29,7 +30,7 @@ export const ButtonEnhanced = React.forwardRef<
             {!loading && icon && iconPosition === 'right' && (
                 <span className="ml-2">{icon}</span>
             )}
-        </Button>
+        </CorporateButton>
     )
 })
 

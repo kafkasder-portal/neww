@@ -15,7 +15,7 @@ export const DonationsModuleLoading = ({ type = 'dashboard' }: DonationsModuleLo
             <div className="h-6 bg-muted rounded w-40 animate-pulse"></div>
           </div>
           <SkeletonStats />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 space-y-4">
             <SkeletonCard />
             <SkeletonCard />
             <SkeletonCard />
@@ -50,7 +50,7 @@ export const DonationsModuleLoading = ({ type = 'dashboard' }: DonationsModuleLo
             <div className="space-y-4">
               <div className="h-5 bg-muted rounded w-32 animate-pulse"></div>
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="space-y-2">
+                <div key={i} className="space-y-6-group">
                   <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
                   <div className="h-10 bg-muted rounded animate-pulse"></div>
                 </div>
@@ -59,7 +59,7 @@ export const DonationsModuleLoading = ({ type = 'dashboard' }: DonationsModuleLo
             <div className="space-y-4">
               <div className="h-5 bg-muted rounded w-32 animate-pulse"></div>
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="space-y-2">
+                <div key={i} className="space-y-6-group">
                   <div className="h-4 bg-muted rounded w-24 animate-pulse"></div>
                   <div className="h-10 bg-muted rounded animate-pulse"></div>
                 </div>

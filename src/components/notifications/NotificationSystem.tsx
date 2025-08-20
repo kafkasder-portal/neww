@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Bell, X, CheckCircle, Calendar, UserPlus, MessageSquare } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { supabase } from '@lib/supabase'
 import { format } from 'date-fns'
 import { tr } from 'date-fns/locale'
+import { CorporateButton, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 
 interface Notification {
   id: string
@@ -229,7 +230,7 @@ export default function NotificationSystem({ userId }: NotificationSystemProps) 
   return (
     <div className="relative">
       {/* Notification Bell */}
-      <Button
+      <CorporateButton
         variant="ghost"
         size="sm"
         onClick={() => setIsOpen(!isOpen)}
@@ -241,7 +242,7 @@ export default function NotificationSystem({ userId }: NotificationSystemProps) 
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
-      </Button>
+      </CorporateButton>
 
       {/* Notifications Dropdown */}
       {isOpen && (
@@ -253,28 +254,28 @@ export default function NotificationSystem({ userId }: NotificationSystemProps) 
           />
           
           {/* Dropdown */}
-          <Card className="absolute right-0 mt-2 w-80 max-h-96 overflow-hidden z-50 shadow-lg">
+          <CorporateCard className="absolute right-0 mt-2 w-80 max-h-96 overflow-hidden z-50 shadow-lg">
             {/* Header */}
             <div className="p-4 border-b flex items-center justify-between">
               <h3 className="font-semibold">Bildirimler</h3>
               <div className="flex items-center space-x-2">
                 {unreadCount > 0 && (
-                  <Button
+                  <CorporateButton
                     size="sm"
                     variant="ghost"
                     onClick={markAllAsRead}
                     className="text-xs"
                   >
                     Tümünü Okundu İşaretle
-                  </Button>
+                  </CorporateButton>
                 )}
-                <Button
+                <CorporateButton
                   size="sm"
                   variant="ghost"
                   onClick={() => setIsOpen(false)}
                 >
                   <X className="h-4 w-4" />
-                </Button>
+                </CorporateButton>
               </div>
             </div>
 
@@ -312,7 +313,7 @@ export default function NotificationSystem({ userId }: NotificationSystemProps) 
                               {!notification.is_read && (
                                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                               )}
-                              <Button
+                              <CorporateButton
                                 size="sm"
                                 variant="ghost"
                                 onClick={(e) => {
@@ -322,7 +323,7 @@ export default function NotificationSystem({ userId }: NotificationSystemProps) 
                                 className="p-1 h-auto"
                               >
                                 <X className="h-3 w-3" />
-                              </Button>
+                              </CorporateButton>
                             </div>
                           </div>
                           
@@ -349,7 +350,7 @@ export default function NotificationSystem({ userId }: NotificationSystemProps) 
             {/* Footer */}
             {notifications.length > 0 && (
               <div className="p-2 border-t">
-                <Button
+                <CorporateButton
                   variant="ghost"
                   size="sm"
                   className="w-full text-sm"
@@ -360,10 +361,10 @@ export default function NotificationSystem({ userId }: NotificationSystemProps) 
                   }}
                 >
                   Tüm Bildirimleri Görüntüle
-                </Button>
+                </CorporateButton>
               </div>
             )}
-          </Card>
+          </CorporateCard>
         </>
       )}
     </div>

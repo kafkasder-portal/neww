@@ -1,0 +1,30 @@
+{
+  "timestamp": "2025-08-20T07:30:24.234Z",
+  "bundleSize": 0,
+  "chunkCount": 0,
+  "largeDependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.9.2",
+    "vite": "5.0.0",
+    "tailwindcss": "3.3.0",
+    "recharts": "2.15.4",
+    "zustand": "4.4.0",
+    "framer-motion": "12.23.12",
+    "lucide-react": "0.263.1",
+    "@supabase/supabase-js": "2.45.0",
+    "@tanstack/react-query": "5.0.0",
+    "react-hook-form": "7.62.0",
+    "zod": "3.22.0",
+    "date-fns": "2.30.0",
+    "clsx": "2.1.1",
+    "tailwind-merge": "2.6.0"
+  },
+  "recommendations": [
+    "Fix TypeScript errors",
+    "Optimize vendor chunks",
+    "Implement critical CSS",
+    "Add bundle monitoring",
+    "Optimize lazy loading"
+  ]
+}

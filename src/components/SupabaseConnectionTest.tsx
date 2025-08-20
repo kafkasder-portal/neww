@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { supabase } from '../lib/supabase'
+import { CorporateTable, CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Database, 
   CheckCircle, 
@@ -174,7 +175,7 @@ export default function SupabaseConnectionTest() {
       <Key key="key" className="h-4 w-4 text-muted-foreground" />,
       <Database key="database" className="h-4 w-4 text-muted-foreground" />,
       <User key="user" className="h-4 w-4 text-muted-foreground" />,
-      <Table key="table" className="h-4 w-4 text-muted-foreground" />,
+      <CorporateTable key="table" className="h-4 w-4 text-muted-foreground" />,
       <Wifi key="wifi" className="h-4 w-4 text-muted-foreground" />
     ]
     return icons[index] || <AlertCircle key="alert" className="h-4 w-4 text-muted-foreground" />
@@ -194,7 +195,7 @@ export default function SupabaseConnectionTest() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className={`bg-gradient-to-r ${getOverallStatusColor()} rounded-xl p-6 text-white`}>
+      <div className={`bg-gradient-to-r ${getOverallStatusColor()} rounded-xl p-6 bg-card rounded-lg border text-white`}>
         <div className="flex items-center gap-3 mb-3">
           <Database className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Supabase Connection Test</h1>
@@ -205,7 +206,7 @@ export default function SupabaseConnectionTest() {
       </div>
 
       {/* Overall Status */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {getStatusIcon(overallStatus)}
@@ -222,7 +223,7 @@ export default function SupabaseConnectionTest() {
               </p>
             </div>
           </div>
-          <Button 
+          <CorporateButton 
             onClick={runTests} 
             disabled={isRunning}
             className="gap-2"
@@ -238,12 +239,12 @@ export default function SupabaseConnectionTest() {
                 Run Tests
               </>
             )}
-          </Button>
+          </CorporateButton>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Test Results */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4">Test Results</h3>
         <div className="space-y-4">
           {tests.map((test, index) => (
@@ -266,10 +267,10 @@ export default function SupabaseConnectionTest() {
             </div>
           ))}
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Environment Info */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4">Environment Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
@@ -297,10 +298,10 @@ export default function SupabaseConnectionTest() {
             </p>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Documentation */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4">Setup Instructions</h3>
         <div className="space-y-3 text-sm">
           <div>
@@ -325,7 +326,7 @@ VITE_SUPABASE_ANON_KEY=your_anon_key`}
             </pre>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

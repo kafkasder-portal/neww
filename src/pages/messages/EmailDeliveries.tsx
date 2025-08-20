@@ -229,13 +229,13 @@ export default function EmailDeliveries() {
 
   const getStatusBadge = (status: string) => {
     const colors = {
-      sent: 'bg-blue-100 text-blue-800',
-      delivered: 'bg-green-100 text-green-800',
+      sent: 'bg-blue-100 text-blue-800 border-blue-200',
+      delivered: 'bg-green-100 text-green-800 border-green-200',
       opened: 'bg-purple-100 text-purple-800',
-      clicked: 'bg-yellow-100 text-yellow-800',
-      bounced: 'bg-red-100 text-red-800',
-      failed: 'bg-red-100 text-red-800',
-      pending: 'bg-gray-100 text-gray-800'
+      clicked: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      bounced: 'bg-red-100 text-red-800 border-red-200',
+      failed: 'bg-red-100 text-red-800 border-red-200',
+      pending: 'bg-gray-100 text-gray-800 border-gray-200'
     }
     const labels = {
       sent: 'Gönderildi',
@@ -255,10 +255,10 @@ export default function EmailDeliveries() {
 
   const getPriorityBadge = (priority: string) => {
     const colors = {
-      low: 'bg-gray-100 text-gray-800',
-      normal: 'bg-blue-100 text-blue-800',
+      low: 'bg-gray-100 text-gray-800 border-gray-200',
+      normal: 'bg-blue-100 text-blue-800 border-blue-200',
       high: 'bg-orange-100 text-orange-800',
-      urgent: 'bg-red-100 text-red-800'
+      urgent: 'bg-red-100 text-red-800 border-red-200'
     }
     const labels = {
       low: 'Düşük',
@@ -428,7 +428,7 @@ export default function EmailDeliveries() {
       </div>
 
       {/* Filtreler */}
-      <div className="bg-white p-4 rounded-lg border space-y-4">
+      <div className="bg-white p-4 border rounded-lg space-y-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-gray-400" />
           <input
@@ -442,7 +442,7 @@ export default function EmailDeliveries() {
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-gray-400" />
-            <span className="text-sm font-medium text-gray-700">Filtreler:</span>
+            <span className="space-y-6-label">Filtreler:</span>
           </div>
           
           <select
@@ -488,7 +488,7 @@ export default function EmailDeliveries() {
 
       {/* İstatistikler */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <Mail className="h-5 w-5 text-blue-500" />
             <div>
@@ -498,7 +498,7 @@ export default function EmailDeliveries() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <CheckCircle className="h-5 w-5 text-green-500" />
             <div>
@@ -509,7 +509,7 @@ export default function EmailDeliveries() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <Mail className="h-5 w-5 text-purple-500" />
             <div>
@@ -520,7 +520,7 @@ export default function EmailDeliveries() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <Star className="h-5 w-5 text-yellow-500" />
             <div>
@@ -531,7 +531,7 @@ export default function EmailDeliveries() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <XCircle className="h-5 w-5 text-red-500" />
             <div>
@@ -557,77 +557,77 @@ export default function EmailDeliveries() {
           <div className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">E-posta ID</label>
+                <label className="block space-y-6-label mb-1">E-posta ID</label>
                 <p className="text-sm text-gray-900 font-mono">{selectedDelivery.id}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Durum</label>
+                <label className="block space-y-6-label mb-1">Durum</label>
                 <div className="flex items-center gap-2">
                   {getStatusIcon(selectedDelivery.status)}
                   {getStatusBadge(selectedDelivery.status)}
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Alıcı</label>
+                <label className="block space-y-6-label mb-1">Alıcı</label>
                 <p className="text-sm text-gray-900">{selectedDelivery.recipient}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">E-posta Adresi</label>
+                <label className="block space-y-6-label mb-1">E-posta Adresi</label>
                 <p className="text-sm text-gray-900">{selectedDelivery.email}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Öncelik</label>
+                <label className="block space-y-6-label mb-1">Öncelik</label>
                 {getPriorityBadge(selectedDelivery.priority)}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Dosya Boyutu</label>
+                <label className="block space-y-6-label mb-1">Dosya Boyutu</label>
                 <p className="text-sm text-gray-900">{formatFileSize(selectedDelivery.size)}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Gönderim Zamanı</label>
+                <label className="block space-y-6-label mb-1">Gönderim Zamanı</label>
                 <p className="text-sm text-gray-900">{selectedDelivery.sentAt}</p>
               </div>
               {selectedDelivery.deliveredAt && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Teslim Zamanı</label>
+                  <label className="block space-y-6-label mb-1">Teslim Zamanı</label>
                   <p className="text-sm text-gray-900">{selectedDelivery.deliveredAt}</p>
                 </div>
               )}
               {selectedDelivery.openedAt && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Açılma Zamanı</label>
+                  <label className="block space-y-6-label mb-1">Açılma Zamanı</label>
                   <p className="text-sm text-gray-900">{selectedDelivery.openedAt}</p>
                 </div>
               )}
               {selectedDelivery.clickedAt && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tıklanma Zamanı</label>
+                  <label className="block space-y-6-label mb-1">Tıklanma Zamanı</label>
                   <p className="text-sm text-gray-900">{selectedDelivery.clickedAt}</p>
                 </div>
               )}
               {selectedDelivery.campaignName && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Kampanya</label>
+                  <label className="block space-y-6-label mb-1">Kampanya</label>
                   <p className="text-sm text-gray-900">{selectedDelivery.campaignName}</p>
                 </div>
               )}
               {selectedDelivery.templateName && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Şablon</label>
+                  <label className="block space-y-6-label mb-1">Şablon</label>
                   <p className="text-sm text-gray-900">{selectedDelivery.templateName}</p>
                 </div>
               )}
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Konu</label>
+              <label className="block space-y-6-label mb-2">Konu</label>
               <div className="bg-gray-50 p-3 rounded border">
                 <p className="text-sm text-gray-900 font-medium">{selectedDelivery.subject}</p>
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">E-posta İçeriği</label>
+              <label className="block space-y-6-label mb-2">E-posta İçeriği</label>
               <div className="bg-gray-50 p-3 rounded border max-h-64 overflow-y-auto">
                 <p className="text-sm text-gray-900 whitespace-pre-wrap">{selectedDelivery.content}</p>
               </div>
@@ -635,7 +635,7 @@ export default function EmailDeliveries() {
             
             {selectedDelivery.hasAttachments && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Ekler</label>
+                <label className="block space-y-6-label mb-2">Ekler</label>
                 <div className="bg-blue-50 p-3 rounded border border-blue-200">
                   <div className="flex items-center gap-2">
                     <Paperclip className="h-4 w-4 text-blue-600" />
@@ -649,7 +649,7 @@ export default function EmailDeliveries() {
             
             {selectedDelivery.failureReason && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Hata Nedeni</label>
+                <label className="block space-y-6-label mb-2">Hata Nedeni</label>
                 <div className="bg-red-50 p-3 rounded border border-red-200">
                   <p className="text-sm text-red-800">{selectedDelivery.failureReason}</p>
                 </div>

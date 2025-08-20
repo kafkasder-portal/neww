@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { CheckCircle, Clock, User, MessageSquare, AlertCircle } from 'lucide-react'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { useAuthStore } from '@store/auth'
@@ -10,6 +10,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
 import { toast } from 'sonner'
 import { supabase } from '@lib/supabase'
+import { CorporateCard, CorporateBadge, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface Task {
   id: string
@@ -200,26 +201,26 @@ export function RealtimeTaskUpdates({
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
-        return 'bg-green-100 text-green-800'
+        return 'bg-green-100 text-green-800 border-green-200'
       case 'in_progress':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-blue-100 text-blue-800 border-blue-200'
       case 'cancelled':
-        return 'bg-red-100 text-red-800'
+        return 'bg-red-100 text-red-800 border-red-200'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'urgent':
-        return 'bg-red-100 text-red-800'
+        return 'bg-red-100 text-red-800 border-red-200'
       case 'high':
         return 'bg-orange-100 text-orange-800'
       case 'medium':
-        return 'bg-yellow-100 text-yellow-800'
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
@@ -256,7 +257,7 @@ export function RealtimeTaskUpdates({
 
   if (loading) {
     return (
-      <Card className={`p-6 ${className}`}>
+      <CorporateCard className={`p-6 bg-card rounded-lg border ${className}`}>
         <div className="animate-pulse space-y-4">
           <div className="h-6 bg-gray-200 rounded w-1/3"></div>
           <div className="space-y-3">
@@ -265,14 +266,14 @@ export function RealtimeTaskUpdates({
             ))}
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     )
   }
 
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Active Tasks */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold flex items-center gap-2">
             <CheckCircle className="w-5 h-5 text-blue-600" />
@@ -280,9 +281,9 @@ export function RealtimeTaskUpdates({
             {!showMyTasks && showAssignedByMe && 'Atadığım Görevler'}
             {showMyTasks && showAssignedByMe && 'Tüm Görevlerim'}
           </h3>
-          <Badge variant="outline">
+          <CorporateBadge variant="outline">
             {tasks.filter(t => t.status !== 'completed' && t.status !== 'cancelled').length} aktif
-          </Badge>
+          </CorporateBadge>
         </div>
 
         {tasks.length === 0 ? (
@@ -305,12 +306,12 @@ export function RealtimeTaskUpdates({
                       <h4 className="font-medium text-gray-900 truncate">
                         {task.title}
                       </h4>
-                      <Badge className={getStatusColor(task.status)}>
+                      <CorporateBadge className={getStatusColor(task.status)}>
                         {task.status}
-                      </Badge>
-                      <Badge className={getPriorityColor(task.priority)}>
+                      </CorporateBadge>
+                      <CorporateBadge className={getPriorityColor(task.priority)}>
                         {task.priority}
-                      </Badge>
+                      </CorporateBadge>
                     </div>
 
                     {task.description && (
@@ -346,7 +347,7 @@ export function RealtimeTaskUpdates({
                   {/* Quick actions */}
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     {task.status === 'todo' && task.assigned_to === user?.id && (
-                      <Button
+                      <CorporateButton
                         size="sm"
                         variant="outline"
                         onClick={(e) => {
@@ -356,11 +357,11 @@ export function RealtimeTaskUpdates({
                         className="h-7 px-2 text-xs"
                       >
                         Başla
-                      </Button>
+                      </CorporateButton>
                     )}
                     
                     {task.status === 'in_progress' && task.assigned_to === user?.id && (
-                      <Button
+                      <CorporateButton
                         size="sm"
                         variant="outline"
                         onClick={(e) => {
@@ -370,7 +371,7 @@ export function RealtimeTaskUpdates({
                         className="h-7 px-2 text-xs"
                       >
                         Tamamla
-                      </Button>
+                      </CorporateButton>
                     )}
                   </div>
                 </div>
@@ -381,16 +382,16 @@ export function RealtimeTaskUpdates({
 
         {tasks.length > 5 && (
           <div className="mt-4 text-center">
-            <Button variant="outline" size="sm">
+            <CorporateButton variant="outline" size="sm">
               Tüm görevleri görüntüle ({tasks.length})
-            </Button>
+            </CorporateButton>
           </div>
         )}
-      </Card>
+      </CorporateCard>
 
       {/* Recent Comments */}
       {recentComments.length > 0 && (
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <MessageSquare className="w-5 h-5 text-green-600" />
             Son Yorumlar
@@ -418,7 +419,7 @@ export function RealtimeTaskUpdates({
               </div>
             ))}
           </div>
-        </Card>
+        </CorporateCard>
       )}
     </div>
   )

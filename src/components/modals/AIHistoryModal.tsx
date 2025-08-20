@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { X, Search, Clock, MessageSquare, Trash2, Copy, RotateCcw } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { toast } from 'sonner'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface AIHistoryModalProps {
   isOpen: boolean
@@ -102,8 +103,8 @@ export function AIHistoryModal({ isOpen, onClose, onSelectCommand }: AIHistoryMo
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-        <div className="p-6 border-b">
+      <CorporateCard className="w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+        <div className="p-6 bg-card rounded-lg border border-b">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -131,7 +132,7 @@ export function AIHistoryModal({ isOpen, onClose, onSelectCommand }: AIHistoryMo
                 className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            <Button
+            <CorporateButton
               variant="outline"
               onClick={handleClearAll}
               disabled={history.length === 0}
@@ -139,14 +140,14 @@ export function AIHistoryModal({ isOpen, onClose, onSelectCommand }: AIHistoryMo
             >
               <Trash2 className="h-4 w-4 mr-2" />
               Tümünü Sil
-            </Button>
+            </CorporateButton>
           </div>
         </div>
 
         {/* History List */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 bg-card rounded-lg border">
           {filteredHistory.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-8 text-muted-foreground">
               <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">
                 {searchTerm ? 'Arama kriterinize uygun komut bulunamadı' : 'Henüz komut geçmişi yok'}
@@ -168,8 +169,8 @@ export function AIHistoryModal({ isOpen, onClose, onSelectCommand }: AIHistoryMo
                         </span>
                         <span className={`px-2 py-1 rounded-full text-xs ${
                           item.success 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-red-100 text-red-800'
+                            ? 'bg-green-100 text-green-800 border-green-200' 
+                            : 'bg-red-100 text-red-800 border-red-200'
                         }`}>
                           {item.success ? 'Başarılı' : 'Hatalı'}
                         </span>
@@ -193,7 +194,7 @@ export function AIHistoryModal({ isOpen, onClose, onSelectCommand }: AIHistoryMo
                     </div>
                     
                     <div className="flex flex-col gap-2 ml-4">
-                      <Button
+                      <CorporateButton
                         size="sm"
                         variant="outline"
                         onClick={() => handleCopyCommand(item.command)}
@@ -201,27 +202,27 @@ export function AIHistoryModal({ isOpen, onClose, onSelectCommand }: AIHistoryMo
                       >
                         <Copy className="h-3 w-3 mr-1" />
                         Kopyala
-                      </Button>
+                      </CorporateButton>
                       
                       {onSelectCommand && (
-                        <Button
+                        <CorporateButton
                           size="sm"
                           onClick={() => handleSelectCommand(item.command)}
                           className="text-xs bg-blue-500 hover:bg-blue-600"
                         >
                           <RotateCcw className="h-3 w-3 mr-1" />
                           Kullan
-                        </Button>
+                        </CorporateButton>
                       )}
                       
-                      <Button
+                      <CorporateButton
                         size="sm"
                         variant="outline"
                         onClick={() => handleDeleteItem(item.id)}
                         className="text-xs text-red-600 border-red-300 hover:bg-red-50"
                       >
                         <Trash2 className="h-3 w-3" />
-                      </Button>
+                      </CorporateButton>
                     </div>
                   </div>
                 </div>
@@ -231,17 +232,17 @@ export function AIHistoryModal({ isOpen, onClose, onSelectCommand }: AIHistoryMo
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t bg-gray-50">
+        <div className="p-6 bg-card rounded-lg border border-t bg-gray-50">
           <div className="flex justify-between items-center text-sm text-gray-500">
             <span>
               Komutlar otomatik olarak kaydedilir ve yerel depolamada saklanır.
             </span>
-            <Button variant="outline" onClick={onClose}>
+            <CorporateButton variant="outline" onClick={onClose}>
               Kapat
-            </Button>
+            </CorporateButton>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

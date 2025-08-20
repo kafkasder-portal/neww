@@ -81,7 +81,7 @@ export default function UserAccounts() {
   )
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-card rounded-lg border">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <Users className="h-8 w-8 text-blue-600" />
@@ -93,7 +93,7 @@ export default function UserAccounts() {
       </div>
 
       <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 bg-card rounded-lg border border-b border-gray-200">
           <div className="flex flex-col sm:flex-row gap-4 justify-between">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -177,8 +177,8 @@ export default function UserAccounts() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       user.isActive 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800 border-green-200' 
+                        : 'bg-red-100 text-red-800 border-red-200'
                     }`}>
                       {user.isActive ? 'Aktif' : 'Pasif'}
                     </span>
@@ -217,7 +217,7 @@ export default function UserAccounts() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className="p-6">
+        <div className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-medium text-gray-900 mb-4">
             {editingUser ? 'Kullanıcı Düzenle' : 'Yeni Kullanıcı Ekle'}
           </h3>
@@ -225,7 +225,7 @@ export default function UserAccounts() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   Ad Soyad
                 </label>
                 <input
@@ -240,7 +240,7 @@ export default function UserAccounts() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   Kullanıcı Adı
                 </label>
                 <input
@@ -257,7 +257,7 @@ export default function UserAccounts() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   E-posta
                 </label>
                 <input
@@ -272,7 +272,7 @@ export default function UserAccounts() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   Telefon
                 </label>
                 <input
@@ -289,7 +289,7 @@ export default function UserAccounts() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   Rol
                 </label>
                 <select 
@@ -305,7 +305,7 @@ export default function UserAccounts() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   Birim
                 </label>
                 <select 
@@ -323,7 +323,7 @@ export default function UserAccounts() {
 
             {!editingUser && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   Şifre
                 </label>
                 <input
@@ -357,7 +357,7 @@ export default function UserAccounts() {
                 setIsModalOpen(false)
                 setEditingUser(null)
               }}
-              className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="flex-1 px-4 py-2 space-y-6-label bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
               İptal
             </button>

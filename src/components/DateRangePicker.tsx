@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, memo } from 'react'
 import { Calendar, ChevronDown, X } from 'lucide-react'
 import { Button } from './ui/button'
+import { CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 export interface DateRange {
   start: string
@@ -315,22 +316,22 @@ const DateRangePickerComponent = memo(({
                 )}
                 
                 <div className="flex justify-end space-x-2 pt-2">
-                  <Button
+                  <CorporateButton
                     type="button"
                     variant="outline"
                     size="sm"
                     onClick={() => setIsOpen(false)}
                   >
                     İptal
-                  </Button>
-                  <Button
+                  </CorporateButton>
+                  <CorporateButton
                     type="button"
                     size="sm"
                     onClick={handleApply}
                     disabled={!tempRange || !isValidRange(tempRange)}
                   >
                     Uygula
-                  </Button>
+                  </CorporateButton>
                 </div>
               </div>
             </div>

@@ -10,12 +10,13 @@ import {
   Eye,
   Trash2
 } from 'lucide-react'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { useErrorHandler } from '@hooks/useErrorHandler'
 import { ErrorCategory, ErrorSeverity, ErrorLog } from '@services/errorService'
 import { SEVERITY_COLORS } from '@/constants/colors'
+import { CorporateButton, CorporateCard, CorporateBadge } from '@/components/ui/corporate/CorporateComponents'
 
 // Use optimized severity colors from constants
 const SEVERITY_BADGE_COLORS = {
@@ -105,34 +106,34 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
         </div>
         
         <div className="flex gap-2">
-          <Button
+          <CorporateButton
             onClick={() => window.location.reload()}
             variant="outline"
             size="sm"
           >
             <RefreshCw className="w-4 h-4 mr-2" />
             Yenile
-          </Button>
+          </CorporateButton>
           
           {logs.length > 0 && (
-            <Button onClick={exportLogs} variant="outline" size="sm">
+            <CorporateButton onClick={exportLogs} variant="outline" size="sm">
               <Download className="w-4 h-4 mr-2" />
               Dışa Aktar
-            </Button>
+            </CorporateButton>
           )}
           
           {isAdmin && logs.length > 0 && (
-            <Button onClick={handleClearLogs} variant="destructive" size="sm">
+            <CorporateButton onClick={handleClearLogs} variant="danger" size="sm">
               <Trash2 className="w-4 h-4 mr-2" />
               Temizle
-            </Button>
+            </CorporateButton>
           )}
         </div>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Toplam Hata</p>
@@ -140,9 +141,9 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
             </div>
             <AlertTriangle className="w-8 h-8 text-gray-400" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Çözülmemiş</p>
@@ -150,9 +151,9 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
             </div>
             <XCircle className="w-8 h-8 text-financial-error/60" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Çözülmüş</p>
@@ -160,9 +161,9 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
             </div>
             <CheckCircle className="w-8 h-8 text-financial-success/60" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Kritik Hatalar</p>
@@ -170,14 +171,14 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
             </div>
             <Clock className="w-8 h-8 text-financial-error/60" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 space-y-4">
         {/* Filters and Error List */}
         <div className="lg:col-span-2 space-y-4">
           {/* Filters */}
-          <Card className="p-4">
+          <CorporateCard className="p-4">
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex items-center gap-2">
                 <Filter className="w-4 h-4 text-gray-500" />
@@ -232,19 +233,19 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
               </select>
 
               {(filters.severity || filters.category || filters.resolved !== undefined) && (
-                <Button
+                <CorporateButton
                   onClick={() => setFilters({})}
                   variant="outline"
                   size="sm"
                 >
                   Filtreleri Temizle
-                </Button>
+                </CorporateButton>
               )}
             </div>
-          </Card>
+          </CorporateCard>
 
           {/* Error List */}
-          <Card className="p-4">
+          <CorporateCard className="p-4">
             <h3 className="text-lg font-semibold mb-4">Hata Kayıtları ({logs.length})</h3>
             
             {logs.length === 0 ? (
@@ -253,7 +254,7 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
                 <p>Kayıtlı hata bulunamadı</p>
               </div>
             ) : (
-              <div className="space-y-2 max-h-96 overflow-y-auto">
+              <div className="space-y-6-group max-h-96 overflow-y-auto">
                 {logs.map((log) => (
                   <div
                     key={log.id}
@@ -267,16 +268,16 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <Badge className={SEVERITY_BADGE_COLORS[log.severity]}>
+                          <CorporateBadge className={SEVERITY_BADGE_COLORS[log.severity]}>
                             {log.severity.toUpperCase()}
-                          </Badge>
-                          <Badge className={CATEGORY_COLORS[log.category]}>
+                          </CorporateBadge>
+                          <CorporateBadge className={CATEGORY_COLORS[log.category]}>
                             {log.category.replace('_', ' ').toUpperCase()}
-                          </Badge>
+                          </CorporateBadge>
                           {log.resolved && (
-                            <Badge className="bg-financial-success-light text-financial-success border-financial-success/30">
+                            <CorporateBadge className="bg-financial-success-light text-financial-success border-financial-success/30">
                               ÇÖZÜLMÜŞ
-                            </Badge>
+                            </CorporateBadge>
                           )}
                         </div>
                         <p className="text-sm font-medium text-gray-900 truncate">
@@ -287,7 +288,7 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
                         </p>
                       </div>
                       <div className="flex items-center gap-1">
-                        <Button
+                        <CorporateButton
                           onClick={(e) => {
                             e.stopPropagation()
                             setSelectedError(log)
@@ -296,9 +297,9 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
                           size="sm"
                         >
                           <Eye className="w-4 h-4" />
-                        </Button>
+                        </CorporateButton>
                         {!log.resolved && isAdmin && (
-                          <Button
+                          <CorporateButton
                             onClick={(e) => {
                               e.stopPropagation()
                               handleMarkAsResolved(log.id)
@@ -307,7 +308,7 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
                             size="sm"
                           >
                             <CheckCircle className="w-4 h-4" />
-                          </Button>
+                          </CorporateButton>
                         )}
                       </div>
                     </div>
@@ -315,12 +316,12 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
                 ))}
               </div>
             )}
-          </Card>
+          </CorporateCard>
         </div>
 
         {/* Error Detail */}
         <div className="lg:col-span-1">
-          <Card className="p-4 sticky top-4">
+          <CorporateCard className="p-4 sticky top-4">
             <h3 className="text-lg font-semibold mb-4">Hata Detayı</h3>
             
             {selectedError ? (
@@ -380,14 +381,14 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
                 )}
 
                 {!selectedError.resolved && isAdmin && (
-                  <Button
+                  <CorporateButton
                     onClick={() => handleMarkAsResolved(selectedError.id)}
                     className="w-full"
                     size="sm"
                   >
                     <CheckCircle className="w-4 h-4 mr-2" />
                     Çözülmüş Olarak İşaretle
-                  </Button>
+                  </CorporateButton>
                 )}
 
                 {selectedError.resolved && (
@@ -403,7 +404,7 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
                 <p>Detayları görüntülemek için bir hata seçin</p>
               </div>
             )}
-          </Card>
+          </CorporateCard>
         </div>
       </div>
     </div>

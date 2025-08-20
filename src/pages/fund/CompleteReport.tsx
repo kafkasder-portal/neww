@@ -1,7 +1,25 @@
-import { useMemo, useState } from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { useMemo, useState, Suspense, lazy } from 'react'
 import { useDesignSystem } from '@/hooks/useDesignSystem'
 import { COLORS } from '@/constants/design-system'
+
+// Lazy load chart components
+const LazyResponsiveContainer = lazy(() => import('recharts').then(module => ({ default: module.ResponsiveContainer })))
+const LazyBarChart = lazy(() => import('recharts').then(module => ({ default: module.BarChart })))
+const LazyPieChart = lazy(() => import('recharts').then(module => ({ default: module.PieChart })))
+const LazyBar = lazy(() => import('recharts').then(module => ({ default: module.Bar })))
+const LazyXAxis = lazy(() => import('recharts').then(module => ({ default: module.XAxis })))
+const LazyYAxis = lazy(() => import('recharts').then(module => ({ default: module.YAxis })))
+const LazyCartesianGrid = lazy(() => import('recharts').then(module => ({ default: module.CartesianGrid })))
+const LazyTooltip = lazy(() => import('recharts').then(module => ({ default: module.Tooltip })))
+const LazyPie = lazy(() => import('recharts').then(module => ({ default: module.Pie })))
+const LazyCell = lazy(() => import('recharts').then(module => ({ default: module.Cell })))
+
+// Chart loading component
+const ChartLoading = () => (
+  <div className="flex items-center justify-center h-[300px]">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+  </div>
+)
 
 const mockFundData = [
   { month: 'Ocak', gelir: 45000, gider: 32000, bakiye: 13000 },
@@ -66,44 +84,48 @@ export default function CompleteReport() {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 space-y-4 lg:grid-cols-2">
         {/* Monthly Trend Chart */}
-        <div className="rounded border bg-card p-6">
+        <div className="rounded border bg-card p-6 bg-card rounded-lg border">
           <h3 className="mb-4 text-lg font-semibold">Aylık Gelir-Gider Trendi</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={mockFundData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="gelir" fill="COLORS.semantic.success" name="Gelir" />
-              <Bar dataKey="gider" fill="COLORS.semantic.danger" name="Gider" />
-            </BarChart>
-          </ResponsiveContainer>
+          <Suspense fallback={<ChartLoading />}>
+            <LazyResponsiveContainer width="100%" height={300}>
+              <LazyBarChart data={mockFundData}>
+                <LazyCartesianGrid strokeDasharray="3 3" />
+                <LazyXAxis dataKey="month" />
+                <LazyYAxis />
+                <LazyTooltip />
+                <LazyBar dataKey="gelir" fill="COLORS.semantic.success" name="Gelir" />
+                <LazyBar dataKey="gider" fill="COLORS.semantic.danger" name="Gider" />
+              </LazyBarChart>
+            </LazyResponsiveContainer>
+          </Suspense>
         </div>
 
         {/* Fund Distribution Pie Chart */}
-        <div className="rounded border bg-card p-6">
+        <div className="rounded border bg-card p-6 bg-card rounded-lg border">
           <h3 className="mb-4 text-lg font-semibold">Fon Dağılımı</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={mockFundBreakdown}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
-                outerRadius={80}
-                fill="colors.chart[1]"
-                dataKey="value"
-              >
-                {mockFundBreakdown.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+          <Suspense fallback={<ChartLoading />}>
+            <LazyResponsiveContainer width="100%" height={300}>
+              <LazyPieChart>
+                <LazyPie
+                  data={mockFundBreakdown}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
+                  outerRadius={80}
+                  fill="colors.chart[1]"
+                  dataKey="value"
+                >
+                  {mockFundBreakdown.map((entry, index) => (
+                    <LazyCell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </LazyPie>
+                <LazyTooltip />
+              </LazyPieChart>
+            </LazyResponsiveContainer>
+          </Suspense>
         </div>
       </div>
 

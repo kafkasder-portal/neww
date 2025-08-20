@@ -23,12 +23,12 @@ import { exportToCsv } from '@lib/exportToCsv'
 import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
 import { Modal } from '@components/Modal'
-import StatCard from '../../components/StatCard'
+import StatCard from '@components/StatCard'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
-import { getErrorMessage, logErrorSafely } from '../../utils/errorMessageUtils'
+import { getErrorMessage, logErrorSafely } from '@utils/errorMessageUtils'
 
 interface HospitalReferral {
   id: string
@@ -332,13 +332,13 @@ export default function HospitalReferrals() {
 
   const getStatusBadge = (status: string) => {
     const statusMap = {
-      pending: { label: 'Bekliyor', class: 'bg-yellow-100 text-yellow-800', icon: Clock },
-      scheduled: { label: 'Randevulu', class: 'bg-blue-100 text-blue-800', icon: Calendar },
-      completed: { label: 'Tamamlandı', class: 'bg-green-100 text-green-800', icon: CheckCircle },
-      cancelled: { label: 'İptal Edildi', class: 'bg-red-100 text-red-800', icon: X },
-      no_show: { label: 'Gelmedi', class: 'bg-gray-100 text-gray-800', icon: AlertCircle }
+      pending: { label: 'Bekliyor', class: 'bg-yellow-100 text-yellow-800 border-yellow-200', icon: Clock },
+      scheduled: { label: 'Randevulu', class: 'bg-blue-100 text-blue-800 border-blue-200', icon: Calendar },
+      completed: { label: 'Tamamlandı', class: 'bg-green-100 text-green-800 border-green-200', icon: CheckCircle },
+      cancelled: { label: 'İptal Edildi', class: 'bg-red-100 text-red-800 border-red-200', icon: X },
+      no_show: { label: 'Gelmedi', class: 'bg-gray-100 text-gray-800 border-gray-200', icon: AlertCircle }
     }
-    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800', icon: AlertCircle }
+    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800 border-gray-200', icon: AlertCircle }
     const Icon = statusInfo.icon
     return (
       <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${statusInfo.class}`}>
@@ -350,11 +350,11 @@ export default function HospitalReferrals() {
 
   const getUrgencyBadge = (urgency: string) => {
     const urgencyMap = {
-      normal: { label: 'Normal', class: 'bg-green-100 text-green-800' },
+      normal: { label: 'Normal', class: 'bg-green-100 text-green-800 border-green-200' },
       urgent: { label: 'Acil', class: 'bg-orange-100 text-orange-800' },
-      emergency: { label: 'Acil Servis', class: 'bg-red-100 text-red-800' }
+      emergency: { label: 'Acil Servis', class: 'bg-red-100 text-red-800 border-red-200' }
     }
-    const urgencyInfo = urgencyMap[urgency as keyof typeof urgencyMap] || { label: urgency, class: 'bg-gray-100 text-gray-800' }
+    const urgencyInfo = urgencyMap[urgency as keyof typeof urgencyMap] || { label: urgency, class: 'bg-gray-100 text-gray-800 border-gray-200' }
     return (
       <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${urgencyInfo.class}`}>
         {urgencyInfo.label}
@@ -585,7 +585,7 @@ export default function HospitalReferrals() {
       </div>
 
       {/* Filtreler */}
-      <div className="flex flex-wrap items-center gap-4 rounded-lg border p-4">
+      <div className="flex flex-wrap items-center bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
@@ -847,7 +847,7 @@ export default function HospitalReferrals() {
               </div>
               
               {watchCompanionNeeded && (
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   <div>
                     <label className="block text-sm font-medium mb-1">Refakatçi Adı</label>
                     <input

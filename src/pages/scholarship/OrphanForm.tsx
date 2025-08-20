@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   FileText,
   Plus,
@@ -119,7 +120,7 @@ export default function OrphanForm() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <FileText className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Yetim Bilgi Formu</h1>
@@ -131,7 +132,7 @@ export default function OrphanForm() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplam Form</p>
@@ -139,8 +140,8 @@ export default function OrphanForm() {
             </div>
             <FileText className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Tamamlanan</p>
@@ -148,8 +149,8 @@ export default function OrphanForm() {
             </div>
             <Calendar className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">İncelenen</p>
@@ -157,8 +158,8 @@ export default function OrphanForm() {
             </div>
             <Upload className="h-8 w-8 text-semantic-warning" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Eksik Belge</p>
@@ -166,13 +167,13 @@ export default function OrphanForm() {
             </div>
             <User className="h-8 w-8 text-semantic-destructive" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 space-y-4">
         {/* Forms List */}
         <div className="lg:col-span-2 space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <div className="flex flex-col md:flex-row gap-4 justify-between mb-6">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -184,14 +185,14 @@ export default function OrphanForm() {
                 />
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" className="gap-2">
+                <CorporateButton variant="outline" className="gap-2">
                   <Download className="h-4 w-4" />
                   Dışa Aktar
-                </Button>
-                <Button className="gap-2">
+                </CorporateButton>
+                <CorporateButton className="gap-2">
                   <Plus className="h-4 w-4" />
                   Yeni Form
-                </Button>
+                </CorporateButton>
               </div>
             </div>
 
@@ -212,7 +213,7 @@ export default function OrphanForm() {
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div className="space-y-2">
+                        <div className="space-y-6-group">
                           <div className="flex items-center gap-2">
                             <User className="h-4 w-4 text-muted-foreground" />
                             <span>Öğrenci No: {form.studentId}</span>
@@ -227,7 +228,7 @@ export default function OrphanForm() {
                           </div>
                         </div>
                         
-                        <div className="space-y-2">
+                        <div className="space-y-6-group">
                           <div className="flex items-center gap-2">
                             <Phone className="h-4 w-4 text-muted-foreground" />
                             <span>{form.guardianPhone}</span>
@@ -256,30 +257,30 @@ export default function OrphanForm() {
                     </div>
                     
                     <div className="flex gap-2 ml-4">
-                      <Button size="sm" variant="outline">
+                      <CorporateButton size="sm" variant="outline">
                         <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="outline">
+                      </CorporateButton>
+                      <CorporateButton size="sm" variant="outline">
                         <Download className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="destructive">
+                      </CorporateButton>
+                      <CorporateButton size="sm" variant="danger">
                         <Trash2 className="h-4 w-4" />
-                      </Button>
+                      </CorporateButton>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-          </Card>
+          </CorporateCard>
         </div>
 
         {/* Form Template */}
         <div className="space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h2 className="text-lg font-semibold mb-4">Form Şablonu</h2>
             <div className="space-y-4">
               {formFields.map((section, index) => (
-                <div key={index} className="space-y-2">
+                <div key={index} className="space-y-6-group">
                   <h3 className="font-medium text-sm text-primary">{section.section}</h3>
                   <div className="space-y-1">
                     {section.fields.map((field, fieldIndex) => (
@@ -291,13 +292,13 @@ export default function OrphanForm() {
                 </div>
               ))}
             </div>
-            <Button variant="outline" className="w-full mt-4">
+            <CorporateButton variant="outline" className="w-full mt-4">
               Şablonu İndir
-            </Button>
-          </Card>
+            </CorporateButton>
+          </CorporateCard>
 
           {selectedForm && (
-            <Card className="p-6">
+            <CorporateCard className="p-6 bg-card rounded-lg border">
               <h2 className="text-lg font-semibold mb-4">Form Detayları</h2>
               <div className="space-y-3">
                 <div>
@@ -319,11 +320,11 @@ export default function OrphanForm() {
                     ))}
                   </div>
                 </div>
-                <Button variant="outline" className="w-full">
+                <CorporateButton variant="outline" className="w-full">
                   Detayları Görüntüle
-                </Button>
+                </CorporateButton>
               </div>
-            </Card>
+            </CorporateCard>
           )}
         </div>
       </div>

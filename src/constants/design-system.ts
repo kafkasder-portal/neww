@@ -336,11 +336,11 @@ export const COMPONENTS = {
   // Card patterns
   card: {
     base: 'rounded-lg border bg-card text-card-foreground shadow-sm',
-    header: 'flex flex-col space-y-1.5 p-6',
+    header: 'flex flex-col space-y-1.5 p-6 bg-card rounded-lg border',
     title: 'text-2xl font-semibold leading-none tracking-tight',
     description: 'text-sm text-muted-foreground',
-    content: 'p-6 pt-0',
-    footer: 'flex items-center p-6 pt-0',
+    content: 'p-6 bg-card rounded-lg border pt-0',
+    footer: 'flex items-center p-6 bg-card rounded-lg border pt-0',
   },
 
   // Input patterns

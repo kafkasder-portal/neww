@@ -3,6 +3,7 @@ import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { DollarSign, Plus, Edit, Trash2, Search, TrendingUp, Calculator, PieChart } from 'lucide-react'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 export default function PriceDefinitions() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -16,7 +17,7 @@ export default function PriceDefinitions() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <DollarSign className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Fiyat Tanımları</h1>
@@ -25,7 +26,7 @@ export default function PriceDefinitions() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Fiyat Tanımı</p>
@@ -33,8 +34,8 @@ export default function PriceDefinitions() {
             </div>
             <Calculator className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Ortalama Tutar</p>
@@ -42,8 +43,8 @@ export default function PriceDefinitions() {
             </div>
             <TrendingUp className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">En Yüksek</p>
@@ -51,8 +52,8 @@ export default function PriceDefinitions() {
             </div>
             <DollarSign className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">En Düşük</p>
@@ -60,19 +61,19 @@ export default function PriceDefinitions() {
             </div>
             <PieChart className="h-8 w-8 text-semantic-warning" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex justify-between mb-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Fiyat ara..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-9 w-80" />
           </div>
-          <Button className="gap-2">
+          <CorporateButton className="gap-2">
             <Plus className="h-4 w-4" />
             Yeni Fiyat
-          </Button>
+          </CorporateButton>
         </div>
 
         <div className="space-y-4">
@@ -88,14 +89,14 @@ export default function PriceDefinitions() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline"><Edit className="h-4 w-4" /></Button>
-                  <Button size="sm" variant="destructive"><Trash2 className="h-4 w-4" /></Button>
+                  <CorporateButton size="sm" variant="outline"><Edit className="h-4 w-4" /></CorporateButton>
+                  <CorporateButton size="sm" variant="danger"><Trash2 className="h-4 w-4" /></CorporateButton>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

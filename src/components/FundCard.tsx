@@ -1,6 +1,7 @@
 import { DollarSign } from 'lucide-react'
 import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from './ui/corporate/CorporateComponents'
+import { CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 
 interface FundCardProps {
     title: string
@@ -22,12 +23,12 @@ export const FundCard: React.FC<FundCardProps> = ({
     const isPositive = change && change > 0
 
     return (
-        <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        <CorporateCard>
+            <CorporateCardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CorporateCardTitle className="text-sm font-medium">{title}</CorporateCardTitle>
                 {icon}
-            </CardHeader>
-            <CardContent>
+            </CorporateCardHeader>
+            <CorporateCardContent>
                 <div className="text-2xl font-bold">
                     {currency}{amount.toLocaleString()}
                 </div>
@@ -36,8 +37,8 @@ export const FundCard: React.FC<FundCardProps> = ({
                         {isPositive ? '+' : ''}{change}% {period}
                     </p>
                 )}
-            </CardContent>
-        </Card>
+            </CorporateCardContent>
+        </CorporateCard>
     )
 }
 

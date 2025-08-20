@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import { CorporateButton, Card, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -68,7 +68,7 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
   return (
     <div className="space-y-6">
       {/* Rapor Başlığı */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
             <FileText className="w-5 h-5 text-blue-600" />
@@ -96,10 +96,10 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
             </div>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Ayarlar */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
             <Settings className="w-5 h-5 text-gray-600" />
@@ -188,11 +188,11 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
             </div>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Önizleme */}
       {showPreview && (
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Eye className="w-5 h-5 text-gray-600" />
@@ -204,7 +204,7 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
               {data.subtitle && <p className="text-gray-600">{data.subtitle}</p>}
               
               <div className="mt-4">
-                <table className="w-full border-collapse border border-gray-300">
+                <table className="w-full border-collapse border border-gray-300 border border-gray-300">
                   <thead>
                     <tr className="bg-blue-600 text-white">
                       {data.headers.map((header, index) => (
@@ -234,38 +234,38 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
               </div>
             </div>
           </div>
-        </Card>
+        </CorporateCard>
       )}
 
       {/* Aksiyonlar */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex flex-wrap gap-4">
-          <Button
+          <CorporateButton
             onClick={handlePreview}
             variant="outline"
             className="flex items-center space-x-2"
           >
             <Eye className="w-4 h-4" />
             <span>{showPreview ? t('reports.hidePreview') : t('reports.showPreview')}</span>
-          </Button>
+          </CorporateButton>
           
-          <Button
+          <CorporateButton
             onClick={handleGeneratePDF}
             disabled={isGenerating}
             className="flex items-center space-x-2 bg-red-600 hover:bg-red-700"
           >
             <FileText className="w-4 h-4" />
             <span>{t('reports.generatePDF')}</span>
-          </Button>
+          </CorporateButton>
           
-          <Button
+          <CorporateButton
             onClick={handleGenerateExcel}
             disabled={isGenerating}
             className="flex items-center space-x-2 bg-green-600 hover:bg-green-700"
           >
             <FileSpreadsheet className="w-4 h-4" />
             <span>{t('reports.generateExcel')}</span>
-          </Button>
+          </CorporateButton>
           
           {isGenerating && (
             <div className="flex items-center space-x-2 text-gray-600">
@@ -274,7 +274,7 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
             </div>
           )}
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

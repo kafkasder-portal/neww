@@ -1,8 +1,7 @@
+import { Card, CardContent, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import { useEffect, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+
 import { CheckCircle, Download, Share2, Copy, ArrowLeft, AlertTriangle } from 'lucide-react'
 import { donationService } from '@/services/donationService'
 import { formatCurrency, formatDate } from '@/utils/formatters'
@@ -179,26 +178,26 @@ www.kafkasder.org
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardHeader className="text-center">
+        <CorporateCard className="max-w-md">
+          <CorporateCardHeader className="text-center">
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <AlertTriangle className="h-8 w-8 text-red-500" />
             </div>
-            <CardTitle className="text-red-600">Ödeme Başarısız</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
+            <CorporateCardTitle className="text-red-600">Ödeme Başarısız</CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent className="text-center space-y-4">
             <p className="text-gray-600">{error}</p>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => navigate('/donations')} className="flex-1">
+              <CorporateButton variant="outline" onClick={() => navigate('/donations')} className="flex-1">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Geri Dön
-              </Button>
-              <Button onClick={() => window.location.reload()} className="flex-1">
+              </CorporateButton>
+              <CorporateButton onClick={() => window.location.reload()} className="flex-1">
                 Tekrar Dene
-              </Button>
+              </CorporateButton>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
     )
   }
@@ -218,16 +217,16 @@ www.kafkasder.org
         </div>
 
         {/* Donation Details */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
+        <CorporateCard className="mb-6">
+          <CorporateCardHeader>
+            <CorporateCardTitle className="flex items-center justify-between">
               Bağış Detayları
-              <Badge variant="secondary" className="bg-green-100 text-green-800">
+              <CorporateBadge variant="outline" className="bg-green-100 text-green-800 border-green-200">
                 Başarılı
-              </Badge>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+              </CorporateBadge>
+            </CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-sm text-gray-600">Bağışçı</label>
@@ -237,14 +236,14 @@ www.kafkasder.org
                 <label className="text-sm text-gray-600">Bağış ID</label>
                 <div className="font-medium font-mono flex items-center gap-2">
                   {donation?.id}
-                  <Button
+                  <CorporateButton
                     variant="ghost"
                     size="sm"
                     onClick={handleCopyDonationId}
                     className="h-6 w-6 p-0"
                   >
                     <Copy className="h-3 w-3" />
-                  </Button>
+                  </CorporateButton>
                 </div>
               </div>
               <div>
@@ -266,7 +265,7 @@ www.kafkasder.org
             </div>
 
             {donation?.processing_fee && (
-              <div className="border-t pt-4 space-y-2">
+              <div className="border-t pt-4 space-y-6-group">
                 <div className="flex justify-between text-sm">
                   <span>Bağış Tutarı:</span>
                   <span>{formatCurrency(donation.amount)}</span>
@@ -281,27 +280,27 @@ www.kafkasder.org
                 </div>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
         {/* Actions */}
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <Button onClick={handleDownloadReceipt} variant="outline" className="flex items-center gap-2">
+          <CorporateButton onClick={handleDownloadReceipt} variant="outline" className="flex items-center gap-2">
             <Download className="h-4 w-4" />
             Makbuz İndir
-          </Button>
-          <Button onClick={handleShare} variant="outline" className="flex items-center gap-2">
+          </CorporateButton>
+          <CorporateButton onClick={handleShare} variant="outline" className="flex items-center gap-2">
             <Share2 className="h-4 w-4" />
             Paylaş
-          </Button>
+          </CorporateButton>
         </div>
 
         {/* Next Steps */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Sonraki Adımlar</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle className="text-lg">Sonraki Adımlar</CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-xs font-medium text-blue-600">1</span>
@@ -337,25 +336,25 @@ www.kafkasder.org
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
         {/* Navigation */}
         <div className="flex gap-4 mt-8">
-          <Button 
+          <CorporateButton 
             variant="outline" 
             onClick={() => navigate('/donations')}
             className="flex-1"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Bağışlara Dön
-          </Button>
-          <Button 
+          </CorporateButton>
+          <CorporateButton 
             onClick={() => navigate('/')}
             className="flex-1"
           >
             Ana Sayfaya Dön
-          </Button>
+          </CorporateButton>
         </div>
 
         {/* Additional Actions */}
@@ -369,12 +368,12 @@ www.kafkasder.org
               <p className="text-sm text-blue-800 mb-2">
                 📅 Düzenli bağış yapmak ister misiniz?
               </p>
-              <Button 
+              <CorporateButton 
                 size="sm" 
                 onClick={() => navigate('/donations/recurring')}
               >
                 Düzenli Bağış Ayarla
-              </Button>
+              </CorporateButton>
             </div>
           )}
 

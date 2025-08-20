@@ -18,8 +18,11 @@ import {
   XCircle
 } from 'lucide-react'
 import { useState } from 'react'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 
 export default function MessageAnalytics() {
+  const { colors, styles, utils } = useDesignSystem()
+
 
   const [timeFilter, setTimeFilter] = useState('week')
   const [typeFilter, setTypeFilter] = useState('all')
@@ -94,7 +97,7 @@ export default function MessageAnalytics() {
       </div>
 
       {/* Filters */}
-      <div className="bg-card p-4 rounded-lg border border-border shadow-sm">
+      <div className="bg-card p-4 border rounded-lg border-border shadow-sm">
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground" />
@@ -131,7 +134,7 @@ export default function MessageAnalytics() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <div className="bg-card p-6 rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
+        <div className="bg-card p-6 bg-card rounded-lg border rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center justify-between mb-2">
             <div className="p-2 bg-brand-primary/10 rounded-lg">
               <Send className="h-5 w-5 text-brand-primary" />
@@ -150,7 +153,7 @@ export default function MessageAnalytics() {
           <div className="text-sm text-muted-foreground">Toplam Mesaj</div>
         </div>
 
-        <div className="bg-card p-6 rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
+        <div className="bg-card p-6 bg-card rounded-lg border rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center justify-between mb-2">
             <div className="p-2 bg-semantic-success/10 rounded-lg">
               <CheckCircle className="h-5 w-5 text-semantic-success" />
@@ -169,7 +172,7 @@ export default function MessageAnalytics() {
           <div className="text-sm text-muted-foreground">Teslimat Oranı</div>
         </div>
 
-        <div className="bg-card p-6 rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
+        <div className="bg-card p-6 bg-card rounded-lg border rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center justify-between mb-2">
             <div className="p-2 bg-semantic-info/10 rounded-lg">
               <Eye className="h-5 w-5 text-semantic-info" />
@@ -188,7 +191,7 @@ export default function MessageAnalytics() {
           <div className="text-sm text-muted-foreground">Açılma Oranı</div>
         </div>
 
-        <div className="bg-card p-6 rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
+        <div className="bg-card p-6 bg-card rounded-lg border rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center justify-between mb-2">
             <div className="p-2 bg-semantic-warning/10 rounded-lg">
               <Target className="h-5 w-5 text-semantic-warning" />
@@ -207,7 +210,7 @@ export default function MessageAnalytics() {
           <div className="text-sm text-muted-foreground">Tıklama Oranı</div>
         </div>
 
-        <div className="bg-card p-6 rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
+        <div className="bg-card p-6 bg-card rounded-lg border rounded-lg border border-border shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center justify-between mb-2">
             <div className="p-2 bg-semantic-danger/10 rounded-lg">
               <XCircle className="h-5 w-5 text-semantic-danger" />
@@ -228,9 +231,9 @@ export default function MessageAnalytics() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
         {/* Daily Performance Chart */}
-        <div className="bg-card p-6 rounded-lg border border-border shadow-sm">
+        <div className="bg-card p-6 bg-card rounded-lg border rounded-lg border border-border shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-h3">Günlük Performans</h3>
             <BarChart3 className="h-5 w-5 text-muted-foreground" />
@@ -288,7 +291,7 @@ export default function MessageAnalytics() {
         </div>
 
         {/* Channel Performance */}
-        <div className="bg-card p-6 rounded-lg border border-border shadow-sm">
+        <div className="bg-card p-6 bg-card rounded-lg border rounded-lg border border-border shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-h3">Kanal Performansı</h3>
             <Target className="h-5 w-5 text-muted-foreground" />
@@ -350,7 +353,7 @@ export default function MessageAnalytics() {
         <div className="px-6 py-4 border-b border-border">
           <h3 className="text-h3">En Başarılı Şablonlar</h3>
         </div>
-        <div className="p-6">
+        <div className="p-6 bg-card rounded-lg border">
           <div className="space-y-4">
             {analyticsData.topTemplates.map((template, index) => (
               <div key={index} className="flex items-center justify-between p-4 hover:bg-muted/50 rounded-lg transition-all duration-200">
@@ -372,7 +375,7 @@ export default function MessageAnalytics() {
       </div>
 
       {/* Response Time Metric */}
-      <div className="bg-gradient-to-r from-brand-primary to-semantic-info text-white p-6 rounded-lg shadow-lg">
+      <div className="bg-gradient-to-r from-brand-primary to-semantic-info text-white p-6 bg-card rounded-lg border rounded-lg shadow-lg">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold mb-2">Ortalama Yanıt Süresi</h3>

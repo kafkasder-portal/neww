@@ -138,16 +138,16 @@ export default function BulkSend() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 space-y-4">
         {/* Sol Panel - Mesaj Ayarları */}
         <div className="lg:col-span-2 space-y-6">
           {/* Mesaj Türü */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Mesaj Türü</h2>
             <div className="grid grid-cols-3 gap-4">
               <button
                 onClick={() => setMessageType('notification')}
-                className={`p-4 rounded-lg border-2 transition-colors ${
+                className={`p-4 border rounded-lg-2 transition-colors ${
                   messageType === 'notification'
                     ? 'border-blue-500 bg-blue-50 text-blue-700'
                     : 'border-gray-200 hover:border-gray-300'
@@ -158,7 +158,7 @@ export default function BulkSend() {
               </button>
               <button
                 onClick={() => setMessageType('sms')}
-                className={`p-4 rounded-lg border-2 transition-colors ${
+                className={`p-4 border rounded-lg-2 transition-colors ${
                   messageType === 'sms'
                     ? 'border-green-500 bg-green-50 text-green-700'
                     : 'border-gray-200 hover:border-gray-300'
@@ -169,7 +169,7 @@ export default function BulkSend() {
               </button>
               <button
                 onClick={() => setMessageType('email')}
-                className={`p-4 rounded-lg border-2 transition-colors ${
+                className={`p-4 border rounded-lg-2 transition-colors ${
                   messageType === 'email'
                     ? 'border-purple-500 bg-purple-50 text-purple-700'
                     : 'border-gray-200 hover:border-gray-300'
@@ -182,7 +182,7 @@ export default function BulkSend() {
           </div>
 
           {/* Şablon Seçimi */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Mesaj Şablonu</h2>
             <select
               value={selectedTemplate}
@@ -199,11 +199,11 @@ export default function BulkSend() {
           </div>
 
           {/* Mesaj İçeriği */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Mesaj İçeriği</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Konu</label>
+                <label className="block space-y-6-label mb-2">Konu</label>
                 <input
                   type="text"
                   value={subject}
@@ -213,7 +213,7 @@ export default function BulkSend() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">İçerik</label>
+                <label className="block space-y-6-label mb-2">İçerik</label>
                 <textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
@@ -226,7 +226,7 @@ export default function BulkSend() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Öncelik</label>
+                <label className="block space-y-6-label mb-2">Öncelik</label>
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value as 'low' | 'normal' | 'high' | 'urgent')}
@@ -242,7 +242,7 @@ export default function BulkSend() {
           </div>
 
           {/* Zamanlama */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Gönderim Zamanı</h2>
             <div className="space-y-4">
               <div className="flex gap-4">
@@ -271,7 +271,7 @@ export default function BulkSend() {
               {scheduleType === 'scheduled' && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Tarih</label>
+                    <label className="block space-y-6-label mb-1">Tarih</label>
                     <input
                       type="date"
                       value={scheduledDate}
@@ -280,7 +280,7 @@ export default function BulkSend() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Saat</label>
+                    <label className="block space-y-6-label mb-1">Saat</label>
                     <input
                       type="time"
                       value={scheduledTime}
@@ -297,7 +297,7 @@ export default function BulkSend() {
         {/* Sağ Panel - Alıcılar */}
         <div className="space-y-6">
           {/* Özet */}
-          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <div className="bg-blue-50 p-4 border rounded-lg border-blue-200">
             <h3 className="font-semibold text-blue-900 mb-2">Gönderim Özeti</h3>
             <div className="space-y-1 text-sm text-blue-800">
               <div className="flex justify-between">
@@ -320,9 +320,9 @@ export default function BulkSend() {
           </div>
 
           {/* Grup Seçimi */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h3 className="font-semibold text-gray-900 mb-4">Mesaj Grupları</h3>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               {messageGroups.map(group => (
                 <label key={group.id} className="flex items-center p-2 hover:bg-gray-50 rounded">
                   <input
@@ -341,11 +341,11 @@ export default function BulkSend() {
           </div>
 
           {/* Bireysel Alıcılar */}
-          <div className="bg-white p-6 rounded-lg border">
+          <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
             <h3 className="font-semibold text-gray-900 mb-4">Bireysel Alıcılar</h3>
             
             {/* Yeni al��cı ekleme */}
-            <div className="space-y-2 mb-4">
+            <div className="space-y-6-group mb-4">
               <input
                 type="text"
                 value={newRecipientName}
@@ -369,7 +369,7 @@ export default function BulkSend() {
             </div>
 
             {/* Eklenen alıcılar */}
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               {customRecipients.map(recipient => (
                 <div key={recipient.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
                   <div>

@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react'
-import { Card } from '../../components/ui/card'
-import { Button } from '../../components/ui/button'
-import { Modal } from '../../components/Modal'
-import { DataTable } from '../../components/DataTable'
-import type { Column } from '../../components/DataTable'
-import { VolunteerService } from '../../services/volunteerService'
+import { Card } from '@components/ui/card'
+import { Button } from '@components/ui/button'
+import { Modal } from '@components/Modal'
+import { DataTable } from '@components/DataTable'
+import type { Column } from '@components/DataTable'
+import { VolunteerService } from '@services/volunteerService'
 import type { 
   Volunteer, 
   VolunteerApplication, 
   VolunteerDashboard,
   VolunteerSearchFilters 
-} from '../../types/volunteers'
+} from '@types/volunteers'
 import { toast } from 'sonner'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Users, 
   UserPlus, 
@@ -109,7 +110,7 @@ export default function VolunteerManagement() {
     <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Gönüllü</p>
@@ -118,9 +119,9 @@ export default function VolunteerManagement() {
             </div>
             <Users className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Bu Ay Saat</p>
@@ -129,9 +130,9 @@ export default function VolunteerManagement() {
             </div>
             <Clock className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Yaklaşan Vardiya</p>
@@ -139,9 +140,9 @@ export default function VolunteerManagement() {
             </div>
             <Calendar className="h-8 w-8 text-purple-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Tutma Oranı</p>
@@ -149,12 +150,12 @@ export default function VolunteerManagement() {
             </div>
             <TrendingUp className="h-8 w-8 text-semantic-warning" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="p-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 space-y-4">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Genel İstatistikler</h3>
           <div className="space-y-3">
             <div className="flex justify-between">
@@ -170,9 +171,9 @@ export default function VolunteerManagement() {
               <span className="font-medium">{dashboardData?.highestRatedDepartment || '-'}</span>
             </div>
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Son Başvurular</h3>
           <div className="space-y-3">
             {dashboardData?.recentApplications.slice(0, 3).map((app) => (
@@ -195,9 +196,9 @@ export default function VolunteerManagement() {
               <p className="text-sm text-muted-foreground text-center py-4">Son başvuru bulunamadı</p>
             )}
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Uyarılar</h3>
             <AlertCircle className="h-5 w-5 text-semantic-warning" />
@@ -222,50 +223,50 @@ export default function VolunteerManagement() {
               </div>
             )}
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Quick Actions */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4">Hızlı İşlemler</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Button 
+          <CorporateButton 
             onClick={() => setShowVolunteerModal(true)}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <UserPlus className="h-6 w-6 mb-2" />
             Gönüllü Ekle
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             onClick={() => setShowShiftModal(true)}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <Calendar className="h-6 w-6 mb-2" />
             Vardiya Oluştur
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             onClick={() => setActiveTab('applications')}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <FileText className="h-6 w-6 mb-2" />
             Başvuruları İncele
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             onClick={() => setActiveTab('training')}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <BookOpen className="h-6 w-6 mb-2" />
             Eğitim Planla
-          </Button>
+          </CorporateButton>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 
@@ -339,19 +340,19 @@ export default function VolunteerManagement() {
         header: 'İşlemler',
         render: (_, volunteer) => (
           <div className="flex space-x-1">
-            <Button 
+            <CorporateButton 
               variant="outline" 
               size="sm" 
               onClick={() => setSelectedVolunteer(volunteer)}
             >
               <Eye className="w-3 h-3" />
-            </Button>
-            <Button variant="outline" size="sm">
+            </CorporateButton>
+            <CorporateButton variant="outline" size="sm">
               <Edit className="w-3 h-3" />
-            </Button>
-            <Button variant="outline" size="sm">
+            </CorporateButton>
+            <CorporateButton variant="outline" size="sm">
               <Phone className="w-3 h-3" />
-            </Button>
+            </CorporateButton>
           </div>
         )
       }
@@ -369,27 +370,27 @@ export default function VolunteerManagement() {
               placeholder="Gönüllü ara (ad, e-posta, telefon...)"
             />
           </div>
-          <Button onClick={handleSearch} size="sm">
+          <CorporateButton onClick={handleSearch} size="sm">
             <Search className="w-3 h-3 mr-1" />
             Ara
-          </Button>
-          <Button 
+          </CorporateButton>
+          <CorporateButton 
             variant="outline" 
             size="sm"
             onClick={() => setShowFilters(!showFilters)}
           >
             <Filter className="w-3 h-3 mr-1" />
             Filtrele
-          </Button>
-          <Button onClick={() => setShowVolunteerModal(true)} size="sm">
+          </CorporateButton>
+          <CorporateButton onClick={() => setShowVolunteerModal(true)} size="sm">
             <UserPlus className="w-3 h-3 mr-1" />
             Yeni Gönüllü
-          </Button>
+          </CorporateButton>
         </div>
 
         {/* Filters Panel */}
         {showFilters && (
-          <Card className="p-4">
+          <CorporateCard className="p-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Durum</label>
@@ -421,20 +422,20 @@ export default function VolunteerManagement() {
                 </select>
               </div>
               <div className="flex items-end">
-                <Button size="sm" className="w-full">Filtrele</Button>
+                <CorporateButton size="sm" className="w-full">Filtrele</CorporateButton>
               </div>
             </div>
-          </Card>
+          </CorporateCard>
         )}
 
         {/* Volunteers Table */}
-        <Card>
+        <CorporateCard>
           {loading ? (
-            <div className="p-6 text-center">Yükleniyor...</div>
+            <div className="p-6 bg-card rounded-lg border text-center">Yükleniyor...</div>
           ) : (
             <DataTable columns={columns} data={volunteers} />
           )}
-        </Card>
+        </CorporateCard>
       </div>
     )
   }
@@ -482,29 +483,29 @@ export default function VolunteerManagement() {
         header: 'İşlemler',
         render: (_, app) => (
           <div className="flex space-x-1">
-            <Button 
+            <CorporateButton 
               variant="outline" 
               size="sm" 
               onClick={() => setSelectedApplication(app)}
             >
               <Eye className="w-3 h-3" />
-            </Button>
+            </CorporateButton>
             {app.status === 'pending' && (
               <>
-                <Button 
+                <CorporateButton 
                   variant="outline" 
                   size="sm"
                   onClick={() => handleApproveApplication(app.id)}
                 >
                   <CheckCircle className="w-3 h-3" />
-                </Button>
-                <Button 
+                </CorporateButton>
+                <CorporateButton 
                   variant="outline" 
                   size="sm"
                   onClick={() => handleRejectApplication(app.id)}
                 >
                   <X className="w-3 h-3" />
-                </Button>
+                </CorporateButton>
               </>
             )}
           </div>
@@ -516,19 +517,19 @@ export default function VolunteerManagement() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold">Gönüllü Başvuruları</h2>
-          <Button onClick={() => toast.info('Başvuru formu yakında eklenecek')}>
+          <CorporateButton onClick={() => toast.info('Başvuru formu yakında eklenecek')}>
             <Plus className="w-4 h-4 mr-2" />
             Yeni Başvuru
-          </Button>
+          </CorporateButton>
         </div>
 
-        <Card>
+        <CorporateCard>
           {loading ? (
-            <div className="p-6 text-center">Yükleniyor...</div>
+            <div className="p-6 bg-card rounded-lg border text-center">Yükleniyor...</div>
           ) : (
             <DataTable columns={columns} data={applications} />
           )}
-        </Card>
+        </CorporateCard>
       </div>
     )
   }
@@ -553,14 +554,14 @@ export default function VolunteerManagement() {
           <p className="text-muted-foreground">Gönüllü koordinasyonu ve program yönetimi</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowShiftModal(true)}>
+          <CorporateButton variant="outline" onClick={() => setShowShiftModal(true)}>
             <Calendar className="w-4 h-4 mr-2" />
             Vardiya Oluştur
-          </Button>
-          <Button onClick={() => setShowVolunteerModal(true)}>
+          </CorporateButton>
+          <CorporateButton onClick={() => setShowVolunteerModal(true)}>
             <UserPlus className="w-4 h-4 mr-2" />
             Gönüllü Ekle
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
@@ -596,19 +597,19 @@ export default function VolunteerManagement() {
       {activeTab === 'volunteers' && <VolunteersTab />}
       {activeTab === 'applications' && <ApplicationsTab />}
       {activeTab === 'shifts' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
       <p className="text-muted-foreground">Vardiya yönetimi modülü yakında...</p>
         </div>
       )}
       {activeTab === 'training' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
       <p className="text-muted-foreground">Eğitim yönetimi modülü yakında...</p>
         </div>
       )}
       {activeTab === 'events' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
       <p className="text-muted-foreground">Etkinlik yönetimi modülü yakında...</p>
         </div>
@@ -670,18 +671,18 @@ export default function VolunteerManagement() {
             </div>
 
             <div className="flex space-x-2">
-              <Button variant="outline" className="flex-1">
+              <CorporateButton variant="outline" className="flex-1">
                 <Phone className="w-4 h-4 mr-2" />
                 Ara
-              </Button>
-              <Button variant="outline" className="flex-1">
+              </CorporateButton>
+              <CorporateButton variant="outline" className="flex-1">
                 <Mail className="w-4 h-4 mr-2" />
                 E-posta
-              </Button>
-              <Button className="flex-1">
+              </CorporateButton>
+              <CorporateButton className="flex-1">
                 <Edit className="w-4 h-4 mr-2" />
                 Düzenle
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </Modal>

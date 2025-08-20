@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { CorporateButton, CorporateCard, CorporateCardHeader, CorporateCardTitle, CorporateCardContent, KPICard, QuickAccessCard, CorporateAlert, CorporateBadge, CorporateModal } from '@/components/ui/corporate/CorporateComponents'
 import { DonorCRMService } from '@/services/donorCRMService'
 import type { Donor, DonorDashboardData, DonorSearchFilters, DonorTaskList } from '@/types/donors'
 import { toast } from 'sonner'
@@ -24,7 +23,9 @@ import {
   Clock,
   AlertCircle,
   CheckCircle,
-  DollarSign
+  DollarSign,
+  Gift,
+  Send
 } from 'lucide-react'
 import DonorProfiles from './DonorProfiles'
 import CommunicationHistory from './CommunicationHistory'
@@ -100,10 +101,10 @@ function Modal({ isOpen, onClose, title, children }: ModalProps) {
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75" onClick={onClose}></div>
+          <div className="absolute inset-0 bg-gray-50 opacity-75" onClick={onClose}></div>
         </div>
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 bg-card rounded-lg border sm:pb-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">{title}</h3>
               <button
@@ -184,192 +185,137 @@ export default function CRMManagement() {
 
   const DashboardTab = () => (
     <div className="space-y-6">
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Toplam Bağışçı</p>
-              <p className="text-2xl font-bold text-blue-600">{dashboardData?.totalDonors || 0}</p>
-              <p className="text-xs text-green-600">+{dashboardData?.newDonorsThisMonth || 0} bu ay</p>
-            </div>
-            <Users className="h-8 w-8 text-blue-600" />
-          </div>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Aktif Bağışçı</p>
-              <p className="text-2xl font-bold text-green-600">{dashboardData?.activeDonors || 0}</p>
-              <p className="text-xs text-gray-600">
-                %{dashboardData ? Math.round((dashboardData.activeDonors / dashboardData.totalDonors) * 100) : 0} oran
-              </p>
-            </div>
-            <Heart className="h-8 w-8 text-green-600" />
-          </div>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Ortalama Bağış</p>
-              <p className="text-2xl font-bold text-purple-600">
-                {formatCurrency(dashboardData?.averageDonationAmount || 0)}
-              </p>
-            </div>
-            <DollarSign className="h-8 w-8 text-purple-600" />
-          </div>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Tutma Oranı</p>
-              <p className="text-2xl font-bold text-orange-600">
-                %{Math.round(dashboardData?.donorRetentionRate || 0)}
-              </p>
-            </div>
-            <Target className="h-8 w-8 text-orange-600" />
-          </div>
-        </Card>
+      <div className="grid grid-cols-4">
+        <KPICard 
+          title="Toplam Bağışçı"
+          value={(dashboardData?.totalDonors || 0).toString()}
+          icon={<Users />}
+          change={{ value: dashboardData?.newDonorsThisMonth || 0, isPositive: true }}
+        />
+        <KPICard 
+          title="Aktif Bağışçı"
+          value={(dashboardData?.activeDonors || 0).toString()}
+          icon={<Heart />}
+        />
+        <KPICard 
+          title="Ortalama Bağış"
+          value={formatCurrency(dashboardData?.averageDonationAmount || 0)}
+          icon={<DollarSign />}
+        />
+        <KPICard 
+          title="Tutma Oranı"
+          value={`%${Math.round(dashboardData?.donorRetentionRate || 0)}`}
+          icon={<Target />}
+          change={{ value: 2.5, isPositive: true }}
+        />
       </div>
 
-      {/* Quick Actions */}
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Hızlı İşlemler</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Button 
-            variant="outline" 
-            className="h-20 flex-col space-y-2"
-            onClick={() => setShowDonorModal(true)}
-          >
-            <UserPlus className="h-6 w-6" />
-            <span className="text-sm">Yeni Bağışçı</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            className="h-20 flex-col space-y-2"
-            onClick={() => setShowCampaignModal(true)}
-          >
-            <Mail className="h-6 w-6" />
-            <span className="text-sm">Kampanya Başlat</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            className="h-20 flex-col space-y-2"
-            onClick={() => setShowSegmentModal(true)}
-          >
-            <Target className="h-6 w-6" />
-            <span className="text-sm">Segment Oluştur</span>
-          </Button>
-          <Button 
-            variant="outline" 
-            className="h-20 flex-col space-y-2"
-            onClick={() => setShowTaskModal(true)}
-          >
-            <Calendar className="h-6 w-6" />
-            <span className="text-sm">Görev Ekle</span>
-          </Button>
-        </div>
-      </Card>
+      <QuickAccessCard
+        title="Hızlı İşlemler"
+        actions={[
+          { label: 'Yeni Bağışçı', icon: <UserPlus />, onClick: () => setShowDonorModal(true) },
+          { label: 'Kampanya Başlat', icon: <Mail />, onClick: () => setShowCampaignModal(true) },
+          { label: 'Segment Oluştur', icon: <Target />, onClick: () => setShowSegmentModal(true) },
+          { label: 'Görev Ekle', icon: <Calendar />, onClick: () => setShowTaskModal(true) },
+        ]}
+      />
 
-      {/* Recent Activity & Top Donors */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Son Aktiviteler</h3>
-          <div className="space-y-3">
-            <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle>Son Aktiviteler</CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent className="space-y-3">
+            <div className="flex items-center space-x-3 p-3 bg-bg-primary/5 rounded-lg">
+              <div className="w-8 h-8 bg-bg-primary rounded-full flex items-center justify-center">
                 <UserPlus className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium">Yeni bağışçı eklendi</p>
+                <p className="text-sm font-medium text-gray-900">Yeni bağışçı eklendi</p>
                 <p className="text-xs text-gray-600">Ahmet Yılmaz - 2 saat önce</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3 p-3 bg-green-50 rounded">
-              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+            <div className="flex items-center space-x-3 p-3 bg-bg-green-500-50 rounded-lg">
+              <div className="w-8 h-8 bg-bg-green-500-500 rounded-full flex items-center justify-center">
                 <Gift className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium">Bağış alındı</p>
+                <p className="text-sm font-medium text-gray-900">Bağış alındı</p>
                 <p className="text-xs text-gray-600">Fatma Demir - 5,000 TL - 4 saat önce</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3 p-3 bg-purple-50 rounded">
-              <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+            <div className="flex items-center space-x-3 p-3 bg-bg-blue-500-50 rounded-lg">
+              <div className="w-8 h-8 bg-bg-blue-500-500 rounded-full flex items-center justify-center">
                 <Send className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium">Kampanya gönderildi</p>
+                <p className="text-sm font-medium text-gray-900">Kampanya gönderildi</p>
                 <p className="text-xs text-gray-600">Ramazan Kampanyası - 150 alıcı - 1 gün önce</p>
               </div>
             </div>
-          </div>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">En Yüksek Bağışçılar</h3>
-          <div className="space-y-3">
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle>En Yüksek Bağışçılar</CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent className="space-y-3">
             {dashboardData?.topDonors?.map((donor, index) => (
-              <div key={donor.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+              <div key={donor.id} className="flex items-center justify-between p-3 bg-bg-muted hover:bg-bg-muted/80 rounded-lg">
                 <div className="flex items-center">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3 ${
-                    index === 0 ? 'bg-yellow-500' :
-                    index === 1 ? 'bg-gray-400' :
-                    index === 2 ? 'bg-orange-500' : 'bg-blue-500'
+                    index === 0 ? 'bg-yellow-400' :
+                    index === 1 ? 'bg-gray-300' :
+                    index === 2 ? 'bg-orange-400' : 'bg-bg-primary'
                   }`}>
                     {index + 1}
                   </div>
                   <div>
-                    <p className="font-medium">{donor.name}</p>
+                    <p className="font-medium text-gray-900">{donor.name}</p>
                     <p className="text-sm text-gray-600">{donor.lastDonation}</p>
                   </div>
                 </div>
-                <span className="font-bold text-green-600">{formatCurrency(donor.totalDonated)}</span>
+                <span className="font-bold text-bg-green-500-600">{formatCurrency(donor.totalDonated)}</span>
               </div>
             )) || []}
-          </div>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
-      {/* Upcoming Tasks */}
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Yaklaşan Görevler</h3>
-          <Button variant="outline" size="sm" onClick={() => setShowTaskModal(true)}>
-            <Plus className="w-4 h-4 mr-1" />
-            Yeni Görev
-          </Button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <div className="flex items-center justify-between">
+            <CorporateCardTitle>Yaklaşan Görevler</CorporateCardTitle>
+            <CorporateButton variant="outline" size="sm" onClick={() => setShowTaskModal(true)}>
+              <Plus className="w-4 h-4 mr-1" />
+              Yeni Görev
+            </CorporateButton>
+          </div>
+        </CorporateCardHeader>
+        <CorporateCardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {upcomingTasks.slice(0, 6).map((task) => (
-            <div key={task.id} className="p-4 border rounded-lg">
+            <div key={task.id} className="p-4 border border-gray-200 rounded-lg bg-white">
               <div className="flex items-center justify-between mb-2">
-                <span className={`px-2 py-1 rounded text-xs font-medium ${
-                  task.priority === 'urgent' ? 'bg-red-100 text-red-800' :
-                  task.priority === 'high' ? 'bg-orange-100 text-orange-800' :
-                  task.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
-                }`}>
+                <CorporateBadge variant={task.priority === 'urgent' ? 'danger' : task.priority === 'high' ? 'warning' : task.priority === 'medium' ? 'info' : 'success'}>
                   {task.priority === 'urgent' ? 'Acil' :
                    task.priority === 'high' ? 'Yüksek' :
                    task.priority === 'medium' ? 'Orta' : 'Düşük'}
-                </span>
-                <Clock className="w-4 h-4 text-gray-400" />
+                </CorporateBadge>
+                <Clock className="w-4 h-4 text-gray-600" />
               </div>
-              <h4 className="font-medium text-sm mb-1">{task.title}</h4>
+              <h4 className="font-medium text-sm mb-1 text-gray-900">{task.title}</h4>
               <p className="text-xs text-gray-600 mb-2">{task.description}</p>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-500">{task.dueDate}</span>
-                <Button variant="outline" size="sm">
-                  <CheckCircle className="w-3 h-3" />
-                </Button>
+                <CorporateButton variant="ghost" size="icon-sm">
+                  <CheckCircle className="w-4 h-4" />
+                </CorporateButton>
               </div>
             </div>
           ))}
-        </div>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
     </div>
   )
 
@@ -393,14 +339,14 @@ export default function CRMManagement() {
           <p className="text-gray-600">Müşteri ilişkileri ve bağışçı yönetimi sistemi</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowCampaignModal(true)}>
+          <CorporateButton variant="outline" onClick={() => setShowCampaignModal(true)}>
             <Mail className="w-4 h-4 mr-2" />
             Yeni Kampanya
-          </Button>
-          <Button onClick={() => setShowDonorModal(true)}>
+          </CorporateButton>
+          <CorporateButton onClick={() => setShowDonorModal(true)}>
             <UserPlus className="w-4 h-4 mr-2" />
             Bağışçı Ekle
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
@@ -442,13 +388,13 @@ export default function CRMManagement() {
         />
       )}
       {activeTab === 'segments' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Target className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Bağışçı segmentasyon modülü geliştiriliyor...</p>
-          <Button className="mt-4" onClick={() => setShowSegmentModal(true)}>
+          <CorporateButton className="mt-4" onClick={() => setShowSegmentModal(true)}>
             <Plus className="w-4 h-4 mr-2" />
             Yeni Segment Oluştur
-          </Button>
+          </CorporateButton>
         </div>
       )}
       {activeTab === 'campaigns' && (
@@ -458,130 +404,86 @@ export default function CRMManagement() {
         <CommunicationHistory donors={donors} />
       )}
       {activeTab === 'tasks' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Görev yönetimi modülü geliştiriliyor...</p>
-          <Button className="mt-4" onClick={() => setShowTaskModal(true)}>
+          <CorporateButton className="mt-4" onClick={() => setShowTaskModal(true)}>
             <Plus className="w-4 h-4 mr-2" />
             Yeni Görev Ekle
-          </Button>
+          </CorporateButton>
         </div>
       )}
       {activeTab === 'analytics' && (
-        <CRMAnalytics dashboardData={dashboardData} />
+        <CRMAnalytics onRefresh={loadData} />
       )}
 
-      {/* Modals */}
-      {showDonorModal && (
-        <Modal
-          isOpen={showDonorModal}
-          onClose={() => setShowDonorModal(false)}
-          title="Yeni Bağışçı Ekle"
-        >
-          <div className="p-4">
-            <p>Bağışçı ekleme formu burada olacak...</p>
-          </div>
-        </Modal>
-      )}
+      <CorporateModal
+        isOpen={showDonorModal}
+        onClose={() => setShowDonorModal(false)}
+        title="Yeni Bağışçı Ekle"
+      >
+        <div className="p-4 space-y-4">
+          <FormGroup>
+            <FormLabel>İsim Soyisim</FormLabel>
+            <FormInput placeholder="örn. Ahmet Yılmaz" />
+          </FormGroup>
+          <FormGroup>
+            <FormLabel>E-posta</FormLabel>
+            <FormInput type="email" placeholder="örn. ahmet@ornek.com" />
+          </FormGroup>
+          <FormGroup>
+            <FormLabel>Telefon</FormLabel>
+            <FormInput type="tel" placeholder="örn. 555 123 4567" />
+          </FormGroup>
+          <CorporateAlert title="Bilgilendirme" description="Bu sadece bir demo formudur. Geliştirme aşamasındadır." />
+        </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50-footer">
+          <CorporateButton variant="outline" onClick={() => setShowDonorModal(false)}>İptal</CorporateButton>
+          <CorporateButton>Kaydet</CorporateButton>
+        </div>
+      </CorporateModal>
 
-      {showCampaignModal && (
-        <Modal
-          isOpen={showCampaignModal}
-          onClose={() => setShowCampaignModal(false)}
-          title="Yeni Kampanya Oluştur"
-        >
-          <div className="p-4">
-            <p>Kampanya oluşturma formu burada olacak...</p>
-          </div>
-        </Modal>
-      )}
+      <CorporateModal
+        isOpen={showCampaignModal}
+        onClose={() => setShowCampaignModal(false)}
+        title="Yeni Kampanya Oluştur"
+      >
+        <div className="p-4">
+          <p>Kampanya oluşturma formu burada olacak...</p>
+        </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50-footer">
+          <CorporateButton variant="outline" onClick={() => setShowCampaignModal(false)}>İptal</CorporateButton>
+          <CorporateButton>Oluştur</CorporateButton>
+        </div>
+      </CorporateModal>
 
-      {showSegmentModal && (
-        <Modal
-          isOpen={showSegmentModal}
-          onClose={() => setShowSegmentModal(false)}
-          title="Yeni Segment Oluştur"
-        >
-          <div className="p-4">
-            <p>Segment oluşturma formu burada olacak...</p>
-          </div>
-        </Modal>
-      )}
+      <CorporateModal
+        isOpen={showSegmentModal}
+        onClose={() => setShowSegmentModal(false)}
+        title="Yeni Segment Oluştur"
+      >
+        <div className="p-4">
+          <p>Segment oluşturma formu burada olacak...</p>
+        </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50-footer">
+          <CorporateButton variant="outline" onClick={() => setShowSegmentModal(false)}>İptal</CorporateButton>
+          <CorporateButton>Oluştur</CorporateButton>
+        </div>
+      </CorporateModal>
 
-      {showTaskModal && (
-        <Modal
-          isOpen={showTaskModal}
-          onClose={() => setShowTaskModal(false)}
-          title="Yeni Görev Ekle"
-        >
-          <div className="p-4">
-            <p>Görev ekleme formu burada olacak...</p>
-          </div>
-        </Modal>
-      )}
-
-      {/* Donor Detail Modal */}
-      {selectedDonor && (
-        <Modal
-          isOpen={!!selectedDonor}
-          onClose={() => setSelectedDonor(null)}
-          title="Bağışçı Detayları"
-        >
-          <div className="p-4 space-y-4">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                {selectedDonor.donorType === 'individual' ? 
-                  `${selectedDonor.firstName?.charAt(0) || ''}${selectedDonor.lastName?.charAt(0) || ''}` :
-                  selectedDonor.companyName?.charAt(0) || 'C'
-                }
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold">
-                  {selectedDonor.donorType === 'individual' ? 
-                    `${selectedDonor.firstName} ${selectedDonor.lastName}` : 
-                    selectedDonor.companyName
-                  }
-                </h3>
-                <p className="text-gray-600">{selectedDonor.email}</p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-gray-600">Toplam Bağış</p>
-                <p className="font-semibold">{formatCurrency(selectedDonor.totalDonated)}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Bağış Sayısı</p>
-                <p className="font-semibold">{selectedDonor.donationCount || 0}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Kademe</p>
-                <p className="font-semibold">{selectedDonor.donorTier}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Durum</p>
-                <p className="font-semibold">{selectedDonor.relationshipStatus}</p>
-              </div>
-            </div>
-
-            <div className="flex space-x-2">
-              <Button variant="outline" className="flex-1">
-                <Phone className="w-4 h-4 mr-2" />
-                Ara
-              </Button>
-              <Button variant="outline" className="flex-1">
-                <Mail className="w-4 h-4 mr-2" />
-                E-posta
-              </Button>
-              <Button className="flex-1">
-                <Edit className="w-4 h-4 mr-2" />
-                Düzenle
-              </Button>
-            </div>
-          </div>
-        </Modal>
-      )}
+      <CorporateModal
+        isOpen={showTaskModal}
+        onClose={() => setShowTaskModal(false)}
+        title="Yeni Görev Ekle"
+      >
+        <div className="p-4">
+          <p>Görev ekleme formu burada olacak...</p>
+        </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50-footer">
+          <CorporateButton variant="outline" onClick={() => setShowTaskModal(false)}>İptal</CorporateButton>
+          <CorporateButton>Ekle</CorporateButton>
+        </div>
+      </CorporateModal>
     </div>
   )
 }

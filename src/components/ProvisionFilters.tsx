@@ -32,7 +32,7 @@ export function ProvisionFilters({
   setDateFilter
 }: ProvisionFiltersProps) {
   return (
-    <div className="bg-white p-4 rounded-lg border mb-6">
+    <div className="bg-white p-4 border rounded-lg mb-6">
       <div className="grid grid-cols-4 gap-4 mb-4">
         <div>
           <label className="block text-sm font-medium mb-1">Arama</label>

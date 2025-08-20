@@ -1,8 +1,9 @@
 import React from 'react';
 import { AlertTriangle, Settings, ExternalLink } from 'lucide-react';
 import { Button } from './ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from './ui/corporate/CorporateComponents';
 import { Alert, AlertDescription } from './ui/alert';
+import { CorporateCard, CorporateButton, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 
 interface AuthErrorBoundaryProps {
   children: React.ReactNode;
@@ -65,15 +66,15 @@ npm run dev`;
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="max-w-2xl w-full">
-        <CardHeader className="text-center">
+      <CorporateCard className="max-w-2xl w-full">
+        <CorporateCardHeader className="text-center">
           <div className="mx-auto mb-4 w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
             <AlertTriangle className="w-6 h-6 text-red-600" />
           </div>
-          <CardTitle className="text-2xl text-red-900">Configuration Required</CardTitle>
-        </CardHeader>
+          <CorporateCardTitle className="text-2xl text-red-900">Configuration Required</CorporateCardTitle>
+        </CorporateCardHeader>
         
-        <CardContent className="space-y-6">
+        <CorporateCardContent className="space-y-6">
           <Alert>
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription className="font-medium">
@@ -93,9 +94,9 @@ npm run dev`;
                 <p className="text-sm text-gray-600 mb-3">
                   Automatically set up your Supabase project and configure the environment.
                 </p>
-                <Button onClick={handleConnectSupabase} className="w-full">
+                <CorporateButton onClick={handleConnectSupabase} className="w-full">
                   Connect to Supabase
-                </Button>
+                </CorporateButton>
               </div>
 
               <div className="border rounded-lg p-4">
@@ -106,13 +107,13 @@ npm run dev`;
                 <p className="text-sm text-gray-600 mb-3">
                   Create a Supabase project manually and update your .env file.
                 </p>
-                <Button 
+                <CorporateButton 
                   variant="outline" 
                   onClick={() => window.open('https://supabase.com', '_blank')}
                   className="w-full"
                 >
                   Go to Supabase
-                </Button>
+                </CorporateButton>
               </div>
 
               <div className="border rounded-lg p-4">
@@ -120,20 +121,20 @@ npm run dev`;
                 <p className="text-sm text-gray-600 mb-3">
                   Enable mock mode for development without Supabase.
                 </p>
-                <Button 
-                  variant="secondary" 
+                <CorporateButton 
+                  variant="outline" 
                   onClick={handleEnableMockMode}
                   className="w-full"
                 >
                   Copy Mock Mode Config
-                </Button>
+                </CorporateButton>
               </div>
             </div>
           </div>
 
           {error && (
             <details className="mt-4">
-              <summary className="cursor-pointer text-sm font-medium text-gray-700">
+              <summary className="cursor-pointer space-y-6-label">
                 Technical Details
               </summary>
               <pre className="mt-2 text-xs bg-gray-100 p-3 rounded overflow-auto">
@@ -141,8 +142,8 @@ npm run dev`;
               </pre>
             </details>
           )}
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
     </div>
   );
 }
@@ -154,26 +155,26 @@ function GenericAuthErrorFallback({ error }: { error?: Error }) {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="max-w-md w-full">
-        <CardHeader className="text-center">
+      <CorporateCard className="max-w-md w-full">
+        <CorporateCardHeader className="text-center">
           <div className="mx-auto mb-4 w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
             <AlertTriangle className="w-6 h-6 text-red-600" />
           </div>
-          <CardTitle className="text-xl text-red-900">Authentication Error</CardTitle>
-        </CardHeader>
+          <CorporateCardTitle className="text-xl text-red-900">Authentication Error</CorporateCardTitle>
+        </CorporateCardHeader>
         
-        <CardContent className="space-y-4">
+        <CorporateCardContent className="space-y-4">
           <p className="text-center text-gray-600">
             An error occurred while initializing the authentication system.
           </p>
           
-          <Button onClick={handleRetry} className="w-full">
+          <CorporateButton onClick={handleRetry} className="w-full">
             Try Again
-          </Button>
+          </CorporateButton>
 
           {error && (
             <details className="mt-4">
-              <summary className="cursor-pointer text-sm font-medium text-gray-700">
+              <summary className="cursor-pointer space-y-6-label">
                 Error Details
               </summary>
               <pre className="mt-2 text-xs bg-gray-100 p-3 rounded overflow-auto">
@@ -181,8 +182,8 @@ function GenericAuthErrorFallback({ error }: { error?: Error }) {
               </pre>
             </details>
           )}
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
     </div>
   );
 }

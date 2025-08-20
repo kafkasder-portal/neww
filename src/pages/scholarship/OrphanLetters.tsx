@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Mail,
   Plus,
@@ -159,7 +160,7 @@ export default function OrphanLetters() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <Mail className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Yetim Mektupları</h1>
@@ -171,7 +172,7 @@ export default function OrphanLetters() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Gelen Mektup</p>
@@ -179,8 +180,8 @@ export default function OrphanLetters() {
             </div>
             <Mail className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Gönderilen</p>
@@ -188,8 +189,8 @@ export default function OrphanLetters() {
             </div>
             <Send className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Yanıt Bekleyen</p>
@@ -197,8 +198,8 @@ export default function OrphanLetters() {
             </div>
             <Reply className="h-8 w-8 text-semantic-warning" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Şablon</p>
@@ -206,11 +207,11 @@ export default function OrphanLetters() {
             </div>
             <FileText className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Tabs */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex space-x-1 bg-muted p-1 rounded-lg mb-6">
           <button
             onClick={() => setActiveTab('received')}
@@ -260,21 +261,21 @@ export default function OrphanLetters() {
           </div>
           <div className="flex gap-2">
             {activeTab === 'templates' && (
-              <Button className="gap-2">
+              <CorporateButton className="gap-2">
                 <Plus className="h-4 w-4" />
                 Yeni Şablon
-              </Button>
+              </CorporateButton>
             )}
             {activeTab !== 'templates' && (
               <>
-                <Button variant="outline" className="gap-2">
+                <CorporateButton variant="outline" className="gap-2">
                   <Archive className="h-4 w-4" />
                   Arşivle
-                </Button>
-                <Button className="gap-2">
+                </CorporateButton>
+                <CorporateButton className="gap-2">
                   <Plus className="h-4 w-4" />
                   Yeni Mektup
-                </Button>
+                </CorporateButton>
               </>
             )}
           </div>
@@ -332,13 +333,13 @@ export default function OrphanLetters() {
                         )}
                       </div>
                       <div className="flex gap-2">
-                        <Button size="sm" variant="outline">
+                        <CorporateButton size="sm" variant="outline">
                           <Reply className="h-4 w-4 mr-1" />
                           Yanıtla
-                        </Button>
-                        <Button size="sm" variant="outline">
+                        </CorporateButton>
+                        <CorporateButton size="sm" variant="outline">
                           <Download className="h-4 w-4" />
-                        </Button>
+                        </CorporateButton>
                       </div>
                     </div>
                   </div>
@@ -378,9 +379,9 @@ export default function OrphanLetters() {
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         {new Date(letter.date).toLocaleDateString('tr-TR')}
                       </span>
-                      <Button size="sm" variant="outline">
+                      <CorporateButton size="sm" variant="outline">
                         <Download className="h-4 w-4" />
-                      </Button>
+                      </CorporateButton>
                     </div>
                   </div>
                 </div>
@@ -405,19 +406,19 @@ export default function OrphanLetters() {
                     <p className="line-clamp-3">{template.content}</p>
                   </div>
                   <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="flex-1">
+                    <CorporateButton size="sm" variant="outline" className="flex-1">
                       Düzenle
-                    </Button>
-                    <Button size="sm" className="flex-1">
+                    </CorporateButton>
+                    <CorporateButton size="sm" className="flex-1">
                       Kullan
-                    </Button>
+                    </CorporateButton>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         )}
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

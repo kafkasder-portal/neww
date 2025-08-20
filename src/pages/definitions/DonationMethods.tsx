@@ -82,7 +82,7 @@ export default function DonationMethods() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-card rounded-lg border">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <Coins className="h-8 w-8 text-green-600" />
@@ -94,7 +94,7 @@ export default function DonationMethods() {
       </div>
 
       <div className="bg-white rounded-lg shadow">
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 bg-card rounded-lg border border-b border-gray-200">
           <div className="flex flex-col sm:flex-row gap-4 justify-between">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -155,7 +155,7 @@ export default function DonationMethods() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border-gray-200">
                       {method.code}
                     </span>
                   </td>
@@ -172,8 +172,8 @@ export default function DonationMethods() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       method.isActive 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800 border-green-200' 
+                        : 'bg-red-100 text-red-800 border-red-200'
                     }`}>
                       {method.isActive ? 'Aktif' : 'Pasif'}
                     </span>
@@ -199,7 +199,7 @@ export default function DonationMethods() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className="p-6">
+        <div className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-medium text-gray-900 mb-4">
             {editingMethod ? 'Bağış Yöntemi Düzenle' : 'Yeni Bağış Yöntemi Ekle'}
           </h3>
@@ -207,7 +207,7 @@ export default function DonationMethods() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   Yöntem Adı
                 </label>
                 <input
@@ -218,7 +218,7 @@ export default function DonationMethods() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block space-y-6-label mb-2">
                   Kod
                 </label>
                 <input
@@ -230,7 +230,7 @@ export default function DonationMethods() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block space-y-6-label mb-2">
                 Açıklama
               </label>
               <textarea
@@ -241,7 +241,7 @@ export default function DonationMethods() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block space-y-6-label mb-2">
                 Komisyon Oranı (%)
               </label>
               <input
@@ -269,7 +269,7 @@ export default function DonationMethods() {
           <div className="flex gap-3 mt-6">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="flex-1 px-4 py-2 space-y-6-label bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
             >
               İptal
             </button>

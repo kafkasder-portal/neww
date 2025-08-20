@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CorporateButton, CorporateBadge, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
+
 import { toast } from 'sonner'
 import {
   TrendingUp,
@@ -163,9 +163,9 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
 
   const getVarianceColor = (status: string) => {
     switch (status) {
-      case 'over': return 'bg-red-100 text-red-800'
-      case 'under': return 'bg-yellow-100 text-yellow-800'
-      default: return 'bg-green-100 text-green-800'
+      case 'over': return 'bg-red-100 text-red-800 border-red-200'
+      case 'under': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+      default: return 'bg-green-100 text-green-800 border-green-200'
     }
   }
 
@@ -203,7 +203,7 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
 
   if (!selectedBudget) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-8 text-muted-foreground">
         <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
         <p className="text-gray-600">Analiz için bir bütçe seçin</p>
       </div>
@@ -231,16 +231,16 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
               ))}
             </SelectContent>
           </Select>
-          <Button onClick={exportVarianceReport} variant="outline">
+          <CorporateButton onClick={exportVarianceReport} variant="outline">
             <Download className="h-4 w-4 mr-2" />
             Rapor İndir
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Toplam Bütçe</p>
@@ -250,9 +250,9 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
             </div>
             <BarChart3 className="h-8 w-8 text-blue-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Toplam Gerçekleşen</p>
@@ -262,9 +262,9 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
             </div>
             <TrendingUp className="h-8 w-8 text-green-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Toplam Varyans</p>
@@ -276,9 +276,9 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
             </div>
             <AlertTriangle className="h-8 w-8 text-yellow-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Varyans Oranı</p>
@@ -294,7 +294,7 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
             </div>
             <PieChart className="h-8 w-8 text-purple-600" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* View Type Selector */}
@@ -309,7 +309,7 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
             { key: 'monthly', label: 'Aylık Trend', icon: LineChart },
             { key: 'trend', label: 'Trend Analizi', icon: TrendingUp }
           ].map(({ key, label, icon: Icon }) => (
-            <Button
+            <CorporateButton
               key={key}
               variant={viewType === key ? 'default' : 'outline'}
               size="sm"
@@ -317,16 +317,16 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
             >
               <Icon className="h-4 w-4 mr-2" />
               {label}
-            </Button>
+            </CorporateButton>
           ))}
         </div>
       </div>
 
       {/* Category Variance Analysis */}
       {viewType === 'category' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
           {/* Variance Chart */}
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">Kategori Varyans Grafiği</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={varianceData}>
@@ -351,10 +351,10 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
                 <Bar dataKey="variance" fill="#F59E0B" name="Varyans" />
               </BarChart>
             </ResponsiveContainer>
-          </Card>
+          </CorporateCard>
 
           {/* Variance Table */}
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">Detaylı Varyans Tablosu</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -379,25 +379,25 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
                         {formatCurrency(item.variance)}
                       </td>
                       <td className="p-2 text-center">
-                        <Badge className={getVarianceColor(item.status)}>
+                        <CorporateBadge className={getVarianceColor(item.status)}>
                           <div className="flex items-center space-x-1">
                             {getVarianceIcon(item.status)}
                             <span>{formatPercent(item.variancePercent)}</span>
                           </div>
-                        </Badge>
+                        </CorporateBadge>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </Card>
+          </CorporateCard>
         </div>
       )}
 
       {/* Monthly Trend Analysis */}
       {viewType === 'monthly' && (
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Aylık Varyans Trendi</h3>
           <ResponsiveContainer width="100%" height={400}>
             <RechartsLineChart data={monthlyVariances}>
@@ -416,14 +416,14 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
               <Line type="monotone" dataKey="variance" stroke="#F59E0B" strokeWidth={2} name="Varyans" />
             </RechartsLineChart>
           </ResponsiveContainer>
-        </Card>
+        </CorporateCard>
       )}
 
       {/* Trend Analysis */}
       {viewType === 'trend' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
           {/* Cumulative Variance */}
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">Kümülatif Varyans</h3>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={monthlyVariances}>
@@ -434,10 +434,10 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
                 <Area type="monotone" dataKey="variance" stroke="colors.chart[1]" fill="colors.chart[1]" fillOpacity={0.6} />
               </AreaChart>
             </ResponsiveContainer>
-          </Card>
+          </CorporateCard>
 
           {/* Variance Distribution */}
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">Varyans Dağılımı</h3>
             <ResponsiveContainer width="100%" height={300}>
               <RechartsPieChart>
@@ -460,7 +460,7 @@ export function BudgetVarianceAnalysis({ budgets, selectedBudgetId, onBudgetSele
                 <Tooltip formatter={(value: number) => [formatCurrency(value), 'Varyans']} />
               </RechartsPieChart>
             </ResponsiveContainer>
-          </Card>
+          </CorporateCard>
         </div>
       )}
     </div>

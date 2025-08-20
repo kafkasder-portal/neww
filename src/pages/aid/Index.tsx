@@ -10,7 +10,7 @@ import {
   Clock,
   Calendar
 } from 'lucide-react'
-import StatCard from '../../components/StatCard'
+import StatCard from '@components/StatCard'
 import { supabase } from '@lib/supabase'
 import { Link } from 'react-router-dom'
 
@@ -167,12 +167,12 @@ export default function AidIndex() {
 
   const getStatusBadge = (status: string) => {
     const statusMap = {
-      pending: { label: 'Bekliyor', class: 'bg-yellow-100 text-yellow-800' },
-      approved: { label: 'Onaylandı', class: 'bg-green-100 text-green-800' },
-      rejected: { label: 'Reddedildi', class: 'bg-red-100 text-red-800' },
-      completed: { label: 'Tamamlandı', class: 'bg-blue-100 text-blue-800' }
+      pending: { label: 'Bekliyor', class: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
+      approved: { label: 'Onaylandı', class: 'bg-green-100 text-green-800 border-green-200' },
+      rejected: { label: 'Reddedildi', class: 'bg-red-100 text-red-800 border-red-200' },
+      completed: { label: 'Tamamlandı', class: 'bg-blue-100 text-blue-800 border-blue-200' }
     }
-    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800' }
+    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800 border-gray-200' }
     return (
       <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${statusInfo.class}`}>
         {statusInfo.label}
@@ -182,12 +182,12 @@ export default function AidIndex() {
 
   const getPriorityBadge = (priority: string) => {
     const priorityMap = {
-      low: { label: 'Düşük', class: 'bg-gray-100 text-gray-800' },
-      normal: { label: 'Normal', class: 'bg-blue-100 text-blue-800' },
+      low: { label: 'Düşük', class: 'bg-gray-100 text-gray-800 border-gray-200' },
+      normal: { label: 'Normal', class: 'bg-blue-100 text-blue-800 border-blue-200' },
       high: { label: 'Yüksek', class: 'bg-orange-100 text-orange-800' },
-      urgent: { label: 'Acil', class: 'bg-red-100 text-red-800' }
+      urgent: { label: 'Acil', class: 'bg-red-100 text-red-800 border-red-200' }
     }
-    const priorityInfo = priorityMap[priority as keyof typeof priorityMap] || { label: priority, class: 'bg-gray-100 text-gray-800' }
+    const priorityInfo = priorityMap[priority as keyof typeof priorityMap] || { label: priority, class: 'bg-gray-100 text-gray-800 border-gray-200' }
     return (
       <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${priorityInfo.class}`}>
         {priorityInfo.label}
@@ -265,9 +265,9 @@ export default function AidIndex() {
       </div>
 
       {/* Ana İçerik */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 space-y-4 lg:grid-cols-2">
         {/* Son Başvurular */}
-        <div className="rounded-lg border p-6">
+        <div className="rounded-lg border p-6 bg-card rounded-lg border">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold">Son Başvurular</h2>
             <Link to="/aid/applications" className="text-sm text-primary hover:underline">
@@ -304,7 +304,7 @@ export default function AidIndex() {
         </div>
 
         {/* Hızlı Erişim */}
-        <div className="rounded-lg border p-6">
+        <div className="rounded-lg border p-6 bg-card rounded-lg border">
           <h2 className="mb-4 text-lg font-semibold">Hızlı Erişim</h2>
           <div className="grid grid-cols-2 gap-3">
             <Link 
@@ -340,7 +340,7 @@ export default function AidIndex() {
       </div>
 
       {/* Aylık Özet */}
-      <div className="rounded-lg border p-6">
+      <div className="rounded-lg border p-6 bg-card rounded-lg border">
         <h2 className="mb-4 text-lg font-semibold flex items-center gap-2">
           <Calendar className="h-5 w-5" />
           Bu Ay Özeti

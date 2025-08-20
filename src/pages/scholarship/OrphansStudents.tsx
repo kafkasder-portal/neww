@@ -27,7 +27,7 @@ export interface OrphanRow {
 }
 
 type Row = OrphanRow;
-import StatCard from '../../components/StatCard'
+import StatCard from '@components/StatCard'
 import { Modal } from '@components/Modal'
 import { Users, GraduationCap, DollarSign, FileText, Filter, Plus, Download, Search, Eye, Edit, Trash2 } from 'lucide-react'
 
@@ -185,7 +185,7 @@ export default function OrphansStudents() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block space-y-6-label dark:text-gray-300 mb-1">
                   Cinsiyet
                 </label>
                 <select
@@ -328,7 +328,7 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block space-y-6-label mb-1">
             Partner & Şube
           </label>
           <input
@@ -340,7 +340,7 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block space-y-6-label mb-1">
             İsim (Tercüme) *
           </label>
           <input
@@ -353,7 +353,7 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block space-y-6-label mb-1">
             İsim (Orijinal)
           </label>
           <input
@@ -365,7 +365,7 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block space-y-6-label mb-1">
             Uyruk
           </label>
           <input
@@ -377,7 +377,7 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block space-y-6-label mb-1">
             Ülke
           </label>
           <input
@@ -389,7 +389,7 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block space-y-6-label mb-1">
             Cinsiyet *
           </label>
           <select
@@ -404,7 +404,7 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block space-y-6-label mb-1">
             Yaş *
           </label>
           <input
@@ -446,7 +446,7 @@ function StudentDetail({ student }: { student: Row }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-3">
           <h3 className="font-semibold text-foreground">Kişisel Bilgiler</h3>
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <div>
               <span className="text-sm text-muted-foreground">Dosya No:</span>
               <p className="font-medium">{student.fileNo}</p>
@@ -472,7 +472,7 @@ function StudentDetail({ student }: { student: Row }) {
         
         <div className="space-y-3">
           <h3 className="font-semibold text-foreground">Konum Bilgileri</h3>
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             <div>
               <span className="text-sm text-muted-foreground">Uyruk:</span>
               <p className="font-medium">{student.nationality}</p>

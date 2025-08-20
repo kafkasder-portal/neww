@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/corporate/CorporateComponents';
+import { CorporateCard, CorporateButton, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 
 // Memoized component example
 const MemoizedCard = memo(({ title, content, onClick }: {
@@ -9,15 +10,15 @@ const MemoizedCard = memo(({ title, content, onClick }: {
   onClick: () => void;
 }) => {
   return (
-    <Card className="mb-4">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
+    <CorporateCard className="mb-4">
+      <CorporateCardHeader>
+        <CorporateCardTitle>{title}</CorporateCardTitle>
+      </CorporateCardHeader>
+      <CorporateCardContent>
         <p>{content}</p>
-        <Button onClick={onClick}>Action</Button>
-      </CardContent>
-    </Card>
+        <CorporateButton onClick={onClick}>Action</CorporateButton>
+      </CorporateCardContent>
+    </CorporateCard>
   );
 });
 
@@ -91,13 +92,13 @@ const PerformanceOptimized = () => {
   }, [items.length]);
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-card rounded-lg border">
       <h1 className="text-2xl font-bold mb-6">Performance Optimized Components</h1>
 
       <div className="mb-6">
-        <Button onClick={handleAddItem} className="mr-4">
+        <CorporateButton onClick={handleAddItem} className="mr-4">
           Add Item
-        </Button>
+        </CorporateButton>
 
       </div>
 

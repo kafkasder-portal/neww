@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { X, User, Mail, Building, Phone, Save } from 'lucide-react'
 import type { UserWithProfile } from '../../api/userManagement'
-import type { UserProfile } from '../../types/permissions'
+import type { UserProfile } from '@types/permissions'
 import { Modal } from '../Modal'
 
 interface UserProfileModalProps {
@@ -120,7 +120,7 @@ export default function UserProfileModal({
         </div>
 
         {/* Content */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 bg-card rounded-lg border space-y-4">
           {/* User Avatar */}
           <div className="flex justify-center mb-4">
             <div className="h-16 w-16 rounded-full bg-indigo-100 flex items-center justify-center">
@@ -139,7 +139,7 @@ export default function UserProfileModal({
 
           {/* Full Name */}
           <div>
-            <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="full_name" className="block space-y-6-label mb-1">
               Ad Soyad *
             </label>
             <div className="relative">
@@ -160,7 +160,7 @@ export default function UserProfileModal({
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block space-y-6-label mb-1">
               E-posta *
             </label>
             <div className="relative">
@@ -181,7 +181,7 @@ export default function UserProfileModal({
 
           {/* Department */}
           <div>
-            <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="department" className="block space-y-6-label mb-1">
               Departman
             </label>
             <div className="relative">
@@ -201,7 +201,7 @@ export default function UserProfileModal({
 
           {/* Phone */}
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="phone" className="block space-y-6-label mb-1">
               Telefon
             </label>
             <div className="relative">
@@ -232,7 +232,7 @@ export default function UserProfileModal({
               type="button"
               onClick={handleClose}
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="px-4 py-2 space-y-6-label bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               İptal
             </button>

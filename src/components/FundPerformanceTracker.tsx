@@ -49,7 +49,7 @@ const PerformanceCard: React.FC<PerformanceCardProps> = ({ metric }) => {
   const badge = getPerformanceBadge(metric.performanceScore);
   
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6 hover:shadow-md transition-all duration-200">
+    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6 bg-card rounded-lg border hover:shadow-md transition-all duration-200">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
@@ -144,7 +144,7 @@ interface PerformanceComparisonProps {
 
 const PerformanceComparison: React.FC<PerformanceComparisonProps> = ({ metrics }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6">
+    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6 bg-card rounded-lg border">
       <h3 className="text-lg font-semibold text-financial-gray-900 mb-4 flex items-center">
         <BarChart3 className="w-5 h-5 mr-2 text-financial-primary" />
         Performans Karşılaştırması
@@ -219,7 +219,7 @@ const MonthlyTrend: React.FC<MonthlyTrendProps> = ({ metrics }) => {
   const selectedMetric = metrics.find(m => m.id === selectedFund);
   
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6">
+    <div className="bg-white rounded-xl shadow-sm border border-financial-gray-200 p-6 bg-card rounded-lg border">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-financial-gray-900 flex items-center">
           <LineChart className="w-5 h-5 mr-2 text-financial-primary" />
@@ -252,7 +252,7 @@ const MonthlyTrend: React.FC<MonthlyTrendProps> = ({ metrics }) => {
             {selectedMetric.monthlyData.slice(-3).map((data, index) => (
               <div key={index} className="bg-financial-gray-50 rounded-lg p-4">
                 <h4 className="font-medium text-financial-gray-900 mb-2">{data.month}</h4>
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   <div className="flex justify-between">
                     <span className="text-sm text-financial-gray-600">Toplanan:</span>
                     <span className="font-mono text-sm">{data.collected.toLocaleString('tr-TR')} ₺</span>
@@ -395,7 +395,7 @@ const FundPerformanceTracker: React.FC = () => {
       </div>
       
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-4">
         <FundCard
           title="Ortalama Performans"
           value={averageScore}
@@ -424,7 +424,7 @@ const FundPerformanceTracker: React.FC = () => {
           changeType="increase"
           period="Bu dönem"
           icon={BarChart3}
-          variant="default"
+          variant="primary"
           currency="%"
         />
         
@@ -441,14 +441,14 @@ const FundPerformanceTracker: React.FC = () => {
       </div>
       
       {/* Performance Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-3">
         {filteredMetrics.map(metric => (
           <PerformanceCard key={metric.id} metric={metric} />
         ))}
       </div>
       
       {/* Charts and Analysis */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 space-y-4">
         <MonthlyTrend metrics={filteredMetrics} />
         <PerformanceComparison metrics={filteredMetrics} />
       </div>

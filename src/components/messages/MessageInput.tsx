@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Send, Paperclip, X, Image, Smile } from 'lucide-react'
 import { Button } from '../ui/button'
 import { InternalMessage } from '@/types/internal-messages'
+import { CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface MessageInputProps {
   onSendMessage: (content: string, type?: 'text' | 'file' | 'image') => void
@@ -118,9 +119,9 @@ export default function MessageInput({
             </div>
           </div>
           {onCancelReply && (
-            <Button size="sm" variant="ghost" onClick={onCancelReply}>
+            <CorporateButton size="sm" variant="ghost" onClick={onCancelReply}>
               <X className="h-4 w-4" />
-            </Button>
+            </CorporateButton>
           )}
         </div>
       )}
@@ -154,7 +155,7 @@ export default function MessageInput({
                 accept="*/*"
               />
               
-              <Button
+              <CorporateButton
                 type="button"
                 size="sm"
                 variant="ghost"
@@ -163,9 +164,9 @@ export default function MessageInput({
                 className="p-2"
               >
                 <Paperclip className="h-4 w-4" />
-              </Button>
+              </CorporateButton>
 
-              <Button
+              <CorporateButton
                 type="button"
                 size="sm"
                 variant="ghost"
@@ -179,7 +180,7 @@ export default function MessageInput({
                 className="p-2"
               >
                 <Image className="h-4 w-4" />
-              </Button>
+              </CorporateButton>
             </div>
           )}
 
@@ -197,7 +198,7 @@ export default function MessageInput({
             />
             
             {/* Emoji Button */}
-            <Button
+            <CorporateButton
               type="button"
               size="sm"
               variant="ghost"
@@ -205,18 +206,18 @@ export default function MessageInput({
               disabled={disabled}
             >
               <Smile className="h-4 w-4" />
-            </Button>
+            </CorporateButton>
           </div>
 
           {/* Send Button */}
-          <Button
+          <CorporateButton
             onClick={handleSend}
             disabled={!message.trim() || disabled || uploading}
             size="sm"
             className="p-2"
           >
             <Send className="h-4 w-4" />
-          </Button>
+          </CorporateButton>
         </div>
 
         {/* Upload Progress */}

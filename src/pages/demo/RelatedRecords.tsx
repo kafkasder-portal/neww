@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   FileText,
   Search,
@@ -100,15 +101,15 @@ export default function RelatedRecords() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Aktif':
-        return 'bg-green-100 text-green-800'
+        return 'bg-green-100 text-green-800 border-green-200'
       case 'Devam Ediyor':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-blue-100 text-blue-800 border-blue-200'
       case 'Tamamlandı':
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-gray-100 text-gray-800 border-gray-200'
       case 'İptal':
-        return 'bg-red-100 text-red-800'
+        return 'bg-red-100 text-red-800 border-red-200'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
@@ -132,7 +133,7 @@ export default function RelatedRecords() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <FileText className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Bağlantılı Kayıtlar</h1>
@@ -144,7 +145,7 @@ export default function RelatedRecords() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplam İlişki</p>
@@ -152,8 +153,8 @@ export default function RelatedRecords() {
             </div>
             <LinkIcon className="h-8 w-8 text-blue-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif İlişki</p>
@@ -161,8 +162,8 @@ export default function RelatedRecords() {
             </div>
             <Calendar className="h-8 w-8 text-green-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Öğrenci</p>
@@ -170,8 +171,8 @@ export default function RelatedRecords() {
             </div>
             <Users className="h-8 w-8 text-purple-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Bağışçı</p>
@@ -179,12 +180,12 @@ export default function RelatedRecords() {
             </div>
             <Database className="h-8 w-8 text-orange-600" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 space-y-4">
         {/* Filters */}
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <h2 className="font-semibold mb-4 flex items-center gap-2">
             <Filter className="h-4 w-4" />
             Filtreler
@@ -192,7 +193,7 @@ export default function RelatedRecords() {
           <div className="space-y-3">
             <div>
               <label className="text-sm font-medium mb-2 block">İlişki Türü</label>
-              <div className="space-y-2">
+              <div className="space-y-6-group">
                 {recordTypes.map((type) => (
                   <button
                     key={type.value}
@@ -212,11 +213,11 @@ export default function RelatedRecords() {
               </div>
             </div>
           </div>
-        </Card>
+        </CorporateCard>
 
         {/* Records List */}
         <div className="lg:col-span-3 space-y-4">
-          <Card className="p-6">
+          <CorporateCard className="p-6 bg-card rounded-lg border">
             <div className="flex flex-col md:flex-row gap-4 justify-between mb-6">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -228,14 +229,14 @@ export default function RelatedRecords() {
                 />
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" className="gap-2">
+                <CorporateButton variant="outline" className="gap-2">
                   <Download className="h-4 w-4" />
                   Dışa Aktar
-                </Button>
-                <Button className="gap-2">
+                </CorporateButton>
+                <CorporateButton className="gap-2">
                   <LinkIcon className="h-4 w-4" />
                   Yeni İlişki
-                </Button>
+                </CorporateButton>
               </div>
             </div>
 
@@ -248,7 +249,7 @@ export default function RelatedRecords() {
                         <div className="flex items-center gap-3">
                           {getTypeIcon(record.type)}
                           <span className="font-medium">{record.relationship}</span>
-                          <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                          <span className="text-xs bg-gray-100 text-gray-800 border-gray-200 px-2 py-1 rounded">
                             {record.type}
                           </span>
                         </div>
@@ -280,12 +281,12 @@ export default function RelatedRecords() {
                     </div>
 
                     <div className="flex gap-2 ml-4">
-                      <Button size="sm" variant="outline">
+                      <CorporateButton size="sm" variant="outline">
                         <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="outline">
+                      </CorporateButton>
+                      <CorporateButton size="sm" variant="outline">
                         <Edit className="h-4 w-4" />
-                      </Button>
+                      </CorporateButton>
                     </div>
                   </div>
                 </div>
@@ -298,7 +299,7 @@ export default function RelatedRecords() {
                 <p>Arama kriterlerinize uygun kayıt bulunamadı.</p>
               </div>
             )}
-          </Card>
+          </CorporateCard>
         </div>
       </div>
     </div>

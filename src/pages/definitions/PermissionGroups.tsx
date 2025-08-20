@@ -143,7 +143,7 @@ export default function PermissionGroups() {
 
       {/* Data Table */}
       <div className="absolute top-14 bottom-0 left-0 right-0 overflow-auto p-3">
-        <table className="w-full border-collapse bg-white shadow-sm border border-gray-200">
+        <table className="w-full border-collapse border border-gray-300 bg-white shadow-sm border border-gray-200">
           <thead>
             <tr>
               <th className="bg-gray-200 border border-gray-300 px-2.5 py-1.5 text-xs font-bold text-center min-w-3">

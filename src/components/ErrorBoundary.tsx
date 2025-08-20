@@ -1,8 +1,9 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react'
 import { AlertTriangle, RefreshCw, Home, Bug } from 'lucide-react'
 import { Button } from './ui/button'
-import { Card } from './ui/card'
+import { Card } from './ui/corporate/CorporateComponents'
 import { errorService, ErrorCategory, ErrorSeverity } from '../services/errorService'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface Props {
   children: ReactNode
@@ -130,7 +131,7 @@ Please describe what you were doing when this error occurred:
 
       return (
         <div className="flex items-center justify-center min-h-[400px] p-4">
-          <Card className="w-full max-w-lg p-8 text-center">
+          <CorporateCard className="w-full max-w-lg p-8 text-center">
             <div className="mb-6">
               <div className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
                 <AlertTriangle className="w-8 h-8 text-red-600" />
@@ -163,7 +164,7 @@ Please describe what you were doing when this error occurred:
                   <summary className="cursor-pointer font-medium text-gray-700 mb-2">
                     Teknik Detaylar
                   </summary>
-                  <div className="text-sm text-gray-600 space-y-2">
+                  <div className="text-sm text-gray-600 space-y-6-group">
                     <div>
                       <strong>Hata Mesajı:</strong>
                       <p className="font-mono bg-gray-100 p-2 rounded mt-1 break-all">
@@ -186,45 +187,45 @@ Please describe what you were doing when this error occurred:
             <div className="space-y-3">
               {/* Retry button (if not exceeded max retries) */}
               {this.retryCount < this.maxRetries && (
-                <Button
+                <CorporateButton
                   onClick={this.handleRetry}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                 >
                   <RefreshCw className="w-4 h-4 mr-2" />
                   Tekrar Dene ({this.maxRetries - this.retryCount} deneme hakkı)
-                </Button>
+                </CorporateButton>
               )}
 
               {/* Action buttons based on error level */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {level === 'global' ? (
-                  <Button
+                  <CorporateButton
                     onClick={this.handleReload}
                     variant="outline"
                     className="w-full"
                   >
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Sayfayı Yenile
-                  </Button>
+                  </CorporateButton>
                 ) : (
-                  <Button
+                  <CorporateButton
                     onClick={this.handleGoHome}
                     variant="outline"
                     className="w-full"
                   >
                     <Home className="w-4 h-4 mr-2" />
                     Ana Sayfaya Dön
-                  </Button>
+                  </CorporateButton>
                 )}
 
-                <Button
+                <CorporateButton
                   onClick={this.handleReportBug}
                   variant="outline"
                   className="w-full"
                 >
                   <Bug className="w-4 h-4 mr-2" />
                   Hata Bildir
-                </Button>
+                </CorporateButton>
               </div>
 
               {/* Additional actions for global errors */}
@@ -235,7 +236,7 @@ Please describe what you were doing when this error occurred:
                       Eğer sorun devam ederse:
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      <Button
+                      <CorporateButton
                         onClick={() => {
                           localStorage.clear()
                           sessionStorage.clear()
@@ -246,21 +247,21 @@ Please describe what you were doing when this error occurred:
                         className="w-full"
                       >
                         Önbelleği Temizle
-                      </Button>
-                      <Button
+                      </CorporateButton>
+                      <CorporateButton
                         onClick={() => window.open('mailto:destek@dernek.com')}
                         variant="outline"
                         size="sm"
                         className="w-full"
                       >
                         Destek İletişim
-                      </Button>
+                      </CorporateButton>
                     </div>
                   </div>
                 </>
               )}
             </div>
-          </Card>
+          </CorporateCard>
         </div>
       )
     }

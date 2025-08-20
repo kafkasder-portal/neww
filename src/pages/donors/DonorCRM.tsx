@@ -7,6 +7,7 @@ import type { Column } from '@components/DataTable'
 import { DonorCRMService } from '@services/donorCRMService'
 import type { Donor, DonorDashboardData, DonorSearchFilters, DonorTaskList } from '@/types/donors'
 import { toast } from 'sonner'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Users, 
   UserPlus, 
@@ -96,7 +97,7 @@ export default function DonorCRM() {
     <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Toplam Bağışçı</p>
@@ -105,9 +106,9 @@ export default function DonorCRM() {
             </div>
             <Users className="h-8 w-8 text-blue-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Aktif Bağışçı</p>
@@ -118,9 +119,9 @@ export default function DonorCRM() {
             </div>
             <Heart className="h-8 w-8 text-green-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Ortalama Bağış</p>
@@ -130,9 +131,9 @@ export default function DonorCRM() {
             </div>
             <DollarSign className="h-8 w-8 text-purple-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Tutma Oranı</p>
@@ -142,12 +143,12 @@ export default function DonorCRM() {
             </div>
             <Target className="h-8 w-8 text-orange-600" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Donor Segmentation */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6">
+      <div className="grid grid-cols-2">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Bağışçı Türü Dağılımı</h3>
           <div className="space-y-3">
             {Object.entries(dashboardData?.donorsByType || {}).map(([type, count]) => (
@@ -172,9 +173,9 @@ export default function DonorCRM() {
               </div>
             ))}
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Bağışçı Kademesi</h3>
           <div className="space-y-3">
             {Object.entries(dashboardData?.donorsByTier || {}).map(([tier, count]) => (
@@ -197,12 +198,12 @@ export default function DonorCRM() {
               </div>
             ))}
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Top Donors & Upcoming Tasks */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6">
+      <div className="grid grid-cols-2">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">En Yüksek Bağışçılar</h3>
           <div className="space-y-3">
             {dashboardData?.topDonors.map((donor, index) => (
@@ -224,15 +225,15 @@ export default function DonorCRM() {
               </div>
             ))}
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Yaklaşan Görevler</h3>
-            <Button variant="outline" size="sm" onClick={() => setShowTaskModal(true)}>
+            <CorporateButton variant="outline" size="sm" onClick={() => setShowTaskModal(true)}>
               <Plus className="w-4 h-4 mr-1" />
               Yeni
-            </Button>
+            </CorporateButton>
           </div>
           <div className="space-y-3">
             {upcomingTasks.slice(0, 5).map((task) => (
@@ -248,13 +249,13 @@ export default function DonorCRM() {
                     <p className="text-xs text-gray-600">{task.dueDate}</p>
                   </div>
                 </div>
-                <Button variant="outline" size="sm">
+                <CorporateButton variant="outline" size="sm">
                   <CheckCircle className="w-3 h-3" />
-                </Button>
+                </CorporateButton>
               </div>
             ))}
           </div>
-        </Card>
+        </CorporateCard>
       </div>
     </div>
   )
@@ -292,10 +293,10 @@ export default function DonorCRM() {
         render: (_, donor) => (
           <span className={`px-2 py-1 rounded text-xs font-medium ${
             donor.donorTier === 'platinum' ? 'bg-purple-100 text-purple-800' :
-            donor.donorTier === 'gold' ? 'bg-yellow-100 text-yellow-800' :
-            donor.donorTier === 'silver' ? 'bg-gray-100 text-gray-800' :
+            donor.donorTier === 'gold' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+            donor.donorTier === 'silver' ? 'bg-gray-100 text-gray-800 border-gray-200' :
             donor.donorTier === 'bronze' ? 'bg-orange-100 text-orange-800' :
-            'bg-blue-100 text-blue-800'
+            'bg-blue-100 text-blue-800 border-blue-200'
           }`}>
             {donor.donorTier === 'platinum' ? 'Platin' :
              donor.donorTier === 'gold' ? 'Altın' :
@@ -325,10 +326,10 @@ export default function DonorCRM() {
         header: 'Durum',
         render: (_, donor) => (
           <span className={`px-2 py-1 rounded text-xs font-medium ${
-            donor.relationshipStatus === 'active' ? 'bg-green-100 text-green-800' :
-            donor.relationshipStatus === 'lapsed' ? 'bg-yellow-100 text-yellow-800' :
-            donor.relationshipStatus === 'prospect' ? 'bg-blue-100 text-blue-800' :
-            'bg-red-100 text-red-800'
+            donor.relationshipStatus === 'active' ? 'bg-green-100 text-green-800 border-green-200' :
+            donor.relationshipStatus === 'lapsed' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+            donor.relationshipStatus === 'prospect' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+            'bg-red-100 text-red-800 border-red-200'
           }`}>
             {donor.relationshipStatus === 'active' ? 'Aktif' :
              donor.relationshipStatus === 'lapsed' ? 'Durgun' :
@@ -341,15 +342,15 @@ export default function DonorCRM() {
         header: 'İşlemler',
         render: (_, donor) => (
           <div className="flex space-x-1">
-            <Button variant="outline" size="sm" onClick={() => setSelectedDonor(donor)}>
+            <CorporateButton variant="outline" size="sm" onClick={() => setSelectedDonor(donor)}>
               <Eye className="w-3 h-3" />
-            </Button>
-            <Button variant="outline" size="sm">
+            </CorporateButton>
+            <CorporateButton variant="outline" size="sm">
               <Edit className="w-3 h-3" />
-            </Button>
-            <Button variant="outline" size="sm">
+            </CorporateButton>
+            <CorporateButton variant="outline" size="sm">
               <MessageSquare className="w-3 h-3" />
-            </Button>
+            </CorporateButton>
           </div>
         )
       }
@@ -367,27 +368,27 @@ export default function DonorCRM() {
               placeholder="Bağışçı ara (ad, e-posta, telefon...)"
             />
           </div>
-          <Button onClick={handleSearch} size="sm">
+          <CorporateButton onClick={handleSearch} size="sm">
             <Search className="w-3 h-3 mr-1" />
             Ara
-          </Button>
-          <Button 
+          </CorporateButton>
+          <CorporateButton 
             variant="outline" 
             size="sm"
             onClick={() => setShowFilters(!showFilters)}
           >
             <Filter className="w-3 h-3 mr-1" />
             Filtrele
-          </Button>
-          <Button onClick={() => setShowDonorModal(true)} size="sm">
+          </CorporateButton>
+          <CorporateButton onClick={() => setShowDonorModal(true)} size="sm">
             <UserPlus className="w-3 h-3 mr-1" />
             Yeni Bağışçı
-          </Button>
+          </CorporateButton>
         </div>
 
         {/* Filters Panel */}
         {showFilters && (
-          <Card className="p-4">
+          <CorporateCard className="p-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Tür</label>
@@ -418,20 +419,20 @@ export default function DonorCRM() {
                 </select>
               </div>
               <div className="flex items-end">
-                <Button size="sm" className="w-full">Filtrele</Button>
+                <CorporateButton size="sm" className="w-full">Filtrele</CorporateButton>
               </div>
             </div>
-          </Card>
+          </CorporateCard>
         )}
 
         {/* Donors Table */}
-        <Card>
+        <CorporateCard>
           {loading ? (
-            <div className="p-6 text-center">Yükleniyor...</div>
+            <div className="p-6 bg-card rounded-lg border text-center">Yükleniyor...</div>
           ) : (
             <DataTable columns={columns} data={donors} />
           )}
-        </Card>
+        </CorporateCard>
       </div>
     )
   }
@@ -456,14 +457,14 @@ export default function DonorCRM() {
           <p className="text-gray-600">Bağışçı ilişkileri ve analitik yönetimi</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowCampaignModal(true)}>
+          <CorporateButton variant="outline" onClick={() => setShowCampaignModal(true)}>
             <Mail className="w-4 h-4 mr-2" />
             Yeni Kampanya
-          </Button>
-          <Button onClick={() => setShowDonorModal(true)}>
+          </CorporateButton>
+          <CorporateButton onClick={() => setShowDonorModal(true)}>
             <UserPlus className="w-4 h-4 mr-2" />
             Bağışçı Ekle
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
@@ -498,25 +499,25 @@ export default function DonorCRM() {
       {activeTab === 'dashboard' && <DashboardTab />}
       {activeTab === 'donors' && <DonorsTab />}
       {activeTab === 'segments' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Target className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Bağışçı segmentleri modülü yakında...</p>
         </div>
       )}
       {activeTab === 'campaigns' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Mail className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Kampanya yönetimi modülü yakında...</p>
         </div>
       )}
       {activeTab === 'tasks' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Görev yönetimi modülü yakında...</p>
         </div>
       )}
       {activeTab === 'analytics' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <TrendingUp className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Analitik raporları modülü yakında...</p>
         </div>
@@ -581,18 +582,18 @@ export default function DonorCRM() {
             </div>
 
             <div className="flex space-x-2">
-              <Button variant="outline" className="flex-1">
+              <CorporateButton variant="outline" className="flex-1">
                 <Phone className="w-4 h-4 mr-2" />
                 Ara
-              </Button>
-              <Button variant="outline" className="flex-1">
+              </CorporateButton>
+              <CorporateButton variant="outline" className="flex-1">
                 <Mail className="w-4 h-4 mr-2" />
                 E-posta
-              </Button>
-              <Button className="flex-1">
+              </CorporateButton>
+              <CorporateButton className="flex-1">
                 <Edit className="w-4 h-4 mr-2" />
                 Düzenle
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </Modal>

@@ -1,14 +1,43 @@
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+
 import { cn } from "@/lib/utils"
+
+const tableVariants = cva(
+  [
+    // Base styles with enhanced UX
+    "w-full caption-bottom text-sm",
+    "transition-all duration-200 ease-out",
+  ],
+  {
+    variants: {
+      variant: {
+        default: "border-collapse",
+        bordered: "border-collapse border border-border",
+        striped: "border-collapse",
+        hover: "border-collapse",
+      },
+      size: {
+        default: "",
+        sm: "text-xs",
+        lg: "text-base",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
 
 const Table = React.forwardRef<
   HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
+  React.HTMLAttributes<HTMLTableElement> & VariantProps<typeof tableVariants>
+>(({ className, variant, size, ...props }, ref) => (
   <div className="relative w-full overflow-auto">
     <table
       ref={ref}
-      className={cn("w-full caption-bottom text-sm", className)}
+      className={cn(tableVariants({ variant, size, className }))}
       {...props}
     />
   </div>
@@ -29,7 +58,12 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
-    className={cn("[&_tr:last-child]:border-0", className)}
+    className={cn(
+      "[&_tr:last-child]:border-0",
+      "data-[variant=striped]:[&_tr:nth-child(odd)]:bg-muted/50",
+      "data-[variant=hover]:[&_tr:hover]:bg-muted/50",
+      className
+    )}
     {...props}
   />
 ))
@@ -58,6 +92,7 @@ const TableRow = React.forwardRef<
     ref={ref}
     className={cn(
       "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+      "transition-all duration-150 ease-out",
       className
     )}
     {...props}
@@ -73,6 +108,7 @@ const TableHead = React.forwardRef<
     ref={ref}
     className={cn(
       "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+      "transition-colors duration-150 ease-out",
       className
     )}
     {...props}
@@ -86,7 +122,11 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+    className={cn(
+      "p-4 align-middle [&:has([role=checkbox])]:pr-0",
+      "transition-colors duration-150 ease-out",
+      className
+    )}
     {...props}
   />
 ))
@@ -113,4 +153,5 @@ export {
   TableRow,
   TableCell,
   TableCaption,
+  tableVariants,
 }

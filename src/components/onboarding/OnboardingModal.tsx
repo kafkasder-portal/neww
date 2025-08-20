@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { X, ChevronLeft, ChevronRight, Check, Play, Pause, SkipForward } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { Progress } from '../ui/progress'
 import { useLanguageContext } from '@/contexts/LanguageContext'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface OnboardingStep {
   id: string
@@ -83,9 +84,9 @@ export function OnboardingModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl max-h-[90vh] overflow-hidden bg-white shadow-2xl">
+      <CorporateCard className="w-full max-w-4xl max-h-[90vh] overflow-hidden bg-white shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
+        <div className="flex items-center justify-between p-6 bg-card rounded-lg border border-b">
           <div className="flex items-center space-x-4">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-sm">
@@ -93,7 +94,7 @@ export function OnboardingModal({
               </span>
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-lg font-semibold text-foreground">
                 {t(currentStepData.title)}
               </h2>
               <p className="text-sm text-gray-600">
@@ -104,7 +105,7 @@ export function OnboardingModal({
           
           <div className="flex items-center space-x-2">
             {showSkip && (
-              <Button
+              <CorporateButton
                 variant="ghost"
                 size="sm"
                 onClick={handleSkip}
@@ -112,16 +113,16 @@ export function OnboardingModal({
               >
                 <SkipForward className="w-4 h-4 mr-1" />
                 {t('onboarding.skip')}
-              </Button>
+              </CorporateButton>
             )}
-            <Button
+            <CorporateButton
               variant="ghost"
               size="sm"
               onClick={handleClose}
               className="text-gray-500 hover:text-gray-700"
             >
               <X className="w-4 h-4" />
-            </Button>
+            </CorporateButton>
           </div>
         </div>
 
@@ -131,7 +132,7 @@ export function OnboardingModal({
         </div>
 
         {/* Content */}
-        <div className="p-6 max-h-[60vh] overflow-y-auto">
+        <div className="p-6 bg-card rounded-lg border max-h-[60vh] overflow-y-auto">
           <div className="mb-6">
             <p className="text-gray-700 leading-relaxed">
               {currentStepData.description}
@@ -174,7 +175,7 @@ export function OnboardingModal({
                 <span className="text-sm text-blue-700">
                   {t('onboarding.stepCompleted')}
                 </span>
-                <Button
+                <CorporateButton
                   size="sm"
                   onClick={() => markStepComplete(currentStepData.id)}
                   disabled={completedSteps.has(currentStepData.id)}
@@ -188,15 +189,15 @@ export function OnboardingModal({
                   ) : (
                     t('onboarding.complete')
                   )}
-                </Button>
+                </CorporateButton>
               </div>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t bg-gray-50">
-          <Button
+        <div className="flex items-center justify-between p-6 bg-card rounded-lg border border-t bg-gray-50">
+          <CorporateButton
             variant="outline"
             onClick={handlePrevious}
             disabled={currentStep === 0}
@@ -204,7 +205,7 @@ export function OnboardingModal({
           >
             <ChevronLeft className="w-4 h-4 mr-1" />
             {t('onboarding.previous')}
-          </Button>
+          </CorporateButton>
 
           <div className="flex items-center space-x-2">
             {steps.map((step, index) => (
@@ -221,7 +222,7 @@ export function OnboardingModal({
             ))}
           </div>
 
-          <Button
+          <CorporateButton
             onClick={handleNext}
             className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
           >
@@ -233,9 +234,9 @@ export function OnboardingModal({
                 <ChevronRight className="w-4 h-4 ml-1" />
               </>
             )}
-          </Button>
+          </CorporateButton>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

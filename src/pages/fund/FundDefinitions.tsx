@@ -241,7 +241,7 @@ export default function FundDefinitions() {
       {/* Add Fund Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-lg rounded-lg bg-white p-6">
+          <div className="w-full max-w-lg rounded-lg bg-white p-6 bg-card rounded-lg border">
             <h2 className="mb-4 text-lg font-semibold">Yeni Fon Tanımı Ekle</h2>
             <form className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -309,7 +309,7 @@ export default function FundDefinitions() {
       {/* Fund Detail Modal */}
       {selectedFund && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-2xl rounded-lg bg-white p-6">
+          <div className="w-full max-w-2xl rounded-lg bg-white p-6 bg-card rounded-lg border">
             <h2 className="mb-4 text-lg font-semibold">Fon Detayları</h2>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">

@@ -19,7 +19,7 @@ import { exportToCsv } from '@lib/exportToCsv'
 import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
 import { Modal } from '@components/Modal'
-import StatCard from '../../components/StatCard'
+import StatCard from '@components/StatCard'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -399,12 +399,12 @@ export default function DataControl() {
 
   const getStatusBadge = (status: string) => {
     const statusMap = {
-      passed: { label: 'Başarılı', class: 'bg-green-100 text-green-800', icon: CheckCircle },
-      failed: { label: 'Başarısız', class: 'bg-red-100 text-red-800', icon: X },
-      warning: { label: 'Uyarı', class: 'bg-yellow-100 text-yellow-800', icon: AlertTriangle },
-      pending: { label: 'Bekliyor', class: 'bg-gray-100 text-gray-800', icon: Clock }
+      passed: { label: 'Başarılı', class: 'bg-green-100 text-green-800 border-green-200', icon: CheckCircle },
+      failed: { label: 'Başarısız', class: 'bg-red-100 text-red-800 border-red-200', icon: X },
+      warning: { label: 'Uyarı', class: 'bg-yellow-100 text-yellow-800 border-yellow-200', icon: AlertTriangle },
+      pending: { label: 'Bekliyor', class: 'bg-gray-100 text-gray-800 border-gray-200', icon: Clock }
     }
-    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800', icon: AlertCircle }
+    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800 border-gray-200', icon: AlertCircle }
     const Icon = statusInfo.icon
     return (
       <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${statusInfo.class}`}>
@@ -416,13 +416,13 @@ export default function DataControl() {
 
   const getValidationTypeBadge = (type: string) => {
     const typeMap = {
-      integrity: { label: 'Bütünlük', class: 'bg-blue-100 text-blue-800' },
+      integrity: { label: 'Bütünlük', class: 'bg-blue-100 text-blue-800 border-blue-200' },
       consistency: { label: 'Tutarlılık', class: 'bg-purple-100 text-purple-800' },
       completeness: { label: 'Eksiksizlik', class: 'bg-orange-100 text-orange-800' },
-      accuracy: { label: 'Doğruluk', class: 'bg-green-100 text-green-800' },
-      duplicates: { label: 'Tekrar', class: 'bg-red-100 text-red-800' }
+      accuracy: { label: 'Doğruluk', class: 'bg-green-100 text-green-800 border-green-200' },
+      duplicates: { label: 'Tekrar', class: 'bg-red-100 text-red-800 border-red-200' }
     }
-    const typeInfo = typeMap[type as keyof typeof typeMap] || { label: type, class: 'bg-gray-100 text-gray-800' }
+    const typeInfo = typeMap[type as keyof typeof typeMap] || { label: type, class: 'bg-gray-100 text-gray-800 border-gray-200' }
     return (
       <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${typeInfo.class}`}>
         {typeInfo.label}
@@ -432,11 +432,11 @@ export default function DataControl() {
 
   const getHealthStatusBadge = (status: string) => {
     const statusMap = {
-      healthy: { label: 'Sağlıklı', class: 'bg-green-100 text-green-800', icon: CheckCircle },
-      warning: { label: 'Uyarı', class: 'bg-yellow-100 text-yellow-800', icon: AlertTriangle },
-      critical: { label: 'Kritik', class: 'bg-red-100 text-red-800', icon: AlertCircle }
+      healthy: { label: 'Sağlıklı', class: 'bg-green-100 text-green-800 border-green-200', icon: CheckCircle },
+      warning: { label: 'Uyarı', class: 'bg-yellow-100 text-yellow-800 border-yellow-200', icon: AlertTriangle },
+      critical: { label: 'Kritik', class: 'bg-red-100 text-red-800 border-red-200', icon: AlertCircle }
     }
-    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800', icon: AlertCircle }
+    const statusInfo = statusMap[status as keyof typeof statusMap] || { label: status, class: 'bg-gray-100 text-gray-800 border-gray-200', icon: AlertCircle }
     const Icon = statusInfo.icon
     return (
       <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${statusInfo.class}`}>
@@ -750,7 +750,7 @@ export default function DataControl() {
       )}
 
       {/* Filtreler */}
-      <div className="flex flex-wrap items-center gap-4 rounded-lg border p-4">
+      <div className="flex flex-wrap items-center bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input

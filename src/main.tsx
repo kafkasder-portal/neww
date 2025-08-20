@@ -1,11 +1,12 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
+import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { AuthErrorBoundary } from './components/AuthErrorBoundary'
 import ErrorFallback from './components/ErrorFallback'
 import './index.css'
+// Removed corporate UI enhancement CSS
 
 const container = document.getElementById('root')
 if (!container) {
@@ -22,7 +23,12 @@ root.render(
           console.error('Uncaught error:', error, errorInfo)
         }}
       >
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+          }}
+        >
           <App />
         </BrowserRouter>
       </ErrorBoundary>

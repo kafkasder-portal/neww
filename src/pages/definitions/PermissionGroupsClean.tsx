@@ -163,7 +163,7 @@ export default function PermissionGroupsClean() {
 
       {/* Data Table */}
       <div className="absolute top-12 bottom-0 left-0 right-0 overflow-auto clear-both p-2.5">
-        <table className="w-full border-collapse bg-card shadow-sm border border-border">
+        <table className="w-full border-collapse border border-gray-300 bg-card shadow-sm border border-border">
           <thead>
             <tr>
               <th className="bg-muted border border-border px-2.5 py-1.5 text-xs font-bold text-center min-w-3 h-6">

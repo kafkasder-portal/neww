@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Loader2, CreditCard, ShieldCheck, Clock, CheckCircle, AlertTriangle } from 'lucide-react'
 import { donationService } from '@/services/donationService'
@@ -237,7 +237,7 @@ export function PaymentModal({ isOpen, onClose, onSuccess, initialData }: Paymen
         {step === 'form' && (
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <Alert variant="destructive">
+              <Alert variant="danger">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
@@ -370,10 +370,10 @@ export function PaymentModal({ isOpen, onClose, onSuccess, initialData }: Paymen
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button type="button" variant="outline" onClick={handleClose} className="flex-1">
+              <CorporateButton type="button" variant="outline" onClick={handleClose} className="flex-1">
                 İptal
-              </Button>
-              <Button type="submit" disabled={loading} className="flex-1">
+              </CorporateButton>
+              <CorporateButton type="submit" disabled={loading} className="flex-1">
                 {loading ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -382,7 +382,7 @@ export function PaymentModal({ isOpen, onClose, onSuccess, initialData }: Paymen
                 ) : (
                   'Ödemeye Geç'
                 )}
-              </Button>
+              </CorporateButton>
             </div>
           </form>
         )}
@@ -390,11 +390,11 @@ export function PaymentModal({ isOpen, onClose, onSuccess, initialData }: Paymen
         {/* Payment Step */}
         {step === 'payment' && (
           <div className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Ödeme Özeti</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle className="text-lg">Ödeme Özeti</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent className="space-y-3">
                 <div className="flex justify-between">
                   <span>Bağışçı:</span>
                   <span className="font-medium">{formData.donor_name}</span>
@@ -415,8 +415,8 @@ export function PaymentModal({ isOpen, onClose, onSuccess, initialData }: Paymen
                   <ShieldCheck className="h-4 w-4 text-green-500" />
                   <span className="text-sm text-gray-600">256-bit SSL güvenlik</span>
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
             <Alert>
               <AlertDescription>
@@ -425,13 +425,13 @@ export function PaymentModal({ isOpen, onClose, onSuccess, initialData }: Paymen
             </Alert>
 
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep('form')} className="flex-1">
+              <CorporateButton variant="outline" onClick={() => setStep('form')} className="flex-1">
                 Geri
-              </Button>
-              <Button onClick={handlePaymentRedirect} className="flex-1">
+              </CorporateButton>
+              <CorporateButton onClick={handlePaymentRedirect} className="flex-1">
                 <CreditCard className="h-4 w-4 mr-2" />
                 Ödeme Yap
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         )}
@@ -448,10 +448,10 @@ export function PaymentModal({ isOpen, onClose, onSuccess, initialData }: Paymen
               <h3 className="text-lg font-medium">Ödeme İşleniyor</h3>
               <p className="text-gray-600">Lütfen bekleyin, ödemeniz işleniyor...</p>
             </div>
-            <Badge variant="secondary" className="inline-flex items-center gap-1">
+            <CorporateBadge variant="outline" className="inline-flex items-center gap-1">
               <Clock className="h-3 w-3" />
               Ortalama işlem süresi: 30-60 saniye
-            </Badge>
+            </CorporateBadge>
           </div>
         )}
 
@@ -476,9 +476,9 @@ export function PaymentModal({ isOpen, onClose, onSuccess, initialData }: Paymen
                 <div>Tarih: {new Date().toLocaleDateString('tr-TR')}</div>
               </div>
             </div>
-            <Button onClick={handleClose} className="w-full">
+            <CorporateButton onClick={handleClose} className="w-full">
               Tamam
-            </Button>
+            </CorporateButton>
           </div>
         )}
 
@@ -497,12 +497,12 @@ export function PaymentModal({ isOpen, onClose, onSuccess, initialData }: Paymen
               </p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setStep('form')} className="flex-1">
+              <CorporateButton variant="outline" onClick={() => setStep('form')} className="flex-1">
                 Tekrar Dene
-              </Button>
-              <Button variant="outline" onClick={handleClose} className="flex-1">
+              </CorporateButton>
+              <CorporateButton variant="outline" onClick={handleClose} className="flex-1">
                 Kapat
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         )}

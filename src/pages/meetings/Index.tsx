@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react'
-import { Plus, Calendar, Users, Clock, MapPin, Video, Search, Filter, Eye } from 'lucide-react'
-import { Button } from '@components/ui/button'
-import { Card } from '@components/ui/card'
-import MeetingForm from '@components/meetings/MeetingForm'
-import MeetingDetailModal from '@components/meetings/MeetingDetailModal'
-import { meetingsApi } from '../../api/meetings'
 import { Meeting } from '@/types/collaboration'
+import MeetingDetailModal from '@components/meetings/MeetingDetailModal'
+import MeetingForm from '@components/meetings/MeetingForm'
+import { Button, CorporateCard } from '@components/ui/corporate/CorporateComponents'
+import { Calendar, Clock, Eye, Filter, MapPin, Plus, Search, Users, Video } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { meetingsApi } from '../../api/meetings'
 // import { usePermissions } from '@hooks/usePermissions'
-import toast from 'react-hot-toast'
 import { format, isValid } from 'date-fns'
 import { tr } from 'date-fns/locale'
+import toast from 'react-hot-toast'
 
 export default function MeetingsIndex() {
   const [meetings, setMeetings] = useState<Meeting[]>([])
@@ -20,7 +19,7 @@ export default function MeetingsIndex() {
   const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null)
   const [detailModalOpen, setDetailModalOpen] = useState(false)
   const [editingMeeting, setEditingMeeting] = useState<Meeting | null>(null)
-  
+
   // const permissions = usePermissions()
   // YETKİ KONTROLÜ KALDIRILDI - TÜM KULLANICILAR ERİŞEBİLİR
   const canCreateMeeting = true
@@ -67,9 +66,9 @@ export default function MeetingsIndex() {
 
   const filteredMeetings = meetings.filter(meeting => {
     const matchesSearch = meeting.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         meeting.description?.toLowerCase().includes(searchTerm.toLowerCase())
+      meeting.description?.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === 'all' || meeting.status === statusFilter
-    
+
     return matchesSearch && matchesStatus
   })
 
@@ -103,8 +102,8 @@ export default function MeetingsIndex() {
     return (
       <div className="space-y-6">
         <div className="flex items-center space-x-4">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="secondary"
             onClick={() => {
               setShowForm(false)
               setEditingMeeting(null)
@@ -116,7 +115,7 @@ export default function MeetingsIndex() {
             {editingMeeting ? 'Toplantı Düzenle' : 'Yeni Toplantı'}
           </h1>
         </div>
-        
+
         <MeetingForm
           onSuccess={handleCreateSuccess}
           onCancel={() => {
@@ -151,7 +150,7 @@ export default function MeetingsIndex() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Toplam Toplantı</p>
@@ -159,8 +158,8 @@ export default function MeetingsIndex() {
             </div>
             <Calendar className="h-8 w-8 text-blue-500" />
           </div>
-        </Card>
-        <Card className="p-6">
+        </CorporateCard>
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Bu Hafta</p>
@@ -168,8 +167,8 @@ export default function MeetingsIndex() {
             </div>
             <Clock className="h-8 w-8 text-green-500" />
           </div>
-        </Card>
-        <Card className="p-6">
+        </CorporateCard>
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Devam Eden</p>
@@ -177,8 +176,8 @@ export default function MeetingsIndex() {
             </div>
             <Users className="h-8 w-8 text-orange-500" />
           </div>
-        </Card>
-        <Card className="p-6">
+        </CorporateCard>
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Tamamlanan</p>
@@ -186,7 +185,7 @@ export default function MeetingsIndex() {
             </div>
             <Calendar className="h-8 w-8 text-purple-500" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Filters */}
@@ -215,7 +214,7 @@ export default function MeetingsIndex() {
             <option value="completed">Tamamlandı</option>
             <option value="cancelled">İptal Edildi</option>
           </select>
-          <Button variant="outline">
+          <Button variant="secondary">
             <Filter className="h-4 w-4 mr-2" />
             Filtreler
           </Button>
@@ -229,7 +228,7 @@ export default function MeetingsIndex() {
           <p className="text-muted-foreground mt-2">Toplantılar yükleniyor...</p>
         </div>
       ) : (
-        <Card className="overflow-hidden">
+        <CorporateCard className="overflow-hidden">
           {filteredMeetings.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -260,14 +259,14 @@ export default function MeetingsIndex() {
                           <Calendar className="h-4 w-4 text-muted-foreground" />
                           <div>
                             <div>
-                              {meeting.start_date && isValid(new Date(meeting.start_date)) 
+                              {meeting.start_date && isValid(new Date(meeting.start_date))
                                 ? format(new Date(meeting.start_date), 'dd MMM yyyy', { locale: tr })
                                 : 'Tarih belirtilmemiş'
                               }
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              {meeting.start_date && meeting.end_date && 
-                               isValid(new Date(meeting.start_date)) && isValid(new Date(meeting.end_date))
+                              {meeting.start_date && meeting.end_date &&
+                                isValid(new Date(meeting.start_date)) && isValid(new Date(meeting.end_date))
                                 ? `${format(new Date(meeting.start_date), 'HH:mm')} - ${format(new Date(meeting.end_date), 'HH:mm')}`
                                 : 'Saat belirtilmemiş'
                               }
@@ -289,8 +288,8 @@ export default function MeetingsIndex() {
                           )}
                           <div>
                             <div className="capitalize">
-                              {meeting.meeting_type === 'physical' ? 'Fiziksel' : 
-                               meeting.meeting_type === 'online' ? 'Online' : 'Hibrit'}
+                              {meeting.meeting_type === 'physical' ? 'Fiziksel' :
+                                meeting.meeting_type === 'online' ? 'Online' : 'Hibrit'}
                             </div>
                             {meeting.location && (
                               <div className="text-sm text-muted-foreground">
@@ -301,21 +300,20 @@ export default function MeetingsIndex() {
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          meeting.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
-                          meeting.status === 'ongoing' ? 'bg-green-100 text-green-800' :
-                          meeting.status === 'completed' ? 'bg-gray-100 text-gray-800' :
-                          'bg-red-100 text-red-800'
-                        }`}>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${meeting.status === 'scheduled' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+                          meeting.status === 'ongoing' ? 'bg-green-100 text-green-800 border-green-200' :
+                            meeting.status === 'completed' ? 'bg-gray-100 text-gray-800 border-gray-200' :
+                              'bg-red-100 text-red-800 border-red-200'
+                          }`}>
                           {meeting.status === 'scheduled' ? 'Planlandı' :
-                           meeting.status === 'ongoing' ? 'Devam Ediyor' :
-                           meeting.status === 'completed' ? 'Tamamlandı' : 'İptal Edildi'}
+                            meeting.status === 'ongoing' ? 'Devam Ediyor' :
+                              meeting.status === 'completed' ? 'Tamamlandı' : 'İptal Edildi'}
                         </span>
                       </td>
                       <td className="p-4">
                         <Button
                           size="sm"
-                          variant="outline"
+                          variant="secondary"
                           onClick={() => handleViewDetails(meeting)}
                         >
                           <Eye className="h-4 w-4 mr-2" />
@@ -332,7 +330,7 @@ export default function MeetingsIndex() {
               {searchTerm || statusFilter !== 'all' ? 'Arama kriterlerine uygun toplantı bulunamadı' : 'Henüz toplantı oluşturulmamış'}
             </div>
           )}
-        </Card>
+        </CorporateCard>
       )}
 
       {/* Meeting Detail Modal */}

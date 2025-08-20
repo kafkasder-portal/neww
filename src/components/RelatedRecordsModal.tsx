@@ -468,7 +468,7 @@ export default function RelatedRecordsModal({
       <div className="flex min-h-full items-center justify-center p-4">
         <div className="relative bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-border">
+          <div className="flex items-center justify-between p-6 bg-card rounded-lg border border-b border-border">
             <h2 className="text-xl font-semibold text-foreground">{title}</h2>
             <button
               onClick={onClose}
@@ -479,12 +479,12 @@ export default function RelatedRecordsModal({
           </div>
 
           {/* Content */}
-          <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+          <div className="p-6 bg-card rounded-lg border overflow-y-auto max-h-[calc(90vh-120px)]">
             {content}
           </div>
 
           {/* Footer */}
-          <div className="flex justify-end gap-3 p-6 border-t border-border bg-muted/50">
+          <div className="flex justify-end gap-3 p-6 bg-card rounded-lg border border-t border-border bg-muted/50">
             <button
               onClick={onClose}
               className="px-4 py-2 text-muted-foreground bg-background border border-border rounded-md hover:bg-muted/50 transition-colors"

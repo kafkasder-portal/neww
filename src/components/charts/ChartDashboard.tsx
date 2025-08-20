@@ -1,6 +1,6 @@
+import { Card, CorporateButton, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 import { useState } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { 
   BarChart3, 
@@ -165,7 +165,7 @@ export const ChartDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Kontrol Paneli */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center space-x-4">
             <h2 className="text-xl font-semibold">Grafik Dashboard</h2>
@@ -183,7 +183,7 @@ export const ChartDashboard = () => {
           </div>
 
           <div className="flex items-center space-x-2">
-            <Button
+            <CorporateButton
               variant="outline"
               size="sm"
               onClick={handleRefresh}
@@ -191,15 +191,15 @@ export const ChartDashboard = () => {
             >
               <RefreshCw className={`w-4 h-4 mr-1 ${isLoading ? 'animate-spin' : ''}`} />
               Yenile
-            </Button>
-            <Button
+            </CorporateButton>
+            <CorporateButton
               variant="outline"
               size="sm"
               onClick={handleExport}
             >
               <Download className="w-4 h-4 mr-1" />
               Export
-            </Button>
+            </CorporateButton>
           </div>
         </div>
 
@@ -208,7 +208,7 @@ export const ChartDashboard = () => {
           <h3 className="text-sm font-medium mb-2">Grafik Türleri</h3>
           <div className="flex flex-wrap gap-2">
             {chartTypes.map((chartType) => (
-              <Button
+              <CorporateButton
                 key={chartType.value}
                 variant={selectedCharts.includes(chartType.value) ? "default" : "outline"}
                 size="sm"
@@ -223,14 +223,14 @@ export const ChartDashboard = () => {
               >
                 {chartType.icon}
                 <span>{chartType.label}</span>
-              </Button>
+              </CorporateButton>
             ))}
           </div>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Grafikler Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
         {selectedCharts.map((chartType) => (
           <div key={chartType}>
             {renderChart(chartType)}
@@ -240,20 +240,20 @@ export const ChartDashboard = () => {
 
       {/* Boş Durum */}
       {selectedCharts.length === 0 && (
-        <Card className="p-12 text-center">
+        <CorporateCard className="p-12 text-center">
           <BarChart3 className="w-12 h-12 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">Grafik Seçilmedi</h3>
           <p className="text-gray-500 mb-4">
             Görüntülemek istediğiniz grafik türlerini seçin
           </p>
-          <Button
+          <CorporateButton
             onClick={() => setSelectedCharts(['line', 'bar'])}
             className="flex items-center space-x-1"
           >
             <Settings className="w-4 h-4" />
             <span>Varsayılan Grafikleri Göster</span>
-          </Button>
-        </Card>
+          </CorporateButton>
+        </CorporateCard>
       )}
     </div>
   )

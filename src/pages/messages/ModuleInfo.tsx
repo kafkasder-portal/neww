@@ -18,6 +18,7 @@ import {
   Users
 } from 'lucide-react'
 import { useState } from 'react'
+import { CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface ModuleFeature {
   id: string
@@ -142,9 +143,9 @@ export default function ModuleInfo() {
 
   const getStatusBadge = (status: string) => {
     const colors = {
-      active: 'bg-green-100 text-green-800',
-      maintenance: 'bg-yellow-100 text-yellow-800',
-      inactive: 'bg-red-100 text-red-800'
+      active: 'bg-green-100 text-green-800 border-green-200',
+      maintenance: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      inactive: 'bg-red-100 text-red-800 border-red-200'
     }
     const labels = {
       active: 'Aktif',
@@ -160,9 +161,9 @@ export default function ModuleInfo() {
 
   const getSystemHealthBadge = (health: string) => {
     const colors = {
-      healthy: 'bg-green-100 text-green-800',
-      warning: 'bg-yellow-100 text-yellow-800',
-      critical: 'bg-red-100 text-red-800'
+      healthy: 'bg-green-100 text-green-800 border-green-200',
+      warning: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      critical: 'bg-red-100 text-red-800 border-red-200'
     }
     const labels = {
       healthy: 'Sağlıklı',
@@ -194,24 +195,24 @@ export default function ModuleInfo() {
           <p className="text-gray-600 mt-1">Sistem modülleri ve özellikler hakkında detaylı bilgiler</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button
+          <CorporateButton
             onClick={() => setIsSystemModalOpen(true)}
             variant="soft-primary"
             icon={<Info className="h-4 w-4" />}
           >
             Sistem Bilgileri
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             variant="success"
             icon={<Download className="h-4 w-4" />}
           >
             Sistem Raporu
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
       {/* Sistem Durumu */}
-      <div className="bg-white p-6 rounded-lg border">
+      <div className="bg-white p-6 bg-card rounded-lg border rounded-lg border">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-900">Sistem Durumu</h2>
           <button className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
@@ -260,7 +261,7 @@ export default function ModuleInfo() {
 
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-700">Sistem Sağlığı:</span>
+            <span className="space-y-6-label">Sistem Sağlığı:</span>
             {getSystemHealthBadge(systemInfo.systemHealth)}
           </div>
           <div className="text-sm text-gray-600">
@@ -271,7 +272,7 @@ export default function ModuleInfo() {
 
       {/* Modül İstatistikleri */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <CheckCircle className="h-5 w-5 text-green-500" />
             <div>
@@ -281,7 +282,7 @@ export default function ModuleInfo() {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-yellow-500" />
             <div>
@@ -291,7 +292,7 @@ export default function ModuleInfo() {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <div className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-red-500" />
             <div>
@@ -304,12 +305,12 @@ export default function ModuleInfo() {
 
       {/* Modül Listesi */}
       <div className="bg-white rounded-lg border">
-        <div className="p-6 border-b">
+        <div className="p-6 bg-card rounded-lg border border-b">
           <h2 className="text-lg font-semibold text-gray-900">Sistem Modülleri</h2>
           <p className="text-gray-600 mt-1">Mevcut modüller ve durumları</p>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 bg-card rounded-lg border">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {moduleFeatures.map((feature) => (
               <div
@@ -370,17 +371,17 @@ export default function ModuleInfo() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Sürüm</label>
+                <label className="block space-y-6-label mb-1">Sürüm</label>
                 <p className="text-sm text-gray-900">v{selectedFeature.version}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Son Güncelleme</label>
+                <label className="block space-y-6-label mb-1">Son Güncelleme</label>
                 <p className="text-sm text-gray-900">{selectedFeature.lastUpdate}</p>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Açıklama</label>
+              <label className="block space-y-6-label mb-2">Açıklama</label>
               <p className="text-sm text-gray-900 leading-relaxed">{selectedFeature.description}</p>
             </div>
 
@@ -437,19 +438,19 @@ export default function ModuleInfo() {
             <h3 className="text-lg font-semibold mb-4">Sistem Özellikleri</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-gray-50 p-4 rounded">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Sistem Sürümü</label>
+                <label className="block space-y-6-label mb-1">Sistem Sürümü</label>
                 <p className="text-lg font-semibold">{systemInfo.version}</p>
               </div>
               <div className="bg-gray-50 p-4 rounded">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Yapı Tarihi</label>
+                <label className="block space-y-6-label mb-1">Yapı Tarihi</label>
                 <p className="text-lg font-semibold">{systemInfo.buildDate}</p>
               </div>
               <div className="bg-gray-50 p-4 rounded">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Ortam</label>
+                <label className="block space-y-6-label mb-1">Ortam</label>
                 <p className="text-lg font-semibold">{systemInfo.environment}</p>
               </div>
               <div className="bg-gray-50 p-4 rounded">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Çalışma Süresi</label>
+                <label className="block space-y-6-label mb-1">Çalışma Süresi</label>
                 <p className="text-lg font-semibold">{systemInfo.uptime}</p>
               </div>
             </div>
@@ -478,7 +479,7 @@ export default function ModuleInfo() {
                 <span className="font-medium">Genel Durum</span>
                 {getSystemHealthBadge(systemInfo.systemHealth)}
               </div>
-              <div className="mt-4 space-y-2">
+              <div className="mt-4 space-y-6-group">
                 <div className="flex justify-between text-sm">
                   <span>CPU Kullanımı</span>
                   <span className="font-medium">%23</span>

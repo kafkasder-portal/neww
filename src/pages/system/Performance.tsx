@@ -3,6 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@comp
 import { Button } from '@components/ui/button'
 import { Badge } from '@components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
+import { 
+  CorporateCard, 
+  CorporateCardContent, 
+  CorporateCardHeader, 
+  CorporateCardTitle,
+  CorporateButton,
+  CorporateBadge
+} from '@/components/ui/corporate/CorporateComponents'
 import PerformanceMonitor from '@components/performance/PerformanceMonitor'
 import MemoryMonitor from '@components/performance/MemoryMonitor'
 import { getAPIPerformanceSummary } from '../../api/performanceInterceptors'
@@ -92,9 +100,9 @@ export default function PerformancePage() {
     }
 
     return (
-      <Badge className={variants[status as keyof typeof variants] || variants.unknown}>
+      <CorporateBadge className={variants[status as keyof typeof variants] || variants.unknown}>
         {labels[status as keyof typeof labels] || status}
-      </Badge>
+      </CorporateBadge>
     )
   }
 
@@ -109,7 +117,7 @@ export default function PerformancePage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button
+          <CorporateButton
             onClick={downloadPerformanceReport}
             variant="outline"
             size="sm"
@@ -117,8 +125,8 @@ export default function PerformancePage() {
           >
             <Download className="h-4 w-4" />
             Rapor İndir
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             onClick={clearAllCaches}
             variant="outline"
             size="sm"
@@ -126,8 +134,8 @@ export default function PerformancePage() {
           >
             <Trash2 className="h-4 w-4" />
             Cache Temizle
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             onClick={loadPerformanceData}
             disabled={isLoading}
             size="sm"
@@ -135,7 +143,7 @@ export default function PerformancePage() {
           >
             <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             Yenile
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
@@ -162,32 +170,32 @@ export default function PerformancePage() {
         <TabsContent value="overview" className="space-y-6">
           {/* Performance Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CorporateCard>
+              <CorporateCardHeader className="pb-2">
+                <CorporateCardTitle className="text-sm font-medium flex items-center gap-2">
                   <TrendingUp className="h-4 w-4 text-semantic-info" />
                   Genel Durum
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
+                </CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <div className="space-y-6-group">
                   {getStatusBadge('good')}
                   <div className="text-sm text-muted-foreground">
                     Sistem normal çalışıyor
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CorporateCard>
+              <CorporateCardHeader className="pb-2">
+                <CorporateCardTitle className="text-sm font-medium flex items-center gap-2">
                   <Zap className="h-4 w-4 text-semantic-warning" />
                   API Performansı
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
+                </CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <div className="space-y-6-group">
                   {apiSummary ? (
                     <>
                       <div className="text-lg font-bold text-semantic-info">
@@ -201,18 +209,18 @@ export default function PerformancePage() {
                     <div className="text-sm text-muted-foreground">Yükleniyor...</div>
                   )}
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CorporateCard>
+              <CorporateCardHeader className="pb-2">
+                <CorporateCardTitle className="text-sm font-medium flex items-center gap-2">
                   <Database className="h-4 w-4 text-semantic-success" />
                   Cache Durumu
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
+                </CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <div className="space-y-6-group">
                   {cacheStats ? (
                     <>
                       <div className="text-lg font-bold text-semantic-success">
@@ -226,18 +234,18 @@ export default function PerformancePage() {
                     <div className="text-sm text-muted-foreground">Yükleniyor...</div>
                   )}
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CorporateCard>
+              <CorporateCardHeader className="pb-2">
+                <CorporateCardTitle className="text-sm font-medium flex items-center gap-2">
                   <Monitor className="h-4 w-4 text-brand-secondary" />
                   İzleme Durumu
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
+                </CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <div className="space-y-6-group">
                   <div className="flex items-center gap-2">
                     <CheckCircle className="h-4 w-4 text-semantic-success" />
                     <span className="text-sm">Aktif</span>
@@ -246,23 +254,23 @@ export default function PerformancePage() {
                     Gerçek zamanlı
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
 
           {/* API Performance Summary */}
           {apiSummary && apiSummary.recommendations.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle className="flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5 text-semantic-warning" />
                   Performans Önerileri
-                </CardTitle>
+                </CorporateCardTitle>
                 <CardDescription>
                   Sistem optimizasyonu için öneriler
                 </CardDescription>
-              </CardHeader>
-              <CardContent>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <div className="space-y-3">
                   {apiSummary.recommendations.map((rec: any, index: number) => (
                     <div key={index} className={`p-3 rounded-lg border-l-4 ${
@@ -286,8 +294,8 @@ export default function PerformancePage() {
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           )}
         </TabsContent>
 
@@ -302,15 +310,15 @@ export default function PerformancePage() {
         <TabsContent value="api" className="space-y-6">
           {/* API Performance Details */}
           {apiSummary && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>API İstatistikleri</CardTitle>
+            <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
+              <CorporateCard>
+                <CorporateCardHeader>
+                  <CorporateCardTitle>API İstatistikleri</CorporateCardTitle>
                   <CardDescription>
                     Son API çağrılarının detaylı analizi
                   </CardDescription>
-                </CardHeader>
-                <CardContent>
+                </CorporateCardHeader>
+                <CorporateCardContent>
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1">
@@ -341,7 +349,7 @@ export default function PerformancePage() {
 
                     {/* Error Distribution */}
                     {Object.keys(apiSummary.errorsByStatus).length > 0 && (
-                      <div className="space-y-2">
+                      <div className="space-y-6-group">
                         <div className="text-sm font-medium">Hata Dağılımı</div>
                         <div className="space-y-1">
                           {Object.entries(apiSummary.errorsByStatus).map(([status, count]) => (
@@ -354,17 +362,17 @@ export default function PerformancePage() {
                       </div>
                     )}
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Cache İstatistikleri</CardTitle>
+              <CorporateCard>
+                <CorporateCardHeader>
+                  <CorporateCardTitle>Cache İstatistikleri</CorporateCardTitle>
                   <CardDescription>
                     Bellek ve depolama kullanımı
                   </CardDescription>
-                </CardHeader>
-                <CardContent>
+                </CorporateCardHeader>
+                <CorporateCardContent>
                   {cacheStats && (
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
@@ -407,7 +415,7 @@ export default function PerformancePage() {
                       </div>
 
                       {/* Cache utilization bar */}
-                      <div className="space-y-2">
+                      <div className="space-y-6-group">
                         <div className="flex justify-between text-sm">
                           <span>Memory Kullanımı</span>
                           <span>%{cacheStats.memory.utilization.toFixed(1)}</span>
@@ -424,22 +432,22 @@ export default function PerformancePage() {
                       </div>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
           )}
 
           {/* Slowest Endpoints */}
           {apiSummary && apiSummary.slowestEndpoints.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>En Yavaş Endpoint&apos;ler</CardTitle>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>En Yavaş Endpoint&apos;ler</CorporateCardTitle>
                 <CardDescription>
                   Optimizasyon gereken API endpoint&apos;leri
                 </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
+              </CorporateCardHeader>
+              <CorporateCardContent>
+                <div className="space-y-6-group">
                   {apiSummary.slowestEndpoints.map(([endpoint, stats]: any, index: number) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded">
                       <div className="flex-1">
@@ -461,8 +469,8 @@ export default function PerformancePage() {
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           )}
         </TabsContent>
       </Tabs>

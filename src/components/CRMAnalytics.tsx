@@ -1,6 +1,6 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+;
+;
+;
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDesignSystem } from '@/hooks/useDesignSystem';
@@ -17,6 +17,7 @@ import {
   UsersIcon
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { CorporateBadge, CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import {
   Area,
   AreaChart,
@@ -133,8 +134,8 @@ const CRMAnalytics: React.FC = () => {
     trend?: 'up' | 'down';
     trendValue?: string;
   }) => (
-    <Card>
-      <CardContent className="p-6">
+    <CorporateCard>
+      <CorporateCardContent className="p-6 bg-card rounded-lg border">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground">{title}</p>
@@ -153,8 +154,8 @@ const CRMAnalytics: React.FC = () => {
           </div>
           <Icon className="w-8 h-8 text-muted-foreground" />
         </div>
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   );
 
   return (
@@ -179,15 +180,15 @@ const CRMAnalytics: React.FC = () => {
               <SelectItem value="custom">Özel Tarih</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={handleExportReport} variant="outline">
+          <CorporateButton onClick={handleExportReport} variant="outline">
             <DownloadIcon className="w-4 h-4 mr-2" />
             Rapor İndir
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-4">
         <StatCard
           title="Toplam Bağışçı"
           value={analyticsData.totalDonors.toLocaleString()}
@@ -227,13 +228,13 @@ const CRMAnalytics: React.FC = () => {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
             {/* Donation Trends */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Bağış Trendleri</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Bağış Trendleri</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <AreaChart data={donationTrends}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -243,15 +244,15 @@ const CRMAnalytics: React.FC = () => {
                     <Area type="monotone" dataKey="amount" stroke="#8B5CF6" fill="#8B5CF6" fillOpacity={0.3} />
                   </AreaChart>
                 </ResponsiveContainer>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
             {/* Donor Segments */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Bağışçı Segmentleri</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Bağışçı Segmentleri</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
@@ -271,14 +272,14 @@ const CRMAnalytics: React.FC = () => {
                     <Tooltip />
                   </PieChart>
                 </ResponsiveContainer>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
 
           {/* Additional Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card>
-              <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 space-y-4">
+            <CorporateCard>
+              <CorporateCardContent className="p-6 bg-card rounded-lg border">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Bağışçı Tutma Oranı</p>
@@ -286,10 +287,10 @@ const CRMAnalytics: React.FC = () => {
                   </div>
                   <AwardIcon className="w-8 h-8 text-muted-foreground" />
                 </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
+              </CorporateCardContent>
+            </CorporateCard>
+            <CorporateCard>
+              <CorporateCardContent className="p-6 bg-card rounded-lg border">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Bu Ay Yeni Bağışçı</p>
@@ -297,10 +298,10 @@ const CRMAnalytics: React.FC = () => {
                   </div>
                   <UsersIcon className="w-8 h-8 text-muted-foreground" />
                 </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
+              </CorporateCardContent>
+            </CorporateCard>
+            <CorporateCard>
+              <CorporateCardContent className="p-6 bg-card rounded-lg border">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Bağış Artışı</p>
@@ -308,19 +309,19 @@ const CRMAnalytics: React.FC = () => {
                   </div>
                   <TrendingUpIcon className="w-8 h-8 text-green-600" />
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
         </TabsContent>
 
         <TabsContent value="donors" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
             {/* Donor Growth */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Bağışçı Büyümesi</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Bağışçı Büyümesi</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={donationTrends}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -331,15 +332,15 @@ const CRMAnalytics: React.FC = () => {
                     <Line type="monotone" dataKey="donors" stroke="#06B6D4" name="Bağışçı Sayısı" />
                   </LineChart>
                 </ResponsiveContainer>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
 
             {/* Donor Distribution */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Bağışçı Dağılımı</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <CorporateCard>
+              <CorporateCardHeader>
+                <CorporateCardTitle>Bağışçı Dağılımı</CorporateCardTitle>
+              </CorporateCardHeader>
+              <CorporateCardContent>
                 <div className="space-y-4">
                   {donorSegments.map((segment, index) => (
                     <div key={index} className="flex items-center justify-between">
@@ -350,21 +351,21 @@ const CRMAnalytics: React.FC = () => {
                         />
                         <span className="text-sm font-medium">{segment.name}</span>
                       </div>
-                      <Badge variant="secondary">{segment.value}%</Badge>
+                      <CorporateBadge variant="outline">{segment.value}%</CorporateBadge>
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
         </TabsContent>
 
         <TabsContent value="campaigns" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Kampanya Performansı</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle>Kampanya Performansı</CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent>
               <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={campaignPerformance}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -376,15 +377,15 @@ const CRMAnalytics: React.FC = () => {
                   <Bar dataKey="raised" fill="#10B981" name="Toplanan" />
                 </BarChart>
               </ResponsiveContainer>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {campaignPerformance.map((campaign, index) => (
-              <Card key={index}>
-                <CardContent className="p-4">
+              <CorporateCard key={index}>
+                <CorporateCardContent className="p-4">
                   <h4 className="font-semibold text-sm mb-2">{campaign.name}</h4>
-                  <div className="space-y-2">
+                  <div className="space-y-6-group">
                     <div className="flex justify-between text-xs">
                       <span>Hedef:</span>
                       <span>₺{campaign.target.toLocaleString()}</span>
@@ -407,16 +408,16 @@ const CRMAnalytics: React.FC = () => {
                       {((campaign.raised / campaign.target) * 100).toFixed(1)}% tamamlandı
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </CorporateCardContent>
+              </CorporateCard>
             ))}
           </div>
         </TabsContent>
 
         <TabsContent value="communication" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card>
-              <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 space-y-4">
+            <CorporateCard>
+              <CorporateCardContent className="p-6 bg-card rounded-lg border">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">E-posta Gönderimi</p>
@@ -424,10 +425,10 @@ const CRMAnalytics: React.FC = () => {
                   </div>
                   <MailIcon className="w-8 h-8 text-muted-foreground" />
                 </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
+              </CorporateCardContent>
+            </CorporateCard>
+            <CorporateCard>
+              <CorporateCardContent className="p-6 bg-card rounded-lg border">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Telefon Görüşmesi</p>
@@ -435,10 +436,10 @@ const CRMAnalytics: React.FC = () => {
                   </div>
                   <PhoneIcon className="w-8 h-8 text-muted-foreground" />
                 </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
+              </CorporateCardContent>
+            </CorporateCard>
+            <CorporateCard>
+              <CorporateCardContent className="p-6 bg-card rounded-lg border">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Toplantı</p>
@@ -446,15 +447,15 @@ const CRMAnalytics: React.FC = () => {
                   </div>
                   <UsersIcon className="w-8 h-8 text-muted-foreground" />
                 </div>
-              </CardContent>
-            </Card>
+              </CorporateCardContent>
+            </CorporateCard>
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>İletişim Aktivitesi</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <CorporateCard>
+            <CorporateCardHeader>
+              <CorporateCardTitle>İletişim Aktivitesi</CorporateCardTitle>
+            </CorporateCardHeader>
+            <CorporateCardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={[
                   { name: 'E-posta', value: analyticsData.communicationStats.emails },
@@ -468,8 +469,8 @@ const CRMAnalytics: React.FC = () => {
                   <Bar dataKey="value" fill="#8B5CF6" />
                 </BarChart>
               </ResponsiveContainer>
-            </CardContent>
-          </Card>
+            </CorporateCardContent>
+          </CorporateCard>
         </TabsContent>
       </Tabs>
     </div>

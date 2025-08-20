@@ -16,7 +16,7 @@ import { exportToCsv } from '@lib/exportToCsv'
 import { DataTable } from '@components/DataTable'
 import type { Column } from '@components/DataTable'
 import { Modal } from '@components/Modal'
-import StatCard from '../../components/StatCard'
+import StatCard from '@components/StatCard'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -306,13 +306,13 @@ export default function Parameters() {
 
   const getDataTypeBadge = (dataType: string) => {
     const typeMap = {
-      string: { label: 'Metin', class: 'bg-blue-100 text-blue-800' },
-      number: { label: 'Sayı', class: 'bg-green-100 text-green-800' },
+      string: { label: 'Metin', class: 'bg-blue-100 text-blue-800 border-blue-200' },
+      number: { label: 'Sayı', class: 'bg-green-100 text-green-800 border-green-200' },
       boolean: { label: 'Boolean', class: 'bg-purple-100 text-purple-800' },
       json: { label: 'JSON', class: 'bg-orange-100 text-orange-800' },
       date: { label: 'Tarih', class: 'bg-pink-100 text-pink-800' }
     }
-    const typeInfo = typeMap[dataType as keyof typeof typeMap] || { label: dataType, class: 'bg-gray-100 text-gray-800' }
+    const typeInfo = typeMap[dataType as keyof typeof typeMap] || { label: dataType, class: 'bg-gray-100 text-gray-800 border-gray-200' }
     return (
       <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${typeInfo.class}`}>
         {typeInfo.label}
@@ -377,7 +377,7 @@ export default function Parameters() {
       render: (_value, param) => (
         <div className="max-w-xs">
           {param.is_editable && !param.is_system ? (
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               {param.data_type === 'boolean' ? (
                 <select
                   value={param.value}
@@ -569,7 +569,7 @@ export default function Parameters() {
       </div>
 
       {/* Filtreler */}
-      <div className="flex flex-wrap items-center gap-4 rounded-lg border p-4">
+      <div className="flex flex-wrap items-center bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input

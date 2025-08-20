@@ -37,7 +37,7 @@ export const OfflineIndicator: React.FC = () => {
       case 'green':
         return 'bg-green-500 text-white border-green-600'
       default:
-        return 'bg-gray-500 text-white border-gray-600'
+        return 'bg-gray-50 text-white border-gray-600'
     }
   }
 
@@ -110,8 +110,8 @@ export const OfflineStatus: React.FC = () => {
           <div className={cn(
             'flex items-center gap-2 px-2 py-1 rounded text-sm font-medium',
             isOnline 
-              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-              : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+              ? 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-200'
+              : 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-200'
           )}>
             {isOnline ? <Wifi className="w-4 h-4" /> : <WifiOff className="w-4 h-4" />}
             {isOnline ? 'Bağlı' : 'Bağlantı Yok'}
@@ -125,7 +125,7 @@ export const OfflineStatus: React.FC = () => {
             'flex items-center gap-2 px-2 py-1 rounded text-sm font-medium',
             queueLength > 0
               ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
-              : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+              : 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-200'
           )}>
             {queueLength > 0 ? <Clock className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
             {queueLength > 0 ? `${queueLength} işlem` : 'Tümü tamamlandı'}
@@ -136,7 +136,7 @@ export const OfflineStatus: React.FC = () => {
         {wasOffline && (
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600 dark:text-gray-400">Son Durum:</span>
-            <div className="flex items-center gap-2 px-2 py-1 rounded text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+            <div className="flex items-center gap-2 px-2 py-1 rounded text-sm font-medium bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-200">
               <CheckCircle className="w-4 h-4" />
               Bağlantı Yeniden Kuruldu
             </div>

@@ -1,30 +1,42 @@
-import { 
-  Coins, 
-  FileText, 
-  TrendingUp,
-  Calendar,
-  MessageSquare,
-  PieChart,
+import {
   Activity,
-  Settings,
-  Database,
-  X,
+  ArrowUpRight,
   BarChart3,
-  MapPin
+  Calendar,
+  DollarSign,
+  Download,
+  Eye,
+  FileText,
+  Filter,
+  Heart,
+  MessageSquare,
+  Plus,
+  Settings,
+  TrendingUp,
+  Users,
+  Zap
 } from 'lucide-react'
 // FinancialCard components removed - files deleted
-import { Link } from 'react-router-dom'
+import { useDesignSystem } from '@/hooks/useDesignSystem'
 import { DashboardCharts } from '@components/DashboardCharts'
+import { ChartDashboard } from '@components/charts/ChartDashboard'
 import { DashboardCustomizer } from '@components/dashboard/DashboardCustomizer'
+import { MapDashboard } from '@components/maps/MapDashboard'
 import { CacheMonitor } from '@components/performance/CacheMonitor'
 import { ReportGenerator } from '@components/reports/ReportGenerator'
-import { ChartDashboard } from '@components/charts/ChartDashboard'
+import {
+  CorporateBadge,
+  CorporateButton,
+  CorporateCard,
+  CorporateCardContent,
+  CorporateCardHeader,
+  CorporateCardTitle,
+  CorporateProgress
+} from '@components/ui/corporate/CorporateComponents'
+import { CardSkeleton, SkeletonGroup } from '@components/ui/skeleton'
 import { WhatsAppManager } from '@components/whatsapp/WhatsAppManager'
-import { MapDashboard } from '@components/maps/MapDashboard'
 import { useDashboardCustomization } from '@hooks/useDashboardCustomization'
-import { Button } from '@components/ui/button'
-import { useState } from 'react'
-import { useDesignSystem } from '@/hooks/useDesignSystem'
+import { useEffect, useState } from 'react'
 
 export default function DashboardIndex() {
   const { colors, styles, utils } = useDesignSystem()
@@ -35,440 +47,523 @@ export default function DashboardIndex() {
   const [showChartDashboard, setShowChartDashboard] = useState(false)
   const [showWhatsAppManager, setShowWhatsAppManager] = useState(false)
   const [showMapDashboard, setShowMapDashboard] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const { settings, updateWidgets } = useDashboardCustomization()
 
+  // Simulate loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
-    <div className="space-y-6">
-      {/* Hoş Geldin Bölümü */}
-      <div className="bg-gradient-to-r from-brand-primary to-brand-600 rounded-xl p-6 sm:p-8 text-white shadow-lg relative">
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">Hoş Geldiniz!</h1>
-            <p className="text-base sm:text-lg text-white/90 leading-relaxed">Dernek finansal yönetim panelinize hoş geldiniz. Güncel durumu aşağıdan takip edebilirsiniz.</p>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowCacheMonitor(true)}
-              className="text-white hover:bg-white/10"
-            >
-              <Database className="w-4 h-4 mr-1" />
-              Cache
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowCustomizer(true)}
-              className="text-white hover:bg-white/10"
-            >
-              <Settings className="w-4 h-4 mr-1" />
-              Kişiselleştir
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowReportGenerator(true)}
-              className="text-white hover:bg-white/10"
-            >
-              <FileText className="w-4 h-4 mr-1" />
-              Rapor
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowChartDashboard(true)}
-              className="text-white hover:bg-white/10"
-            >
-              <BarChart3 className="w-4 h-4 mr-1" />
-              Grafikler
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowWhatsAppManager(true)}
-              className="text-white hover:bg-white/10"
-            >
-              <MessageSquare className="w-4 h-4 mr-1" />
-              WhatsApp
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowMapDashboard(true)}
-              className="text-white hover:bg-white/10"
-            >
-              <MapPin className="w-4 h-4 mr-1" />
-              Harita
-            </Button>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-bg-muted via-white to-bg-primary/5/30">
+      {/* Enhanced Welcome Section */}
+      <div className="relative overflow-hidden">
+        <CorporateCard className="bg-gradient-to-r from-bg-primary via-bg-primary/80 to-bg-primary/90 text-white shadow-2xl border-0 relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/90 to-bg-primary/90/90"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24"></div>
+          <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-white/5 rounded-full -translate-x-16 -translate-y-16"></div>
+
+          <CorporateCardContent className="relative z-10 p-8">
+            <div className="flex items-start justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                    <Users className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h1 className="text-3xl sm:text-4xl font-bold mb-2">
+                      Hoş Geldiniz, Ahmet Kaya
+                    </h1>
+                    <p className="text-bg-primary/10 text-lg">
+                      Dernek Yönetim Paneli - {new Date().toLocaleDateString('tr-TR', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Quick Stats */}
+                <div className="flex items-center gap-6 pt-4">
+                  <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium">Sistem Aktif</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+                    <Activity className="w-4 h-4" />
+                    <span className="text-sm font-medium">156 Aktif Kullanıcı</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+                    <TrendingUp className="w-4 h-4" />
+                    <span className="text-sm font-medium">%15.2 Büyüme</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex space-x-3">
+                <CorporateButton
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowCustomizer(true)}
+                  className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  Özelleştir
+                </CorporateButton>
+                <CorporateButton
+                  variant="outline"
+                  size="sm"
+                  className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Rapor İndir
+                </CorporateButton>
+              </div>
+            </div>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
-      {/* Finansal İstatistik Kartları */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Financial cards replaced with simple placeholders */}
-        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Toplam Bağışlar</p>
-              <p className="text-2xl font-bold text-gray-900">₺45,230</p>
-              <p className="text-sm text-green-600">+8.2%</p>
+      {/* Enhanced KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+        {isLoading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <CardSkeleton key={index} className="h-40" />
+          ))
+        ) : (
+          <>
+            <div className="group">
+              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-primary/5/50">
+                <CorporateCardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-bg-primary/10 flex items-center justify-center">
+                      <Users className="w-6 h-6 text-bg-primary" />
+                    </div>
+                    <div className="flex items-center gap-1 text-green-600">
+                      <ArrowUpRight className="w-4 h-4" />
+                      <span className="text-sm font-medium">+12%</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-medium text-text-muted-foreground">Toplam Yardım Alanlar</h3>
+                    <p className="text-2xl font-bold text-text-foreground">2,847</p>
+                    <div className="flex items-center gap-2">
+                      <CorporateBadge variant="success" className="text-xs">Aktif</CorporateBadge>
+                      <span className="text-xs text-text-muted-foreground">Bu ay</span>
+                    </div>
+                  </div>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
-            <Coins className="h-8 w-8 text-blue-600" />
-          </div>
-        </div>
 
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Aktif Yararlanıcılar</p>
-              <p className="text-2xl font-bold text-gray-900">1,234</p>
-              <p className="text-sm text-green-600">+12%</p>
+            <div className="group">
+              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-green-500-50/50">
+                <CorporateCardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-bg-green-500-100 flex items-center justify-center">
+                      <Heart className="w-6 h-6 text-bg-green-500-600" />
+                    </div>
+                    <div className="flex items-center gap-1 text-green-600">
+                      <ArrowUpRight className="w-4 h-4" />
+                      <span className="text-sm font-medium">+8%</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-medium text-text-muted-foreground">Toplam Bağışlar</h3>
+                    <p className="text-2xl font-bold text-text-foreground">₺1,245,680</p>
+                    <div className="flex items-center gap-2">
+                      <CorporateBadge variant="success" className="text-xs">Yükselen</CorporateBadge>
+                      <span className="text-xs text-text-muted-foreground">Bu ay</span>
+                    </div>
+                  </div>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
-            <Activity className="h-8 w-8 text-green-600" />
-          </div>
-        </div>
 
-        <div className="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-lg p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Aylık Büyüme</p>
-              <p className="text-2xl font-bold text-gray-900">+15.4%</p>
-              <p className="text-sm text-gray-500">Son 30 gün</p>
+            <div className="group">
+              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-yellow-500-50/50">
+                <CorporateCardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-bg-yellow-500-100 flex items-center justify-center">
+                      <FileText className="w-6 h-6 text-bg-yellow-500-600" />
+                    </div>
+                    <div className="flex items-center gap-1 text-green-600">
+                      <ArrowUpRight className="w-4 h-4" />
+                      <span className="text-sm font-medium">+23%</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-medium text-text-muted-foreground">Aktif Başvurular</h3>
+                    <p className="text-2xl font-bold text-text-foreground">156</p>
+                    <div className="flex items-center gap-2">
+                      <CorporateBadge variant="warning" className="text-xs">Beklemede</CorporateBadge>
+                      <span className="text-xs text-text-muted-foreground">Değerlendirme</span>
+                    </div>
+                  </div>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
-            <TrendingUp className="h-8 w-8 text-orange-600" />
-          </div>
-        </div>
 
-        <div className="bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Fon Dağılımı</p>
-              <p className="text-2xl font-bold text-gray-900">87%</p>
-              <p className="text-sm text-gray-500">Hedef: 85%</p>
+            <div className="group">
+              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-accent/5/50">
+                <CorporateCardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-bg-accent/10 flex items-center justify-center">
+                      <TrendingUp className="w-6 h-6 text-bg-accent" />
+                    </div>
+                    <div className="flex items-center gap-1 text-green-600">
+                      <ArrowUpRight className="w-4 h-4" />
+                      <span className="text-sm font-medium">+2.1%</span>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-medium text-text-muted-foreground">Aylık Büyüme</h3>
+                    <p className="text-2xl font-bold text-text-foreground">%15.2</p>
+                    <div className="flex items-center gap-2">
+                      <CorporateBadge variant="info" className="text-xs">Pozitif</CorporateBadge>
+                      <span className="text-xs text-text-muted-foreground">Geçen aya göre</span>
+                    </div>
+                  </div>
+                </CorporateCardContent>
+              </CorporateCard>
             </div>
-            <PieChart className="h-8 w-8 text-purple-600" />
-          </div>
-        </div>
+          </>
+        )}
       </div>
 
-      {/* Hızlı Erişim Kartları */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <QuickAccessCard
-          title="Yeni Başvuru"
-          description="İhtiyaç sahibi başvurusu oluştur"
-          icon={<FileText className="h-6 w-6" />}
-          color="bg-brand-primary"
-          link="/aid/applications"
-        />
-        <QuickAccessCard
-          title="Bağış Kabul"
-          description="Yeni bağış kaydı oluştur"
-          icon={<Coins className="h-6 w-6" />}
-          color="bg-financial-success"
-          link="/donations/cash"
-        />
-        <QuickAccessCard
-          title="Mesaj Gönder"
-          description="Toplu mesaj gönderimi yap"
-          icon={<MessageSquare className="h-6 w-6" />}
-          color="bg-chart-5"
-          link="/messages/bulk-send"
-        />
-        <QuickAccessCard
-          title="Rapor Oluştur"
-          description="Yardım raporu hazırla"
-          icon={<PieChart className="h-6 w-6" />}
-          color="bg-chart-7"
-          link="/aid/reports"
-        />
+      {/* Enhanced Statistics Cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+        {isLoading ? (
+          <>
+            <CardSkeleton className="h-96" />
+            <CardSkeleton className="h-96" />
+          </>
+        ) : (
+          <>
+            <CorporateCard className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+              <CorporateCardHeader className="border-b border-border-border">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-bg-green-500-100 flex items-center justify-center">
+                      <DollarSign className="h-5 w-5 text-bg-green-500-600" />
+                    </div>
+                    <div>
+                      <CorporateCardTitle>Aylık Yardım Dağılımı</CorporateCardTitle>
+                      <p className="text-sm text-text-muted-foreground">Bu ayki yardım dağılımı</p>
+                    </div>
+                  </div>
+                  <CorporateButton variant="outline" size="sm">
+                    <Eye className="w-4 h-4 mr-2" />
+                    Detay
+                  </CorporateButton>
+                </div>
+              </CorporateCardHeader>
+              <CorporateCardContent className="p-6">
+                <div className="space-y-6">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 rounded-full bg-bg-green-500-500"></div>
+                        <span className="text-sm font-medium">Gıda Yardımı</span>
+                      </div>
+                      <span className="text-sm font-semibold text-text-foreground">₺125,000</span>
+                    </div>
+                    <CorporateProgress value={75} variant="success" className="h-2" />
+                    <div className="flex justify-between text-xs text-text-muted-foreground">
+                      <span>75% tamamlandı</span>
+                      <span>₺93,750 harcandı</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 rounded-full bg-bg-primary"></div>
+                        <span className="text-sm font-medium">Eğitim Desteği</span>
+                      </div>
+                      <span className="text-sm font-semibold text-text-foreground">₺85,000</span>
+                    </div>
+                    <CorporateProgress value={60} className="h-2" />
+                    <div className="flex justify-between text-xs text-text-muted-foreground">
+                      <span>60% tamamlandı</span>
+                      <span>₺51,000 harcandı</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 rounded-full bg-bg-yellow-500-500"></div>
+                        <span className="text-sm font-medium">Sağlık Yardımı</span>
+                      </div>
+                      <span className="text-sm font-semibold text-text-foreground">₺45,000</span>
+                    </div>
+                    <CorporateProgress value={35} variant="warning" className="h-2" />
+                    <div className="flex justify-between text-xs text-text-muted-foreground">
+                      <span>35% tamamlandı</span>
+                      <span>₺15,750 harcandı</span>
+                    </div>
+                  </div>
+                </div>
+              </CorporateCardContent>
+            </CorporateCard>
+
+            <CorporateCard className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+              <CorporateCardHeader className="border-b border-border-border">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-bg-yellow-500-100 flex items-center justify-center">
+                      <Zap className="h-5 w-5 text-bg-yellow-500-600" />
+                    </div>
+                    <div>
+                      <CorporateCardTitle>Hızlı İşlemler</CorporateCardTitle>
+                      <p className="text-sm text-text-muted-foreground">Sık kullanılan işlemler</p>
+                    </div>
+                  </div>
+                  <CorporateButton variant="outline" size="sm">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Yeni
+                  </CorporateButton>
+                </div>
+              </CorporateCardHeader>
+              <CorporateCardContent className="p-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <CorporateButton
+                    variant="outline"
+                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-bg-primary/5 hover:border-bg-primary/30 transition-all duration-200 group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-bg-primary/10 flex items-center justify-center group-hover:bg-bg-primary/20 transition-colors">
+                      <Users className="h-6 w-6 text-bg-primary" />
+                    </div>
+                    <span className="text-sm font-semibold text-text-foreground">Yeni Başvuru</span>
+                  </CorporateButton>
+
+                  <CorporateButton
+                    variant="outline"
+                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-bg-green-500-50 hover:border-bg-green-500-300 transition-all duration-200 group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-bg-green-500-100 flex items-center justify-center group-hover:bg-bg-green-500-200 transition-colors">
+                      <Heart className="h-6 w-6 text-bg-green-500-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-text-foreground">Bağış Ekle</span>
+                  </CorporateButton>
+
+                  <CorporateButton
+                    variant="outline"
+                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-bg-yellow-500-50 hover:border-bg-yellow-500-300 transition-all duration-200 group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-bg-yellow-500-100 flex items-center justify-center group-hover:bg-bg-yellow-500-200 transition-colors">
+                      <FileText className="h-6 w-6 text-bg-yellow-500-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-text-foreground">Rapor Oluştur</span>
+                  </CorporateButton>
+
+                  <CorporateButton
+                    variant="outline"
+                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-bg-secondary/5 hover:border-bg-secondary/30 transition-all duration-200 group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-bg-secondary/10 flex items-center justify-center group-hover:bg-bg-secondary/20 transition-colors">
+                      <MessageSquare className="h-6 w-6 text-bg-secondary" />
+                    </div>
+                    <span className="text-sm font-semibold text-text-foreground">Mesaj Gönder</span>
+                  </CorporateButton>
+                </div>
+              </CorporateCardContent>
+            </CorporateCard>
+          </>
+        )}
       </div>
 
-      {/* Dashboard Charts */}
-      <DashboardCharts />
+      {/* Enhanced Dashboard Charts */}
+      <CorporateCard className="mt-8 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+        <CorporateCardHeader className="border-b border-border-border">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-bg-primary/10 flex items-center justify-center">
+                <BarChart3 className="h-5 w-5 text-bg-primary" />
+              </div>
+              <div>
+                <CorporateCardTitle>Performans Grafikleri</CorporateCardTitle>
+                <p className="text-sm text-text-muted-foreground">Aylık ve yıllık trendler</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <CorporateButton variant="outline" size="sm">
+                <Filter className="w-4 h-4 mr-2" />
+                Filtrele
+              </CorporateButton>
+              <CorporateButton variant="outline" size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                İndir
+              </CorporateButton>
+            </div>
+          </div>
+        </CorporateCardHeader>
+        <CorporateCardContent className="p-6">
+          {isLoading ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <CardSkeleton className="h-96" />
+              <CardSkeleton className="h-96" />
+            </div>
+          ) : (
+            <DashboardCharts />
+          )}
+        </CorporateCardContent>
+      </CorporateCard>
 
-      {/* Alt Kısım - 3 Sütun */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Son Aktiviteler */}
-        <div className="rounded-lg border bg-card p-4">
-          <div className="mb-4 flex items-center gap-2">
-            <Activity className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">Son Aktiviteler</h3>
-          </div>
-          <div className="space-y-3">
-            <ActivityItem
-              title="Yeni başvuru onaylandı"
-              subtitle="Ayşe Yılmaz - Nakdi Yardım"
-              time="2 saat önce"
-            />
-            <ActivityItem
-              title="Bağış alındı"
-              subtitle="₺500 - Ahmet Demir"
-              time="4 saat önce"
-            />
-            <ActivityItem
-              title="Toplu mesaj gönderildi"
-              subtitle="142 kişiye SMS gönderildi"
-              time="6 saat önce"
-            />
-            <ActivityItem
-              title="Yardım dağıtıldı"
-              subtitle="₺1,200 - 3 aile"
-              time="1 gün önce"
-            />
-          </div>
-          <Link to="/aid" className="mt-4 block text-sm text-primary hover:underline">
-            Tüm aktiviteleri gör →
-          </Link>
-        </div>
+      {/* Enhanced Recent Activity Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+        <CorporateCard className="lg:col-span-2 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+          <CorporateCardHeader className="border-b border-border-border">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-bg-primary/10 flex items-center justify-center">
+                  <Activity className="h-5 w-5 text-bg-primary" />
+                </div>
+                <div>
+                  <CorporateCardTitle>Son Aktiviteler</CorporateCardTitle>
+                  <p className="text-sm text-text-muted-foreground">Sistem aktiviteleri</p>
+                </div>
+              </div>
+              <CorporateButton variant="outline" size="sm">
+                Tümünü Gör
+              </CorporateButton>
+            </div>
+          </CorporateCardHeader>
+          <CorporateCardContent className="p-6">
+            {isLoading ? (
+              <SkeletonGroup count={4} className="space-y-4" />
+            ) : (
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 p-4 bg-bg-primary/5 rounded-xl border border-bg-primary/10">
+                  <div className="w-3 h-3 bg-bg-primary rounded-full animate-pulse"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-text-foreground">Yeni yardım başvurusu alındı</p>
+                    <p className="text-xs text-text-muted-foreground">Ahmet Yılmaz tarafından</p>
+                  </div>
+                  <span className="text-xs text-text-muted-foreground bg-white px-2 py-1 rounded-full">2 dk önce</span>
+                </div>
 
-        {/* Bu Ayki Hedefler */}
-        <div className="rounded-lg border bg-card p-4">
-          <div className="mb-4 flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">Bu Ayki Hedefler</h3>
-          </div>
-          <div className="space-y-4">
-            <ProgressItem
-              title="Bağış Hedefi"
-              current={45670}
-              target={60000}
-              unit="₺"
-            />
-            <ProgressItem
-              title="Yardım Dağıtımı"
-              current={38240}
-              target={45000}
-              unit="₺"
-            />
-            <ProgressItem
-              title="Yeni Başvuru"
-              current={12}
-              target={20}
-              unit=""
-            />
-            <ProgressItem
-              title="Burs Öğrenci"
-              current={85}
-              target={100}
-              unit=""
-            />
-          </div>
-        </div>
+                <div className="flex items-center gap-4 p-4 bg-bg-green-500-50 rounded-xl border border-bg-green-500-100">
+                  <div className="w-3 h-3 bg-bg-green-500-500 rounded-full"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-text-foreground">Bağış işlemi tamamlandı</p>
+                    <p className="text-xs text-text-muted-foreground">₺5,000 bağış alındı</p>
+                  </div>
+                  <span className="text-xs text-text-muted-foreground bg-white px-2 py-1 rounded-full">5 dk önce</span>
+                </div>
 
-        {/* Yaklaşan Etkinlikler */}
-        <div className="rounded-lg border bg-card p-4">
-          <div className="mb-4 flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">Yaklaşan Etkinlikler</h3>
-          </div>
-          <div className="space-y-3">
-            <EventItem
-              title="Yönetim Kurulu Toplantısı"
-              date="15 Ocak 2024"
-              time="14:00"
-            />
-            <EventItem
-              title="Bağış Kampanyası Lansmanı"
-              date="20 Ocak 2024"
-              time="10:00"
-            />
-            <EventItem
-              title="İhtiyaç Sahipleri Ziyareti"
-              date="25 Ocak 2024"
-              time="09:00"
-            />
-            <EventItem
-              title="Burs Öğrenci Buluşması"
-              date="30 Ocak 2024"
-              time="15:00"
-            />
-          </div>
-          <Link to="/messages" className="mt-4 block text-sm text-primary hover:underline">
-            Takvimi gör →
-          </Link>
-        </div>
+                <div className="flex items-center gap-4 p-4 bg-bg-yellow-500-50 rounded-xl border border-bg-yellow-500-100">
+                  <div className="w-3 h-3 bg-bg-yellow-500-500 rounded-full"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-text-foreground">Rapor oluşturuldu</p>
+                    <p className="text-xs text-text-muted-foreground">Aylık rapor hazırlandı</p>
+                  </div>
+                  <span className="text-xs text-text-muted-foreground bg-white px-2 py-1 rounded-full">10 dk önce</span>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 bg-bg-secondary/5 rounded-xl border border-bg-secondary/10">
+                  <div className="w-3 h-3 bg-bg-secondary rounded-full"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-text-foreground">Sistem güncellemesi</p>
+                    <p className="text-xs text-text-muted-foreground">Yeni özellikler eklendi</p>
+                  </div>
+                  <span className="text-xs text-text-muted-foreground bg-white px-2 py-1 rounded-full">1 saat önce</span>
+                </div>
+              </div>
+            )}
+          </CorporateCardContent>
+        </CorporateCard>
+
+        <CorporateCard className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+          <CorporateCardHeader className="border-b border-border-border">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-bg-secondary/10 flex items-center justify-center">
+                <Calendar className="h-5 w-5 text-bg-secondary" />
+              </div>
+              <div>
+                <CorporateCardTitle>Bugünün Görevleri</CorporateCardTitle>
+                <p className="text-sm text-text-muted-foreground">Günlük görevler</p>
+              </div>
+            </div>
+          </CorporateCardHeader>
+          <CorporateCardContent className="p-6">
+            {isLoading ? (
+              <SkeletonGroup count={3} className="space-y-4" />
+            ) : (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 p-3 bg-bg-muted rounded-lg">
+                  <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border-border rounded focus:ring-bg-primary focus:ring-2" onChange={() => { }} />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-text-foreground">Başvuru değerlendirmeleri</p>
+                    <p className="text-xs text-text-muted-foreground">15 başvuru bekliyor</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 p-3 bg-bg-green-500-50 rounded-lg">
+                  <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border-border rounded focus:ring-bg-primary focus:ring-2" defaultChecked onChange={() => { }} />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-text-foreground line-through">Aylık rapor hazırlama</p>
+                    <p className="text-xs text-text-muted-foreground">Tamamlandı</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 p-3 bg-bg-yellow-500-50 rounded-lg">
+                  <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border-border rounded focus:ring-bg-primary focus:ring-2" onChange={() => { }} />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-text-foreground">Bağışçı toplantısı</p>
+                    <p className="text-xs text-text-muted-foreground">14:00 - Konferans Salonu</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
-      
-      {/* Dashboard Customizer Modal */}
-      <DashboardCustomizer
-        isOpen={showCustomizer}
-        onClose={() => setShowCustomizer(false)}
-        onSave={updateWidgets}
-        currentWidgets={settings.widgets}
-      />
-      <CacheMonitor
-        isOpen={showCacheMonitor}
-        onClose={() => setShowCacheMonitor(false)}
-      />
+
+      {/* Modal Components */}
+      {showCustomizer && (
+        <DashboardCustomizer
+          isOpen={showCustomizer}
+          onClose={() => setShowCustomizer(false)}
+          onSave={(widgets) => {
+            updateWidgets(widgets)
+            setShowCustomizer(false)
+          }}
+          currentWidgets={settings.widgets || []}
+        />
+      )}
+
+      {showCacheMonitor && (
+        <CacheMonitor
+          isOpen={showCacheMonitor}
+          onClose={() => setShowCacheMonitor(false)}
+        />
+      )}
+
       {showReportGenerator && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-card rounded-lg shadow-2xl border border-border">
-            <div className="p-6 border-b border-border">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-foreground">Rapor Oluşturucu</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowReportGenerator(false)}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-            <div className="p-6">
-              <ReportGenerator />
-            </div>
-          </div>
-        </div>
+        <ReportGenerator />
       )}
+
       {showChartDashboard && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-7xl max-h-[90vh] overflow-y-auto bg-card rounded-lg shadow-2xl border border-border">
-            <div className="p-6 border-b border-border">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-foreground">Grafik Dashboard</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowChartDashboard(false)}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-            <div className="p-6">
-              <ChartDashboard />
-            </div>
-          </div>
-        </div>
+        <ChartDashboard />
       )}
+
       {showWhatsAppManager && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-card rounded-lg shadow-2xl border border-border">
-            <div className="p-6 border-b border-border">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-foreground">WhatsApp Yöneticisi</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowWhatsAppManager(false)}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-            <div className="p-6">
-              <WhatsAppManager />
-            </div>
-          </div>
-        </div>
+        <WhatsAppManager />
       )}
+
       {showMapDashboard && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-7xl max-h-[90vh] overflow-y-auto bg-card rounded-lg shadow-2xl border border-border">
-            <div className="p-6 border-b border-border">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-foreground">Harita Yönetimi</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowMapDashboard(false)}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-            <div className="p-6">
-              <MapDashboard />
-            </div>
-          </div>
-        </div>
+        <MapDashboard />
       )}
-    </div>
-  )
-}
-
-function QuickAccessCard({ title, description, icon, color, link }: {
-  title: string
-  description: string
-  icon: React.ReactNode
-  color: string
-  link: string
-}) {
-  return (
-    <Link to={link} className="group block">
-      <div className="rounded-lg border bg-card p-4 transition-all hover:border-primary hover:shadow-md">
-        <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg ${color} text-white`}>
-          {icon}
-        </div>
-        <h3 className="font-semibold group-hover:text-primary">{title}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
-      </div>
-    </Link>
-  )
-}
-
-function ActivityItem({ title, subtitle, time }: {
-  title: string
-  subtitle: string
-  time: string
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="mt-1 h-2 w-2 rounded-full bg-primary" />
-      <div className="flex-1">
-        <p className="text-sm font-medium">{title}</p>
-        <p className="text-xs text-muted-foreground">{subtitle}</p>
-        <p className="text-xs text-muted-foreground">{time}</p>
-      </div>
-    </div>
-  )
-}
-
-function ProgressItem({ title, current, target, unit }: {
-  title: string
-  current: number
-  target: number
-  unit: string
-}) {
-  const percentage = Math.round((current / target) * 100)
-  
-  return (
-    <div>
-      <div className="mb-1 flex items-center justify-between">
-        <span className="text-sm font-medium">{title}</span>
-        <span className="text-sm text-muted-foreground">
-          {unit}{current.toLocaleString('tr-TR')} / {unit}{target.toLocaleString('tr-TR')}
-        </span>
-      </div>
-      <div className="h-2 w-full rounded-full bg-muted">
-        <div 
-          className="h-2 rounded-full bg-primary transition-all duration-300" 
-          style={{ width: `${Math.min(percentage, 100)}%` }}
-        />
-      </div>
-      <p className="mt-1 text-xs text-muted-foreground">%{percentage} tamamlandı</p>
-    </div>
-  )
-}
-
-function EventItem({ title, date, time }: {
-  title: string
-  date: string
-  time: string
-}) {
-  return (
-    <div className="flex items-center gap-3 rounded border p-2">
-      <div className="flex h-12 w-12 flex-col items-center justify-center rounded bg-primary/10 text-primary">
-        <span className="text-xs font-medium">{date.split(' ')[0]}</span>
-        <span className="text-xs">{date.split(' ')[1]}</span>
-      </div>
-      <div className="flex-1">
-        <p className="text-sm font-medium">{title}</p>
-        <p className="text-xs text-muted-foreground">{time}</p>
-      </div>
     </div>
   )
 }

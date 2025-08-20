@@ -6,7 +6,7 @@ import { exportDonationsToExcel } from '@utils/excelExport'
 import { exportDonationsToPDF } from '@utils/pdfExport'
 import { FileSpreadsheet, FileText } from 'lucide-react'
 import React, { useMemo, useState } from 'react'
-import { LazyCameraScanner } from '../../components/LazyCameraScanner'
+import { LazyCameraScanner } from '@components/LazyCameraScanner'
 
 interface BankDonation {
   id: string
@@ -120,10 +120,10 @@ export default function BankDonations() {
       key: 'status',
       header: 'Durum',
       render: (_, donation: BankDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${donation.status === 'eşleştirildi' ? 'bg-green-100 text-green-800' :
-            donation.status === 'onaylandı' ? 'bg-blue-100 text-blue-800' :
-              donation.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-red-100 text-red-800'
+        <span className={`px-2 py-1 rounded text-xs ${donation.status === 'eşleştirildi' ? 'bg-green-100 text-green-800 border-green-200' :
+            donation.status === 'onaylandı' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+              donation.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+                'bg-red-100 text-red-800 border-red-200'
           }`}>
           {donation.status}
         </span>
@@ -312,7 +312,7 @@ export default function BankDonations() {
 
   return (
     <div className="space-y-6">
-      <div className="card-pattern p-6">
+      <div className="card-pattern p-6 bg-card rounded-lg border">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-h2">Banka Bağışları</h2>
           <button
@@ -385,21 +385,21 @@ export default function BankDonations() {
           <div className="flex gap-2">
             <button
               onClick={() => exportToCsv('bank-donations.csv', filteredDonations as unknown as Record<string, unknown>[])}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 flex items-center gap-2"
+              className="bg-green-500 text-white hover:bg-green-600 flex items-center gap-2"
             >
               <FileText size={16} />
               CSV İndir
             </button>
             <button
               onClick={() => exportDonationsToExcel(filteredDonations as unknown as Record<string, unknown>[], { type: 'bank' })}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
             >
               <FileSpreadsheet size={16} />
               Excel İndir
             </button>
             <button
               onClick={() => exportDonationsToPDF(filteredDonations as unknown as Record<string, unknown>[], { type: 'bank' })}
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 flex items-center gap-2"
+              className="bg-red-500 text-white hover:bg-red-600 flex items-center gap-2"
             >
               <FileText size={16} />
               PDF İndir

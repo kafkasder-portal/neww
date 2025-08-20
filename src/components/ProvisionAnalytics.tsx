@@ -112,9 +112,9 @@ export const ProvisionAnalytics = memo(function ProvisionAnalytics({ requests }:
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 space-y-4">
         {/* Department Analysis */}
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <h3 className="text-lg font-medium mb-4">Departmana Göre Analiz</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={departmentData}>
@@ -139,7 +139,7 @@ export const ProvisionAnalytics = memo(function ProvisionAnalytics({ requests }:
         </div>
 
         {/* Priority Analysis */}
-        <div className="bg-white p-4 rounded-lg border">
+        <div className="bg-white p-4 border rounded-lg">
           <h3 className="text-lg font-medium mb-4">Öncelik Dağılımı</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -163,7 +163,7 @@ export const ProvisionAnalytics = memo(function ProvisionAnalytics({ requests }:
         </div>
 
         {/* Status Analysis */}
-        <div className="bg-white p-4 rounded-lg border col-span-2">
+        <div className="bg-white p-4 border rounded-lg col-span-2">
           <h3 className="text-lg font-medium mb-4">Durum Analizi</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={statusData}>

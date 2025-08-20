@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/corporate/CorporateComponents'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
-import { PerformanceService } from '@services/performanceService'
-import { AlertTriangle, CheckCircle, Clock, RefreshCw } from 'lucide-react'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { AlertTriangle, CheckCircle, Clock, RefreshCw, Activity, Zap, HardDrive, Database, X } from 'lucide-react'
+import { CorporateBadge, CorporateCard, CorporateButton, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
+import { usePerformanceMonitoring } from '@/hooks/usePerformanceMonitoring'
 // import { PERFORMANCE_COLORS } from '@/constants/colors'
 
 interface PerformanceData {
@@ -15,31 +17,14 @@ interface PerformanceData {
 }
 
 export default function PerformanceMonitor() {
-  const [performanceData, setPerformanceData] = useState<PerformanceData | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
-
-  useEffect(() => {
-    loadPerformanceData()
-    
-    // Her 30 saniyede bir güncellemeleri kontrol et
-    const interval = setInterval(loadPerformanceData, 30000)
-    
-    return () => clearInterval(interval)
-  }, [])
-
-  const loadPerformanceData = async () => {
-    try {
-      setIsLoading(true)
-      const data = PerformanceService.getPerformanceReport()
-      setPerformanceData(data)
-      setLastUpdate(new Date())
-    } catch (error) {
-      console.error('Performans verileri yüklenemedi:', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const { 
+    performanceData, 
+    alerts, 
+    isLoading, 
+    loadPerformanceData, 
+    clearAlerts,
+    lastUpdate
+  } = usePerformanceMonitoring()
 
   const getWebVitalsStatus = (vitals: any[]) => {
     if (vitals.length === 0) return { status: 'unknown', color: 'gray' }
@@ -128,12 +113,12 @@ export default function PerformanceMonitor() {
     }
 
     return (
-      <Badge className={variants[status as keyof typeof variants] || variants.unknown}>
+      <CorporateBadge className={variants[status as keyof typeof variants] || variants.unknown}>
         {status === 'good' && 'İyi'}
         {status === 'needs-improvement' && 'Geliştirilmeli'}
         {status === 'poor' && 'Kötü'}
         {status === 'unknown' && 'Bilinmiyor'}
-      </Badge>
+      </CorporateBadge>
     )
   }
 
@@ -148,17 +133,17 @@ export default function PerformanceMonitor() {
 
   if (!performanceData) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-financial-warning" />
             Performans Verisi Bulunamadı
-          </CardTitle>
+          </CorporateCardTitle>
           <CardDescription>
             Performans verileri henüz toplanmamış. Lütfen sayfayı kullanmaya devam edin.
           </CardDescription>
-        </CardHeader>
-      </Card>
+        </CorporateCardHeader>
+      </CorporateCard>
     )
   }
 
@@ -169,36 +154,68 @@ export default function PerformanceMonitor() {
 
   return (
     <div className="space-y-6">
+      {/* Performance Alerts */}
+      {alerts.length > 0 && (
+        <div className="space-y-2 mb-4">
+          {alerts.map((alert, index) => (
+            <Alert key={index} variant={alert.type === 'error' ? 'destructive' : 'default'}>
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription className="flex items-center justify-between">
+                <span>
+                   <strong>{alert.metric}:</strong> {alert.message} 
+                   ({alert.value.toFixed(2)} &gt; {alert.threshold})
+                 </span>
+                <CorporateButton
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearAlerts}
+                >
+                  <X className="h-4 w-4" />
+                </CorporateButton>
+              </AlertDescription>
+            </Alert>
+          ))}
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Performans Monitörü</h1>
+          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <Activity className="h-6 w-6" />
+            Performans Monitörü
+            {alerts.length > 0 && (
+              <CorporateBadge variant="destructive" className="ml-2">
+                {alerts.length} Alert
+              </CorporateBadge>
+            )}
+          </h1>
           <p className="text-gray-600">
             Son güncelleme: {lastUpdate.toLocaleTimeString('tr-TR')}
           </p>
         </div>
-        <Button
+        <CorporateButton
           onClick={loadPerformanceData}
           disabled={isLoading}
           className="flex items-center gap-2"
         >
           <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
           Yenile
-        </Button>
+        </CorporateButton>
       </div>
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Web Vitals */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center justify-between">
+        <CorporateCard>
+          <CorporateCardHeader className="pb-2">
+            <CorporateCardTitle className="text-sm font-medium flex items-center justify-between">
               Web Vitals
               {getStatusIcon(webVitalsStatus.status)}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
+            </CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
+            <div className="space-y-6-group">
               {getStatusBadge(webVitalsStatus.status)}
               {webVitalsStatus.issues && webVitalsStatus.issues.length > 0 && (
                 <div className="text-sm text-gray-600">
@@ -206,19 +223,19 @@ export default function PerformanceMonitor() {
                 </div>
               )}
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
         {/* API Performance */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center justify-between">
+        <CorporateCard>
+          <CorporateCardHeader className="pb-2">
+            <CorporateCardTitle className="text-sm font-medium flex items-center justify-between">
               API Performansı
               {getStatusIcon(apiStatus.status)}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
+            </CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
+            <div className="space-y-6-group">
               {getStatusBadge(apiStatus.status)}
               <div className="text-sm text-gray-600">
                 Ort: {formatDuration(apiStatus.avgDuration)}
@@ -229,19 +246,19 @@ export default function PerformanceMonitor() {
                 </div>
               )}
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
         {/* Render Performance */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center justify-between">
+        <CorporateCard>
+          <CorporateCardHeader className="pb-2">
+            <CorporateCardTitle className="text-sm font-medium flex items-center justify-between">
               Render Performansı
               {getStatusIcon(renderStatus.status)}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
+            </CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
+            <div className="space-y-6-group">
               {getStatusBadge(renderStatus.status)}
               <div className="text-sm text-gray-600">
                 Ort: {formatDuration(renderStatus.avgRenderTime)}
@@ -252,19 +269,19 @@ export default function PerformanceMonitor() {
                 </div>
               )}
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
         {/* Memory Usage */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium flex items-center justify-between">
+        <CorporateCard>
+          <CorporateCardHeader className="pb-2">
+            <CorporateCardTitle className="text-sm font-medium flex items-center justify-between">
               Bellek Kullanımı
               {getStatusIcon(memoryStatus.status)}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
+            </CorporateCardTitle>
+          </CorporateCardHeader>
+          <CorporateCardContent>
+            <div className="space-y-6-group">
               {getStatusBadge(memoryStatus.status)}
               {performanceData.memoryUsage && (
                 <>
@@ -277,21 +294,21 @@ export default function PerformanceMonitor() {
                 </>
               )}
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
       {/* Detailed Metrics */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
         {/* Web Vitals Detail */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Web Vitals Detayları</CardTitle>
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle>Web Vitals Detayları</CorporateCardTitle>
             <CardDescription>
               Core Web Vitals metrikleri ve performans göstergeleri
             </CardDescription>
-          </CardHeader>
-          <CardContent>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             {performanceData.webVitals.length > 0 ? (
               <div className="space-y-4">
                 {(() => {
@@ -339,18 +356,18 @@ export default function PerformanceMonitor() {
                 Web Vitals verileri henüz toplanmamış
               </div>
             )}
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
         {/* API Metrics */}
-        <Card>
-          <CardHeader>
-            <CardTitle>API Metrikleri</CardTitle>
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle>API Metrikleri</CorporateCardTitle>
             <CardDescription>
               Son API çağrılarının performans analizi
             </CardDescription>
-          </CardHeader>
-          <CardContent>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             {performanceData.apiMetrics.length > 0 ? (
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -381,7 +398,7 @@ export default function PerformanceMonitor() {
                 </div>
                 
                 {/* Recent API Calls */}
-                <div className="space-y-2">
+                <div className="space-y-6-group">
                   <div className="text-sm font-medium">Son API Çağrıları</div>
                   <div className="space-y-1 max-h-32 overflow-y-auto">
                     {performanceData.apiMetrics.slice(-5).reverse().map((metric, index) => (
@@ -405,19 +422,19 @@ export default function PerformanceMonitor() {
                 API metrikleri henüz toplanmamış
               </div>
             )}
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
       {/* Cache and Storage */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Cache ve Depolama</CardTitle>
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle>Cache ve Depolama</CorporateCardTitle>
           <CardDescription>
             Yerel depolama kullanımı ve cache istatistikleri
           </CardDescription>
-        </CardHeader>
-        <CardContent>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {performanceData.cacheStats && (
               <>
@@ -447,8 +464,8 @@ export default function PerformanceMonitor() {
               </div>
             )}
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
     </div>
   )
 }

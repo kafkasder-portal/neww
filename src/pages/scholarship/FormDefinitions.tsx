@@ -3,6 +3,7 @@ import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { FileText, Plus, Edit, Trash2, Search, Settings, Layout, List } from 'lucide-react'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 export default function FormDefinitions() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -30,7 +31,7 @@ export default function FormDefinitions() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <FileText className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Form Tanımları</h1>
@@ -39,7 +40,7 @@ export default function FormDefinitions() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplam Form</p>
@@ -47,8 +48,8 @@ export default function FormDefinitions() {
             </div>
             <FileText className="h-8 w-8 text-semantic-info" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Aktif Form</p>
@@ -56,8 +57,8 @@ export default function FormDefinitions() {
             </div>
             <Settings className="h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplam Alan</p>
@@ -65,8 +66,8 @@ export default function FormDefinitions() {
             </div>
             <Layout className="h-8 w-8 text-brand-secondary" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Son Güncelleme</p>
@@ -74,19 +75,19 @@ export default function FormDefinitions() {
             </div>
             <List className="h-8 w-8 text-semantic-warning" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <div className="flex justify-between mb-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input placeholder="Form ara..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-9 w-80" />
           </div>
-          <Button className="gap-2">
+          <CorporateButton className="gap-2">
             <Plus className="h-4 w-4" />
             Yeni Form
-          </Button>
+          </CorporateButton>
         </div>
 
         <div className="space-y-4">
@@ -103,14 +104,14 @@ export default function FormDefinitions() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline"><Edit className="h-4 w-4" /></Button>
-                  <Button size="sm" variant="destructive"><Trash2 className="h-4 w-4" /></Button>
+                  <CorporateButton size="sm" variant="outline"><Edit className="h-4 w-4" /></CorporateButton>
+                  <CorporateButton size="sm" variant="danger"><Trash2 className="h-4 w-4" /></CorporateButton>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

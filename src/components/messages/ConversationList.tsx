@@ -5,6 +5,7 @@ import { Conversation } from '@/types/internal-messages'
 import { messagesApi } from '../../api/messages'
 import { format } from 'date-fns'
 import { tr } from 'date-fns/locale'
+import { CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 interface ConversationListProps {
   conversations: Conversation[]
@@ -192,10 +193,10 @@ export default function ConversationList({
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-lg">Mesajlar</h2>
           {onCreateConversation && (
-            <Button size="sm" onClick={onCreateConversation}>
+            <CorporateButton size="sm" onClick={onCreateConversation}>
               <Plus className="h-4 w-4 mr-2" />
               Yeni
-            </Button>
+            </CorporateButton>
           )}
         </div>
 
@@ -377,9 +378,9 @@ export default function ConversationList({
                 <MessageCircle className="h-8 w-8 mx-auto mb-2 opacity-50" />
                 <p>Henüz konuşma başlatılmamış</p>
                 {onCreateConversation && (
-                  <Button size="sm" className="mt-3" onClick={onCreateConversation}>
+                  <CorporateButton size="sm" className="mt-3" onClick={onCreateConversation}>
                     İlk konuşmayı başlat
-                  </Button>
+                  </CorporateButton>
                 )}
               </div>
             )}

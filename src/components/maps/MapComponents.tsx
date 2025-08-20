@@ -196,9 +196,9 @@ export const InteractiveMap: React.FC<MapViewProps> = ({
                 )}
                 <div className="mt-2">
                   <span className={`inline-block px-2 py-1 text-xs rounded-full ${
-                    location.status === 'active' ? 'bg-green-100 text-green-800' :
-                    location.status === 'inactive' ? 'bg-red-100 text-red-800' :
-                    'bg-yellow-100 text-yellow-800'
+                    location.status === 'active' ? 'bg-green-100 text-green-800 border-green-200' :
+                    location.status === 'inactive' ? 'bg-red-100 text-red-800 border-red-200' :
+                    'bg-yellow-100 text-yellow-800 border-yellow-200'
                   }`}>
                     {location.status === 'active' ? 'Aktif' :
                      location.status === 'inactive' ? 'Pasif' : 'Geçici'}
@@ -283,7 +283,7 @@ export const MapControls: React.FC<MapControlsProps> = ({
   showAreas
 }) => {
   return (
-    <div className="absolute top-4 right-4 z-[1000] bg-white rounded-lg shadow-lg p-2 space-y-2">
+    <div className="absolute top-4 right-4 z-[1000] bg-white rounded-lg shadow-lg p-2 space-y-6-group">
       <div className="flex flex-col space-y-1">
         <button
           onClick={onZoomIn}

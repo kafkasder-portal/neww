@@ -1,10 +1,10 @@
 import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import SupplierManagement from '@/components/inventory/SupplierManagement'
 
 const SupplierManagementPage: React.FC = () => {
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 bg-card rounded-lg border space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Tedarikçi Yönetimi</h1>
@@ -14,14 +14,14 @@ const SupplierManagementPage: React.FC = () => {
         </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Tedarikçi Listesi</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <CorporateCard>
+        <CorporateCardHeader>
+          <CorporateCardTitle>Tedarikçi Listesi</CorporateCardTitle>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <SupplierManagement />
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
     </div>
   )
 }

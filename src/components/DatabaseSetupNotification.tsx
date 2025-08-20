@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import { CorporateButton, Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+
 import { AlertTriangle, Database, Settings, ExternalLink } from 'lucide-react'
 
 interface DatabaseSetupNotificationProps {
@@ -30,25 +30,25 @@ export const DatabaseSetupNotification: React.FC<DatabaseSetupNotificationProps>
   }
 
   return (
-    <Card className="mb-6 border-orange-200 bg-orange-50">
-      <CardHeader className="pb-3">
+    <CorporateCard className="mb-6 border-orange-200 bg-orange-50">
+      <CorporateCardHeader className="pb-3">
         <div className="flex items-start gap-3">
           <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5" />
           <div className="flex-1">
-            <CardTitle className="text-lg text-orange-800">
+            <CorporateCardTitle className="text-lg text-orange-800">
               Veritabanı Kurulumu Gerekli
-            </CardTitle>
+            </CorporateCardTitle>
             <CardDescription className="text-orange-700 mt-1">
               Bazı özellikler için Supabase veritabanı tablolarının oluşturulması gerekiyor.
             </CardDescription>
           </div>
         </div>
-      </CardHeader>
+      </CorporateCardHeader>
       
-      <CardContent className="pt-0">
+      <CorporateCardContent className="pt-0">
         <div className="space-y-3">
           <div className="flex flex-wrap gap-2">
-            <Button 
+            <CorporateButton 
               variant="outline" 
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
@@ -56,9 +56,9 @@ export const DatabaseSetupNotification: React.FC<DatabaseSetupNotificationProps>
             >
               <Settings className="h-4 w-4 mr-2" />
               {isExpanded ? 'Gizle' : 'Kurulum Detayları'}
-            </Button>
+            </CorporateButton>
             
-            <Button 
+            <CorporateButton 
               variant="outline" 
               size="sm"
               onClick={enableMockData}
@@ -66,16 +66,16 @@ export const DatabaseSetupNotification: React.FC<DatabaseSetupNotificationProps>
             >
               <Database className="h-4 w-4 mr-2" />
               Demo Verilerini Etkinleştir
-            </Button>
+            </CorporateButton>
             
-            <Button 
+            <CorporateButton 
               variant="ghost" 
               size="sm"
               onClick={dismissNotification}
               className="text-gray-600 hover:bg-gray-100"
             >
               Bu mesajı gizle
-            </Button>
+            </CorporateButton>
           </div>
 
           {isExpanded && (
@@ -83,7 +83,7 @@ export const DatabaseSetupNotification: React.FC<DatabaseSetupNotificationProps>
               <Database className="h-4 w-4" />
               <AlertTitle>Gerekli Veritabanı Tabloları</AlertTitle>
               <AlertDescription className="mt-2">
-                <div className="space-y-2 text-sm">
+                <div className="space-y-6-group text-sm">
                   <p>Aşağıdaki tablolar Supabase veritabanınızda oluşturulmalıdır:</p>
                   <ul className="list-disc list-inside space-y-1 ml-4">
                     <li><code className="px-1 py-0.5 bg-gray-100 rounded">chart_of_accounts</code> - Mali hesap planı</li>
@@ -115,8 +115,8 @@ export const DatabaseSetupNotification: React.FC<DatabaseSetupNotificationProps>
             </Alert>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   )
 }
 

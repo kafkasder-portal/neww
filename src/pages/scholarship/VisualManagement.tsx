@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Upload, 
   Image as ImageIcon, 
@@ -80,7 +81,7 @@ export default function VisualManagement() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 bg-card rounded-lg border text-white">
         <div className="flex items-center gap-3 mb-3">
           <FileImage className="h-8 w-8" />
           <h1 className="text-2xl font-bold">Görsel Yönetimi</h1>
@@ -92,7 +93,7 @@ export default function VisualManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Toplam Öğrenci</p>
@@ -100,8 +101,8 @@ export default function VisualManagement() {
             </div>
             <Users className="h-8 w-8 text-blue-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Fotoğrafı Olan</p>
@@ -109,8 +110,8 @@ export default function VisualManagement() {
             </div>
             <ImageIcon className="h-8 w-8 text-green-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Fotoğrafı Eksik</p>
@@ -118,8 +119,8 @@ export default function VisualManagement() {
             </div>
             <FileImage className="h-8 w-8 text-red-600" />
           </div>
-        </Card>
-        <Card className="p-4">
+        </CorporateCard>
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground">Tamamlanma</p>
@@ -129,11 +130,11 @@ export default function VisualManagement() {
               <span className="text-xs font-semibold text-purple-600">%</span>
             </div>
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Toolbar */}
-      <Card className="p-4">
+      <CorporateCard className="p-4">
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
           <div className="flex flex-col md:flex-row gap-4 flex-1">
             <div className="relative">
@@ -145,14 +146,14 @@ export default function VisualManagement() {
                 className="pl-9 w-full md:w-80"
               />
             </div>
-            <Button variant="outline" className="gap-2">
+            <CorporateButton variant="outline" className="gap-2">
               <Filter className="h-4 w-4" />
               Filtrele
-            </Button>
+            </CorporateButton>
           </div>
           <div className="flex gap-2">
-            <Button
-              variant={viewMode === 'grid' ? 'default' : 'outline'}
+            <CorporateButton
+              variant={viewMode === 'grid' ? 'primary' : 'outline'}
               size="sm"
               onClick={() => setViewMode('grid')}
             >
@@ -161,26 +162,26 @@ export default function VisualManagement() {
                   <div key={i} className="bg-current rounded-sm" />
                 ))}
               </div>
-            </Button>
-            <Button
-              variant={viewMode === 'list' ? 'default' : 'outline'}
+            </CorporateButton>
+            <CorporateButton
+              variant={viewMode === 'list' ? 'primary' : 'outline'}
               size="sm"
               onClick={() => setViewMode('list')}
             >
               <List className="h-4 w-4" />
-            </Button>
-            <Button className="gap-2">
+            </CorporateButton>
+            <CorporateButton className="gap-2">
               <Upload className="h-4 w-4" />
               Toplu Yükleme
-            </Button>
+            </CorporateButton>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Content */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         {viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 space-y-4">
             {filteredStudents.map((student) => (
               <div key={student.id} className="space-y-3">
                 <div className="relative group">
@@ -200,23 +201,23 @@ export default function VisualManagement() {
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-2">
                     {student.hasPhoto ? (
                       <>
-                        <Button size="sm" variant="secondary">
+                        <CorporateButton size="sm" variant="outline">
                           <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button size="sm" variant="secondary">
+                        </CorporateButton>
+                        <CorporateButton size="sm" variant="outline">
                           <Download className="h-4 w-4" />
-                        </Button>
-                        <Button size="sm" variant="secondary">
+                        </CorporateButton>
+                        <CorporateButton size="sm" variant="outline">
                           <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button size="sm" variant="destructive">
+                        </CorporateButton>
+                        <CorporateButton size="sm" variant="danger">
                           <Trash2 className="h-4 w-4" />
-                        </Button>
+                        </CorporateButton>
                       </>
                     ) : (
-                      <Button size="sm" variant="secondary">
+                      <CorporateButton size="sm" variant="outline">
                         <Upload className="h-4 w-4" />
-                      </Button>
+                      </CorporateButton>
                     )}
                   </div>
                 </div>
@@ -264,31 +265,31 @@ export default function VisualManagement() {
                 <div className="flex gap-2">
                   {student.hasPhoto ? (
                     <>
-                      <Button size="sm" variant="outline">
+                      <CorporateButton size="sm" variant="outline">
                         <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="outline">
+                      </CorporateButton>
+                      <CorporateButton size="sm" variant="outline">
                         <Download className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="outline">
+                      </CorporateButton>
+                      <CorporateButton size="sm" variant="outline">
                         <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="destructive">
+                      </CorporateButton>
+                      <CorporateButton size="sm" variant="danger">
                         <Trash2 className="h-4 w-4" />
-                      </Button>
+                      </CorporateButton>
                     </>
                   ) : (
-                    <Button size="sm">
+                    <CorporateButton size="sm">
                       <Upload className="h-4 w-4 mr-2" />
                       Fotoğraf Yükle
-                    </Button>
+                    </CorporateButton>
                   )}
                 </div>
               </div>
             ))}
           </div>
         )}
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

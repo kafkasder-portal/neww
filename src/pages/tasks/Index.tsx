@@ -11,6 +11,7 @@ import { useAuthStore } from '@store/auth'
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 import { tr } from 'date-fns/locale'
+import { CorporateButton, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 
 export default function TasksIndex() {
   const [tasks, setTasks] = useState<Task[]>([])
@@ -159,7 +160,7 @@ export default function TasksIndex() {
     return (
       <div className="space-y-6">
         <div className="flex items-center space-x-4">
-          <Button 
+          <CorporateButton 
             variant="outline" 
             onClick={() => {
               setShowForm(false)
@@ -167,7 +168,7 @@ export default function TasksIndex() {
             }}
           >
             ← Geri
-          </Button>
+          </CorporateButton>
           <h1 className="text-3xl font-bold">
             {editingTask ? 'Görev Düzenle' : 'Yeni Görev'}
           </h1>
@@ -198,16 +199,16 @@ export default function TasksIndex() {
           </p>
         </div>
         {canCreateTask && (
-          <Button onClick={() => setShowForm(true)}>
+          <CorporateButton onClick={() => setShowForm(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Yeni Görev
-          </Button>
+          </CorporateButton>
         )}
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Toplam Görev</p>
@@ -215,8 +216,8 @@ export default function TasksIndex() {
             </div>
             <CheckCircle className="icon h-8 w-8 text-brand-primary" />
           </div>
-        </Card>
-        <Card className="p-6">
+        </CorporateCard>
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Devam Eden</p>
@@ -224,8 +225,8 @@ export default function TasksIndex() {
             </div>
             <Clock className="h-8 w-8 text-orange-500" />
           </div>
-        </Card>
-        <Card className="p-6">
+        </CorporateCard>
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Tamamlanan</p>
@@ -233,8 +234,8 @@ export default function TasksIndex() {
             </div>
             <CheckCircle className="icon h-8 w-8 text-semantic-success" />
           </div>
-        </Card>
-        <Card className="p-6">
+        </CorporateCard>
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Süresi Geçen</p>
@@ -242,8 +243,8 @@ export default function TasksIndex() {
             </div>
             <AlertTriangle className="icon h-8 w-8 text-semantic-destructive" />
           </div>
-        </Card>
-        <Card className="p-6">
+        </CorporateCard>
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">Benim Görevlerim</p>
@@ -251,7 +252,7 @@ export default function TasksIndex() {
             </div>
             <User className="h-8 w-8 text-purple-500" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Filters */}
@@ -301,10 +302,10 @@ export default function TasksIndex() {
             <option value="me">Benim Görevlerim</option>
             <option value="others">Diğer Görevler</option>
           </select>
-          <Button variant="outline">
+          <CorporateButton variant="outline">
             <Filter className="h-4 w-4 mr-2" />
             Filtreler
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
@@ -315,7 +316,7 @@ export default function TasksIndex() {
           <p className="text-muted-foreground mt-2">Görevler yükleniyor...</p>
         </div>
       ) : (
-        <Card className="overflow-hidden">
+        <CorporateCard className="overflow-hidden">
           {filteredTasks.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -352,7 +353,7 @@ export default function TasksIndex() {
                           <User className="h-4 w-4 text-muted-foreground" />
                           <span className="text-sm">Kullanıcı {task.assigned_to}</span>
                           {task.assigned_to === currentUserId && (
-                            <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            <span className="text-xs bg-blue-100 text-blue-800 border-blue-200 px-2 py-1 rounded">
                               Benim
                             </span>
                           )}
@@ -382,38 +383,38 @@ export default function TasksIndex() {
                       </td>
                       <td className="p-4">
                         <div className="flex items-center gap-2">
-                          <Button
+                          <CorporateButton
                             size="sm"
                             variant="outline"
                             onClick={() => handleViewDetails(task)}
                           >
                             <Eye className="h-4 w-4 mr-1" />
                             Detay
-                          </Button>
+                          </CorporateButton>
                           
                           {/* Quick Actions */}
                           {task.assigned_to === currentUserId && canCompleteTask && (
                             <>
                               {task.status === 'pending' && (
-                                <Button
+                                <CorporateButton
                                   size="sm"
                                   variant="outline"
                                   onClick={() => handleQuickStatusChange(task.id, 'in_progress')}
                                   className="text-blue-600 hover:text-blue-700"
                                 >
                                   <Play className="h-4 w-4" />
-                                </Button>
+                                </CorporateButton>
                               )}
                               
                               {(task.status === 'pending' || task.status === 'in_progress') && (
-                                <Button
+                                <CorporateButton
                                   size="sm"
                                   variant="outline"
                                   onClick={() => handleQuickStatusChange(task.id, 'completed')}
                                   className="text-green-600 hover:text-green-700"
                                 >
                                   <Check className="h-4 w-4" />
-                                </Button>
+                                </CorporateButton>
                               )}
                             </>
                           )}
@@ -432,7 +433,7 @@ export default function TasksIndex() {
               }
             </div>
           )}
-        </Card>
+        </CorporateCard>
       )}
 
       {/* Task Detail Modal */}

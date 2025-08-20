@@ -1,6 +1,7 @@
 import { Moon, Sun, Monitor } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { Button } from './ui/button'
+import { CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 
 export const ThemeToggle = () => {
   const { theme, setTheme } = useTheme()
@@ -42,7 +43,7 @@ export const ThemeToggle = () => {
   }
 
   return (
-    <Button
+    <CorporateButton
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
@@ -50,7 +51,7 @@ export const ThemeToggle = () => {
       className="h-9 w-9 transition-colors hover:bg-accent hover:text-accent-foreground"
     >
       {getIcon()}
-    </Button>
+    </CorporateButton>
   )
 }
 
@@ -60,7 +61,7 @@ export const ThemeToggleDropdown = () => {
 
   return (
     <div className="relative group">
-      <Button
+      <CorporateButton
         variant="ghost"
         size="icon"
         className="h-9 w-9 transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -68,7 +69,7 @@ export const ThemeToggleDropdown = () => {
         {theme === 'light' && <Sun className="icon h-4 w-4" />}
         {theme === 'dark' && <Moon className="icon h-4 w-4" />}
         {theme === 'system' && <Monitor className="icon h-4 w-4" />}
-      </Button>
+      </CorporateButton>
       
       <div className="absolute right-0 top-full mt-2 w-48 bg-popover border border-border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
         <div className="p-1">

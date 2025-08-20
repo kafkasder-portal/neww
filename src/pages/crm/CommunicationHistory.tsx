@@ -1,8 +1,8 @@
+import { Card, CorporateButton, CorporateBadge, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 import { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
+
 import { DonorCRMService } from '@/services/donorCRMService'
 import type { 
   DonorCommunication, 
@@ -111,10 +111,10 @@ function Modal({ isOpen, onClose, title, children }: ModalProps) {
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75" onClick={onClose}></div>
+          <div className="absolute inset-0 bg-gray-50 opacity-75" onClick={onClose}></div>
         </div>
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 bg-card rounded-lg border sm:pb-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">{title}</h3>
               <button
@@ -131,8 +131,6 @@ function Modal({ isOpen, onClose, title, children }: ModalProps) {
     </div>
   )
 }
-
-
 
 interface CommunicationHistoryProps {
   donors: Donor[]
@@ -227,21 +225,21 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'bg-green-100 text-green-800'
-      case 'pending': return 'bg-yellow-100 text-yellow-800'
-      case 'failed': return 'bg-red-100 text-red-800'
-      case 'scheduled': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'completed': return 'bg-green-100 text-green-800 border-green-200'
+      case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+      case 'failed': return 'bg-red-100 text-red-800 border-red-200'
+      case 'scheduled': return 'bg-blue-100 text-blue-800 border-blue-200'
+      default: return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'urgent': return 'bg-red-100 text-red-800'
+      case 'urgent': return 'bg-red-100 text-red-800 border-red-200'
       case 'high': return 'bg-orange-100 text-orange-800'
-      case 'medium': return 'bg-yellow-100 text-yellow-800'
-      case 'low': return 'bg-green-100 text-green-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+      case 'low': return 'bg-green-100 text-green-800 border-green-200'
+      default: return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
@@ -343,7 +341,7 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
       title: 'İşlemler',
       render: (comm) => (
         <div className="flex items-center space-x-1">
-          <Button
+          <CorporateButton
             variant="ghost"
             size="sm"
             onClick={() => {
@@ -353,8 +351,8 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
             title="Detayları Görüntüle"
           >
             <Eye className="w-4 h-4" />
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             variant="ghost"
             size="sm"
             onClick={() => {
@@ -364,14 +362,14 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
             title="Düzenle"
           >
             <Edit className="w-4 h-4" />
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             variant="ghost"
             size="sm"
             title="Daha Fazla"
           >
             <MoreHorizontal className="w-4 h-4" />
-          </Button>
+          </CorporateButton>
         </div>
       )
     }
@@ -379,7 +377,7 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
 
   const CommunicationStats = () => (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-      <Card className="p-4">
+      <CorporateCard className="p-4">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-600">Toplam İletişim</p>
@@ -387,8 +385,8 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
           </div>
           <MessageSquare className="h-8 w-8 text-blue-600" />
         </div>
-      </Card>
-      <Card className="p-4">
+      </CorporateCard>
+      <CorporateCard className="p-4">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-600">Bu Ay</p>
@@ -400,8 +398,8 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
           </div>
           <TrendingUp className="h-8 w-8 text-green-600" />
         </div>
-      </Card>
-      <Card className="p-4">
+      </CorporateCard>
+      <CorporateCard className="p-4">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-600">Bekleyen</p>
@@ -411,8 +409,8 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
           </div>
           <Clock className="h-8 w-8 text-yellow-600" />
         </div>
-      </Card>
-      <Card className="p-4">
+      </CorporateCard>
+      <CorporateCard className="p-4">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-600">Tamamlanan</p>
@@ -422,7 +420,7 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
           </div>
           <CheckCircle className="h-8 w-8 text-purple-600" />
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 
@@ -435,14 +433,14 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
           <p className="text-gray-600">Bağışçılarla yapılan tüm iletişim kayıtları</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => DonorCRMService.exportCommunications()}>
+          <CorporateButton variant="outline" onClick={() => DonorCRMService.exportCommunications()}>
             <Download className="w-4 h-4 mr-2" />
             Dışa Aktar
-          </Button>
-          <Button onClick={() => setShowAddModal(true)}>
+          </CorporateButton>
+          <CorporateButton onClick={() => setShowAddModal(true)}>
             <Plus className="w-4 h-4 mr-2" />
             Yeni İletişim
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
@@ -450,7 +448,7 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
       <CommunicationStats />
 
       {/* Search and Filters */}
-      <Card className="p-4">
+      <CorporateCard className="p-4">
         <div className="flex items-center space-x-4 mb-4">
           <div className="flex-1">
             <div className="relative">
@@ -464,22 +462,22 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
               />
             </div>
           </div>
-          <Button onClick={handleSearch} disabled={loading}>
+          <CorporateButton onClick={handleSearch} disabled={loading}>
             <Search className="w-4 h-4 mr-2" />
             Ara
-          </Button>
-          <Button
+          </CorporateButton>
+          <CorporateButton
             variant="outline"
             onClick={() => setShowFilters(!showFilters)}
           >
             <Filter className="w-4 h-4 mr-2" />
             Filtreler
-          </Button>
+          </CorporateButton>
           {(searchQuery || Object.keys(filters).length > 0) && (
-            <Button variant="outline" onClick={clearFilters}>
+            <CorporateButton variant="outline" onClick={clearFilters}>
               <X className="w-4 h-4 mr-2" />
               Temizle
-            </Button>
+            </CorporateButton>
           )}
         </div>
 
@@ -564,17 +562,17 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
             </div>
           </div>
         )}
-      </Card>
+      </CorporateCard>
 
       {/* Communications Table */}
-      <Card>
+      <CorporateCard>
         <DataTable
           data={communications}
           columns={columns}
           loading={loading}
           emptyMessage="İletişim kaydı bulunamadı"
         />
-      </Card>
+      </CorporateCard>
 
       {/* Add/Edit Communication Modal */}
       {showAddModal && (
@@ -587,7 +585,7 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
           title={selectedCommunication ? 'İletişim Düzenle' : 'Yeni İletişim Ekle'}
           size="lg"
         >
-          <div className="p-6 space-y-4">
+          <div className="p-6 bg-card rounded-lg border space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Bağışçı</label>
@@ -656,13 +654,13 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
               </div>
             </div>
             <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setShowAddModal(false)}>
+              <CorporateButton variant="outline" onClick={() => setShowAddModal(false)}>
                 İptal
-              </Button>
-              <Button>
+              </CorporateButton>
+              <CorporateButton>
                 <Send className="w-4 h-4 mr-2" />
                 {selectedCommunication ? 'Güncelle' : 'Kaydet'}
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </Modal>
@@ -679,7 +677,7 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
           title="İletişim Detayları"
           size="lg"
         >
-          <div className="p-6 space-y-4">
+          <div className="p-6 bg-card rounded-lg border space-y-4">
             <div className="flex items-center space-x-4 mb-4">
               <div className={`flex items-center justify-center w-12 h-12 rounded-full ${getTypeColor(selectedCommunication.communicationType)}`}>
                 {getTypeIcon(selectedCommunication.communicationType)}
@@ -727,16 +725,16 @@ export default function CommunicationHistory({ donors }: CommunicationHistoryPro
             )}
 
             <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setShowDetailModal(false)}>
+              <CorporateButton variant="outline" onClick={() => setShowDetailModal(false)}>
                 Kapat
-              </Button>
-              <Button onClick={() => {
+              </CorporateButton>
+              <CorporateButton onClick={() => {
                 setShowDetailModal(false)
                 setShowAddModal(true)
               }}>
                 <Edit className="w-4 h-4 mr-2" />
                 Düzenle
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </Modal>

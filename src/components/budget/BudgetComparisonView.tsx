@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
+
 import { Progress } from '@/components/ui/progress'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -177,14 +176,14 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
 
   if (loading) {
     return (
-      <Card>
-        <CardContent className="pt-6">
+      <CorporateCard>
+        <CorporateCardContent className="pt-6">
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
             <p className="mt-2 text-muted-foreground">Karşılaştırma hesaplanıyor...</p>
           </div>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
     )
   }
 
@@ -192,8 +191,8 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
     <div className="space-y-6">
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="pt-6">
+        <CorporateCard>
+          <CorporateCardContent className="pt-6">
             <div className="flex items-center space-x-2">
               <Target className="h-4 w-4 text-blue-600" />
               <div className="space-y-1">
@@ -201,11 +200,11 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                 <p className="text-2xl font-bold">{formatCurrency(totalBudgeted)}</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
         
-        <Card>
-          <CardContent className="pt-6">
+        <CorporateCard>
+          <CorporateCardContent className="pt-6">
             <div className="flex items-center space-x-2">
               <DollarSign className="h-4 w-4 text-green-600" />
               <div className="space-y-1">
@@ -213,11 +212,11 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                 <p className="text-2xl font-bold">{formatCurrency(totalActual)}</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
         
-        <Card>
-          <CardContent className="pt-6">
+        <CorporateCard>
+          <CorporateCardContent className="pt-6">
             <div className="flex items-center space-x-2">
               {totalVariance >= 0 ? (
                 <TrendingUp className="h-4 w-4 text-red-600" />
@@ -233,11 +232,11 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                 </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
         
-        <Card>
-          <CardContent className="pt-6">
+        <CorporateCard>
+          <CorporateCardContent className="pt-6">
             <div className="flex items-center space-x-2">
               <Activity className="h-4 w-4 text-purple-600" />
               <div className="space-y-1">
@@ -249,29 +248,29 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                 </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
       {/* Status Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Kategori Durumu</CardTitle>
+      <div className="grid grid-cols-2">
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle>Kategori Durumu</CorporateCardTitle>
             <CardDescription>
               Kategorilerin bütçe performansı
             </CardDescription>
-          </CardHeader>
-          <CardContent>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-600" />
                   <span className="text-sm">Hedefte</span>
                 </div>
-                <Badge variant="outline" className="text-green-600">
+                <CorporateBadge variant="outline" className="text-green-600">
                   {onTrackCategories} kategori
-                </Badge>
+                </CorporateBadge>
               </div>
               
               <div className="flex items-center justify-between">
@@ -279,9 +278,9 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                   <AlertTriangle className="h-4 w-4 text-red-600" />
                   <span className="text-sm">Bütçe Aşımı</span>
                 </div>
-                <Badge variant="outline" className="text-red-600">
+                <CorporateBadge variant="outline" className="text-red-600">
                   {overBudgetCategories} kategori
-                </Badge>
+                </CorporateBadge>
               </div>
               
               <div className="flex items-center justify-between">
@@ -289,22 +288,22 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                   <TrendingDown className="h-4 w-4 text-blue-600" />
                   <span className="text-sm">Bütçe Altı</span>
                 </div>
-                <Badge variant="outline" className="text-blue-600">
+                <CorporateBadge variant="outline" className="text-blue-600">
                   {underBudgetCategories} kategori
-                </Badge>
+                </CorporateBadge>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Kategori Dağılımı</CardTitle>
+        <CorporateCard>
+          <CorporateCardHeader>
+            <CorporateCardTitle>Kategori Dağılımı</CorporateCardTitle>
             <CardDescription>
               Performans durumuna göre kategori dağılımı
             </CardDescription>
-          </CardHeader>
-          <CardContent>
+          </CorporateCardHeader>
+          <CorporateCardContent>
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
                 <Pie
@@ -324,16 +323,16 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
-          </CardContent>
-        </Card>
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
 
       {/* Main Comparison View */}
-      <Card>
-        <CardHeader>
+      <CorporateCard>
+        <CorporateCardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Bütçe vs Gerçekleşen Karşılaştırması</CardTitle>
+              <CorporateCardTitle>Bütçe vs Gerçekleşen Karşılaştırması</CorporateCardTitle>
               <CardDescription>
                 Detaylı kategori ve dönem bazlı analiz
               </CardDescription>
@@ -348,14 +347,14 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                   <SelectItem value="monthly">Aylık Bazlı</SelectItem>
                 </SelectContent>
               </Select>
-              <Button onClick={exportData} size="sm" variant="outline">
+              <CorporateButton onClick={exportData} size="sm" variant="outline">
                 <Download className="h-4 w-4 mr-2" />
                 Dışa Aktar
-              </Button>
+              </CorporateButton>
             </div>
           </div>
-        </CardHeader>
-        <CardContent>
+        </CorporateCardHeader>
+        <CorporateCardContent>
           <Tabs value={viewType} onValueChange={(value: any) => setViewType(value)}>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="category">Kategori Analizi</TabsTrigger>
@@ -391,22 +390,22 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
               {/* Category Details Table */}
               <div className="space-y-3">
                 {comparisonData.map((item, index) => (
-                  <Card key={index}>
-                    <CardContent className="pt-4">
+                  <CorporateCard key={index}>
+                    <CorporateCardContent className="pt-4">
                       <div className="flex items-center justify-between mb-3">
                         <h4 className="font-semibold">{item.categoryName}</h4>
-                        <Badge 
+                        <CorporateBadge 
                           variant={item.status === 'on-track' ? 'default' : 'secondary'}
                           className={`${
-                            item.status === 'over' ? 'bg-red-100 text-red-800' :
-                            item.status === 'under' ? 'bg-blue-100 text-blue-800' :
-                            'bg-green-100 text-green-800'
+                            item.status === 'over' ? 'bg-red-100 text-red-800 border-red-200' :
+                            item.status === 'under' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+                            'bg-green-100 text-green-800 border-green-200'
                           }`}
                         >
                           {item.status === 'over' && 'Bütçe Aşımı'}
                           {item.status === 'under' && 'Bütçe Altı'}
                           {item.status === 'on-track' && 'Hedefte'}
-                        </Badge>
+                        </CorporateBadge>
                       </div>
                       
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
@@ -446,8 +445,8 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                           className="h-2"
                         />
                       </div>
-                    </CardContent>
-                  </Card>
+                    </CorporateCardContent>
+                  </CorporateCard>
                 ))}
               </div>
             </TabsContent>
@@ -488,14 +487,14 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
               {/* Monthly Summary */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {monthlyData.slice(0, 12).map((month, index) => (
-                  <Card key={index}>
-                    <CardContent className="pt-4">
+                  <CorporateCard key={index}>
+                    <CorporateCardContent className="pt-4">
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-semibold">{month.month}</h4>
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                       </div>
                       
-                      <div className="space-y-2 text-sm">
+                      <div className="space-y-6-group text-sm">
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Bütçe:</span>
                           <span className="font-medium">{formatCurrency(month.budgeted)}</span>
@@ -513,14 +512,14 @@ export function BudgetComparisonView({ budget, actualExpenses, selectedPeriod }:
                           </span>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </CorporateCardContent>
+                  </CorporateCard>
                 ))}
               </div>
             </TabsContent>
           </Tabs>
-        </CardContent>
-      </Card>
+        </CorporateCardContent>
+      </CorporateCard>
 
       {/* Alerts and Recommendations */}
       {(overBudgetCategories > 0 || Math.abs(totalVariancePercentage) > 15) && (

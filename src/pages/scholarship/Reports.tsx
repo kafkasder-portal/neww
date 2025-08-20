@@ -1,8 +1,28 @@
-import { useState, useMemo } from 'react'
-import StatCard from '../../components/StatCard'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts'
+import { useState, useMemo, Suspense, lazy } from 'react'
+import StatCard from '@components/StatCard'
 import { Users, GraduationCap, DollarSign, TrendingUp, Download } from 'lucide-react'
 import { exportToCsv } from '@lib/exportToCsv'
+
+// Lazy load recharts components
+const LazyResponsiveContainer = lazy(() => import('recharts').then(module => ({ default: module.ResponsiveContainer })))
+const LazyBarChart = lazy(() => import('recharts').then(module => ({ default: module.BarChart })))
+const LazyPieChart = lazy(() => import('recharts').then(module => ({ default: module.PieChart })))
+const LazyLineChart = lazy(() => import('recharts').then(module => ({ default: module.LineChart })))
+const LazyBar = lazy(() => import('recharts').then(module => ({ default: module.Bar })))
+const LazyPie = lazy(() => import('recharts').then(module => ({ default: module.Pie })))
+const LazyCell = lazy(() => import('recharts').then(module => ({ default: module.Cell })))
+const LazyLine = lazy(() => import('recharts').then(module => ({ default: module.Line })))
+const LazyXAxis = lazy(() => import('recharts').then(module => ({ default: module.XAxis })))
+const LazyYAxis = lazy(() => import('recharts').then(module => ({ default: module.YAxis })))
+const LazyCartesianGrid = lazy(() => import('recharts').then(module => ({ default: module.CartesianGrid })))
+const LazyTooltip = lazy(() => import('recharts').then(module => ({ default: module.Tooltip })))
+
+// Chart loading component
+const ChartLoading = () => (
+  <div className="flex h-[300px] items-center justify-center">
+    <div className="text-sm text-muted-foreground">Grafik yükleniyor...</div>
+  </div>
+)
 
 const monthlyData = [
   { month: 'Ocak', students: 45, amount: 112500 },
@@ -122,96 +142,106 @@ export default function ScholarshipReports() {
       </div>
 
       {/* Grafikler */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4">
         {/* Aylık Öğrenci Sayısı */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Aylık Öğrenci Sayısı</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="students" fill="#3B82F6" />
-            </BarChart>
-          </ResponsiveContainer>
+          <Suspense fallback={<ChartLoading />}>
+            <LazyResponsiveContainer width="100%" height={300}>
+              <LazyBarChart data={monthlyData}>
+                <LazyCartesianGrid strokeDasharray="3 3" />
+                <LazyXAxis dataKey="month" />
+                <LazyYAxis />
+                <LazyTooltip />
+                <LazyBar dataKey="students" fill="#3B82F6" />
+              </LazyBarChart>
+            </LazyResponsiveContainer>
+          </Suspense>
         </div>
 
         {/* Burs Türleri Dağılımı */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Burs Türleri Dağılımı</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={scholarshipTypes}
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                dataKey="value"
-                label={({ name, value }) => `${name}: ${value}%`}
-              >
-                {scholarshipTypes.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+          <Suspense fallback={<ChartLoading />}>
+            <LazyResponsiveContainer width="100%" height={300}>
+              <LazyPieChart>
+                <LazyPie
+                  data={scholarshipTypes}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  dataKey="value"
+                  label={({ name, value }) => `${name}: ${value}%`}
+                >
+                  {scholarshipTypes.map((entry, index) => (
+                    <LazyCell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </LazyPie>
+                <LazyTooltip />
+              </LazyPieChart>
+            </LazyResponsiveContainer>
+          </Suspense>
         </div>
 
         {/* Aylık Burs Tutarları */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Aylık Burs Tutarları</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip formatter={(value) => [`₺${value.toLocaleString()}`, 'Tutar']} />
-              <Bar dataKey="amount" fill="#10B981" />
-            </BarChart>
-          </ResponsiveContainer>
+          <Suspense fallback={<ChartLoading />}>
+            <LazyResponsiveContainer width="100%" height={300}>
+              <LazyBarChart data={monthlyData}>
+                <LazyCartesianGrid strokeDasharray="3 3" />
+                <LazyXAxis dataKey="month" />
+                <LazyYAxis />
+                <LazyTooltip formatter={(value) => [`₺${value.toLocaleString()}`, 'Tutar']} />
+                <LazyBar dataKey="amount" fill="#10B981" />
+              </LazyBarChart>
+            </LazyResponsiveContainer>
+          </Suspense>
         </div>
 
         {/* Cinsiyet Dağılımı */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Cinsiyet Dağılımı</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={genderData}
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                dataKey="value"
-                label={({ name, value }) => `${name}: ${value}%`}
-              >
-                {genderData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+          <Suspense fallback={<ChartLoading />}>
+            <LazyResponsiveContainer width="100%" height={300}>
+              <LazyPieChart>
+                <LazyPie
+                  data={genderData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  dataKey="value"
+                  label={({ name, value }) => `${name}: ${value}%`}
+                >
+                  {genderData.map((entry, index) => (
+                    <LazyCell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </LazyPie>
+                <LazyTooltip />
+              </LazyPieChart>
+            </LazyResponsiveContainer>
+          </Suspense>
         </div>
       </div>
 
       {/* Akademik Performans Trendi */}
-      <div className="bg-white rounded-lg border p-6">
+      <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Akademik Performans Trendi</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={performanceData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis domain={[0, 4]} />
-            <Tooltip formatter={(value) => [value, 'Not Ortalaması']} />
-            <Line type="monotone" dataKey="average" stroke="#F59E0B" strokeWidth={3} />
-          </LineChart>
-        </ResponsiveContainer>
+        <Suspense fallback={<ChartLoading />}>
+          <LazyResponsiveContainer width="100%" height={300}>
+            <LazyLineChart data={performanceData}>
+              <LazyCartesianGrid strokeDasharray="3 3" />
+              <LazyXAxis dataKey="month" />
+              <LazyYAxis domain={[0, 4]} />
+              <LazyTooltip formatter={(value) => [value, 'Not Ortalaması']} />
+              <LazyLine type="monotone" dataKey="average" stroke="#F59E0B" strokeWidth={3} />
+            </LazyLineChart>
+          </LazyResponsiveContainer>
+        </Suspense>
       </div>
 
       {/* Detaylı Tablo */}
-      <div className="bg-white rounded-lg border p-6">
+      <div className="bg-white rounded-lg border p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Detaylı Aylık Rapor</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

@@ -24,6 +24,7 @@ import {
 } from 'lucide-react'
 import { supabase } from '@lib/supabase'
 import toast from 'react-hot-toast'
+import { CorporateCard, CorporateBadge, CorporateButton, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 
 interface Message {
   id: string
@@ -219,8 +220,8 @@ export function RealtimeChatWindow({ channelId, currentUser }: ChatWindowProps) 
   }
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader className="pb-3">
+    <CorporateCard className="h-full flex flex-col">
+      <CorporateCardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Avatar>
@@ -228,37 +229,37 @@ export function RealtimeChatWindow({ channelId, currentUser }: ChatWindowProps) 
               <AvatarFallback>GC</AvatarFallback>
             </Avatar>
             <div>
-              <CardTitle className="text-lg">Genel Chat</CardTitle>
+              <CorporateCardTitle className="text-lg">Genel Chat</CorporateCardTitle>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <Badge variant="secondary" className="text-xs">
+                <CorporateBadge variant="outline" className="text-xs">
                   {messages.length} mesaj
-                </Badge>
+                </CorporateBadge>
                 <span>•</span>
                 <span>Son görülme 2 dk önce</span>
               </div>
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="sm">
+            <CorporateButton variant="ghost" size="sm">
               <Search className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
+            </CorporateButton>
+            <CorporateButton variant="ghost" size="sm">
               <Phone className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
+            </CorporateButton>
+            <CorporateButton variant="ghost" size="sm">
               <Video className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
+            </CorporateButton>
+            <CorporateButton variant="ghost" size="sm">
               <Users className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
+            </CorporateButton>
+            <CorporateButton variant="ghost" size="sm">
               <Settings className="h-4 w-4" />
-            </Button>
+            </CorporateButton>
           </div>
         </div>
-      </CardHeader>
+      </CorporateCardHeader>
 
-      <CardContent className="flex-1 flex flex-col p-0">
+      <CorporateCardContent className="flex-1 flex flex-col p-0">
         <ScrollArea className="flex-1 px-4">
           <div className="space-y-4 py-4">
             {messages.map((message) => (
@@ -334,14 +335,14 @@ export function RealtimeChatWindow({ channelId, currentUser }: ChatWindowProps) 
                 <div key={index} className="flex items-center space-x-2 bg-muted px-2 py-1 rounded">
                   <FileText className="h-4 w-4" />
                   <span className="text-sm">{file.name}</span>
-                  <Button
+                  <CorporateButton
                     variant="ghost"
                     size="sm"
                     onClick={() => removeAttachment(index)}
                     className="h-4 w-4 p-0"
                   >
                     ×
-                  </Button>
+                  </CorporateButton>
                 </div>
               ))}
             </div>
@@ -352,28 +353,28 @@ export function RealtimeChatWindow({ channelId, currentUser }: ChatWindowProps) 
         <div className="p-4">
           <div className="flex items-end space-x-2">
             <div className="flex-1 flex items-end space-x-2">
-              <Button
+              <CorporateButton
                 variant="ghost"
                 size="sm"
                 onClick={() => fileInputRef.current?.click()}
                 className="h-8 w-8 p-0"
               >
                 <Paperclip className="h-4 w-4" />
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 variant="ghost"
                 size="sm"
                 className="h-8 w-8 p-0"
               >
                 <ImageIcon className="h-4 w-4" />
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 variant="ghost"
                 size="sm"
                 className="h-8 w-8 p-0"
               >
                 <Smile className="h-4 w-4" />
-              </Button>
+              </CorporateButton>
               <div className="flex-1">
                 <Input
                   value={newMessage}
@@ -386,29 +387,29 @@ export function RealtimeChatWindow({ channelId, currentUser }: ChatWindowProps) 
               </div>
             </div>
             <div className="flex items-center space-x-1">
-              <Button
+              <CorporateButton
                 variant="ghost"
                 size="sm"
                 onClick={toggleMute}
                 className="h-8 w-8 p-0"
               >
                 {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 variant="ghost"
                 size="sm"
                 onClick={isRecording ? stopRecording : startRecording}
                 className={`h-8 w-8 p-0 ${isRecording ? 'text-red-500' : ''}`}
               >
                 {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 onClick={sendMessage}
                 disabled={!newMessage.trim() && attachments.length === 0}
                 size="sm"
               >
                 <Send className="h-4 w-4" />
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </div>
@@ -420,7 +421,7 @@ export function RealtimeChatWindow({ channelId, currentUser }: ChatWindowProps) 
           onChange={handleFileUpload}
           className="hidden"
         />
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   )
 }

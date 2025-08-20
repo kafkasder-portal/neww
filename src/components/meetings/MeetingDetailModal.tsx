@@ -18,7 +18,7 @@ import {
   Save
 } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { meetingsApi } from '../../api/meetings'
 import { Meeting, MeetingAttendee, MeetingAgenda, MeetingMinutes, MeetingActionItem } from '@/types/meetings'
 // import { usePermissions } from '@hooks/usePermissions' // Temporarily disabled
@@ -26,6 +26,7 @@ import { useAuthStore } from '@store/auth'
 import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 import { tr } from 'date-fns/locale'
+import { CorporateButton, CorporateCard } from '@/components/ui/corporate/CorporateComponents'
 
 interface MeetingDetailModalProps {
   meetingId: string
@@ -185,21 +186,21 @@ export default function MeetingDetailModal({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
+        <div className="flex items-center justify-between p-6 bg-card rounded-lg border border-b">
           <h2 className="text-xl font-semibold">Toplantı Detayları</h2>
           <div className="flex items-center space-x-2">
             {meeting && canEditMeeting && (
-              <Button 
+              <CorporateButton 
                 size="sm" 
                 variant="outline"
                 onClick={() => onEdit?.(meeting)}
               >
                 <Edit className="h-4 w-4 mr-2" />
                 Düzenle
-              </Button>
+              </CorporateButton>
             )}
             {canDeleteMeeting && (
-              <Button 
+              <CorporateButton 
                 size="sm" 
                 variant="outline"
                 onClick={handleDelete}
@@ -207,11 +208,11 @@ export default function MeetingDetailModal({
               >
                 <Trash2 className="h-4 w-4 mr-2" />
                 Sil
-              </Button>
+              </CorporateButton>
             )}
-            <Button variant="ghost" size="sm" onClick={onClose}>
+            <CorporateButton variant="ghost" size="sm" onClick={onClose}>
               <X className="h-4 w-4" />
-            </Button>
+            </CorporateButton>
           </div>
         </div>
 
@@ -252,11 +253,11 @@ export default function MeetingDetailModal({
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-6 bg-card rounded-lg border">
               {activeTab === 'details' && (
                 <div className="space-y-6">
                   {/* Basic Info */}
-                  <Card className="p-4">
+                  <CorporateCard className="p-4">
                     <h3 className="text-lg font-semibold mb-4">{meeting.title}</h3>
                     {meeting.description && (
                       <p className="text-muted-foreground mb-4">{meeting.description}</p>
@@ -320,24 +321,24 @@ export default function MeetingDetailModal({
                     {/* Status Badge */}
                     <div className="mt-4">
                       <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        meeting.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
-                        meeting.status === 'ongoing' ? 'bg-green-100 text-green-800' :
-                        meeting.status === 'completed' ? 'bg-gray-100 text-gray-800' :
-                        'bg-red-100 text-red-800'
+                        meeting.status === 'scheduled' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+                        meeting.status === 'ongoing' ? 'bg-green-100 text-green-800 border-green-200' :
+                        meeting.status === 'completed' ? 'bg-gray-100 text-gray-800 border-gray-200' :
+                        'bg-red-100 text-red-800 border-red-200'
                       }`}>
                         {meeting.status === 'scheduled' ? 'Planlandı' :
                          meeting.status === 'ongoing' ? 'Devam Ediyor' :
                          meeting.status === 'completed' ? 'Tamamlandı' : 'İptal Edildi'}
                       </span>
                     </div>
-                  </Card>
+                  </CorporateCard>
 
                   {/* Attendance Response */}
                   {meeting.status === 'scheduled' && (
-                    <Card className="p-4">
+                    <CorporateCard className="p-4">
                       <h4 className="font-medium mb-3">Katılım Durumunuz</h4>
                       <div className="flex space-x-2">
-                        <Button 
+                        <CorporateButton 
                           size="sm" 
                           variant="outline"
                           onClick={() => handleAttendeeResponse('accepted')}
@@ -345,8 +346,8 @@ export default function MeetingDetailModal({
                         >
                           <CheckCircle className="h-4 w-4 mr-2" />
                           Katılacağım
-                        </Button>
-                        <Button 
+                        </CorporateButton>
+                        <CorporateButton 
                           size="sm" 
                           variant="outline"
                           onClick={() => handleAttendeeResponse('declined')}
@@ -354,16 +355,16 @@ export default function MeetingDetailModal({
                         >
                           <XCircle className="h-4 w-4 mr-2" />
                           Katılamayacağım
-                        </Button>
-                        <Button 
+                        </CorporateButton>
+                        <CorporateButton 
                           size="sm" 
                           variant="outline"
                           onClick={() => handleAttendeeResponse('maybe')}
                         >
                           Belki
-                        </Button>
+                        </CorporateButton>
                       </div>
-                    </Card>
+                    </CorporateCard>
                   )}
                 </div>
               )}
@@ -375,16 +376,16 @@ export default function MeetingDetailModal({
                       Katılımcılar ({attendees.length})
                     </h3>
                     {canManageMeeting && (
-                      <Button size="sm">
+                      <CorporateButton size="sm">
                         <UserPlus className="h-4 w-4 mr-2" />
                         Katılımcı Ekle
-                      </Button>
+                      </CorporateButton>
                     )}
                   </div>
                   
                   <div className="grid gap-3">
                     {attendees.map((attendee) => (
-                      <Card key={attendee.id} className="p-4">
+                      <CorporateCard key={attendee.id} className="p-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white text-sm">
@@ -403,12 +404,12 @@ export default function MeetingDetailModal({
                             </div>
                           </div>
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            attendee.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                            attendee.status === 'declined' ? 'bg-red-100 text-red-800' :
-                            attendee.status === 'maybe' ? 'bg-yellow-100 text-yellow-800' :
-                            attendee.status === 'attended' ? 'bg-blue-100 text-blue-800' :
-                            attendee.status === 'absent' ? 'bg-gray-100 text-gray-800' :
-                            'bg-gray-100 text-gray-800'
+                            attendee.status === 'accepted' ? 'bg-green-100 text-green-800 border-green-200' :
+                            attendee.status === 'declined' ? 'bg-red-100 text-red-800 border-red-200' :
+                            attendee.status === 'maybe' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+                            attendee.status === 'attended' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+                            attendee.status === 'absent' ? 'bg-gray-100 text-gray-800 border-gray-200' :
+                            'bg-gray-100 text-gray-800 border-gray-200'
                           }`}>
                             {attendee.status === 'accepted' ? 'Kabul Etti' :
                              attendee.status === 'declined' ? 'Reddetti' :
@@ -418,7 +419,7 @@ export default function MeetingDetailModal({
                              'Davet Edildi'}
                           </span>
                         </div>
-                      </Card>
+                      </CorporateCard>
                     ))}
                   </div>
                 </div>
@@ -429,17 +430,17 @@ export default function MeetingDetailModal({
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold">Gündem ({agenda.length} madde)</h3>
                     {canManageMeeting && (
-                      <Button size="sm">
+                      <CorporateButton size="sm">
                         <Plus className="h-4 w-4 mr-2" />
                         Gündem Ekle
-                      </Button>
+                      </CorporateButton>
                     )}
                   </div>
                   
                   {agenda.length > 0 ? (
                     <div className="space-y-3">
                       {agenda.map((item, index) => (
-                        <Card key={item.id} className="p-4">
+                        <CorporateCard key={item.id} className="p-4">
                           <div className="flex items-start space-x-4">
                             <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-medium">
                               {index + 1}
@@ -465,11 +466,11 @@ export default function MeetingDetailModal({
                               </div>
                             </div>
                           </div>
-                        </Card>
+                        </CorporateCard>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-12 text-muted-foreground">
+                    <div className="text-center py-8 text-muted-foreground text-muted-foreground">
                       <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
                       <p>Henüz gündem maddesi eklenmemiş</p>
                     </div>
@@ -482,15 +483,15 @@ export default function MeetingDetailModal({
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold">Toplantı Tutanağı</h3>
                     {canManageMeeting && !addingMinutes && (
-                      <Button size="sm" onClick={() => setAddingMinutes(true)}>
+                      <CorporateButton size="sm" onClick={() => setAddingMinutes(true)}>
                         <Plus className="h-4 w-4 mr-2" />
                         Tutanak Ekle
-                      </Button>
+                      </CorporateButton>
                     )}
                   </div>
 
                   {addingMinutes && (
-                    <Card className="p-4">
+                    <CorporateCard className="p-4">
                       <div className="space-y-3">
                         <textarea
                           value={newMinutes}
@@ -499,26 +500,26 @@ export default function MeetingDetailModal({
                           className="w-full h-32 p-3 border rounded-md resize-none"
                         />
                         <div className="flex space-x-2">
-                          <Button size="sm" onClick={handleAddMinutes}>
+                          <CorporateButton size="sm" onClick={handleAddMinutes}>
                             <Save className="h-4 w-4 mr-2" />
                             Kaydet
-                          </Button>
-                          <Button size="sm" variant="outline" onClick={() => {
+                          </CorporateButton>
+                          <CorporateButton size="sm" variant="outline" onClick={() => {
                             setAddingMinutes(false)
                             setNewMinutes('')
                           }}>
                             İptal
-                          </Button>
+                          </CorporateButton>
                         </div>
                       </div>
-                    </Card>
+                    </CorporateCard>
                   )}
                   
                   {minutes.length > 0 ? (
                     <div className="space-y-3">
                       {minutes.map((minute) => (
-                        <Card key={minute.id} className="p-4">
-                          <div className="space-y-2">
+                        <CorporateCard key={minute.id} className="p-4">
+                          <div className="space-y-6-group">
                             <div className="flex items-center justify-between">
                               <span className="text-sm text-muted-foreground">
                                 {format(new Date(minute.created_at), 'dd MMM yyyy HH:mm', { locale: tr })}
@@ -529,11 +530,11 @@ export default function MeetingDetailModal({
                             </div>
                             <p className="text-gray-800 whitespace-pre-wrap">{minute.content}</p>
                           </div>
-                        </Card>
+                        </CorporateCard>
                       ))}
                     </div>
                   ) : !addingMinutes && (
-                    <div className="text-center py-12 text-muted-foreground">
+                    <div className="text-center py-8 text-muted-foreground text-muted-foreground">
                       <MessageSquare className="h-12 w-12 mx-auto mb-4 opacity-50" />
                       <p>Henüz tutanak eklenmemiş</p>
                     </div>
@@ -546,15 +547,15 @@ export default function MeetingDetailModal({
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold">Eylem Maddeleri</h3>
                     {canManageMeeting && !addingActionItem && (
-                      <Button size="sm" onClick={() => setAddingActionItem(true)}>
+                      <CorporateButton size="sm" onClick={() => setAddingActionItem(true)}>
                         <Plus className="h-4 w-4 mr-2" />
                         Eylem Ekle
-                      </Button>
+                      </CorporateButton>
                     )}
                   </div>
 
                   {addingActionItem && (
-                    <Card className="p-4">
+                    <CorporateCard className="p-4">
                       <div className="space-y-3">
                         <input
                           type="text"
@@ -585,25 +586,25 @@ export default function MeetingDetailModal({
                           />
                         </div>
                         <div className="flex space-x-2">
-                          <Button size="sm" onClick={handleAddActionItem}>
+                          <CorporateButton size="sm" onClick={handleAddActionItem}>
                             <Save className="h-4 w-4 mr-2" />
                             Kaydet
-                          </Button>
-                          <Button size="sm" variant="outline" onClick={() => {
+                          </CorporateButton>
+                          <CorporateButton size="sm" variant="outline" onClick={() => {
                             setAddingActionItem(false)
                             setNewActionItem({ title: '', description: '', assigned_to: '', due_date: '' })
                           }}>
                             İptal
-                          </Button>
+                          </CorporateButton>
                         </div>
                       </div>
-                    </Card>
+                    </CorporateCard>
                   )}
                   
                   {actionItems.length > 0 ? (
                     <div className="space-y-3">
                       {actionItems.map((action) => (
-                        <Card key={action.id} className="p-4">
+                        <CorporateCard key={action.id} className="p-4">
                           <div className="space-y-3">
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
@@ -613,10 +614,10 @@ export default function MeetingDetailModal({
                                 )}
                               </div>
                               <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                action.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                action.status === 'in_progress' ? 'bg-blue-100 text-blue-800' :
-                                action.status === 'cancelled' ? 'bg-gray-100 text-gray-800' :
-                                'bg-yellow-100 text-yellow-800'
+                                action.status === 'completed' ? 'bg-green-100 text-green-800 border-green-200' :
+                                action.status === 'in_progress' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+                                action.status === 'cancelled' ? 'bg-gray-100 text-gray-800 border-gray-200' :
+                                'bg-yellow-100 text-yellow-800 border-yellow-200'
                               }`}>
                                 {action.status === 'completed' ? 'Tamamlandı' :
                                  action.status === 'in_progress' ? 'Devam Ediyor' :
@@ -635,15 +636,15 @@ export default function MeetingDetailModal({
                               {canManageMeeting && action.status !== 'completed' && (
                                 <div className="flex space-x-1">
                                   {action.status === 'pending' && (
-                                    <Button 
+                                    <CorporateButton 
                                       size="sm" 
                                       variant="outline"
                                       onClick={() => handleActionItemStatusChange(action.id, 'in_progress')}
                                     >
                                       Başlat
-                                    </Button>
+                                    </CorporateButton>
                                   )}
-                                  <Button 
+                                  <CorporateButton 
                                     size="sm" 
                                     variant="outline"
                                     onClick={() => handleActionItemStatusChange(action.id, 'completed')}
@@ -651,16 +652,16 @@ export default function MeetingDetailModal({
                                   >
                                     <CheckCircle className="h-3 w-3 mr-1" />
                                     Tamamla
-                                  </Button>
+                                  </CorporateButton>
                                 </div>
                               )}
                             </div>
                           </div>
-                        </Card>
+                        </CorporateCard>
                       ))}
                     </div>
                   ) : !addingActionItem && (
-                    <div className="text-center py-12 text-muted-foreground">
+                    <div className="text-center py-8 text-muted-foreground text-muted-foreground">
                       <Target className="h-12 w-12 mx-auto mb-4 opacity-50" />
                       <p>Henüz eylem maddesi eklenmemiş</p>
                     </div>

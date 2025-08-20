@@ -1,9 +1,10 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+
+
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Copy, Download, Package, Printer, QrCode } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { CorporateButton, Card, CardContent, CardHeader, CardTitle, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 
 interface InventoryItem {
   id: string
@@ -191,14 +192,14 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <CorporateCard className="w-full max-w-md">
+      <CorporateCardHeader>
+        <CorporateCardTitle className="flex items-center gap-2">
           <QrCode className="w-5 h-5" />
           QR Kod Oluşturucu
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
+        </CorporateCardTitle>
+      </CorporateCardHeader>
+      <CorporateCardContent className="space-y-4">
         {/* Manuel Veri Girişi (item yoksa) */}
         {!item && (
           <div className="space-y-3">
@@ -238,19 +239,19 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
                 placeholder="Kategoriyi girin"
               />
             </div>
-            <Button
+            <CorporateButton
               onClick={() => generateQRCode()}
               disabled={isGenerating || !customData.itemCode}
               className="w-full"
             >
               {isGenerating ? 'Oluşturuluyor...' : 'QR Kod Oluştur'}
-            </Button>
+            </CorporateButton>
           </div>
         )}
 
         {/* Ürün Bilgileri (item varsa) */}
         {item && (
-          <div className="bg-gray-50 p-3 rounded-lg space-y-2">
+          <div className="bg-gray-50 p-3 rounded-lg space-y-6-group">
             <div className="flex items-center gap-2">
               <Package className="w-4 h-4 text-gray-600" />
               <span className="font-medium">{item.name}</span>
@@ -267,7 +268,7 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
         {/* QR Kod Görüntüsü */}
         {qrCodeDataURL && (
           <div className="text-center space-y-4">
-            <div className="bg-white p-4 rounded-lg border inline-block">
+            <div className="bg-white p-4 border rounded-lg inline-block">
               <img
                 src={qrCodeDataURL}
                 alt="QR Kod"
@@ -277,7 +278,7 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
 
             {/* Aksiyon Butonları */}
             <div className="grid grid-cols-2 gap-2">
-              <Button
+              <CorporateButton
                 onClick={downloadQRCode}
                 variant="outline"
                 size="sm"
@@ -285,8 +286,8 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
               >
                 <Download className="w-4 h-4" />
                 İndir
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 onClick={printQRCode}
                 variant="outline"
                 size="sm"
@@ -294,8 +295,8 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
               >
                 <Printer className="w-4 h-4" />
                 Yazdır
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 onClick={copyQRToClipboard}
                 variant="outline"
                 size="sm"
@@ -303,8 +304,8 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
               >
                 <Copy className="w-4 h-4" />
                 Resmi Kopyala
-              </Button>
-              <Button
+              </CorporateButton>
+              <CorporateButton
                 onClick={copyQRDataToClipboard}
                 variant="outline"
                 size="sm"
@@ -312,7 +313,7 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
               >
                 <Copy className="w-4 h-4" />
                 Veriyi Kopyala
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         )}
@@ -327,8 +328,8 @@ export const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ item, onGenera
             <li>Etiket olarak yazdırılabilir</li>
           </ul>
         </div>
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   )
 }
 

@@ -13,8 +13,9 @@ import {
   RotateCcw
 } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Card } from '../ui/card'
+import { Card } from '../ui/corporate/CorporateComponents'
 import { Badge } from '../ui/badge'
+import { CorporateCard, CorporateButton, CorporateBadge } from '@/components/ui/corporate/CorporateComponents'
 
 interface DashboardWidget {
   id: string
@@ -218,13 +219,13 @@ export function DashboardCustomizer({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-6xl max-h-[90vh] overflow-hidden bg-white shadow-2xl">
+      <CorporateCard className="w-full max-w-6xl max-h-[90vh] overflow-hidden bg-white shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
+        <div className="flex items-center justify-between p-6 bg-card rounded-lg border border-b">
           <div className="flex items-center space-x-3">
             <Settings className="w-6 h-6 text-blue-600" />
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-lg font-semibold text-foreground">
                 Dashboard Kişiselleştirme
               </h2>
               <p className="text-sm text-gray-600">
@@ -234,29 +235,29 @@ export function DashboardCustomizer({
           </div>
           
           <div className="flex items-center space-x-2">
-            <Button
+            <CorporateButton
               variant="outline"
               size="sm"
               onClick={handleReset}
             >
               <RotateCcw className="w-4 h-4 mr-1" />
               Sıfırla
-            </Button>
-            <Button
+            </CorporateButton>
+            <CorporateButton
               size="sm"
               onClick={handleSave}
               className="bg-blue-600 hover:bg-blue-700"
             >
               <Save className="w-4 h-4 mr-1" />
               Kaydet
-            </Button>
-            <Button
+            </CorporateButton>
+            <CorporateButton
               variant="ghost"
               size="sm"
               onClick={onClose}
             >
               <X className="w-4 h-4" />
-            </Button>
+            </CorporateButton>
           </div>
         </div>
 
@@ -264,7 +265,7 @@ export function DashboardCustomizer({
           {/* Sidebar - Categories */}
           <div className="w-64 border-r bg-gray-50 p-4">
             <h3 className="font-semibold text-gray-900 mb-4">Kategoriler</h3>
-            <div className="space-y-2">
+            <div className="space-y-6-group">
               <button
                 onClick={() => setSelectedCategory('all')}
                 className={`w-full text-left p-3 rounded-lg transition-colors ${
@@ -276,9 +277,9 @@ export function DashboardCustomizer({
                 <div className="flex items-center space-x-2">
                   <Grid className="w-4 h-4" />
                   <span className="font-medium">Tümü</span>
-                  <Badge variant="secondary" className="ml-auto">
+                  <CorporateBadge variant="outline" className="ml-auto">
                     {widgets.length}
-                  </Badge>
+                  </CorporateBadge>
                 </div>
               </button>
               
@@ -300,9 +301,9 @@ export function DashboardCustomizer({
                        category === 'communication' ? 'İletişim' :
                        'Yönetim'}
                     </span>
-                    <Badge variant="secondary" className="ml-auto">
+                    <CorporateBadge variant="outline" className="ml-auto">
                       {widgets.filter(w => w.category === category).length}
-                    </Badge>
+                    </CorporateBadge>
                   </div>
                 </button>
               ))}
@@ -310,7 +311,7 @@ export function DashboardCustomizer({
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 p-6 overflow-y-auto">
+          <div className="flex-1 p-6 bg-card rounded-lg border overflow-y-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredWidgets.map((widget, index) => (
                 <div
@@ -353,7 +354,7 @@ export function DashboardCustomizer({
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-6-group">
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-600">Boyut:</span>
                       <select
@@ -370,12 +371,12 @@ export function DashboardCustomizer({
                     
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-600">Kategori:</span>
-                      <Badge variant="outline" className="text-xs">
+                      <CorporateBadge variant="outline" className="text-xs">
                         {widget.category === 'financial' ? 'Finansal' :
                          widget.category === 'activity' ? 'Aktivite' :
                          widget.category === 'communication' ? 'İletişim' :
                          'Yönetim'}
-                      </Badge>
+                      </CorporateBadge>
                     </div>
                   </div>
                 </div>
@@ -383,7 +384,7 @@ export function DashboardCustomizer({
             </div>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 }

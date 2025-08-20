@@ -34,7 +34,7 @@ export default function UserStatistics({ statistics }: UserStatisticsProps) {
     color?: string
     change?: number
   }) => (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <div className="bg-white rounded-lg border border-gray-200 p-6 bg-card rounded-lg border">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-600">{title}</p>
@@ -85,13 +85,13 @@ export default function UserStatistics({ statistics }: UserStatisticsProps) {
       </div>
 
       {/* Role Distribution */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-medium text-gray-900 mb-4">Rol Dağılımı</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {(Object.entries(statistics.byRole) as [UserRole, number][]).map(([role, count]) => (
             <div
               key={role}
-              className={`p-4 rounded-lg border-2 ${roleColors[role]}`}
+              className={`p-4 border rounded-lg-2 ${roleColors[role]}`}
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -113,12 +113,12 @@ export default function UserStatistics({ statistics }: UserStatisticsProps) {
       </div>
 
       {/* Quick Stats */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-medium text-gray-900 mb-4">Özet Bilgiler</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2">
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Kullanıcı Durumu</h4>
-            <div className="space-y-2">
+            <h4 className="space-y-6-label mb-2">Kullanıcı Durumu</h4>
+            <div className="space-y-6-group">
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Aktif Rate:</span>
                 <span className="text-sm font-medium text-green-600">
@@ -138,8 +138,8 @@ export default function UserStatistics({ statistics }: UserStatisticsProps) {
           </div>
           
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Yetki Dağılımı</h4>
-            <div className="space-y-2">
+            <h4 className="space-y-6-label mb-2">Yetki Dağılımı</h4>
+            <div className="space-y-6-group">
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Yönetici:</span>
                 <span className="text-sm font-medium text-purple-600">

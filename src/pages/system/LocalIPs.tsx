@@ -313,7 +313,7 @@ export default function LocalIPs() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="rounded border bg-card p-4">
           <h3 className="mb-3 text-lg font-semibold">Tip Dağılımı</h3>
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             {types.map(type => {
               const count = filtered.filter(ip => ip.type === type).length
               const percentage = filtered.length > 0 ? (count / filtered.length * 100).toFixed(1) : 0
@@ -342,7 +342,7 @@ export default function LocalIPs() {
 
         <div className="rounded border bg-card p-4">
           <h3 className="mb-3 text-lg font-semibold">Durum Dağılımı</h3>
-          <div className="space-y-2">
+          <div className="space-y-6-group">
             {statuses.map(status => {
               const count = filtered.filter(ip => ip.status === status).length
               const percentage = filtered.length > 0 ? (count / filtered.length * 100).toFixed(1) : 0
@@ -375,7 +375,7 @@ export default function LocalIPs() {
       {/* Add IP Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-lg rounded-lg bg-white p-6">
+          <div className="w-full max-w-lg rounded-lg bg-white p-6 bg-card rounded-lg border">
             <h2 className="mb-4 text-lg font-semibold">Yeni IP Adresi Ekle</h2>
             <form className="space-y-4">
               <div className="grid grid-cols-2 gap-4">

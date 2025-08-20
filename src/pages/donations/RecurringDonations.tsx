@@ -12,6 +12,7 @@ import type {
   RecurringDonationCampaign 
 } from '@/types/recurringDonations'
 import { toast } from 'sonner'
+import { CorporateCard, CorporateButton } from '@/components/ui/corporate/CorporateComponents'
 import { 
   Repeat, 
   Calendar, 
@@ -133,7 +134,7 @@ export default function RecurringDonations() {
     <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Aylık Gelir (MRR)</p>
@@ -142,9 +143,9 @@ export default function RecurringDonations() {
             </div>
             <DollarSign className="h-8 w-8 text-green-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Aktif Abonelik</p>
@@ -153,9 +154,9 @@ export default function RecurringDonations() {
             </div>
             <Repeat className="h-8 w-8 text-blue-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Ortalama Tutar</p>
@@ -163,9 +164,9 @@ export default function RecurringDonations() {
             </div>
             <Target className="h-8 w-8 text-purple-600" />
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-4">
+        <CorporateCard className="p-4">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Başarı Oranı</p>
@@ -173,32 +174,32 @@ export default function RecurringDonations() {
             </div>
             <CheckCircle className="h-8 w-8 text-orange-600" />
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Quick Actions */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4">Hızlı İşlemler</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Button 
+          <CorporateButton 
             onClick={() => setShowSubscriptionModal(true)}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <Plus className="h-6 w-6 mb-2" />
             Yeni Abonelik
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             onClick={() => setShowCampaignModal(true)}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <Target className="h-6 w-6 mb-2" />
             Kampanya
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             onClick={() => {
               RecurringDonationsService.processScheduledPayments()
               toast.success('Ödeme işlemi başlatıldı')
@@ -208,22 +209,22 @@ export default function RecurringDonations() {
           >
             <CreditCard className="h-6 w-6 mb-2" />
             Ödemeleri İşle
-          </Button>
+          </CorporateButton>
           
-          <Button 
+          <CorporateButton 
             onClick={() => setActiveTab('analytics')}
             className="flex flex-col items-center p-4 h-auto"
             variant="outline"
           >
             <BarChart3 className="h-6 w-6 mb-2" />
             Raporlar
-          </Button>
+          </CorporateButton>
         </div>
-      </Card>
+      </CorporateCard>
 
       {/* Recent Activity & Alerts */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-6">
+      <div className="grid grid-cols-2">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <h3 className="text-lg font-semibold mb-4">Son Abonelikler</h3>
           <div className="space-y-3">
             {dashboardData?.recentSubscriptions.slice(0, 5).map((sub) => (
@@ -236,9 +237,9 @@ export default function RecurringDonations() {
               </div>
             ))}
           </div>
-        </Card>
+        </CorporateCard>
 
-        <Card className="p-6">
+        <CorporateCard className="p-6 bg-card rounded-lg border">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Uyarılar & Bildirimler</h3>
             <Bell className="h-5 w-5 text-gray-400" />
@@ -259,9 +260,9 @@ export default function RecurringDonations() {
                   )}
                 </div>
                 {alert.actionRequired && (
-                  <Button size="sm" variant="outline">
+                  <CorporateButton size="sm" variant="outline">
                     İşlem Yap
-                  </Button>
+                  </CorporateButton>
                 )}
               </div>
             ))}
@@ -272,11 +273,11 @@ export default function RecurringDonations() {
               </div>
             )}
           </div>
-        </Card>
+        </CorporateCard>
       </div>
 
       {/* Payment Status Summary */}
-      <Card className="p-6">
+      <CorporateCard className="p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4">Ödeme Durumu</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="text-center p-4 bg-green-50 rounded">
@@ -296,7 +297,7 @@ export default function RecurringDonations() {
             <div className="text-sm text-red-700">Başarısız Denemeler</div>
           </div>
         </div>
-      </Card>
+      </CorporateCard>
     </div>
   )
 
@@ -343,11 +344,11 @@ export default function RecurringDonations() {
         header: 'Durum',
         render: (_, subscription) => (
           <span className={`px-2 py-1 rounded text-xs font-medium ${
-            subscription.status === 'active' ? 'bg-green-100 text-green-800' :
-            subscription.status === 'paused' ? 'bg-yellow-100 text-yellow-800' :
-            subscription.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+            subscription.status === 'active' ? 'bg-green-100 text-green-800 border-green-200' :
+            subscription.status === 'paused' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+            subscription.status === 'cancelled' ? 'bg-red-100 text-red-800 border-red-200' :
             subscription.status === 'failed' ? 'bg-orange-100 text-orange-800' :
-            'bg-gray-100 text-gray-800'
+            'bg-gray-100 text-gray-800 border-gray-200'
           }`}>
             {subscription.status === 'active' ? 'Aktif' :
              subscription.status === 'paused' ? 'Duraklatıldı' :
@@ -361,39 +362,39 @@ export default function RecurringDonations() {
         header: 'İşlemler',
         render: (_, subscription) => (
           <div className="flex space-x-1">
-            <Button 
+            <CorporateButton 
               variant="outline" 
               size="sm" 
               onClick={() => setSelectedSubscription(subscription)}
             >
               <Eye className="w-3 h-3" />
-            </Button>
+            </CorporateButton>
             {subscription.status === 'active' && (
-              <Button 
+              <CorporateButton 
                 variant="outline" 
                 size="sm"
                 onClick={() => handlePauseSubscription(subscription.id)}
               >
                 <Pause className="w-3 h-3" />
-              </Button>
+              </CorporateButton>
             )}
             {subscription.status === 'paused' && (
-              <Button 
+              <CorporateButton 
                 variant="outline" 
                 size="sm"
                 onClick={() => handleResumeSubscription(subscription.id)}
               >
                 <Play className="w-3 h-3" />
-              </Button>
+              </CorporateButton>
             )}
             {(subscription.status === 'active' || subscription.status === 'paused') && (
-              <Button 
+              <CorporateButton 
                 variant="outline" 
                 size="sm"
                 onClick={() => handleCancelSubscription(subscription.id)}
               >
                 <X className="w-3 h-3" />
-              </Button>
+              </CorporateButton>
             )}
           </div>
         )
@@ -412,27 +413,27 @@ export default function RecurringDonations() {
               placeholder="Abonelik ara (ad, e-posta...)"
             />
           </div>
-          <Button onClick={handleSearch} size="sm">
+          <CorporateButton onClick={handleSearch} size="sm">
             <Search className="w-3 h-3 mr-1" />
             Ara
-          </Button>
-          <Button 
+          </CorporateButton>
+          <CorporateButton 
             variant="outline" 
             size="sm"
             onClick={() => setShowFilters(!showFilters)}
           >
             <Filter className="w-3 h-3 mr-1" />
             Filtrele
-          </Button>
-          <Button onClick={() => setShowSubscriptionModal(true)} size="sm">
+          </CorporateButton>
+          <CorporateButton onClick={() => setShowSubscriptionModal(true)} size="sm">
             <Plus className="w-3 h-3 mr-1" />
             Yeni Abonelik
-          </Button>
+          </CorporateButton>
         </div>
 
         {/* Filters Panel */}
         {showFilters && (
-          <Card className="p-4">
+          <CorporateCard className="p-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Durum</label>
@@ -470,20 +471,20 @@ export default function RecurringDonations() {
                 </div>
               </div>
               <div className="flex items-end">
-                <Button size="sm" className="w-full">Filtrele</Button>
+                <CorporateButton size="sm" className="w-full">Filtrele</CorporateButton>
               </div>
             </div>
-          </Card>
+          </CorporateCard>
         )}
 
         {/* Subscriptions Table */}
-        <Card>
+        <CorporateCard>
           {loading ? (
-            <div className="p-6 text-center">Yükleniyor...</div>
+            <div className="p-6 bg-card rounded-lg border text-center">Yükleniyor...</div>
           ) : (
             <DataTable columns={columns} data={subscriptions} />
           )}
-        </Card>
+        </CorporateCard>
       </div>
     )
   }
@@ -508,14 +509,14 @@ export default function RecurringDonations() {
           <p className="text-gray-600">Abonelik tabanlı tekrarlayan bağış yönetimi</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowCampaignModal(true)}>
+          <CorporateButton variant="outline" onClick={() => setShowCampaignModal(true)}>
             <Target className="w-4 h-4 mr-2" />
             Yeni Kampanya
-          </Button>
-          <Button onClick={() => setShowSubscriptionModal(true)}>
+          </CorporateButton>
+          <CorporateButton onClick={() => setShowSubscriptionModal(true)}>
             <Plus className="w-4 h-4 mr-2" />
             Abonelik Ekle
-          </Button>
+          </CorporateButton>
         </div>
       </div>
 
@@ -549,19 +550,19 @@ export default function RecurringDonations() {
       {activeTab === 'dashboard' && <DashboardTab />}
       {activeTab === 'subscriptions' && <SubscriptionsTab />}
       {activeTab === 'campaigns' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Target className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Kampanya yönetimi modülü yakında...</p>
         </div>
       )}
       {activeTab === 'analytics' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <TrendingUp className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Analitik raporları modülü yakında...</p>
         </div>
       )}
       {activeTab === 'settings' && (
-        <div className="text-center py-12">
+        <div className="text-center py-8 text-muted-foreground">
           <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Düzenli bağış ayarları modülü yakında...</p>
         </div>
@@ -626,28 +627,28 @@ export default function RecurringDonations() {
 
             <div className="flex space-x-2">
               {selectedSubscription.status === 'active' && (
-                <Button 
+                <CorporateButton 
                   variant="outline" 
                   className="flex-1"
                   onClick={() => handlePauseSubscription(selectedSubscription.id)}
                 >
                   <Pause className="w-4 h-4 mr-2" />
                   Duraklat
-                </Button>
+                </CorporateButton>
               )}
               {selectedSubscription.status === 'paused' && (
-                <Button 
+                <CorporateButton 
                   className="flex-1"
                   onClick={() => handleResumeSubscription(selectedSubscription.id)}
                 >
                   <Play className="w-4 h-4 mr-2" />
                   Devam Et
-                </Button>
+                </CorporateButton>
               )}
-              <Button variant="outline" className="flex-1">
+              <CorporateButton variant="outline" className="flex-1">
                 <Edit className="w-4 h-4 mr-2" />
                 Düzenle
-              </Button>
+              </CorporateButton>
             </div>
           </div>
         </Modal>

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, CardContent } from './ui/card';
+import { Card, CardContent } from './ui/corporate/CorporateComponents';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { CorporateCard, CorporateCardContent } from '@/components/ui/corporate/CorporateComponents'
 
 interface StatCardProps {
   title: string;
@@ -24,8 +25,8 @@ const StatCard: React.FC<StatCardProps> = ({
   change 
 }) => {
   return (
-    <Card>
-      <CardContent className="p-6">
+    <CorporateCard>
+      <CorporateCardContent className="p-6 bg-card rounded-lg border">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground">{title}</p>
@@ -53,8 +54,8 @@ const StatCard: React.FC<StatCardProps> = ({
             <Icon className="w-8 h-8 text-muted-foreground" />
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </CorporateCardContent>
+    </CorporateCard>
   );
 };
 

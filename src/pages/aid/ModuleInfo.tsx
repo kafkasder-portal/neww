@@ -25,7 +25,7 @@ import {
   Phone,
   Mail
 } from 'lucide-react'
-import StatCard from '../../components/StatCard'
+import StatCard from '@components/StatCard'
 
 interface ModuleGuide {
   id: string
@@ -540,7 +540,7 @@ export default function ModuleInfo() {
 
       {/* Hızlı Erişim */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-lg p-6 text-white">
+        <div className="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-lg p-6 bg-card rounded-lg border text-white">
           <div className="flex items-center gap-3 mb-3">
             <Play className="h-6 w-6" />
             <h3 className="text-lg font-semibold">Hızlı Başlangıç</h3>
@@ -551,7 +551,7 @@ export default function ModuleInfo() {
           </button>
         </div>
 
-        <div className="bg-gradient-to-r from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 rounded-lg p-6 text-white">
+        <div className="bg-gradient-to-r from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 rounded-lg p-6 bg-card rounded-lg border text-white">
           <div className="flex items-center gap-3 mb-3">
             <Video className="h-6 w-6" />
             <h3 className="text-lg font-semibold">Video Eğitimler</h3>
@@ -562,7 +562,7 @@ export default function ModuleInfo() {
           </button>
         </div>
 
-        <div className="bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 rounded-lg p-6 text-white">
+        <div className="bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 rounded-lg p-6 bg-card rounded-lg border text-white">
           <div className="flex items-center gap-3 mb-3">
             <Phone className="h-6 w-6" />
             <h3 className="text-lg font-semibold">Canlı Destek</h3>
@@ -620,7 +620,7 @@ export default function ModuleInfo() {
       </div>
 
       {/* Filtreler */}
-      <div className="flex flex-wrap items-center gap-4 rounded-lg border dark:border-gray-700 p-4">
+      <div className="flex flex-wrap items-center bg-blue-50 border border-blue-200 rounded-lg dark:border-gray-700 p-4">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
@@ -776,7 +776,7 @@ export default function ModuleInfo() {
                   <div className="flex-1">
                     <h3 className="font-semibold mb-2">{faq.question}</h3>
                     <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">{faq.category}</span>
+                      <span className="bg-blue-100 text-blue-800 border-blue-200 px-2 py-1 rounded">{faq.category}</span>
                       <span className="flex items-center gap-1">
                         <Eye className="h-3 w-3" />
                         {faq.views}
@@ -855,7 +855,7 @@ export default function ModuleInfo() {
       )}
 
       {/* İletişim Bilgileri */}
-      <div className="bg-gray-50 rounded-lg p-6">
+      <div className="bg-gray-50 rounded-lg p-6 bg-card rounded-lg border">
         <h3 className="text-lg font-semibold mb-4">Yardıma mı ihtiyacınız var?</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex items-center gap-3">

@@ -1,13 +1,21 @@
-import { useState, useEffect } from 'react'
-import { useNavigate, useLocation, Navigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Building, Eye, EyeOff, Loader2, Lock, Mail, Phone, User } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
-import { Eye, EyeOff, Loader2, Mail, Lock, User, Phone, Building } from 'lucide-react'
+import {
+  CorporateButton,
+  CorporateCard,
+  CorporateCardContent,
+  CorporateCardHeader,
+  CorporateCardTitle,
+  FormGroup,
+  FormLabel,
+  FormInput,
+  CorporateAlert
+} from '../components/ui/corporate/CorporateComponents'
 import { useAuthStore } from '../store/auth'
-import { Button } from '../components/ui/button'
-import { Card } from '../components/ui/card'
-// DevelopmentNotice removed - component deleted
 import { useLanguage } from '../hooks/useLanguage'
 
 // These will be created dynamically with translations
@@ -34,9 +42,24 @@ const createValidationSchemas = (t: (key: string) => string) => ({
   })
 })
 
-type LoginForm = z.infer<typeof loginSchema>
-type RegisterForm = z.infer<typeof registerSchema>
-type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>
+// Type definitions based on Zod schemas
+type LoginForm = {
+  email: string
+  password: string
+}
+
+type RegisterForm = {
+  email: string
+  password: string
+  confirmPassword: string
+  full_name: string
+  department?: string
+  phone?: string
+}
+
+type ForgotPasswordForm = {
+  email: string
+}
 
 export default function Login() {
   const [mode, setMode] = useState<'login' | 'register' | 'forgot'>('login')
@@ -126,313 +149,315 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="min-h-screen flex items-center justify-center bg-bg-muted p-4">
       <div className="w-full max-w-md">
-        {/* DevelopmentNotice removed */}
-        <Card className="p-8 shadow-xl border bg-card/95 backdrop-blur-sm">
-        <div className="text-center mb-8">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center mb-4">
-            <Building className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold text-foreground">
-            {mode === 'login' && t('auth.welcome')}
-            {mode === 'register' && t('auth.signUp')}
-            {mode === 'forgot' && t('auth.resetPassword')}
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            {mode === 'login' && 'Dernek Yönetim Paneli'}
-            {mode === 'register' && 'Yeni hesap oluşturmak için bilgilerinizi giriniz'}
-            {mode === 'forgot' && 'Email adresinizi girerek şifrenizi sıfırlayın'}
-          </p>
-        </div>
-
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700 text-sm">{error}</p>
-          </div>
-        )}
-
-        {mode === 'login' && (
-          <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.emailAddress')}
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  {...loginForm.register('email')}
-                  type="email"
-                  placeholder="ornek@email.com"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                />
-              </div>
-              {loginForm.formState.errors.email && (
-                <p className="text-red-600 text-sm mt-1">{loginForm.formState.errors.email.message}</p>
-              )}
+        <CorporateCard className="p-8 shadow-xl border bg-white/95 backdrop-blur-sm">
+          <CorporateCardHeader className="text-center mb-8">
+            <div className="mx-auto w-16 h-16 bg-gradient-to-br from-bg-primary to-bg-primary rounded-2xl flex items-center justify-center mb-4">
+              <Building className="w-8 h-8 text-white" />
             </div>
+            <CorporateCardTitle className="text-2xl font-bold text-text-foreground">
+              {mode === 'login' && t('auth.welcome')}
+              {mode === 'register' && t('auth.signUp')}
+              {mode === 'forgot' && t('auth.resetPassword')}
+            </CorporateCardTitle>
+            <p className="text-text-muted-foreground mt-2">
+              {mode === 'login' && 'Dernek Yönetim Paneli'}
+              {mode === 'register' && 'Yeni hesap oluşturmak için bilgilerinizi giriniz'}
+              {mode === 'forgot' && 'Email adresinizi girerek şifrenizi sıfırlayın'}
+            </p>
+          </CorporateCardHeader>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.password')}
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  {...loginForm.register('password')}
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="��•••••••"
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          <CorporateCardContent>
+            {error && (
+              <CorporateAlert variant="danger" className="mb-6">
+                <p className="text-sm">{error}</p>
+              </CorporateAlert>
+            )}
+
+            {mode === 'login' && (
+              <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-6">
+                <FormGroup>
+                  <FormLabel htmlFor="login-email">
+                    {t('auth.emailAddress')}
+                  </FormLabel>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <FormInput
+                      {...loginForm.register('email')}
+                      id="login-email"
+                      type="email"
+                      placeholder="ornek@email.com"
+                    />
+                  </div>
+                  {loginForm.formState.errors.email && (
+                    <p className="text-bg-red-500 text-sm mt-1">{loginForm.formState.errors.email.message}</p>
+                  )}
+                </FormGroup>
+
+                <FormGroup>
+                  <FormLabel htmlFor="login-password">
+                    {t('auth.password')}
+                  </FormLabel>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <FormInput
+                      {...loginForm.register('password')}
+                      id="login-password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground hover:text-text-muted-foreground"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  {loginForm.formState.errors.password && (
+                    <p className="text-bg-red-500 text-sm mt-1">{loginForm.formState.errors.password.message}</p>
+                  )}
+                </FormGroup>
+
+                <CorporateButton
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  disabled={loading}
+                  className="w-full"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </div>
-              {loginForm.formState.errors.password && (
-                <p className="text-red-600 text-sm mt-1">{loginForm.formState.errors.password.message}</p>
-              )}
-            </div>
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Giriş yapılıyor...
+                    </>
+                  ) : (
+                    'Giriş Yap'
+                  )}
+                </CorporateButton>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-3 rounded-lg font-medium transition-all duration-200"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                  Giriş yapılıyor...
-                </>
-              ) : (
-                'Giriş Yap'
-              )}
-            </Button>
+                <div className="text-center">
+                  <div className="text-text-muted-foreground text-sm">
+                    <button
+                      type="button"
+                      onClick={() => setMode('forgot')}
+                      className="text-bg-primary hover:text-bg-primary/80 text-sm font-medium"
+                    >
+                      Şifremi unuttum
+                    </button>
+                    <span className="mx-2">|</span>
+                    Hesabınız yok mu?{' '}
+                    <button
+                      type="button"
+                      onClick={() => setMode('register')}
+                      className="text-bg-primary hover:text-bg-primary/80 font-medium"
+                    >
+                      Kayıt olun
+                    </button>
+                  </div>
+                </div>
+              </form>
+            )}
 
-            <div className="text-center space-y-2">
-              <button
-                type="button"
-                onClick={() => setMode('forgot')}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
-              >
-                Şifremi unuttum
-              </button>
-              <div className="text-gray-600 text-sm">
-                Hesabınız yok mu?{' '}
-                <button
-                  type="button"
-                  onClick={() => setMode('register')}
-                  className="text-blue-600 hover:text-blue-700 font-medium"
+            {mode === 'register' && (
+              <form onSubmit={registerForm.handleSubmit(onRegister)} className="space-y-4">
+                <FormGroup>
+                  <FormLabel>
+                    Ad Soyad *
+                  </FormLabel>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <FormInput
+                      {...registerForm.register('full_name')}
+                      type="text"
+                      placeholder="Adınız Soyadınız"
+                    />
+                  </div>
+                  {registerForm.formState.errors.full_name && (
+                    <p className="text-bg-red-500 text-sm mt-1">{registerForm.formState.errors.full_name.message}</p>
+                  )}
+                </FormGroup>
+
+                <FormGroup>
+                  <FormLabel>
+                    Email Adresi *
+                  </FormLabel>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <FormInput
+                      {...registerForm.register('email')}
+                      type="email"
+                      placeholder="ornek@email.com"
+                    />
+                  </div>
+                  {registerForm.formState.errors.email && (
+                    <p className="text-bg-red-500 text-sm mt-1">{registerForm.formState.errors.email.message}</p>
+                  )}
+                </FormGroup>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormGroup>
+                    <FormLabel>
+                      Şifre *
+                    </FormLabel>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                      <FormInput
+                        {...registerForm.register('password')}
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="••••••••"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground hover:text-text-muted-foreground"
+                      >
+                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                    {registerForm.formState.errors.password && (
+                      <p className="text-bg-red-500 text-sm mt-1">{registerForm.formState.errors.password.message}</p>
+                    )}
+                  </FormGroup>
+
+                  <FormGroup>
+                    <FormLabel>
+                      Şifre Tekrar *
+                    </FormLabel>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                      <FormInput
+                        {...registerForm.register('confirmPassword')}
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        placeholder="••••••••"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground hover:text-text-muted-foreground"
+                      >
+                        {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                    {registerForm.formState.errors.confirmPassword && (
+                      <p className="text-bg-red-500 text-sm mt-1">{registerForm.formState.errors.confirmPassword.message}</p>
+                    )}
+                  </FormGroup>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormGroup>
+                    <FormLabel>
+                      Departman
+                    </FormLabel>
+                    <div className="relative">
+                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                      <FormInput
+                        {...registerForm.register('department')}
+                        type="text"
+                        placeholder="Departmanınız"
+                      />
+                    </div>
+                  </FormGroup>
+
+                  <FormGroup>
+                    <FormLabel>
+                      Telefon
+                    </FormLabel>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                      <FormInput
+                        {...registerForm.register('phone')}
+                        type="tel"
+                        placeholder="+90 555 123 45 67"
+                      />
+                    </div>
+                  </FormGroup>
+                </div>
+
+                <CorporateButton
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  disabled={loading}
+                  className="w-full"
                 >
-                  Kayıt olun
-                </button>
-              </div>
-            </div>
-          </form>
-        )}
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Hesap oluşturuluyor...
+                    </>
+                  ) : (
+                    'Hesap Oluştur'
+                  )}
+                </CorporateButton>
 
-        {mode === 'register' && (
-          <form onSubmit={registerForm.handleSubmit(onRegister)} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ad Soyad *
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  {...registerForm.register('full_name')}
-                  type="text"
-                  placeholder="Adınız Soyadınız"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                />
-              </div>
-              {registerForm.formState.errors.full_name && (
-                <p className="text-red-600 text-sm mt-1">{registerForm.formState.errors.full_name.message}</p>
-              )}
-            </div>
+                <div className="text-center">
+                  <div className="text-text-muted-foreground text-sm">
+                    Zaten hesabınız var mı?{' '}
+                    <button
+                      type="button"
+                      onClick={() => setMode('login')}
+                      className="text-bg-primary hover:text-bg-primary/80 font-medium"
+                    >
+                      Giriş yapın
+                    </button>
+                  </div>
+                </div>
+              </form>
+            )}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Adresi *
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  {...registerForm.register('email')}
-                  type="email"
-                  placeholder="ornek@email.com"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                />
-              </div>
-              {registerForm.formState.errors.email && (
-                <p className="text-red-600 text-sm mt-1">{registerForm.formState.errors.email.message}</p>
-              )}
-            </div>
+            {mode === 'forgot' && (
+              <form onSubmit={forgotForm.handleSubmit(onForgotPassword)} className="space-y-6">
+                <FormGroup>
+                  <FormLabel htmlFor="email">
+                    {t('auth.emailAddress')}
+                  </FormLabel>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-foreground w-5 h-5" />
+                    <FormInput
+                      {...forgotForm.register('email')}
+                      id="email"
+                      type="email"
+                      placeholder="ornek@email.com"
+                    />
+                  </div>
+                  {forgotForm.formState.errors.email && (
+                    <p className="text-bg-red-500 text-sm mt-1">{forgotForm.formState.errors.email.message}</p>
+                  )}
+                </FormGroup>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Şifre *
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    {...registerForm.register('password')}
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  />
+                <CorporateButton
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  disabled={loading}
+                  className="w-full"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Gönderiliyor...
+                    </>
+                  ) : (
+                    'Şifre Sıfırlama Bağlantısı Gönder'
+                  )}
+                </CorporateButton>
+
+                <div className="text-center">
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    onClick={() => setMode('login')}
+                    className="text-bg-primary hover:text-bg-primary/80 text-sm font-medium"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    ← Giriş sayfasına dön
                   </button>
                 </div>
-                {registerForm.formState.errors.password && (
-                  <p className="text-red-600 text-sm mt-1">{registerForm.formState.errors.password.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Şifre Tekrar *
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    {...registerForm.register('confirmPassword')}
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-                {registerForm.formState.errors.confirmPassword && (
-                  <p className="text-red-600 text-sm mt-1">{registerForm.formState.errors.confirmPassword.message}</p>
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Departman
-                </label>
-                <div className="relative">
-                  <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    {...registerForm.register('department')}
-                    type="text"
-                    placeholder="Departmanınız"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Telefon
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    {...registerForm.register('phone')}
-                    type="tel"
-                    placeholder="+90 555 123 45 67"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-3 rounded-lg font-medium transition-all duration-200"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                  Hesap oluşturuluyor...
-                </>
-              ) : (
-                'Hesap Oluştur'
-              )}
-            </Button>
-
-            <div className="text-center">
-              <div className="text-gray-600 text-sm">
-                Zaten hesabınız var mı?{' '}
-                <button
-                  type="button"
-                  onClick={() => setMode('login')}
-                  className="text-blue-600 hover:text-blue-700 font-medium"
-                >
-                  Giriş yapın
-                </button>
-              </div>
-            </div>
-          </form>
-        )}
-
-        {mode === 'forgot' && (
-          <form onSubmit={forgotForm.handleSubmit(onForgotPassword)} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.emailAddress')}
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  {...forgotForm.register('email')}
-                  type="email"
-                  placeholder="ornek@email.com"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                />
-              </div>
-              {forgotForm.formState.errors.email && (
-                <p className="text-red-600 text-sm mt-1">{forgotForm.formState.errors.email.message}</p>
-              )}
-            </div>
-
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-3 rounded-lg font-medium transition-all duration-200"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                  Gönderiliyor...
-                </>
-              ) : (
-                'Şifre Sıfırlama Bağlantısı Gönder'
-              )}
-            </Button>
-
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={() => setMode('login')}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
-              >
-                ← Giriş sayfasına dön
-              </button>
-            </div>
-          </form>
-        )}
-        </Card>
+              </form>
+            )}
+          </CorporateCardContent>
+        </CorporateCard>
       </div>
     </div>
   )

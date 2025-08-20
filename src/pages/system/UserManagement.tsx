@@ -320,7 +320,7 @@ export default function UserManagement() {
       {statistics && <UserStatistics statistics={statistics} />}
 
       {/* Filters */}
-      <div className="bg-card p-4 rounded-lg border border-border">
+      <div className="bg-card p-4 border rounded-lg border-border">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Search */}
           <div className="relative">

@@ -1,0 +1,592 @@
+import { supabase } from '@/lib/supabase'
+import type {
+  ChartOfAccounts,
+  GeneralLedgerEntry,
+  JournalEntry,
+  FinancialTransaction,
+  Budget,
+  Grant
+} from '@/types/accounting'
+import { STANDARD_CHART_OF_ACCOUNTS } from '@/types/accounting'
+import { toast } from 'sonner'
+import { getErrorMessage, logError, isTableNotFoundError, ErrorMessages } from '@/utils/errorHandler'
+
+export class AccountingService {
+  // Chart of Accounts Management
+  static async initializeChartOfAccounts(): Promise<boolean> {
+    try {
+      const { data: existingAccounts, error: checkError } = await supabase
+        .from('chart_of_accounts')
+        .select('account_code')
+        .limit(5)
+
+      if (checkError && !checkError.message.includes('relation')) {
+        throw checkError
+      }
+
+      // If table doesn't exist or is empty, create default accounts
+      if (!existingAccounts || existingAccounts.length === 0) {
+        const accountsToInsert = STANDARD_CHART_OF_ACCOUNTS.map(account => ({
+          account_code: account.accountCode,
+          account_name: account.accountName,
+          account_name_tr: account.accountNameTR,
+          account_type: account.accountType,
+          account_type_en: account.accountTypeEN,
+          parent_account_id: account.parentAccountId || null,
+          is_active: account.isActive,
+          description: account.description || null,
+          balance_type: account.balanceType,
+          current_balance: 0
+        }))
+
+        const { error: insertError } = await supabase
+          .from('chart_of_accounts')
+          .insert(accountsToInsert)
+
+        if (insertError) {
+          console.error('Error creating chart of accounts:', insertError)
+          return false
+        }
+
+        toast.success('Hesap planı ba��arıyla oluşturuldu')
+        return true
+      }
+
+      return true
+    } catch (error) {
+      console.error('Error initializing chart of accounts:', error)
+      logError('Error initializing chart of accounts', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu mevcut değil. Lütfen sistem yöneticisine başvurun.')
+      } else {
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Hesap planı oluşturulamadı: ${errorMsg}`)
+      }
+      return false
+    }
+  }
+
+  static async getChartOfAccounts(): Promise<ChartOfAccounts[]> {
+    try {
+      const { data, error } = await supabase
+        .from('chart_of_accounts')
+        .select('*')
+        .eq('is_active', true)
+        .order('account_code')
+
+      if (error) throw error
+      
+      // Transform database column names to TypeScript interface
+      return (data || []).map(account => ({
+        id: account.id,
+        accountCode: account.account_code,
+        accountName: account.account_name,
+        accountNameTR: account.account_name_tr,
+        accountType: account.account_type,
+        accountTypeEN: account.account_type_en,
+        parentAccountId: account.parent_account_id,
+        isActive: account.is_active,
+        description: account.description,
+        balanceType: account.balance_type,
+        currentBalance: account.current_balance,
+        created_at: account.created_at,
+        updated_at: account.updated_at
+      }))
+    } catch (error) {
+      console.error('Error fetching chart of accounts:', error)
+      logError('Error fetching chart of accounts', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu bulunamadı. Sistem yöneticisine başvurun.')
+        // Return default chart as fallback
+        return STANDARD_CHART_OF_ACCOUNTS.map((account, index) => ({
+          id: `temp_${index}`,
+          accountCode: account.accountCode,
+          accountName: account.accountName,
+          accountNameTR: account.accountNameTR,
+          accountType: account.accountType,
+          accountTypeEN: account.accountTypeEN,
+          parentAccountId: account.parentAccountId,
+          isActive: account.isActive,
+          description: account.description,
+          balanceType: account.balanceType,
+          currentBalance: 0,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }))
+      } else {
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Hesap planı yüklenemedi: ${errorMsg}`)
+      }
+      return []
+    }
+  }
+
+  static async getAccountByCode(accountCode: string): Promise<ChartOfAccounts | null> {
+    try {
+      const { data, error } = await supabase
+        .from('chart_of_accounts')
+        .select('*')
+        .eq('account_code', accountCode)
+        .single()
+
+      if (error) throw error
+      
+      // Transform database column names to TypeScript interface
+      if (!data) return null
+      
+      return {
+        id: data.id,
+        accountCode: data.account_code,
+        accountName: data.account_name,
+        accountNameTR: data.account_name_tr,
+        accountType: data.account_type,
+        accountTypeEN: data.account_type_en,
+        parentAccountId: data.parent_account_id,
+        isActive: data.is_active,
+        description: data.description,
+        balanceType: data.balance_type,
+        currentBalance: data.current_balance,
+        created_at: data.created_at,
+        updated_at: data.updated_at
+      }
+    } catch (error) {
+      console.error('Error fetching account:', error)
+      return null
+    }
+  }
+
+  // General Ledger Operations
+  static async createJournalEntry(entry: Omit<GeneralLedgerEntry, 'id' | 'created_at' | 'updated_at'>): Promise<string | null> {
+    try {
+      // Validate that debits equal credits
+      const totalDebits = entry.entries.reduce((sum, e) => sum + e.debitAmount, 0)
+      const totalCredits = entry.entries.reduce((sum, e) => sum + e.creditAmount, 0)
+
+      if (Math.abs(totalDebits - totalCredits) > 0.01) {
+        toast.error('Borç ve alacak toplamları eşit olmalıdır')
+        return null
+      }
+
+      // Generate reference number if not provided
+      const referenceNumber = entry.referenceNumber || await this.generateReferenceNumber()
+
+      const entryData = {
+        ...entry,
+        referenceNumber,
+        totalDebit: totalDebits,
+        totalCredit: totalCredits,
+        isBalanced: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+
+      const { data: ledgerEntry, error: ledgerError } = await supabase
+        .from('general_ledger_entries')
+        .insert([entryData])
+        .select()
+        .single()
+
+      if (ledgerError) throw ledgerError
+
+      // Create individual journal entries
+      const journalEntries = entry.entries.map(je => ({
+        ...je,
+        generalLedgerEntryId: ledgerEntry.id,
+        id: undefined // Let Supabase generate
+      }))
+
+      const { error: journalError } = await supabase
+        .from('journal_entries')
+        .insert(journalEntries)
+
+      if (journalError) throw journalError
+
+      // Update account balances
+      await this.updateAccountBalances(entry.entries)
+
+      toast.success('Muhasebe kaydı oluşturuldu')
+      return ledgerEntry.id
+    } catch (error) {
+      console.error('Error creating journal entry:', error)
+      toast.error('Muhasebe kaydı oluşturulamadı')
+      return null
+    }
+  }
+
+  private static async generateReferenceNumber(): Promise<string> {
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, '0')
+    
+    // Get count of entries for this month
+    const { count } = await supabase
+      .from('general_ledger_entries')
+      .select('*', { count: 'exact', head: true })
+      .gte('created_at', `${year}-${month}-01`)
+      .lt('created_at', `${year}-${month}-31`)
+
+    const sequence = String((count || 0) + 1).padStart(4, '0')
+    return `JE${year}${month}${sequence}`
+  }
+
+  private static async updateAccountBalances(entries: Omit<JournalEntry, 'id' | 'generalLedgerEntryId'>[]): Promise<void> {
+    for (const entry of entries) {
+      const account = await this.getAccountByCode(entry.accountCode)
+      if (!account) continue
+
+      const balanceChange = account.balanceType === 'debit'
+        ? entry.debitAmount - entry.creditAmount
+        : entry.creditAmount - entry.debitAmount
+
+      const newBalance = account.currentBalance + balanceChange
+
+      await supabase
+        .from('chart_of_accounts')
+        .update({
+          current_balance: newBalance,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', account.id)
+    }
+  }
+
+  // Automated journal entries for existing transactions
+  static async recordDonationEntry(donationId: string, amount: number, donorType: 'individual' | 'corporate', currency: 'TRY' | 'USD' | 'EUR' = 'TRY'): Promise<void> {
+    const revenueAccount = donorType === 'individual' ? '401' : '402' // Individual vs Corporate donations
+    const bankAccount = '102' // Bank - General Account
+
+    const exchangeRate = currency === 'TRY' ? 1 : await this.getExchangeRate(currency)
+    const baseAmount = amount * exchangeRate
+
+    const journalEntry: Omit<GeneralLedgerEntry, 'id' | 'created_at' | 'updated_at'> = {
+      transactionDate: new Date().toISOString().split('T')[0],
+      referenceNumber: '',
+      description: `Bağış kaydı - ${donorType === 'individual' ? 'Bireysel' : 'Kurumsal'}`,
+      documentType: 'donation',
+      documentId: donationId,
+      status: 'posted',
+      createdBy: 'system',
+      entries: [
+        {
+          id: '',
+          generalLedgerEntryId: '',
+          accountId: '', // Will be resolved by account code
+          accountCode: bankAccount,
+          accountName: 'Banka - Genel Hesap',
+          debitAmount: baseAmount,
+          creditAmount: 0,
+          description: `Bağış alındı - ${currency} ${amount}`,
+        },
+        {
+          id: '',
+          generalLedgerEntryId: '',
+          accountId: '',
+          accountCode: revenueAccount,
+          accountName: donorType === 'individual' ? 'Bireysel Bağışlar' : 'Kurumsal Bağışlar',
+          debitAmount: 0,
+          creditAmount: baseAmount,
+          description: `Bağış geliri - ${currency} ${amount}`,
+        }
+      ],
+      totalDebit: baseAmount,
+      totalCredit: baseAmount,
+      isBalanced: true
+    }
+
+    await this.createJournalEntry(journalEntry)
+  }
+
+  static async recordAidPaymentEntry(aidId: string, amount: number, aidType: string): Promise<void> {
+    const expenseAccount = '501' // Aid Payments
+    const bankAccount = '102' // Bank - General Account
+
+    const journalEntry: Omit<GeneralLedgerEntry, 'id' | 'created_at' | 'updated_at'> = {
+      transactionDate: new Date().toISOString().split('T')[0],
+      referenceNumber: '',
+      description: `Yardım ödemesi - ${aidType}`,
+      documentType: 'payment',
+      documentId: aidId,
+      status: 'posted',
+      createdBy: 'system',
+      entries: [
+        {
+          id: '',
+          generalLedgerEntryId: '',
+          accountId: '',
+          accountCode: expenseAccount,
+          accountName: 'Yardım Ödemeleri',
+          debitAmount: amount,
+          creditAmount: 0,
+          description: `Yardım - ${aidType}`,
+        },
+        {
+          id: '',
+          generalLedgerEntryId: '',
+          accountId: '',
+          accountCode: bankAccount,
+          accountName: 'Banka - Genel Hesap',
+          debitAmount: 0,
+          creditAmount: amount,
+          description: `Yardım ödemesi - ${aidType}`,
+        }
+      ],
+      totalDebit: amount,
+      totalCredit: amount,
+      isBalanced: true
+    }
+
+    await this.createJournalEntry(journalEntry)
+  }
+
+  private static async getExchangeRate(currency: 'USD' | 'EUR'): Promise<number> {
+    // In production, this would fetch real exchange rates
+    // For now, return mock rates
+    const rates = {
+      'USD': 32.50,
+      'EUR': 35.20
+    }
+    return rates[currency] || 1
+  }
+
+  // Financial Reports
+  static async generateTrialBalance(asOfDate?: string): Promise<any[]> {
+    const dateFilter = asOfDate || new Date().toISOString().split('T')[0]
+    
+    try {
+      const { data: accounts, error } = await supabase
+        .from('chart_of_accounts')
+        .select('*')
+        .eq('is_active', true)
+        .order('account_code')
+
+      if (error) throw error
+
+      return accounts.map((account: any) => ({
+        accountCode: account.account_code,
+        accountName: account.account_name_tr,
+        accountType: account.account_type,
+        debitBalance: account.balance_type === 'debit' && account.current_balance > 0 ? account.current_balance : 0,
+        creditBalance: account.balance_type === 'credit' && account.current_balance > 0 ? account.current_balance : 0,
+        balance: account.current_balance
+      }))
+    } catch (error) {
+      console.error('Error generating trial balance:', error)
+      logError('Error generating trial balance', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+        // Return sample trial balance as fallback
+        return STANDARD_CHART_OF_ACCOUNTS.map(account => ({
+          accountCode: account.accountCode,
+          accountName: account.accountNameTR,
+          accountType: account.accountType,
+          debitBalance: account.balanceType === 'debit' ? 0 : 0,
+          creditBalance: account.balanceType === 'credit' ? 0 : 0,
+          balance: 0
+        }))
+      } else {
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Mizan raporu oluşturulamadı: ${errorMsg}`)
+      }
+      return []
+    }
+  }
+
+  static async generateIncomeStatement(startDate: string, endDate: string): Promise<any> {
+    try {
+      const { data: accounts, error } = await supabase
+        .from('chart_of_accounts')
+        .select('*')
+        .in('account_type', ['gelir', 'gider'])
+        .eq('is_active', true)
+
+      if (error) throw error
+
+      const revenues = accounts
+        .filter((acc: any) => acc.account_type === 'gelir')
+        .reduce((sum: number, acc: any) => sum + acc.current_balance, 0)
+
+      const expenses = accounts
+        .filter((acc: any) => acc.account_type === 'gider')
+        .reduce((sum: number, acc: any) => sum + acc.current_balance, 0)
+
+      return {
+        totalRevenues: revenues,
+        totalExpenses: expenses,
+        netIncome: revenues - expenses,
+        revenueAccounts: accounts.filter(acc => acc.account_type === 'gelir'),
+        expenseAccounts: accounts.filter(acc => acc.account_type === 'gider'),
+        periodStart: startDate,
+        periodEnd: endDate
+      }
+    } catch (error) {
+      console.error('Error generating income statement:', error)
+      logError('Error generating income statement', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+        // Return sample income statement as fallback
+        const sampleRevenueAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'gelir')
+        const sampleExpenseAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'gider')
+        return {
+          totalRevenues: 0,
+          totalExpenses: 0,
+          netIncome: 0,
+          revenueAccounts: sampleRevenueAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          expenseAccounts: sampleExpenseAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          periodStart: startDate,
+          periodEnd: endDate
+        }
+      } else {
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Gelir tablosu oluşturulamadı: ${errorMsg}`)
+      }
+      return null
+    }
+  }
+
+  static async generateBalanceSheet(asOfDate?: string): Promise<any> {
+    const dateFilter = asOfDate || new Date().toISOString().split('T')[0]
+
+    try {
+      const { data: accounts, error } = await supabase
+        .from('chart_of_accounts')
+        .select('*')
+        .in('account_type', ['varlık', 'borç', 'öz_kaynak'])
+        .eq('is_active', true)
+
+      if (error) throw error
+
+      const assets = accounts
+        .filter(acc => acc.account_type === 'varlık')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
+
+      const liabilities = accounts
+        .filter(acc => acc.account_type === 'borç')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
+
+      const equity = accounts
+        .filter(acc => acc.account_type === 'öz_kaynak')
+        .reduce((sum, acc) => sum + acc.current_balance, 0)
+
+      return {
+        totalAssets: assets,
+        totalLiabilities: liabilities,
+        totalEquity: equity,
+        asOfDate: dateFilter,
+        assetAccounts: accounts.filter(acc => acc.account_type === 'varlık'),
+        liabilityAccounts: accounts.filter(acc => acc.account_type === 'borç'),
+        equityAccounts: accounts.filter(acc => acc.account_type === 'öz_kaynak')
+      }
+    } catch (error) {
+      console.error('Error generating balance sheet:', error)
+      logError('Error generating balance sheet', error)
+
+      if (isTableNotFoundError(error)) {
+        toast.error('Hesap planı tablosu bulunamadı. Sistem kurulumu gerekli.')
+        // Return sample balance sheet as fallback
+        const sampleAssetAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'varlık')
+        const sampleLiabilityAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'borç')
+        const sampleEquityAccounts = STANDARD_CHART_OF_ACCOUNTS.filter(acc => acc.accountType === 'öz_kaynak')
+        return {
+          totalAssets: 0,
+          totalLiabilities: 0,
+          totalEquity: 0,
+          asOfDate: dateFilter,
+          assetAccounts: sampleAssetAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          liabilityAccounts: sampleLiabilityAccounts.map(acc => ({ ...acc, current_balance: 0 })),
+          equityAccounts: sampleEquityAccounts.map(acc => ({ ...acc, current_balance: 0 }))
+        }
+      } else {
+        const errorMsg = getErrorMessage(error)
+        console.error('Detailed error:', errorMsg)
+        toast.error(`Bilanço oluşturulamadı: ${errorMsg}`)
+      }
+      return null
+    }
+  }
+
+  // Budget Management
+  static async createBudget(budget: Omit<Budget, 'id' | 'created_at' | 'updated_at'>): Promise<string | null> {
+    try {
+      const { data, error } = await supabase
+        .from('budgets')
+        .insert([{
+          ...budget,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }])
+        .select()
+        .single()
+
+      if (error) throw error
+
+      toast.success('Bütçe başarıyla oluşturuldu')
+      return data.id
+    } catch (error) {
+      console.error('Error creating budget:', error)
+      toast.error('Bütçe oluşturulamadı')
+      return null
+    }
+  }
+
+  static async getBudgets(): Promise<Budget[]> {
+    try {
+      const { data, error } = await supabase
+        .from('budgets')
+        .select('*')
+        .order('fiscalYear', { ascending: false })
+
+      if (error) throw error
+      return data || []
+    } catch (error) {
+      console.error('Error fetching budgets:', error)
+      return []
+    }
+  }
+
+  // Grant Management
+  static async createGrant(grant: Omit<Grant, 'id' | 'created_at' | 'updated_at'>): Promise<string | null> {
+    try {
+      const { data, error } = await supabase
+        .from('grants')
+        .insert([{
+          ...grant,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }])
+        .select()
+        .single()
+
+      if (error) throw error
+
+      toast.success('Hibe kaydı oluşturuldu')
+      return data.id
+    } catch (error) {
+      console.error('Error creating grant:', error)
+      toast.error('Hibe kaydı oluşturulamadı')
+      return null
+    }
+  }
+
+  static async getGrants(): Promise<Grant[]> {
+    try {
+      const { data, error } = await supabase
+        .from('grants')
+        .select('*')
+        .order('awardDate', { ascending: false })
+
+      if (error) throw error
+      return data || []
+    } catch (error) {
+      console.error('Error fetching grants:', error)
+      return []
+    }
+  }
+}
