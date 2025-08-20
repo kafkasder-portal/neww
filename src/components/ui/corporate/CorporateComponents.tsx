@@ -357,7 +357,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
     return (
       <input
         ref={ref}
-        className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', className)}
+        className={cn('input-premium', className)}
         {...props}
       />
     )
