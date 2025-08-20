@@ -1,355 +1,215 @@
 import {
   Activity,
-  ArrowUpRight,
-  BarChart3,
-  Calendar,
   DollarSign,
-  Download,
-  Eye,
-  FileText,
-  Filter,
-  Heart,
-  MessageSquare,
-  Plus,
-  Settings,
   TrendingUp,
   Users,
-  Zap,
-  Bell,
-  Search,
-  MoreVertical
+  Calendar,
+  FileText,
+  Heart,
+  BarChart3
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { StatsCard, FeatureCard, WidgetCard, NotificationCard } from '@/components/ui/premium-cards'
-import { PremiumSearch } from '@/components/ui/premium-forms'
-import { Tooltip } from '@/components/ui/premium-modals'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 // Mock data
 const statsData = [
   {
     title: 'Toplam Yararlanıcı',
     value: '2,547',
-    change: { value: 12.5, type: 'increase' as const, period: 'geçen ay' },
+    change: '+12.5%',
     icon: Users,
-    color: 'success' as const
+    color: 'text-green-600'
   },
   {
     title: 'Bu Ay Bağış',
     value: '₺458,942',
-    change: { value: 8.2, type: 'increase' as const, period: 'geçen ay' },
+    change: '+8.2%',
     icon: DollarSign,
-    color: 'info' as const
+    color: 'text-blue-600'
   },
   {
     title: 'Aktif Projeler',
     value: '24',
-    change: { value: 3.1, type: 'decrease' as const, period: 'geçen ay' },
+    change: '-3.1%',
     icon: Activity,
-    color: 'warning' as const
+    color: 'text-orange-600'
   },
   {
-    title: 'Gönüllü Sayısı',
-    value: '189',
-    change: { value: 15.8, type: 'increase' as const, period: 'geçen ay' },
+    title: 'Toplam Gönüllü',
+    value: '156',
+    change: '+15.3%',
     icon: Heart,
-    color: 'danger' as const
+    color: 'text-red-600'
   }
 ]
 
 const recentActivities = [
   {
-    id: '1',
-    title: 'Yeni Bağış Kaydı',
-    message: 'Ahmet Yılmaz 5,000₺ bağış yaptı',
-    time: '2 dakika önce',
-    type: 'success' as const,
-    unread: true
+    title: 'Yeni bağış alındı',
+    description: 'Ahmet Yılmaz - ₺2,500',
+    time: '5 dakika önce',
+    type: 'donation'
   },
   {
-    id: '2',
-    title: 'Yararlanıcı Başvurusu',
-    message: 'Fatma Demir yeni başvuru oluşturdu',
+    title: 'Yardım başvurusu',
+    description: 'Fatma Demir - Gıda yardımı',
     time: '15 dakika önce',
-    type: 'info' as const,
-    unread: true
+    type: 'application'
   },
   {
-    id: '3',
-    title: 'Proje Güncellemesi',
-    message: 'Eğitim projesi %80 tamamlandı',
+    title: 'Gönüllü kaydı',
+    description: 'Mehmet Kaya - Eğitim desteği',
     time: '1 saat önce',
-    type: 'warning' as const
-  },
-  {
-    id: '4',
-    title: 'Sistem Bakımı',
-    message: 'Scheduled maintenance completed',
-    time: '3 saat önce',
-    type: 'info' as const
-  }
-]
-
-const quickActions = [
-  {
-    title: 'Yeni Bağış Kaydı',
-    description: 'Hızlı bağış kaydı oluşturun ve takip edin',
-    icon: DollarSign,
-    href: '/donations/cash-donations',
-    badge: 'Popüler'
-  },
-  {
-    title: 'Yararlanıcı Ekle',
-    description: 'Yeni yararlanıcı kaydı oluşturun',
-    icon: Users,
-    href: '/aid/beneficiaries'
-  },
-  {
-    title: 'Rapor Oluştur',
-    description: 'Mali ve operasyonel raporlar hazırlayın',
-    icon: FileText,
-    href: '/fund/complete-report'
-  },
-  {
-    title: 'Gönüllü Yönetimi',
-    description: 'Gönüllüleri yönetin ve görevlendirin',
-    icon: Heart,
-    href: '/volunteers'
+    type: 'volunteer'
   }
 ]
 
 export default function DashboardIndex() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState('')
-
-  useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => setIsLoading(false), 1000)
-    return () => clearTimeout(timer)
-  }, [])
-
-  if (isLoading) {
-    return (
-      <div className="p-6 space-y-6">
-        {/* Loading Skeleton */}
-        <div className="space-y-4">
-          <div className="h-8 bg-muted rounded-xl animate-pulse-premium w-64" />
-          <div className="h-4 bg-muted rounded-lg animate-pulse-premium w-96" />
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="glass-card p-6 space-y-4">
-              <div className="h-4 bg-muted rounded animate-pulse-premium" />
-              <div className="h-8 bg-muted rounded animate-pulse-premium w-24" />
-              <div className="h-3 bg-muted rounded animate-pulse-premium w-20" />
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="p-6 space-y-8">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="space-y-2">
-            <h1 className="text-heading-1 text-foreground">
-              Dashboard
-            </h1>
-            <p className="text-body text-muted-foreground">
-              Dernek yönetim sistemine hoş geldiniz
-            </p>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <PremiumSearch
-              placeholder="Arama..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-80"
-            />
-            
-            <Tooltip content="Bildirimleri görüntüle">
-              <button className="btn-ghost p-3">
-                <Bell className="h-5 w-5" />
-                <div className="absolute -top-1 -right-1 h-3 w-3 bg-semantic-danger rounded-full animate-glow" />
-              </button>
-            </Tooltip>
-            
-            <Tooltip content="Ayarlar">
-              <button className="btn-ghost p-3">
-                <Settings className="h-5 w-5" />
-              </button>
-            </Tooltip>
-          </div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground">
+            Dernek faaliyetlerinizin genel görünümü
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm">
+            <FileText className="h-4 w-4 mr-2" />
+            Rapor Al
+          </Button>
+          <Button size="sm">
+            <Calendar className="h-4 w-4 mr-2" />
+            Yeni Etkinlik
+          </Button>
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statsData.map((stat, index) => (
-          <StatsCard
-            key={index}
-            title={stat.title}
-            value={stat.value}
-            change={stat.change}
-            icon={stat.icon}
-            color={stat.color}
-            gradient={true}
-            className="animate-slide-up"
-            style={{ animationDelay: `${index * 100}ms` }}
-          />
-        ))}
+      {/* Stats Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {statsData.map((stat, index) => {
+          const Icon = stat.icon
+          return (
+            <Card key={index}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  {stat.title}
+                </CardTitle>
+                <Icon className={`h-4 w-4 ${stat.color}`} />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stat.value}</div>
+                <p className="text-xs text-muted-foreground">
+                  <Badge variant={stat.change.startsWith('+') ? 'default' : 'destructive'} className="text-xs">
+                    {stat.change}
+                  </Badge>
+                  <span className="ml-1">geçen ay</span>
+                </p>
+              </CardContent>
+            </Card>
+          )
+        })}
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Charts & Analytics */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Revenue Chart */}
-          <WidgetCard 
-            title="Bağış Trendi"
-            action={
-              <div className="flex items-center gap-2">
-                <button className="btn-ghost btn-sm">
-                  <Filter className="h-4 w-4" />
-                </button>
-                <button className="btn-ghost btn-sm">
-                  <Download className="h-4 w-4" />
-                </button>
-                <button className="btn-ghost btn-sm">
-                  <MoreVertical className="h-4 w-4" />
-                </button>
-              </div>
-            }
-          >
-            <div className="h-80 flex items-center justify-center border-2 border-dashed border-border rounded-xl">
-              <div className="text-center space-y-2">
-                <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto" />
-                <p className="text-sm text-muted-foreground">Grafik Yükleniyor...</p>
-              </div>
-            </div>
-          </WidgetCard>
-
-          {/* Quick Actions */}
-          <WidgetCard title="Hızlı İşlemler">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {quickActions.map((action, index) => (
-                <FeatureCard
-                  key={index}
-                  title={action.title}
-                  description={action.description}
-                  icon={action.icon}
-                  badge={action.badge}
-                  href={action.href}
-                  className="animate-slide-up"
-                  style={{ animationDelay: `${(index + 4) * 100}ms` }}
-                />
-              ))}
-            </div>
-          </WidgetCard>
-        </div>
-
-        {/* Right Column - Activities & Info */}
-        <div className="space-y-6">
-          {/* Recent Activities */}
-          <WidgetCard 
-            title="Son Aktiviteler"
-            action={
-              <button className="btn-ghost btn-sm">
-                <Eye className="h-4 w-4" />
-                Tümünü Gör
-              </button>
-            }
-          >
-            <div className="space-y-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        
+        {/* Recent Activities */}
+        <Card className="col-span-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Activity className="h-5 w-5" />
+              Son Aktiviteler
+            </CardTitle>
+            <CardDescription>
+              Son 24 saatteki dernek faaliyetleri
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
               {recentActivities.map((activity, index) => (
-                <NotificationCard
-                  key={activity.id}
-                  title={activity.title}
-                  message={activity.message}
-                  time={activity.time}
-                  type={activity.type}
-                  unread={activity.unread}
-                  className="animate-slide-right"
-                  style={{ animationDelay: `${(index + 8) * 100}ms` }}
-                />
+                <div key={index} className="flex items-start space-x-4 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium leading-none">{activity.title}</p>
+                    <p className="text-sm text-muted-foreground mt-1">{activity.description}</p>
+                  </div>
+                  <div className="text-xs text-muted-foreground">{activity.time}</div>
+                </div>
               ))}
             </div>
-          </WidgetCard>
+          </CardContent>
+        </Card>
 
-          {/* System Status */}
-          <WidgetCard title="Sistem Durumu">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Veritabanı</span>
-                  <span className="text-semantic-success font-medium">Online</span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-semantic-success to-semantic-success-light w-full rounded-full" />
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">API Servisleri</span>
-                  <span className="text-semantic-success font-medium">Aktif</span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-semantic-success to-semantic-success-light w-4/5 rounded-full" />
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Depolama</span>
-                  <span className="text-semantic-warning font-medium">%75</span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-semantic-warning to-semantic-warning-light w-3/4 rounded-full" />
-                </div>
-              </div>
-            </div>
-          </WidgetCard>
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Hızlı İşlemler</CardTitle>
+            <CardDescription>
+              Sık kullanılan işlemler
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <Button variant="outline" className="w-full justify-start">
+              <Users className="h-4 w-4 mr-2" />
+              Yeni Yararlanıcı
+            </Button>
+            <Button variant="outline" className="w-full justify-start">
+              <DollarSign className="h-4 w-4 mr-2" />
+              Bağış Kaydet
+            </Button>
+            <Button variant="outline" className="w-full justify-start">
+              <Heart className="h-4 w-4 mr-2" />
+              Gönüllü Ekle
+            </Button>
+            <Button variant="outline" className="w-full justify-start">
+              <BarChart3 className="h-4 w-4 mr-2" />
+              Rapor Oluştur
+            </Button>
+          </CardContent>
+        </Card>
 
-          {/* Quick Stats */}
-          <WidgetCard title="Hızlı İstatistikler">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-semantic-info/10">
-                    <MessageSquare className="h-4 w-4 text-semantic-info" />
-                  </div>
-                  <span className="text-sm text-foreground">Bekleyen Mesajlar</span>
-                </div>
-                <span className="font-semibold text-foreground">12</span>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-semantic-warning/10">
-                    <Calendar className="h-4 w-4 text-semantic-warning" />
-                  </div>
-                  <span className="text-sm text-foreground">Bugünkü Görevler</span>
-                </div>
-                <span className="font-semibold text-foreground">8</span>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-semantic-success/10">
-                    <TrendingUp className="h-4 w-4 text-semantic-success" />
-                  </div>
-                  <span className="text-sm text-foreground">Tamamlanan</span>
-                </div>
-                <span className="font-semibold text-foreground">24</span>
-              </div>
+      </div>
+
+      {/* Charts Section */}
+      <div className="grid gap-6 md:grid-cols-2">
+        
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
+              Bağış Trendi
+            </CardTitle>
+            <CardDescription>
+              Son 6 aylık bağış grafiği
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[200px] flex items-center justify-center text-muted-foreground">
+              Grafik verisi yükleniyor...
             </div>
-          </WidgetCard>
-        </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <BarChart3 className="h-5 w-5" />
+              Proje Dağılımı
+            </CardTitle>
+            <CardDescription>
+              Aktif projelerin kategori dağılımı
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[200px] flex items-center justify-center text-muted-foreground">
+              Grafik verisi yükleniyor...
+            </div>
+          </CardContent>
+        </Card>
+
       </div>
     </div>
   )
