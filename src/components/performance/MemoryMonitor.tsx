@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, memo, useCallback, useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
@@ -25,7 +25,7 @@ interface DOMInfo {
   listenerCount: number
 }
 
-export default function MemoryMonitor() {
+const MemoryMonitor = memo(function MemoryMonitor() {
   const { colors, styles, utils } = useDesignSystem()
 
   const [memoryInfo, setMemoryInfo] = useState<MemoryInfo | null>(null)
@@ -55,9 +55,9 @@ export default function MemoryMonitor() {
         clearInterval(intervalRef.current)
       }
     }
-  }, [isMonitoring])
+  }, [isMonitoring, startMonitoring, updateMemoryInfo, updateDOMInfo])
 
-  const updateMemoryInfo = () => {
+  const updateMemoryInfo = useCallback(() => {
     if ('memory' in performance) {
       const memory = (performance as any).memory
       const info: MemoryInfo = {
@@ -82,9 +82,9 @@ export default function MemoryMonitor() {
         return newHistory.slice(-100)
       })
     }
-  }
+  }, [])
 
-  const updateDOMInfo = () => {
+  const updateDOMInfo = useCallback(() => {
     try {
       const nodeCount = document.querySelectorAll('*').length
       const elementCount = document.getElementsByTagName('*').length
@@ -106,9 +106,9 @@ export default function MemoryMonitor() {
     } catch (error) {
       console.warn('DOM bilgisi alınamadı:', error)
     }
-  }
+  }, [])
 
-  const startMonitoring = () => {
+  const startMonitoring = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current)
     }
@@ -117,16 +117,16 @@ export default function MemoryMonitor() {
       updateMemoryInfo()
       updateDOMInfo()
     }, 2000) // Her 2 saniyede bir güncelle
-  }
+  }, [updateMemoryInfo, updateDOMInfo])
 
-  const stopMonitoring = () => {
+  const stopMonitoring = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current)
       intervalRef.current = undefined
     }
-  }
+  }, [])
 
-  const toggleMonitoring = () => {
+  const toggleMonitoring = useCallback(() => {
     setIsMonitoring(prev => {
       const newState = !prev
       if (newState) {
@@ -136,9 +136,9 @@ export default function MemoryMonitor() {
       }
       return newState
     })
-  }
+  }, [startMonitoring, stopMonitoring])
 
-  const forceGarbageCollection = async () => {
+  const forceGarbageCollection = useCallback(async () => {
     if ('gc' in window) {
       // Chrome DevTools'ta gc() fonksiyonu varsa
       try {
@@ -161,27 +161,27 @@ export default function MemoryMonitor() {
       
       setTimeout(updateMemoryInfo, 500)
     }
-  }
+  }, [updateMemoryInfo])
 
-  const clearHistory = () => {
+  const clearHistory = useCallback(() => {
     setMemoryHistory([])
-  }
+  }, [])
 
-  const formatBytes = (bytes: number) => {
+  const formatBytes = useCallback((bytes: number) => {
     if (bytes === 0) return '0 B'
     const k = 1024
     const sizes = ['B', 'KB', 'MB', 'GB']
     const i = Math.floor(Math.log(bytes) / Math.log(k))
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-  }
+  }, [])
 
-  const getMemoryStatus = (percentage: number) => {
+  const getMemoryStatus = useCallback((percentage: number) => {
     if (percentage > 80) return { status: 'critical', color: 'text-red-600', bg: 'bg-red-100' }
     if (percentage > 60) return { status: 'warning', color: 'text-yellow-600', bg: 'bg-yellow-100' }
     return { status: 'good', color: 'text-green-600', bg: 'bg-green-100' }
-  }
+  }, [])
 
-  const getMemoryTrend = () => {
+  const memoryTrend = useMemo(() => {
     if (memoryHistory.length < 10) return null
     
     const recent = memoryHistory.slice(-10)
@@ -196,7 +196,7 @@ export default function MemoryMonitor() {
       percentage: Math.abs(percentage),
       trend,
     }
-  }
+  }, [memoryHistory])
 
   if (!isSupported) {
     return (
@@ -291,16 +291,16 @@ export default function MemoryMonitor() {
                 <div className="text-sm text-gray-600">
                   Limit: {formatBytes(memoryInfo.limit)}
                 </div>
-                {trend && (
+                {memoryTrend && (
                   <div className={`flex items-center gap-1 text-sm ${
-                    trend.direction === 'up' ? 'text-red-600' : 'text-green-600'
+                    memoryTrend.direction === 'up' ? 'text-red-600' : 'text-green-600'
                   }`}>
-                    {trend.direction === 'up' ? (
+                    {memoryTrend.direction === 'up' ? (
                       <TrendingUp className="h-4 w-4" />
                     ) : (
                       <TrendingDown className="h-4 w-4" />
                     )}
-                    %{trend.percentage.toFixed(1)} trend
+                    %{memoryTrend.percentage.toFixed(1)} trend
                   </div>
                 )}
               </div>
@@ -435,4 +435,8 @@ export default function MemoryMonitor() {
       )}
     </div>
   )
-}
+})
+
+MemoryMonitor.displayName = 'MemoryMonitor'
+
+export default MemoryMonitor

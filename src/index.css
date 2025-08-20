@@ -1,10 +1,12 @@
 /* ========================================
- * OPTIMIZED MAIN STYLES - DERNEK YÖNETİM PANELİ
- * Unified and optimized CSS system
+ * ENHANCED MAIN STYLES - DERNEK YÖNETİM PANELİ
+ * Modern and comprehensive design system
  * ======================================== */
 
-/* Import optimized design system */
-@import './styles/optimized-system.css';
+/* Import enhanced design system */
+@import './styles/enhanced-design-system.css';
+@import './styles/enhanced-animations.css';
+@import './styles/responsive-utilities.css';
 
 /* Tailwind CSS */
 @tailwind base;

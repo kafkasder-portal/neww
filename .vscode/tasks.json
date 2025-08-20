@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "cleanup",
+			"problemMatcher": [],
+			"label": "npm: cleanup",
+			"detail": "powershell -ExecutionPolicy Bypass -File \"./scripts/fix-terminal-hanging.ps1\"",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

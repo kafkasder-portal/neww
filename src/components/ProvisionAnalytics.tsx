@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, memo } from 'react'
 import {
   Bar,
   BarChart,
@@ -20,7 +20,7 @@ interface ProvisionAnalyticsProps {
 
 const COLORS = ['COLORS.chart[1]', 'COLORS.chart[2]', 'COLORS.chart[3]', 'COLORS.chart[4]', 'COLORS.chart[5]']
 
-export function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
+export const ProvisionAnalytics = memo(function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
   const analytics = useMemo(() => {
     const totalRequests = requests.length
     const pendingRequests = requests.filter(r => ['taslak', 'gönderildi', 'işlemde'].includes(r.status)).length
@@ -178,4 +178,6 @@ export function ProvisionAnalytics({ requests }: ProvisionAnalyticsProps) {
       </div>
     </div>
   )
-}
+})
+
+ProvisionAnalytics.displayName = 'ProvisionAnalytics'
