@@ -26,43 +26,22 @@ const queryClient = new QueryClient({
   },
 })
 
-// Premium Layout Component with Enhanced AppSidebar
-function PremiumLayout({ children }: { children: React.ReactNode }) {
-  const { session, user } = useAuthStore()
-
-  // Don't show sidebar on login page
-  const isLoginPage = window.location.pathname === '/login'
-
-  if (isLoginPage || !session || !user) {
-    return <>{children}</>
-  }
-
+// Simple layout wrapper without sidebar (sidebar is handled in routes)
+function SimpleLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-      <div className="flex h-screen bg-gradient-to-br from-background via-background to-muted/20">
-        {/* Enhanced AppSidebar */}
-        <AppSidebar />
-
-        {/* Main Content */}
-        <SidebarInset className="flex-1 overflow-hidden">
-          <div className="h-full overflow-y-auto">
-            <div className="min-h-full">
-              {/* Premium Background Pattern */}
-              <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-primary-500/5 via-transparent to-brand-accent-500/5" />
-                <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-brand-primary-400/10 to-transparent rounded-full blur-3xl" />
-                <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-tl from-brand-accent-400/10 to-transparent rounded-full blur-3xl" />
-              </div>
-
-              {/* Content */}
-              <div className="relative">
-                {children}
-              </div>
-            </div>
-          </div>
-        </SidebarInset>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      {/* Premium Background Pattern */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-primary-500/5 via-transparent to-brand-accent-500/5" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-brand-primary-400/10 to-transparent rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-tl from-brand-accent-400/10 to-transparent rounded-full blur-3xl" />
       </div>
-    </SidebarProvider>
+
+      {/* Content */}
+      <div className="relative">
+        {children}
+      </div>
+    </div>
   )
 }
 
