@@ -359,28 +359,28 @@ const AppSidebar = memo(function AppSidebar() {
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="mb-2">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Hızlı Eylemler</span>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">Hızlı Eylemler</span>
                       </div>
                       <div className="grid grid-cols-2 gap-2">
-                        <Button variant="ghost" size="sm" className="h-9 justify-start gap-2 hover:bg-primary/5 text-muted-foreground hover:text-primary">
+                        <Button variant="ghost" size="sm" className="h-10 justify-start gap-2 hover:bg-white/10 text-sidebar-text hover:text-white rounded-xl">
                           <Search className="h-4 w-4" />
                           <span className="text-xs">Arama</span>
                         </Button>
-                        
-                        <Button variant="ghost" size="sm" className="h-9 justify-start gap-2 hover:bg-primary/5 text-muted-foreground hover:text-primary">
+
+                        <Button variant="ghost" size="sm" className="h-10 justify-start gap-2 hover:bg-white/10 text-sidebar-text hover:text-white rounded-xl">
                           <Sun className="h-4 w-4" />
                           <span className="text-xs">Tema</span>
                         </Button>
-                        
-                        <Button variant="ghost" size="sm" className="h-9 justify-start gap-2 relative hover:bg-primary/5 text-muted-foreground hover:text-primary">
+
+                        <Button variant="ghost" size="sm" className="h-10 justify-start gap-2 relative hover:bg-white/10 text-sidebar-text hover:text-white rounded-xl">
                           <Bell className="h-4 w-4" />
-                          <span className="absolute top-1 left-6 h-2 w-2 bg-red-500 rounded-full animate-pulse" />
+                          <span className="absolute top-1 left-6 h-2 w-2 bg-semantic-danger rounded-full animate-glow" />
                           <span className="text-xs">Bildirim</span>
                         </Button>
-                        
-                        <Button variant="ghost" size="sm" className="h-9 justify-start gap-2 hover:bg-primary/5 text-muted-foreground hover:text-primary">
+
+                        <Button variant="ghost" size="sm" className="h-10 justify-start gap-2 hover:bg-white/10 text-sidebar-text hover:text-white rounded-xl">
                           <HelpCircle className="h-4 w-4" />
                           <span className="text-xs">Yardım</span>
                         </Button>
@@ -388,21 +388,21 @@ const AppSidebar = memo(function AppSidebar() {
                     </div>
 
                     {/* Profile Actions */}
-                    <div className="border-t border-border pt-3 space-y-1">
-                      <Button variant="ghost" size="sm" className="w-full justify-start gap-2 hover:bg-secondary/5">
+                    <div className="border-t border-white/20 pt-4 space-y-2">
+                      <Button variant="ghost" size="sm" className="w-full justify-start gap-3 hover:bg-white/10 text-sidebar-text hover:text-white rounded-xl p-3">
                         <User className="h-4 w-4" />
                         Profil Ayarları
                       </Button>
-                      <Button variant="ghost" size="sm" className="w-full justify-start gap-2 hover:bg-secondary/5">
+                      <Button variant="ghost" size="sm" className="w-full justify-start gap-3 hover:bg-white/10 text-sidebar-text hover:text-white rounded-xl p-3">
                         <Settings className="h-4 w-4" />
                         Hesap Ayarları
                       </Button>
 
-                      <div className="border-t border-border pt-2 mt-2">
+                      <div className="border-t border-white/20 pt-3 mt-3">
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="w-full justify-start gap-2 text-red-600 hover:text-red-600 hover:bg-red-50"
+                          className="w-full justify-start gap-3 text-semantic-danger hover:text-semantic-danger hover:bg-semantic-danger/10 rounded-xl p-3"
                         >
                           <LogOut className="h-4 w-4" />
                           Çıkış Yap
