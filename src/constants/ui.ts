@@ -7,8 +7,7 @@
  * @deprecated Use design-system.ts instead
  */
 
-import { COLORS, TYPOGRAPHY, SPACING, BORDER_RADIUS, SHADOWS, ANIMATIONS, COMPONENTS } from './design-system';
-import { useDesignSystem } from '@/hooks/useDesignSystem'
+import { ANIMATIONS, BORDER_RADIUS, SHADOWS, TYPOGRAPHY } from './design-system';
 
 // Legacy exports for backward compatibility
 export const COLORS_LEGACY = {

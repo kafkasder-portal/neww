@@ -1,4 +1,5 @@
 import { SavedFilter } from '../components/AdvancedSearchModal'
+import { FilterState } from '../utils/filterManager'
 
 export interface SavedFiltersConfig {
   storageKey: string
@@ -28,7 +29,7 @@ export class SavedFiltersManager {
       enableCloud: false,
       ...config
     }
-    this.storageKey = config.userId 
+    this.storageKey = config.userId
       ? `${config.storageKey}_${config.userId}`
       : config.storageKey
   }
@@ -36,12 +37,12 @@ export class SavedFiltersManager {
   // Save a new filter
   async saveFilter(filter: Omit<SavedFilter, 'id' | 'createdAt' | 'updatedAt' | 'usageCount' | 'lastUsed'>): Promise<SavedFilter> {
     const savedFilters = await this.getSavedFilters()
-    
+
     // Check if we've reached the maximum limit
     if (savedFilters.length >= (this.config.maxSavedFilters || 50)) {
       throw new Error(`Maksimum ${this.config.maxSavedFilters} adet filtre kaydedebilirsiniz`)
     }
-    
+
     // Check for duplicate names
     if (savedFilters.some(f => f.name === filter.name && f.pageType === filter.pageType)) {
       throw new Error('Bu isimde bir filtre zaten mevcut')
@@ -58,7 +59,7 @@ export class SavedFiltersManager {
 
     const updatedFilters = [...savedFilters, newFilter]
     await this.storeSavedFilters(updatedFilters)
-    
+
     return newFilter
   }
 
@@ -67,12 +68,12 @@ export class SavedFiltersManager {
     try {
       const stored = localStorage.getItem(this.storageKey)
       const filters: SavedFilter[] = stored ? JSON.parse(stored) : []
-      
+
       // Filter by page type if specified
       if (pageType) {
         return filters.filter(filter => filter.pageType === pageType)
       }
-      
+
       return filters
     } catch (error) {
       console.error('Error loading saved filters:', error)
@@ -90,19 +91,19 @@ export class SavedFiltersManager {
   async updateSavedFilter(id: string, updates: Partial<SavedFilter>): Promise<SavedFilter | null> {
     const filters = await this.getSavedFilters()
     const filterIndex = filters.findIndex(filter => filter.id === id)
-    
+
     if (filterIndex === -1) {
       throw new Error('Filtre bulunamadı')
     }
-    
+
     // Check for duplicate names if name is being updated
     if (updates.name && updates.name !== filters[filterIndex].name) {
-      const duplicateExists = filters.some((f, index) => 
-        index !== filterIndex && 
-        f.name === updates.name && 
+      const duplicateExists = filters.some((f, index) =>
+        index !== filterIndex &&
+        f.name === updates.name &&
         f.pageType === filters[filterIndex].pageType
       )
-      
+
       if (duplicateExists) {
         throw new Error('Bu isimde bir filtre zaten mevcut')
       }
@@ -116,7 +117,7 @@ export class SavedFiltersManager {
 
     filters[filterIndex] = updatedFilter
     await this.storeSavedFilters(filters)
-    
+
     return updatedFilter
   }
 
@@ -124,11 +125,11 @@ export class SavedFiltersManager {
   async deleteSavedFilter(id: string): Promise<boolean> {
     const filters = await this.getSavedFilters()
     const filteredFilters = filters.filter(filter => filter.id !== id)
-    
+
     if (filteredFilters.length === filters.length) {
       return false // Filter not found
     }
-    
+
     await this.storeSavedFilters(filteredFilters)
     return true
   }
@@ -136,14 +137,14 @@ export class SavedFiltersManager {
   // Load and use a saved filter (increments usage count)
   async loadSavedFilter(id: string): Promise<SavedFilter | null> {
     const filter = await this.getSavedFilter(id)
-    
+
     if (!filter) {
       return null
     }
 
     // Update usage statistics
     await this.updateSavedFilter(id, {
-      usageCount: filter.usageCount + 1,
+      usageCount: (filter.usageCount || 0) + 1,
       lastUsed: new Date().toISOString()
     })
 
@@ -153,20 +154,24 @@ export class SavedFiltersManager {
   // Get recently used filters
   async getRecentFilters(pageType?: string, limit: number = 5): Promise<SavedFilter[]> {
     const filters = await this.getSavedFilters(pageType)
-    
+
     return filters
-      .filter(filter => filter.usageCount > 0)
-      .sort((a, b) => new Date(b.lastUsed).getTime() - new Date(a.lastUsed).getTime())
+      .filter(filter => (filter.usageCount || 0) > 0)
+      .sort((a, b) => {
+        const aLastUsed = a.lastUsed ? new Date(a.lastUsed).getTime() : 0
+        const bLastUsed = b.lastUsed ? new Date(b.lastUsed).getTime() : 0
+        return bLastUsed - aLastUsed
+      })
       .slice(0, limit)
   }
 
   // Get most used filters
   async getPopularFilters(pageType?: string, limit: number = 5): Promise<SavedFilter[]> {
     const filters = await this.getSavedFilters(pageType)
-    
+
     return filters
-      .filter(filter => filter.usageCount > 0)
-      .sort((a, b) => b.usageCount - a.usageCount)
+      .filter(filter => (filter.usageCount || 0) > 0)
+      .sort((a, b) => (b.usageCount || 0) - (a.usageCount || 0))
       .slice(0, limit)
   }
 
@@ -174,8 +179,8 @@ export class SavedFiltersManager {
   async searchSavedFilters(query: string, pageType?: string): Promise<SavedFilter[]> {
     const filters = await this.getSavedFilters(pageType)
     const lowercaseQuery = query.toLowerCase()
-    
-    return filters.filter(filter => 
+
+    return filters.filter(filter =>
       filter.name.toLowerCase().includes(lowercaseQuery) ||
       (filter.description && filter.description.toLowerCase().includes(lowercaseQuery))
     )
@@ -191,14 +196,14 @@ export class SavedFiltersManager {
   async importSavedFilters(jsonData: string, overwrite: boolean = false): Promise<number> {
     try {
       const importedFilters: SavedFilter[] = JSON.parse(jsonData)
-      
+
       if (!Array.isArray(importedFilters)) {
         throw new Error('Geçersiz veri formatı')
       }
 
       const existingFilters = await this.getSavedFilters()
       let newFilters: SavedFilter[]
-      
+
       if (overwrite) {
         newFilters = importedFilters.map(filter => ({
           ...filter,
@@ -212,11 +217,11 @@ export class SavedFiltersManager {
         const existingNames = new Set(
           existingFilters.map(f => `${f.name}_${f.pageType}`)
         )
-        
-        const uniqueImportedFilters = importedFilters.filter(filter => 
+
+        const uniqueImportedFilters = importedFilters.filter(filter =>
           !existingNames.has(`${filter.name}_${filter.pageType}`)
         )
-        
+
         newFilters = [
           ...existingFilters,
           ...uniqueImportedFilters.map(filter => ({
@@ -228,7 +233,7 @@ export class SavedFiltersManager {
           }))
         ]
       }
-      
+
       await this.storeSavedFilters(newFilters)
       return overwrite ? importedFilters.length : newFilters.length - existingFilters.length
     } catch (error) {
@@ -242,13 +247,13 @@ export class SavedFiltersManager {
       const allFilters = await this.getSavedFilters()
       const filteredFilters = allFilters.filter(filter => filter.pageType !== pageType)
       const removedCount = allFilters.length - filteredFilters.length
-      
+
       await this.storeSavedFilters(filteredFilters)
       return removedCount
     } else {
       const filters = await this.getSavedFilters()
       const count = filters.length
-      
+
       localStorage.removeItem(this.storageKey)
       return count
     }
@@ -264,23 +269,26 @@ export class SavedFiltersManager {
   }> {
     const filters = await this.getSavedFilters()
     const totalSize = JSON.stringify(filters).length
-    
+
     const filtersByPage: Record<string, number> = {}
     let oldestFilter: string | undefined
     let newestFilter: string | undefined
-    
+
     filters.forEach(filter => {
-      filtersByPage[filter.pageType] = (filtersByPage[filter.pageType] || 0) + 1
-      
-      if (!oldestFilter || filter.createdAt < oldestFilter) {
-        oldestFilter = filter.createdAt
-      }
-      
-      if (!newestFilter || filter.createdAt > newestFilter) {
-        newestFilter = filter.createdAt
+      const pageType = filter.pageType || 'unknown'
+      filtersByPage[pageType] = (filtersByPage[pageType] || 0) + 1
+
+      if (filter.createdAt) {
+        if (!oldestFilter || filter.createdAt < oldestFilter) {
+          oldestFilter = filter.createdAt
+        }
+
+        if (!newestFilter || filter.createdAt > newestFilter) {
+          newestFilter = filter.createdAt
+        }
       }
     })
-    
+
     return {
       totalFilters: filters.length,
       totalSize,
@@ -446,7 +454,7 @@ export const getDonationsQuickFilters = (): SavedFilter[] => [
     id: 'large_donations',
     name: 'Büyük Bağışlar',
     description: '5.000 TL üzeri bağışlar',
-    filters: { 
+    filters: {
       donationType: 'monetary',
       amountRange: { min: 5000 }
     },
@@ -474,24 +482,24 @@ export const getDonationsQuickFilters = (): SavedFilter[] => [
 // React hook for saved filters management
 export const useSavedFilters = (config: SavedFiltersConfig) => {
   const manager = new SavedFiltersManager(config)
-  
+
   return {
-    saveFilter: (filter: Omit<SavedFilter, 'id' | 'createdAt' | 'updatedAt' | 'usageCount' | 'lastUsed'>) => 
+    saveFilter: (filter: Omit<SavedFilter, 'id' | 'createdAt' | 'updatedAt' | 'usageCount' | 'lastUsed'>) =>
       manager.saveFilter(filter),
     getSavedFilters: (pageType?: string) => manager.getSavedFilters(pageType),
     getSavedFilter: (id: string) => manager.getSavedFilter(id),
-    updateSavedFilter: (id: string, updates: Partial<SavedFilter>) => 
+    updateSavedFilter: (id: string, updates: Partial<SavedFilter>) =>
       manager.updateSavedFilter(id, updates),
     deleteSavedFilter: (id: string) => manager.deleteSavedFilter(id),
     loadSavedFilter: (id: string) => manager.loadSavedFilter(id),
-    getRecentFilters: (pageType?: string, limit?: number) => 
+    getRecentFilters: (pageType?: string, limit?: number) =>
       manager.getRecentFilters(pageType, limit),
-    getPopularFilters: (pageType?: string, limit?: number) => 
+    getPopularFilters: (pageType?: string, limit?: number) =>
       manager.getPopularFilters(pageType, limit),
-    searchSavedFilters: (query: string, pageType?: string) => 
+    searchSavedFilters: (query: string, pageType?: string) =>
       manager.searchSavedFilters(query, pageType),
     exportSavedFilters: (pageType?: string) => manager.exportSavedFilters(pageType),
-    importSavedFilters: (jsonData: string, overwrite?: boolean) => 
+    importSavedFilters: (jsonData: string, overwrite?: boolean) =>
       manager.importSavedFilters(jsonData, overwrite),
     clearAllSavedFilters: (pageType?: string) => manager.clearAllSavedFilters(pageType),
     getStorageStats: () => manager.getStorageStats()

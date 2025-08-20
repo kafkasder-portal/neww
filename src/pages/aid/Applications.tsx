@@ -1,35 +1,35 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
-import { 
-  Plus, 
-  Search, 
-  Download, 
-  Eye, 
-  Edit, 
-  Check, 
-  X, 
-  Clock,
-  FileSpreadsheet,
-  FileText,
-  Filter
-} from 'lucide-react'
-import { supabase } from '@lib/supabase'
-import { exportToCsv } from '@lib/exportToCsv'
-import { exportApplicationsToExcel } from '@utils/excelExport'
-import { exportApplicationsToPDF } from '@utils/pdfExport'
-import { DataTable } from '@components/DataTable'
+import AdvancedSearchModal, { SavedFilter } from '@components/AdvancedSearchModal'
 import type { Column } from '@components/DataTable'
+import { DataTable } from '@components/DataTable'
 import { Modal } from '@components/Modal'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import toast from 'react-hot-toast'
-import { getErrorMessage, createOperationErrorMessage, logErrorSafely } from '../../utils/errorMessageUtils'
-import { isSupabaseConfigured } from '../../utils/supabaseUtils'
+import { exportToCsv } from '@lib/exportToCsv'
+import { supabase } from '@lib/supabase'
 import {
-  createApplicationsFilterConfig,
   applicationsURLConfig,
+  createApplicationsFilterConfig,
   getApplicationsQuickFilters
 } from '@utils/applicationsFilterConfig'
+import { exportApplicationsToExcel } from '@utils/excelExport'
+import { exportApplicationsToPDF } from '@utils/pdfExport'
+import {
+  Check,
+  Clock,
+  Download,
+  Edit,
+  Eye,
+  FileSpreadsheet,
+  FileText,
+  Filter,
+  Plus,
+  Search,
+  X
+} from 'lucide-react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { z } from 'zod'
+import { getErrorMessage, logErrorSafely } from '../../utils/errorMessageUtils'
 
 interface Application {
   id: string
@@ -83,12 +83,12 @@ export default function Applications() {
   const [editingApplication, setEditingApplication] = useState<Application | null>(null)
   const [showEvaluationModal, setShowEvaluationModal] = useState(false)
   const [evaluatingApplication, setEvaluatingApplication] = useState<Application | null>(null)
-  
+
   // Advanced search states
   const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false)
   const [activeFilters, setActiveFilters] = useState<Record<string, any>>({})
   const [savedFilters, setSavedFilters] = useState<SavedFilter[]>([])
-  
+
   // Filter configurations
   const filterConfig = useMemo(() => createApplicationsFilterConfig(), [])
   const urlConfig = useMemo(() => applicationsURLConfig, [])
@@ -254,10 +254,10 @@ export default function Applications() {
 
   const filteredApplications = useMemo(() => {
     return applications.filter(app => {
-      const matchesSearch = searchQuery === '' || 
+      const matchesSearch = searchQuery === '' ||
         app.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
         `${app.beneficiaries?.name} ${app.beneficiaries?.surname}`.toLowerCase().includes(searchQuery.toLowerCase())
-      
+
       const matchesStatus = statusFilter === 'all' || app.status === statusFilter
       const matchesPriority = priorityFilter === 'all' || app.priority === priorityFilter
       const matchesAidType = aidTypeFilter === 'all' || app.aid_type === aidTypeFilter
@@ -311,7 +311,7 @@ export default function Applications() {
         .eq('id', applicationId)
 
       if (error) throw error
-      
+
       toast.success(`Başvuru ${status === 'approved' ? 'onaylandı' : 'reddedildi'}`)
       setShowEvaluationModal(false)
       setEvaluatingApplication(null)
@@ -332,10 +332,11 @@ export default function Applications() {
     setActiveFilters({})
   }
 
-  const handleSaveFilter = (filter: Omit<SavedFilter, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const handleSaveFilter = (name: string, filters: Record<string, any>) => {
     const newFilter: SavedFilter = {
-      ...filter,
       id: Date.now().toString(),
+      name,
+      filters,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     }
@@ -532,11 +533,10 @@ export default function Applications() {
           />
           <button
             onClick={() => setAdvancedSearchOpen(true)}
-            className={`px-4 py-2 rounded-md flex items-center gap-2 transition-colors ${
-              Object.keys(activeFilters).length > 0
-                ? 'bg-orange-600 text-white hover:bg-orange-700'
-                : 'bg-gray-600 text-white hover:bg-gray-700'
-            }`}
+            className={`px-4 py-2 rounded-md flex items-center gap-2 transition-colors ${Object.keys(activeFilters).length > 0
+              ? 'bg-orange-600 text-white hover:bg-orange-700'
+              : 'bg-gray-600 text-white hover:bg-gray-700'
+              }`}
           >
             <Filter className="w-4 h-4" />
             Gelişmiş Filtre
@@ -556,7 +556,7 @@ export default function Applications() {
             </button>
           )}
         </div>
-        
+
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
@@ -673,7 +673,7 @@ export default function Applications() {
             ×
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">İhtiyaç Sahibi *</label>
@@ -779,7 +779,7 @@ export default function Applications() {
             ��
           </button>
         </div>
-        
+
         {evaluatingApplication && (
           <div className="p-4 space-y-4">
             <div className="rounded border p-4 bg-gray-50">

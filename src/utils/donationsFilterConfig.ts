@@ -1,5 +1,5 @@
 import { SavedFilter } from '../components/AdvancedSearchModal'
-import type { FilterDependency, FilterGroup, FilterValidationRule } from '../utils/filterManager'
+import type { FilterDependency, FilterField, FilterGroup, FilterValidationRule } from '../utils/filterManager'
 
 // Import types from other config files
 export interface URLConfig {

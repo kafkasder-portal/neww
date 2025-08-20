@@ -1,6 +1,6 @@
 import { SavedFilter } from '../components/AdvancedSearchModal'
-import type { FilterDependency, FilterGroup, FilterValidationRule } from '../utils/filterManager'
-import type { URLConfig, SavedFiltersConfig } from './donationsFilterConfig'
+import type { FilterDependency, FilterField, FilterGroup, FilterValidationRule } from '../utils/filterManager'
+import type { SavedFiltersConfig, URLConfig } from './donationsFilterConfig'
 
 export interface QuickFilterPreset {
   key: string

@@ -1,23 +1,23 @@
-import { useState } from 'react'
-import { 
-  Info, 
-  Settings, 
-  Users, 
-  MessageSquare, 
-  Mail, 
-  Smartphone, 
-  BarChart3, 
-  Shield, 
-  Clock, 
-  CheckCircle,
-  AlertTriangle,
-  HelpCircle,
-  ExternalLink,
-  Download,
-  RefreshCw
-} from 'lucide-react'
 import { Modal } from '@components/Modal'
-import { Button } from '@components/ui/button-enhanced'
+import { Button } from '@components/ui/button'
+import {
+  AlertTriangle,
+  BarChart3,
+  CheckCircle,
+  Clock,
+  Download,
+  ExternalLink,
+  HelpCircle,
+  Info,
+  Mail,
+  MessageSquare,
+  RefreshCw,
+  Settings,
+  Shield,
+  Smartphone,
+  Users
+} from 'lucide-react'
+import { useState } from 'react'
 
 interface ModuleFeature {
   id: string
@@ -195,18 +195,18 @@ export default function ModuleInfo() {
         </div>
         <div className="flex items-center gap-2">
           <Button
-          onClick={() => setIsSystemModalOpen(true)}
-          variant="info"
-          icon={<Info className="h-4 w-4" />}
-        >
-          Sistem Bilgileri
-        </Button>
-        <Button
-          variant="success"
-          icon={<Download className="h-4 w-4" />}
-        >
-          Sistem Raporu
-        </Button>
+            onClick={() => setIsSystemModalOpen(true)}
+            variant="soft-primary"
+            icon={<Info className="h-4 w-4" />}
+          >
+            Sistem Bilgileri
+          </Button>
+          <Button
+            variant="success"
+            icon={<Download className="h-4 w-4" />}
+          >
+            Sistem Raporu
+          </Button>
         </div>
       </div>
 
@@ -219,7 +219,7 @@ export default function ModuleInfo() {
             Yenile
           </button>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-gray-50 p-4 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
@@ -229,7 +229,7 @@ export default function ModuleInfo() {
             <p className="text-2xl font-bold text-gray-900">{systemInfo.version}</p>
             <p className="text-sm text-gray-600">Son güncelleme: {systemInfo.buildDate}</p>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <Clock className="h-5 w-5 text-green-500" />
@@ -238,7 +238,7 @@ export default function ModuleInfo() {
             <p className="text-lg font-bold text-gray-900">{systemInfo.uptime}</p>
             <p className="text-sm text-gray-600">Kesintisiz hizmet</p>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <MessageSquare className="h-5 w-5 text-purple-500" />
@@ -247,7 +247,7 @@ export default function ModuleInfo() {
             <p className="text-2xl font-bold text-gray-900">{systemInfo.totalMessages.toLocaleString()}</p>
             <p className="text-sm text-gray-600">Gönderilen mesaj sayısı</p>
           </div>
-          
+
           <div className="bg-gray-50 p-4 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <Users className="h-5 w-5 text-orange-500" />
@@ -257,7 +257,7 @@ export default function ModuleInfo() {
             <p className="text-sm text-gray-600">Kayıtlı kullanıcı sayısı</p>
           </div>
         </div>
-        
+
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-700">Sistem Sağlığı:</span>
@@ -280,7 +280,7 @@ export default function ModuleInfo() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg border">
           <div className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-yellow-500" />
@@ -290,7 +290,7 @@ export default function ModuleInfo() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white p-4 rounded-lg border">
           <div className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-red-500" />
@@ -308,7 +308,7 @@ export default function ModuleInfo() {
           <h2 className="text-lg font-semibold text-gray-900">Sistem Modülleri</h2>
           <p className="text-gray-600 mt-1">Mevcut modüller ve durumları</p>
         </div>
-        
+
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {moduleFeatures.map((feature) => (
@@ -332,11 +332,11 @@ export default function ModuleInfo() {
                     {getStatusBadge(feature.status)}
                   </div>
                 </div>
-                
+
                 <p className="text-sm text-gray-600 mb-3 line-clamp-2">
                   {feature.description}
                 </p>
-                
+
                 <div className="flex items-center justify-between text-xs text-gray-500">
                   <span>Son güncelleme: {feature.lastUpdate}</span>
                   <ExternalLink className="h-3 w-3" />
@@ -367,7 +367,7 @@ export default function ModuleInfo() {
                 </div>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Sürüm</label>
@@ -378,12 +378,12 @@ export default function ModuleInfo() {
                 <p className="text-sm text-gray-900">{selectedFeature.lastUpdate}</p>
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Açıklama</label>
               <p className="text-sm text-gray-900 leading-relaxed">{selectedFeature.description}</p>
             </div>
-            
+
             {selectedFeature.status === 'maintenance' && (
               <div className="bg-yellow-50 p-3 rounded border border-yellow-200">
                 <div className="flex items-center gap-2">
@@ -395,7 +395,7 @@ export default function ModuleInfo() {
                 </p>
               </div>
             )}
-            
+
             {selectedFeature.status === 'inactive' && (
               <div className="bg-red-50 p-3 rounded border border-red-200">
                 <div className="flex items-center gap-2">
@@ -407,7 +407,7 @@ export default function ModuleInfo() {
                 </p>
               </div>
             )}
-            
+
             <div className="flex justify-end gap-2 pt-4">
               {selectedFeature.status === 'active' && (
                 <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
@@ -454,7 +454,7 @@ export default function ModuleInfo() {
               </div>
             </div>
           </div>
-          
+
           {/* Kullanım İstatistikleri */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Kullanım İstatistikleri</h3>
@@ -469,7 +469,7 @@ export default function ModuleInfo() {
               </div>
             </div>
           </div>
-          
+
           {/* Sistem Sağlığı */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Sistem Sağlığı</h3>
@@ -484,23 +484,23 @@ export default function ModuleInfo() {
                   <span className="font-medium">%23</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{width: '23%'}}></div>
+                  <div className="bg-green-500 h-2 rounded-full" style={{ width: '23%' }}></div>
                 </div>
-                
+
                 <div className="flex justify-between text-sm">
                   <span>Bellek Kullanımı</span>
                   <span className="font-medium">%67</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-yellow-500 h-2 rounded-full" style={{width: '67%'}}></div>
+                  <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '67%' }}></div>
                 </div>
-                
+
                 <div className="flex justify-between text-sm">
                   <span>Disk Kullanımı</span>
                   <span className="font-medium">%45</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-blue-500 h-2 rounded-full" style={{width: '45%'}}></div>
+                  <div className="bg-blue-500 h-2 rounded-full" style={{ width: '45%' }}></div>
                 </div>
               </div>
             </div>

@@ -7,20 +7,22 @@ interface TotalDonationsCardProps {
   currency?: string
   change?: number
   period?: string
+  title?: string
 }
 
 export const TotalDonationsCard: React.FC<TotalDonationsCardProps> = ({
   total,
   currency = '₺',
   change,
-  period = 'bu ay'
+  period = 'bu ay',
+  title = 'Toplam Bağış'
 }) => {
   const isPositive = change && change > 0
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Toplam Bağış</CardTitle>
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <TrendingUp className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
@@ -41,17 +43,19 @@ interface MonthlyDonationsCardProps {
   amount: number
   currency?: string
   month?: string
+  title?: string
 }
 
 export const MonthlyDonationsCard: React.FC<MonthlyDonationsCardProps> = ({
   amount,
   currency = '₺',
-  month = 'Bu ay'
+  month = 'Bu ay',
+  title = 'Aylık Bağış'
 }) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Aylık Bağış</CardTitle>
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <Calendar className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
@@ -68,19 +72,21 @@ interface DonorCountCardProps {
   count: number
   change?: number
   period?: string
+  title?: string
 }
 
 export const DonorCountCard: React.FC<DonorCountCardProps> = ({
   count,
   change,
-  period = 'bu ay'
+  period = 'bu ay',
+  title = 'Bağışçı Sayısı'
 }) => {
   const isPositive = change && change > 0
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Bağışçı Sayısı</CardTitle>
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <Users className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
@@ -100,20 +106,22 @@ interface OnlineDonationsCardProps {
   currency?: string
   change?: number
   period?: string
+  title?: string
 }
 
 export const OnlineDonationsCard: React.FC<OnlineDonationsCardProps> = ({
   amount,
   currency = '₺',
   change,
-  period = 'bu ay'
+  period = 'bu ay',
+  title = 'Online Bağış'
 }) => {
   const isPositive = change && change > 0
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Online Bağış</CardTitle>
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <TrendingUp className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>

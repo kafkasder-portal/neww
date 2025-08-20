@@ -1,7 +1,8 @@
-import { useState } from 'react'
-import { DataTable } from '@components/DataTable'
+import { DonorCountCard, MonthlyDonationsCard, TotalDonationsCard } from '@/components/DonationCard'
 import type { Column } from '@components/DataTable'
-import { Plus, History } from 'lucide-react'
+import { DataTable } from '@components/DataTable'
+import { History, Plus } from 'lucide-react'
+import { useState } from 'react'
 
 interface VaultTransaction {
   id: string
@@ -48,9 +49,8 @@ export default function DonationVault() {
       key: 'type',
       header: 'İşlem Türü',
       render: (_, row: VaultTransaction) => (
-        <span className={`px-2 py-1 rounded text-xs ${
-          row.type === 'giriş' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-        }`}>
+        <span className={`px-2 py-1 rounded text-xs ${row.type === 'giriş' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+          }`}>
           {row.type}
         </span>
       )
@@ -75,31 +75,24 @@ export default function DonationVault() {
     <div className="space-y-6">
       <div className="bg-white p-6 rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-4">Bağış Kabul Veznesi</h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <TotalDonationsCard 
+          <TotalDonationsCard
             title="Mevcut Bakiye"
-            value={currentBalance} 
+            total={currentBalance}
             change={12}
-            changeType="increase"
             period="Mevcut Bakiye"
-            trend={[45, 52, 48, 61, 55, 67, 73]}
           />
-          <MonthlyDonationsCard 
+          <MonthlyDonationsCard
             title="Günlük Giriş"
-            value={5000} 
-            change={8}
-            changeType="increase"
-            period="Günlük Giriş"
-            trend={[32, 38, 35, 42, 39, 45, 48]}
+            amount={5000}
+            month="Günlük Giriş"
           />
-          <DonorCountCard 
+          <DonorCountCard
             title="Günlük Çıkış"
-            value={2000} 
+            count={2000}
             change={5}
-            changeType="decrease"
             period="Günlük Çıkış"
-            trend={[12, 15, 13, 18, 16, 21, 24]}
           />
         </div>
 
@@ -114,9 +107,9 @@ export default function DonationVault() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">İşlem Türü</label>
-              <select 
+              <select
                 value={newTransaction.type}
-                onChange={(e) => setNewTransaction({...newTransaction, type: e.target.value as 'giriş' | 'çıkış'})}
+                onChange={(e) => setNewTransaction({ ...newTransaction, type: e.target.value as 'giriş' | 'çıkış' })}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               >
                 <option value="giriş">💰 Giriş</option>
@@ -129,7 +122,7 @@ export default function DonationVault() {
                 type="number"
                 placeholder="0.00"
                 value={newTransaction.amount}
-                onChange={(e) => setNewTransaction({...newTransaction, amount: e.target.value})}
+                onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </div>
@@ -139,7 +132,7 @@ export default function DonationVault() {
                 type="text"
                 placeholder="İşlem açıklaması"
                 value={newTransaction.description}
-                onChange={(e) => setNewTransaction({...newTransaction, description: e.target.value})}
+                onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </div>

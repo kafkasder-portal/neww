@@ -9,14 +9,23 @@ export interface SavedFilter {
     id: string
     name: string
     filters: Record<string, any>
+    description?: string
+    pageType?: string
+    createdAt?: string
+    updatedAt?: string
+    lastUsed?: string
+    usageCount?: number
+    isQuickFilter?: boolean
 }
 
 interface AdvancedSearchModalProps {
     isOpen: boolean
     onClose: () => void
-    onSearch: (filters: Record<string, any>) => void
+    onSearch?: (filters: Record<string, any>) => void
+    onApplyFilters?: (filters: Record<string, any>) => void
     savedFilters?: SavedFilter[]
     onSaveFilter?: (name: string, filters: Record<string, any>) => void
+    onLoadFilter?: (filter: SavedFilter) => void
     onDeleteFilter?: (id: string) => void
     searchFields?: Array<{
         key: string
@@ -24,29 +33,72 @@ interface AdvancedSearchModalProps {
         type: 'text' | 'select' | 'date' | 'number'
         options?: Array<{ value: string; label: string }>
     }>
+    fields?: Array<{
+        key: string
+        label: string
+        type: 'text' | 'select' | 'date' | 'number' | 'multiSelect' | 'dateRange' | 'range' | 'boolean' | 'numberRange'
+        options?: Array<{ value: string; label: string }>
+        group?: string
+        dependsOn?: string
+        condition?: (filters: Record<string, any>) => boolean
+    }>
+    pageType?: string
+    urlConfig?: any
+    savedFiltersConfig?: {
+        storageKey: string
+        maxSavedFilters: number
+    }
+    quickFilters?: Array<{
+        id: string
+        name: string
+        filters: Record<string, any>
+        description?: string
+    }>
+    initialFilters?: Record<string, any>
 }
 
 export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
     isOpen,
     onClose,
     onSearch,
+    onApplyFilters,
     savedFilters = [],
     onSaveFilter,
+    onLoadFilter,
     onDeleteFilter,
-    searchFields = []
+    searchFields = [],
+    fields = [],
+    savedFiltersConfig,
+    quickFilters = [],
+    initialFilters = {}
 }) => {
-    const [filters, setFilters] = useState<Record<string, any>>({})
+    const [filters, setFilters] = useState<Record<string, any>>(initialFilters)
     const [filterName, setFilterName] = useState('')
+
+    const maxSavedFilters = savedFiltersConfig?.maxSavedFilters || 10
 
     if (!isOpen) return null
 
     const handleSearch = () => {
-        onSearch(filters)
+        if (onApplyFilters) {
+            onApplyFilters(filters)
+        } else if (onSearch) {
+            onSearch(filters)
+        }
         onClose()
     }
 
     const handleSaveFilter = () => {
         if (filterName && onSaveFilter) {
+            // Check if we've reached the maximum number of saved filters
+            if (savedFilters.length >= maxSavedFilters) {
+                // Remove the oldest filter to make room for the new one
+                const oldestFilter = savedFilters[0]
+                if (onDeleteFilter && oldestFilter) {
+                    onDeleteFilter(oldestFilter.id)
+                }
+            }
+
             onSaveFilter(filterName, filters)
             setFilterName('')
         }
@@ -54,6 +106,9 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
 
     const handleLoadFilter = (savedFilter: SavedFilter) => {
         setFilters(savedFilter.filters)
+        if (onLoadFilter) {
+            onLoadFilter(savedFilter)
+        }
     }
 
     return (
@@ -71,8 +126,35 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                     </Button>
                 </div>
 
+                {quickFilters.length > 0 && (
+                    <div className="mb-4">
+                        <h3 className="text-sm font-medium mb-2">Hızlı Filtreler</h3>
+                        <div className="flex flex-wrap gap-2">
+                            {quickFilters.map((quickFilter) => (
+                                <Button
+                                    key={quickFilter.id}
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                        setFilters(quickFilter.filters)
+                                        if (onApplyFilters) {
+                                            onApplyFilters(quickFilter.filters)
+                                        } else if (onSearch) {
+                                            onSearch(quickFilter.filters)
+                                        }
+                                        onClose()
+                                    }}
+                                    title={quickFilter.description}
+                                >
+                                    {quickFilter.name}
+                                </Button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 <div className="space-y-4">
-                    {searchFields.map((field) => (
+                    {(fields.length > 0 ? fields : searchFields).map((field) => (
                         <div key={field.key}>
                             <Label htmlFor={field.key}>{field.label}</Label>
                             {field.type === 'text' && (
@@ -100,6 +182,55 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                                     </SelectContent>
                                 </Select>
                             )}
+                            {field.type === 'multiSelect' && field.options && (
+                                <div className="space-y-2">
+                                    {field.options.map((option) => (
+                                        <div key={option.value} className="flex items-center space-x-2">
+                                            <input
+                                                type="checkbox"
+                                                id={`${field.key}-${option.value}`}
+                                                checked={Array.isArray(filters[field.key]) && filters[field.key].includes(option.value)}
+                                                onChange={(e) => {
+                                                    const currentValues = Array.isArray(filters[field.key]) ? filters[field.key] : []
+                                                    const newValues = e.target.checked
+                                                        ? [...currentValues, option.value]
+                                                        : currentValues.filter((v: string) => v !== option.value)
+                                                    setFilters(prev => ({ ...prev, [field.key]: newValues }))
+                                                }}
+                                            />
+                                            <Label htmlFor={`${field.key}-${option.value}`}>{option.label}</Label>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            {field.type === 'dateRange' && (
+                                <div className="flex space-x-2">
+                                    <Input
+                                        type="date"
+                                        placeholder="Başlangıç"
+                                        value={filters[field.key]?.start || ''}
+                                        onChange={(e) => setFilters(prev => ({
+                                            ...prev,
+                                            [field.key]: {
+                                                ...prev[field.key],
+                                                start: e.target.value
+                                            }
+                                        }))}
+                                    />
+                                    <Input
+                                        type="date"
+                                        placeholder="Bitiş"
+                                        value={filters[field.key]?.end || ''}
+                                        onChange={(e) => setFilters(prev => ({
+                                            ...prev,
+                                            [field.key]: {
+                                                ...prev[field.key],
+                                                end: e.target.value
+                                            }
+                                        }))}
+                                    />
+                                </div>
+                            )}
                             {field.type === 'date' && (
                                 <Input
                                     id={field.key}
@@ -116,6 +247,48 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
                                     onChange={(e) => setFilters(prev => ({ ...prev, [field.key]: e.target.value }))}
                                     placeholder={`${field.label} girin...`}
                                 />
+                            )}
+                            {field.type === 'boolean' && (
+                                <Select
+                                    value={filters[field.key] || ''}
+                                    onValueChange={(value) => setFilters(prev => ({ ...prev, [field.key]: value }))}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder={`${field.label} seçin...`} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="true">Evet</SelectItem>
+                                        <SelectItem value="false">Hayır</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            )}
+                            {field.type === 'numberRange' && (
+                                <div className="flex space-x-2">
+                                    <Input
+                                        type="number"
+                                        placeholder="Min"
+                                        value={filters[field.key]?.min || ''}
+                                        onChange={(e) => setFilters(prev => ({
+                                            ...prev,
+                                            [field.key]: {
+                                                ...prev[field.key],
+                                                min: e.target.value
+                                            }
+                                        }))}
+                                    />
+                                    <Input
+                                        type="number"
+                                        placeholder="Max"
+                                        value={filters[field.key]?.max || ''}
+                                        onChange={(e) => setFilters(prev => ({
+                                            ...prev,
+                                            [field.key]: {
+                                                ...prev[field.key],
+                                                max: e.target.value
+                                            }
+                                        }))}
+                                    />
+                                </div>
                             )}
                         </div>
                     ))}
@@ -154,14 +327,28 @@ export const AdvancedSearchModal: React.FC<AdvancedSearchModalProps> = ({
 
                 {onSaveFilter && (
                     <div className="mt-4">
-                        <h3 className="text-sm font-medium mb-2">Filtreyi Kaydet</h3>
+                        <h3 className="text-sm font-medium mb-2">
+                            Filtreyi Kaydet
+                            {savedFilters.length >= maxSavedFilters && (
+                                <span className="text-xs text-orange-600 ml-2">
+                                    (Maksimum {maxSavedFilters} filtre)
+                                </span>
+                            )}
+                        </h3>
                         <div className="flex space-x-2">
                             <Input
                                 placeholder="Filtre adı"
                                 value={filterName}
                                 onChange={(e) => setFilterName(e.target.value)}
                             />
-                            <Button onClick={handleSaveFilter} disabled={!filterName}>
+                            <Button
+                                onClick={handleSaveFilter}
+                                disabled={!filterName}
+                                title={savedFilters.length >= maxSavedFilters ?
+                                    `Maksimum ${maxSavedFilters} filtreye ulaştınız. En eski filtre otomatik olarak silinecek.` :
+                                    undefined
+                                }
+                            >
                                 Kaydet
                             </Button>
                         </div>

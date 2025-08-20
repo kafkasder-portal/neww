@@ -4,8 +4,11 @@
 
 export const mockAuth = {
   isEnabled: false, // Permanently disabled
-  
+
   // Mock data removed for security
+  login: async (credentials: { email: string; password: string }) => {
+    throw new Error('Mock authentication is disabled. Please use real authentication.');
+  }
 };
 
 // Always use real Supabase auth

@@ -1,23 +1,18 @@
 import {
-  LayoutDashboard,
   BarChart3,
-  FolderOpen,
-  Calendar,
-  Users,
-  MessageSquare,
-  FileText,
-  Settings,
-  HelpCircle,
   Building2,
+  Calculator,
+  Calendar,
+  CheckSquare,
   Coins,
   GraduationCap,
   HelpingHand,
-  Shield,
-  Database,
-  CheckSquare,
-  Calculator,
+  LayoutDashboard,
+  LucideIcon,
+  MessageSquare,
   Package,
-  LucideIcon
+  Shield,
+  Users
 } from 'lucide-react'
 
 export interface NavigationSubPage {
@@ -224,7 +219,7 @@ export const supportItems: NavigationItem[] = [
 export const allNavigationItems = [...navigationItems, ...supportItems]
 
 // Search için flatten edilmiş sayfa listesi
-export const allPages = allNavigationItems.flatMap(item => 
+export const allPages = allNavigationItems.flatMap(item =>
   item.subPages.map(subPage => ({
     ...subPage,
     category: item.title,

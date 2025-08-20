@@ -1,29 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Textarea } from '@/components/ui/textarea'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Progress } from '@/components/ui/progress'
-import { 
-  CheckCircle, 
-  XCircle, 
-  Clock, 
-  User, 
-  Calendar, 
-  MessageSquare,
-  FileText,
-  Send,
-  Eye,
-  Download,
-  AlertTriangle,
-  CheckCircle2
-} from 'lucide-react'
-import { Budget, BudgetApproval, ApprovalStatus, ApprovalStep } from '@/types/budget'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Textarea } from '@/components/ui/textarea'
+import { ApprovalStatus, ApprovalStep, Budget, BudgetApproval } from '@/types/budget'
 import { formatCurrency, formatDate } from '@/utils/formatters'
+import {
+  AlertTriangle,
+  Calendar,
+  CheckCircle,
+  CheckCircle2,
+  Clock,
+  Download,
+  FileText,
+  MessageSquare,
+  Send,
+  XCircle
+} from 'lucide-react'
+import { useState } from 'react'
 
 interface BudgetApprovalProcessProps {
   budget: Budget
@@ -44,31 +42,37 @@ interface ApprovalAction {
 const mockApprovalSteps: ApprovalStep[] = [
   {
     id: '1',
+    workflowId: 'wf-1',
+    stepNumber: 1,
     stepName: 'Departman Yöneticisi Onayı',
     approverRole: 'manager',
     approverName: 'Ahmet Yılmaz',
-    order: 1,
-    status: 'completed',
-    completedAt: new Date('2024-01-15'),
-    comment: 'Departman bütçesi uygun görülmüştür.'
+    status: 'approved',
+    completedAt: '2024-01-15T10:30:00Z',
+    comments: 'Departman bütçesi uygun görülmüştür.',
+    isRequired: true
   },
   {
     id: '2',
+    workflowId: 'wf-1',
+    stepNumber: 2,
     stepName: 'Mali İşler Onayı',
     approverRole: 'finance',
     approverName: 'Fatma Kaya',
-    order: 2,
     status: 'pending',
-    comment: ''
+    comments: '',
+    isRequired: true
   },
   {
     id: '3',
+    workflowId: 'wf-1',
+    stepNumber: 3,
     stepName: 'Genel Müdür Onayı',
     approverRole: 'admin',
     approverName: 'Mehmet Özkan',
-    order: 3,
-    status: 'waiting',
-    comment: ''
+    status: 'pending',
+    comments: '',
+    isRequired: true
   }
 ]
 
@@ -91,9 +95,9 @@ const mockApprovalHistory: ApprovalAction[] = [
   }
 ]
 
-export function BudgetApprovalProcess({ 
-  budget, 
-  onApprovalUpdate, 
+export function BudgetApprovalProcess({
+  budget,
+  onApprovalUpdate,
   currentUserId = 'user2',
   userRole = 'finance'
 }: BudgetApprovalProcessProps) {
@@ -111,7 +115,7 @@ export function BudgetApprovalProcess({
   )
 
   const approvalProgress = (
-    approvalSteps.filter(step => step.status === 'completed').length / 
+    approvalSteps.filter(step => step.status === 'approved').length /
     approvalSteps.length
   ) * 100
 
@@ -129,7 +133,7 @@ export function BudgetApprovalProcess({
         comment: approvalComment,
         timestamp: new Date(),
         userId: currentUserId,
-        userName: currentStep.approverName
+        userName: currentStep.approverName ?? ''
       }
 
       setApprovalHistory(prev => [newAction, ...prev])
@@ -139,18 +143,19 @@ export function BudgetApprovalProcess({
         if (step.id === currentStep.id) {
           return {
             ...step,
-            status: action === 'approve' ? 'completed' as ApprovalStatus : 
-                   action === 'reject' ? 'rejected' as ApprovalStatus : 'pending' as ApprovalStatus,
-            completedAt: action === 'approve' ? new Date() : undefined,
-            comment: approvalComment
+            status: action === 'approve' ? 'approved' as ApprovalStatus :
+              action === 'reject' ? 'rejected' as ApprovalStatus : 'pending' as ApprovalStatus,
+            completedAt: action === 'approve' ? new Date().toISOString() : undefined,
+            comments: approvalComment
           }
         }
         return step
       })
 
       // If approved, move to next step
+      let nextStepIndex = -1
       if (action === 'approve') {
-        const nextStepIndex = approvalSteps.findIndex(step => step.id === currentStep.id) + 1
+        nextStepIndex = approvalSteps.findIndex(step => step.id === currentStep.id) + 1
         if (nextStepIndex < approvalSteps.length) {
           updatedSteps[nextStepIndex].status = 'pending'
         }
@@ -165,13 +170,14 @@ export function BudgetApprovalProcess({
         const approval: BudgetApproval = {
           id: budget.id,
           budgetId: budget.id,
-          status: action === 'reject' ? 'rejected' : 
-                 updatedSteps.every(s => s.status === 'completed') ? 'approved' : 'pending',
+          currentStep: action === 'approve' && nextStepIndex < approvalSteps.length ?
+            nextStepIndex + 1 : currentStep.stepNumber,
+          totalSteps: approvalSteps.length,
+          status: action === 'reject' ? 'rejected' :
+            updatedSteps.every(s => s.status === 'approved') ? 'approved' : 'in_progress',
           steps: updatedSteps,
-          submittedAt: new Date(),
-          submittedBy: currentUserId,
-          currentStep: action === 'approve' && nextStepIndex < approvalSteps.length ? 
-                      nextStepIndex + 1 : currentStep.order
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         }
         onApprovalUpdate(budget.id, approval)
       }
@@ -190,7 +196,7 @@ export function BudgetApprovalProcess({
       steps: approvalSteps,
       history: approvalHistory
     }
-    
+
     const jsonContent = JSON.stringify(reportData, null, 2)
     const blob = new Blob([jsonContent], { type: 'application/json' })
     const url = window.URL.createObjectURL(blob)
@@ -203,7 +209,7 @@ export function BudgetApprovalProcess({
 
   const getStatusIcon = (status: ApprovalStatus) => {
     switch (status) {
-      case 'completed':
+      case 'approved':
         return <CheckCircle className="h-5 w-5 text-green-600" />
       case 'rejected':
         return <XCircle className="h-5 w-5 text-red-600" />
@@ -216,17 +222,21 @@ export function BudgetApprovalProcess({
 
   const getStatusBadge = (status: ApprovalStatus) => {
     const variants = {
-      completed: 'bg-green-100 text-green-800',
+      approved: 'bg-green-100 text-green-800',
       rejected: 'bg-red-100 text-red-800',
       pending: 'bg-yellow-100 text-yellow-800',
-      waiting: 'bg-gray-100 text-gray-800'
+      waiting: 'bg-gray-100 text-gray-800',
+      skipped: 'bg-gray-100 text-gray-800',
+      completed: 'bg-blue-100 text-blue-800'
     }
 
     const labels = {
-      completed: 'Onaylandı',
+      approved: 'Onaylandı',
       rejected: 'Reddedildi',
       pending: 'Beklemede',
-      waiting: 'Sırada'
+      waiting: 'Sırada',
+      skipped: 'Atlandı',
+      completed: 'Tamamlandı'
     }
 
     return (
@@ -286,16 +296,15 @@ export function BudgetApprovalProcess({
         <TabsContent value="steps" className="space-y-4">
           {/* Approval Steps */}
           <div className="space-y-4">
-            {approvalSteps.map((step, index) => (
-              <Card key={step.id} className={`${
-                step.status === 'pending' ? 'border-yellow-200 bg-yellow-50' : ''
-              }`}>
+            {approvalSteps.map((step, _index) => (
+              <Card key={step.id} className={`${step.status === 'pending' ? 'border-yellow-200 bg-yellow-50' : ''
+                }`}>
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0">
                       {getStatusIcon(step.status)}
                     </div>
-                    
+
                     <div className="flex-1 space-y-2">
                       <div className="flex items-center justify-between">
                         <div>
@@ -306,20 +315,20 @@ export function BudgetApprovalProcess({
                         </div>
                         {getStatusBadge(step.status)}
                       </div>
-                      
+
                       {step.completedAt && (
                         <p className="text-sm text-muted-foreground">
                           <Calendar className="h-4 w-4 inline mr-1" />
-                          {formatDate(step.completedAt)}
+                          {formatDate(new Date(step.completedAt))}
                         </p>
                       )}
-                      
-                      {step.comment && (
+
+                      {step.comments && (
                         <div className="bg-gray-50 p-3 rounded-md">
-                          <p className="text-sm">{step.comment}</p>
+                          <p className="text-sm">{step.comments}</p>
                         </div>
                       )}
-                      
+
                       {step.status === 'pending' && canApprove && step.id === currentStep?.id && (
                         <Alert>
                           <AlertTriangle className="h-4 w-4" />
@@ -359,7 +368,7 @@ export function BudgetApprovalProcess({
                           {action.userName.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
-                      
+
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center justify-between">
                           <div>
@@ -368,19 +377,18 @@ export function BudgetApprovalProcess({
                               {formatDate(action.timestamp)}
                             </p>
                           </div>
-                          <Badge 
-                            className={`${
-                              action.type === 'approve' ? 'bg-green-100 text-green-800' :
+                          <Badge
+                            className={`${action.type === 'approve' ? 'bg-green-100 text-green-800' :
                               action.type === 'reject' ? 'bg-red-100 text-red-800' :
-                              'bg-yellow-100 text-yellow-800'
-                            }`}
+                                'bg-yellow-100 text-yellow-800'
+                              }`}
                           >
                             {action.type === 'approve' && 'Onayladı'}
                             {action.type === 'reject' && 'Reddetti'}
                             {action.type === 'request_changes' && 'Değişiklik İstedi'}
                           </Badge>
                         </div>
-                        
+
                         <div className="bg-gray-50 p-3 rounded-md">
                           <p className="text-sm">{action.comment}</p>
                         </div>
@@ -406,12 +414,12 @@ export function BudgetApprovalProcess({
                     <p className="text-sm font-medium text-muted-foreground">Bütçe Adı</p>
                     <p className="text-lg font-semibold">{budget.name}</p>
                   </div>
-                  
+
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Toplam Tutar</p>
                     <p className="text-lg font-semibold">{formatCurrency(budget.totalAmount)}</p>
                   </div>
-                  
+
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Dönem</p>
                     <p className="text-lg font-semibold">
@@ -419,7 +427,7 @@ export function BudgetApprovalProcess({
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Durum</p>
@@ -431,12 +439,12 @@ export function BudgetApprovalProcess({
                       {budget.status === 'active' && 'Aktif'}
                     </p>
                   </div>
-                  
+
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Kategori Sayısı</p>
                     <p className="text-lg font-semibold">{budget.categories.length}</p>
                   </div>
-                  
+
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Oluşturan</p>
                     <p className="text-lg font-semibold">{budget.createdBy}</p>
@@ -462,7 +470,7 @@ export function BudgetApprovalProcess({
                     <div className="text-right">
                       <p className="font-semibold">{formatCurrency(category.budgetedAmount)}</p>
                       <p className="text-sm text-muted-foreground">
-                        {((category.budgetedAmount / budget.totalAmount) * 100).toFixed(1)}%
+                        {budget.totalAmount ? ((category.budgetedAmount / budget.totalAmount) * 100).toFixed(1) : '0'}%
                       </p>
                     </div>
                   </div>
@@ -482,7 +490,7 @@ export function BudgetApprovalProcess({
               {currentStep?.stepName} için kararınızı belirtin.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4">
             <div className="grid grid-cols-3 gap-2">
               <Button
@@ -510,7 +518,7 @@ export function BudgetApprovalProcess({
                 Reddet
               </Button>
             </div>
-            
+
             <div>
               <label className="text-sm font-medium">Yorum (Zorunlu)</label>
               <Textarea
@@ -522,16 +530,16 @@ export function BudgetApprovalProcess({
               />
             </div>
           </div>
-          
+
           <DialogFooter>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setShowApprovalDialog(false)}
               disabled={loading}
             >
               İptal
             </Button>
-            <Button 
+            <Button
               onClick={() => handleApprovalAction(selectedAction)}
               disabled={!approvalComment.trim() || loading}
             >

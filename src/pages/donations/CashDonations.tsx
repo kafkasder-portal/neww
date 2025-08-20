@@ -1,3 +1,4 @@
+import { DonorCountCard, MonthlyDonationsCard, TotalDonationsCard } from '@/components/DonationCard'
 import type { Column } from '@components/DataTable'
 import { DataTable } from '@components/DataTable'
 import { Modal } from '@components/Modal'
@@ -98,8 +99,8 @@ export default function CashDonations() {
       header: 'Durum',
       render: (_, row: CashDonation) => (
         <span className={`px-2 py-1 rounded text-xs ${row.status === 'onaylandı' ? 'bg-green-100 text-green-800' :
-            row.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-              'bg-red-100 text-red-800'
+          row.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
+            'bg-red-100 text-red-800'
           }`}>
           {row.status}
         </span>
@@ -197,34 +198,43 @@ export default function CashDonations() {
     })
   }
 
-  const handleScanResult = (data: { donorName?: string; donorPhone?: string; amount?: number; currency?: string; purpose?: string; notes?: string; firstName?: string; lastName?: string; phone?: string; idNumber?: string; passportNumber?: string; address?: string; birthDate?: string }) => {
+  const handleScanResult = (data: string) => {
     if (data) {
-      // QR kod, barkod veya OCR verilerini form alanlarına doldur
-      if (data.donorName != null) setFormData(prev => ({ ...prev, donorName: data.donorName ?? prev.donorName }))
-      if (data.donorPhone != null) setFormData(prev => ({ ...prev, donorPhone: data.donorPhone ?? prev.donorPhone }))
-      if (data.amount != null) setFormData(prev => ({ ...prev, amount: (data.amount ?? Number(prev.amount || 0)).toString() }))
-      if (data.currency != null) setFormData(prev => ({ ...prev, currency: (['TRY', 'USD', 'EUR'] as const).includes(data.currency as any) ? (data.currency as typeof prev.currency) : prev.currency }))
-      if (data.purpose != null) setFormData(prev => ({ ...prev, purpose: data.purpose ?? prev.purpose }))
-      if (data.notes != null) setFormData(prev => ({ ...prev, notes: data.notes ?? prev.notes }))
+      try {
+        // Try to parse JSON data first
+        const parsedData = JSON.parse(data)
 
-      // OCR'dan gelen kimlik/pasaport verileri
-      if (data.firstName && data.lastName) {
-        setFormData(prev => ({ ...prev, donorName: `${data.firstName} ${data.lastName}` }))
-      }
-      if (data.phone) {
-        setFormData(prev => ({ ...prev, donorPhone: data.phone || '' }))
-      }
-      if (data.idNumber) {
-        setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | TC: ${data.idNumber}` : `TC: ${data.idNumber}` }))
-      }
-      if (data.passportNumber) {
-        setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | Pasaport: ${data.passportNumber}` : `Pasaport: ${data.passportNumber}` }))
-      }
-      if (data.address) {
-        setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | Adres: ${data.address}` : `Adres: ${data.address}` }))
-      }
-      if (data.birthDate) {
-        setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | Doğum: ${data.birthDate}` : `Doğum: ${data.birthDate}` }))
+        // QR kod, barkod veya OCR verilerini form alanlarına doldur
+        if (parsedData.donorName != null) setFormData(prev => ({ ...prev, donorName: parsedData.donorName ?? prev.donorName }))
+        if (parsedData.donorPhone != null) setFormData(prev => ({ ...prev, donorPhone: parsedData.donorPhone ?? prev.donorPhone }))
+        if (parsedData.amount != null) setFormData(prev => ({ ...prev, amount: (parsedData.amount ?? Number(prev.amount || 0)).toString() }))
+        if (parsedData.currency != null) setFormData(prev => ({ ...prev, currency: (['TRY', 'USD', 'EUR'] as const).includes(parsedData.currency as any) ? (parsedData.currency as typeof prev.currency) : prev.currency }))
+        if (parsedData.purpose != null) setFormData(prev => ({ ...prev, purpose: parsedData.purpose ?? prev.purpose }))
+        if (parsedData.notes != null) setFormData(prev => ({ ...prev, notes: parsedData.notes ?? prev.notes }))
+
+        // OCR'dan gelen kimlik/pasaport verileri
+        if (parsedData.firstName && parsedData.lastName) {
+          setFormData(prev => ({ ...prev, donorName: `${parsedData.firstName} ${parsedData.lastName}` }))
+        }
+        if (parsedData.phone) {
+          setFormData(prev => ({ ...prev, donorPhone: parsedData.phone || '' }))
+        }
+        if (parsedData.idNumber) {
+          setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | TC: ${parsedData.idNumber}` : `TC: ${parsedData.idNumber}` }))
+        }
+        if (parsedData.passportNumber) {
+          setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | Pasaport: ${parsedData.passportNumber}` : `Pasaport: ${parsedData.passportNumber}` }))
+        }
+        if (parsedData.address) {
+          setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | Adres: ${parsedData.address}` : `Adres: ${parsedData.address}` }))
+        }
+        if (parsedData.birthDate) {
+          setFormData(prev => ({ ...prev, notes: prev.notes ? `${prev.notes} | Doğum: ${parsedData.birthDate}` : `Doğum: ${parsedData.birthDate}` }))
+        }
+      } catch (error) {
+        // If not JSON, treat as simple string data
+        console.log('Scanned data:', data)
+        // You can add custom logic here to handle different data formats
       }
 
       setIsScannerOpen(false)
@@ -265,27 +275,20 @@ export default function CashDonations() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <TotalDonationsCard
             title="Toplam Bağış"
-            value={totalAmount}
+            total={totalAmount}
             change={12}
-            changeType="increase"
             period="Bu Ay"
-            trend={[45, 52, 48, 61, 55, 67, 73]}
           />
           <MonthlyDonationsCard
             title="Bugünkü Bağışlar"
-            value={todayDonationAmount}
-            change={8}
-            changeType="increase"
-            period="Bugün"
-            trend={[32, 38, 35, 42, 39, 45, 48]}
+            amount={todayDonationAmount}
+            month="Bugün"
           />
           <DonorCountCard
             title="Benzersiz Bağışçı"
-            value={new Set(filteredDonations.map(d => d.donorName)).size}
+            count={new Set(filteredDonations.map(d => d.donorName).filter(name => name && name.trim())).size}
             change={15}
-            changeType="increase"
             period="Benzersiz Bağışçı"
-            trend={[12, 15, 13, 18, 16, 21, 24]}
           />
         </div>
 
@@ -390,7 +393,7 @@ export default function CashDonations() {
                 </button>
               </div>
               <LazyCameraScanner
-                onScanResult={handleScanResult}
+                onScan={handleScanResult}
                 onError={(error: string) => console.error('Tarama hatası:', error)}
               />
             </div>

@@ -1,21 +1,23 @@
-import React, { useState, useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
-import { toast } from 'sonner'
-import { DataTable } from '@components/DataTable'
+import { DonorCountCard, MonthlyDonationsCard, OnlineDonationsCard, TotalDonationsCard } from '@/components/DonationCard'
+import { donationService } from '@/services/donationService'
+import AdvancedSearchModal, { SavedFilter } from '@components/AdvancedSearchModal'
 import type { Column } from '@components/DataTable'
-import { Modal } from '@components/Modal'
+import { DataTable } from '@components/DataTable'
 import { PaymentModal } from '@components/donations/PaymentModal'
+import { Modal } from '@components/Modal'
 import { exportToCsv } from '@lib/exportToCsv'
-import { FileSpreadsheet, FileText, Filter, Plus, TrendingUp, CreditCard, Globe } from 'lucide-react'
+import {
+  createDonationsFilterConfig,
+  createDonationsSavedFiltersConfig,
+  createDonationsURLConfig,
+  getDonationsQuickFilters
+} from '@utils/donationsFilterConfig'
 import { exportDonationsToExcel } from '@utils/excelExport'
 import { exportDonationsToPDF } from '@utils/pdfExport'
-import { 
-  createDonationsFilterConfig, 
-  createDonationsURLConfig, 
-  createDonationsSavedFiltersConfig, 
-  getDonationsQuickFilters 
-} from '@utils/donationsFilterConfig'
-import { donationService } from '@/services/donationService'
+import { CreditCard, FileSpreadsheet, FileText, Filter, Globe, Plus, TrendingUp } from 'lucide-react'
+import React, { useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export interface OnlineDonation {
   id: string
@@ -118,12 +120,12 @@ function OnlineDonations() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
   const [isAnalyticsModalOpen, setIsAnalyticsModalOpen] = useState(false)
   const [editingDonation, setEditingDonation] = useState<OnlineDonation | null>(null)
-  
+
   // Advanced search states
   const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false)
   const [activeFilters, setActiveFilters] = useState<Record<string, any>>({})
   const [savedFilters, setSavedFilters] = useState<SavedFilter[]>([])
-  
+
   // Filter configurations
   const filterConfig = useMemo(() => createDonationsFilterConfig(), [])
   const urlConfig = useMemo(() => createDonationsURLConfig(), [])
@@ -143,7 +145,7 @@ function OnlineDonations() {
       setLoading(true)
       // Use donationService to fetch real data
       const donations = await donationService.getDonations()
-      
+
       // Transform the data to match OnlineDonation interface
       const transformedDonations: OnlineDonation[] = donations.map(donation => ({
         id: donation.id,
@@ -154,25 +156,25 @@ function OnlineDonations() {
         amount: donation.amount,
         currency: donation.currency,
         platform: 'Website', // Default platform - you might want to add this field to your database
-        paymentMethod: donation.payment_method === 'credit_card' ? 'Kredi Kartı' : 
-                      donation.payment_method === 'bank_transfer' ? 'Banka Kartı' : 
-                      donation.payment_method === 'crypto' ? 'Kripto Para' : 'Dijital Cüzdan',
+        paymentMethod: donation.payment_method === 'credit_card' ? 'Kredi Kartı' :
+          donation.payment_method === 'bank_transfer' ? 'Banka Kartı' :
+            donation.payment_method === 'crypto' ? 'Kripto Para' : 'Dijital Cüzdan',
         transactionId: donation.transaction_id || '',
         purpose: donation.purpose || '',
         campaign: donation.campaign,
         isRecurring: donation.is_recurring,
         recurringPeriod: donation.recurring_period === 'monthly' ? 'Aylık' :
-                        donation.recurring_period === 'quarterly' ? 'Üç Aylık' :
-                        donation.recurring_period === 'annually' ? 'Yıllık' : undefined,
+          donation.recurring_period === 'quarterly' ? 'Üç Aylık' :
+            donation.recurring_period === 'annually' ? 'Yıllık' : undefined,
         status: donation.status === 'completed' ? 'başarılı' :
-                donation.status === 'pending' ? 'beklemede' :
-                donation.status === 'failed' ? 'başarısız' :
-                donation.status === 'refunded' ? 'iade' : 'iptal',
+          donation.status === 'pending' ? 'beklemede' :
+            donation.status === 'failed' ? 'başarısız' :
+              donation.status === 'refunded' ? 'iade' : 'iptal',
         processingFee: donation.processing_fee || 0,
         netAmount: donation.net_amount || donation.amount,
         notes: donation.notes
       }))
-      
+
       setDonationList(transformedDonations)
       setLoading(false)
     } catch (error) {
@@ -214,11 +216,11 @@ function OnlineDonations() {
         )
         if (!matchesBasicSearch) return false
       }
-      
+
       // Advanced filters
       for (const [key, value] of Object.entries(activeFilters)) {
         if (!value || (Array.isArray(value) && value.length === 0)) continue
-        
+
         switch (key) {
           case 'search': {
             const searchTerm = value.toLowerCase()
@@ -230,74 +232,74 @@ function OnlineDonations() {
             if (!matchesSearch) return false
             break
           }
-            
+
           case 'donorName':
             if (!donation.donorName.toLowerCase().includes(value.toLowerCase())) return false
             break
-            
+
           case 'donorEmail':
             if (!donation.donorEmail.toLowerCase().includes(value.toLowerCase())) return false
             break
-            
+
           case 'status':
             if (Array.isArray(value) && !value.includes(donation.status)) return false
             break
-            
+
           case 'platform':
             if (Array.isArray(value) && !value.includes(donation.platform)) return false
             break
-            
+
           case 'paymentMethod':
             if (Array.isArray(value) && !value.includes(donation.paymentMethod)) return false
             break
-            
+
           case 'amountRange':
             if (value.min !== undefined && donation.amount < value.min) return false
             if (value.max !== undefined && donation.amount > value.max) return false
             break
-            
+
           case 'currency':
             if (Array.isArray(value) && !value.includes(donation.currency)) return false
             break
-            
+
           case 'purpose':
             if (Array.isArray(value) && !value.includes(donation.purpose)) return false
             break
-            
+
           case 'isRecurring': {
             const isRecurringFilter = value === 'true'
             if (donation.isRecurring !== isRecurringFilter) return false
             break
           }
-            
+
           case 'recurringPeriod':
             if (Array.isArray(value) && donation.recurringPeriod && !value.includes(donation.recurringPeriod)) return false
             break
-            
+
           case 'referralSource':
             if (Array.isArray(value) && donation.referralSource && !value.includes(donation.referralSource)) return false
             break
-            
+
           case 'campaign':
             if (donation.campaign && !donation.campaign.toLowerCase().includes(value.toLowerCase())) return false
             break
-            
+
           case 'dateRange': {
             const donationDate = new Date(donation.date)
             if (value.start && donationDate < new Date(value.start)) return false
             if (value.end && donationDate > new Date(value.end)) return false
             break
           }
-            
+
           case 'transactionId':
             if (!donation.transactionId.toLowerCase().includes(value.toLowerCase())) return false
             break
         }
       }
-      
+
       return true
     })
-      }, [donationList, query, activeFilters])
+  }, [donationList, query, activeFilters])
 
   const totalAmount = filteredDonations.reduce((sum, donation) => sum + donation.amount, 0)
   const totalFees = filteredDonations.reduce((sum, donation) => sum + donation.processingFee, 0)
@@ -333,52 +335,49 @@ function OnlineDonations() {
     { key: 'transactionId', header: 'İşlem No' },
     { key: 'donorName', header: 'Bağışçı' },
     { key: 'donorEmail', header: 'E-posta' },
-    { 
-      key: 'platform', 
+    {
+      key: 'platform',
       header: 'Platform',
       render: (_, row: OnlineDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${
-          row.platform === 'Website' ? 'bg-blue-100 text-blue-800' :
+        <span className={`px-2 py-1 rounded text-xs ${row.platform === 'Website' ? 'bg-blue-100 text-blue-800' :
           row.platform === 'Mobile App' ? 'bg-green-100 text-green-800' :
-          row.platform === 'Facebook' ? 'bg-blue-100 text-blue-800' :
-          row.platform === 'Instagram' ? 'bg-pink-100 text-pink-800' :
-          row.platform === 'WhatsApp' ? 'bg-green-100 text-green-800' :
-          'bg-gray-100 text-gray-800'
-        }`}>
+            row.platform === 'Facebook' ? 'bg-blue-100 text-blue-800' :
+              row.platform === 'Instagram' ? 'bg-pink-100 text-pink-800' :
+                row.platform === 'WhatsApp' ? 'bg-green-100 text-green-800' :
+                  'bg-gray-100 text-gray-800'
+          }`}>
           {row.platform}
         </span>
       )
     },
     { key: 'paymentMethod', header: 'Ödeme Yöntemi' },
-    { 
-      key: 'amount', 
+    {
+      key: 'amount',
       header: 'Tutar',
       render: (_, row: OnlineDonation) => `${row.amount.toLocaleString('tr-TR')} ${row.currency}`
     },
-    { 
-      key: 'isRecurring', 
+    {
+      key: 'isRecurring',
       header: 'Düzenli',
       render: (_, row: OnlineDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${
-          row.isRecurring ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-        }`}>
+        <span className={`px-2 py-1 rounded text-xs ${row.isRecurring ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+          }`}>
           {row.isRecurring ? `Evet (${row.recurringPeriod})` : 'Hayır'}
         </span>
       )
     },
     { key: 'purpose', header: 'Amaç' },
     { key: 'campaign', header: 'Kampanya' },
-    { 
-      key: 'status', 
+    {
+      key: 'status',
       header: 'Durum',
       render: (_, row: OnlineDonation) => (
-        <span className={`px-2 py-1 rounded text-xs ${
-          row.status === 'başarılı' ? 'bg-green-100 text-green-800' :
+        <span className={`px-2 py-1 rounded text-xs ${row.status === 'başarılı' ? 'bg-green-100 text-green-800' :
           row.status === 'beklemede' ? 'bg-yellow-100 text-yellow-800' :
-          row.status === 'başarısız' ? 'bg-red-100 text-red-800' :
-          row.status === 'iptal' ? 'bg-gray-100 text-gray-800' :
-          'bg-orange-100 text-orange-800'
-        }`}>
+            row.status === 'başarısız' ? 'bg-red-100 text-red-800' :
+              row.status === 'iptal' ? 'bg-gray-100 text-gray-800' :
+                'bg-orange-100 text-orange-800'
+          }`}>
           {row.status}
         </span>
       )
@@ -442,11 +441,11 @@ function OnlineDonations() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     const amount = parseFloat(formData.amount)
     const processingFee = amount * 0.03 // %3 işlem ücreti
     const netAmount = amount - processingFee
-    
+
     try {
       if (editingDonation) {
         // Update existing donation
@@ -457,20 +456,20 @@ function OnlineDonations() {
           amount,
           currency: formData.currency,
           payment_method: (formData.paymentMethod === 'Kredi Kartı' ? 'credit_card' :
-                         formData.paymentMethod === 'Banka Kartı' ? 'bank_transfer' :
-                         formData.paymentMethod === 'Kripto Para' ? 'crypto' : 'credit_card') as 'credit_card' | 'bank_transfer' | 'cash' | 'crypto',
+            formData.paymentMethod === 'Banka Kartı' ? 'bank_transfer' :
+              formData.paymentMethod === 'Kripto Para' ? 'crypto' : 'credit_card') as 'credit_card' | 'bank_transfer' | 'cash' | 'crypto',
           purpose: formData.purpose,
           campaign: formData.campaign || undefined,
           is_recurring: formData.isRecurring,
-          recurring_period: formData.isRecurring ? 
+          recurring_period: formData.isRecurring ?
             (formData.recurringPeriod === 'Aylık' ? 'monthly' :
-             formData.recurringPeriod === 'Üç Aylık' ? 'quarterly' :
-             formData.recurringPeriod === 'Yıllık' ? 'annually' : 'monthly') as 'weekly' | 'monthly' | 'quarterly' | 'annually' : undefined,
+              formData.recurringPeriod === 'Üç Aylık' ? 'quarterly' :
+                formData.recurringPeriod === 'Yıllık' ? 'annually' : 'monthly') as 'weekly' | 'monthly' | 'quarterly' | 'annually' : undefined,
           processing_fee: processingFee,
           net_amount: netAmount,
           notes: formData.notes || undefined
         }
-        
+
         const success = await donationService.updateDonation(editingDonation.id, updateData)
         if (success) {
           await loadDonationsData() // Refresh the list
@@ -484,27 +483,27 @@ function OnlineDonations() {
           amount,
           currency: formData.currency,
           payment_method: (formData.paymentMethod === 'Kredi Kartı' ? 'credit_card' :
-                         formData.paymentMethod === 'Banka Kartı' ? 'bank_transfer' :
-                         formData.paymentMethod === 'Kripto Para' ? 'crypto' : 'credit_card') as 'credit_card' | 'bank_transfer' | 'cash' | 'crypto',
+            formData.paymentMethod === 'Banka Kartı' ? 'bank_transfer' :
+              formData.paymentMethod === 'Kripto Para' ? 'crypto' : 'credit_card') as 'credit_card' | 'bank_transfer' | 'cash' | 'crypto',
           purpose: formData.purpose,
           campaign: formData.campaign || undefined,
           is_recurring: formData.isRecurring,
-          recurring_period: formData.isRecurring ? 
+          recurring_period: formData.isRecurring ?
             (formData.recurringPeriod === 'Aylık' ? 'monthly' :
-             formData.recurringPeriod === 'Üç Aylık' ? 'quarterly' :
-             formData.recurringPeriod === 'Yıllık' ? 'annually' : 'monthly') as 'weekly' | 'monthly' | 'quarterly' | 'annually' : undefined,
+              formData.recurringPeriod === 'Üç Aylık' ? 'quarterly' :
+                formData.recurringPeriod === 'Yıllık' ? 'annually' : 'monthly') as 'weekly' | 'monthly' | 'quarterly' | 'annually' : undefined,
           processing_fee: processingFee,
           net_amount: netAmount,
           notes: formData.notes || undefined,
           status: 'completed' as const
         }
-        
+
         const newDonation = await donationService.createDonation(newDonationData)
         if (newDonation) {
           await loadDonationsData() // Refresh the list
         }
       }
-      
+
       setIsModalOpen(false)
       setEditingDonation(null)
       resetForm()
@@ -548,31 +547,32 @@ function OnlineDonations() {
     loadDonationsData() // Refresh donations list  
     toast.success(`Bağış #${donationId} başarıyla tamamlandı!`)
   }
-  
+
   // Advanced search handlers
   const handleAdvancedSearch = (filters: Record<string, any>) => {
     setActiveFilters(filters)
     setAdvancedSearchOpen(false)
   }
-  
+
   const handleClearFilters = () => {
     setActiveFilters({})
     setQuery('')
   }
-  
-  const handleSaveFilter = (filter: Omit<SavedFilter, 'id' | 'createdAt'>) => {
+
+  const handleSaveFilter = (name: string, filters: Record<string, any>) => {
     const newFilter: SavedFilter = {
-      ...filter,
       id: Date.now().toString(),
+      name,
+      filters,
       createdAt: new Date().toISOString()
     }
     setSavedFilters(prev => [...prev, newFilter])
   }
-  
+
   const handleLoadFilter = (filter: SavedFilter) => {
     setActiveFilters(filter.filters)
   }
-  
+
 
 
   // Analytics hesaplamaları zaten useMemo ile tanımlandı
@@ -615,37 +615,28 @@ function OnlineDonations() {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <TotalDonationsCard 
+          <TotalDonationsCard
             title="Toplam Bağış"
-            value={totalAmount} 
+            total={totalAmount}
             change={12}
-            changeType="increase"
             period="Bu Ay"
-            trend={[45, 52, 48, 61, 55, 67, 73]}
           />
-          <OnlineDonationsCard 
+          <OnlineDonationsCard
             title="Net Tutar"
-            value={totalAmount - totalFees} 
+            amount={totalAmount - totalFees}
             change={8}
-            changeType="increase"
             period="Net Tutar"
-            trend={[32, 38, 35, 42, 39, 45, 48]}
           />
-          <DonorCountCard 
+          <DonorCountCard
             title="Benzersiz Bağışçı"
-            value={new Set(filteredDonations.map(d => d.donorEmail)).size} 
+            count={new Set(filteredDonations.map(d => d.donorEmail)).size}
             change={15}
-            changeType="increase"
             period="Benzersiz Bağışçı"
-            trend={[12, 15, 13, 18, 16, 21, 24]}
           />
-          <MonthlyDonationsCard 
+          <MonthlyDonationsCard
             title="İşlem Ücreti"
-            value={totalFees} 
-            change={3}
-            changeType="decrease"
-            period="İşlem Ücreti"
-            trend={[8, 7, 9, 6, 7, 5, 6]}
+            amount={totalFees}
+            month="İşlem Ücreti"
           />
         </div>
 
@@ -674,11 +665,10 @@ function OnlineDonations() {
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 mb-6">
             <button
               onClick={() => setAdvancedSearchOpen(true)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-200 ${
-                Object.keys(activeFilters).length > 0
-                  ? 'bg-blue-50 border-blue-300 text-blue-700 shadow-md'
-                  : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:shadow-md'
-              }`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-200 ${Object.keys(activeFilters).length > 0
+                ? 'bg-blue-50 border-blue-300 text-blue-700 shadow-md'
+                : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:shadow-md'
+                }`}
             >
               <Filter size={16} />
               Gelişmiş Filtre
@@ -688,7 +678,7 @@ function OnlineDonations() {
                 </span>
               )}
             </button>
-            
+
             {Object.keys(activeFilters).length > 0 && (
               <button
                 onClick={handleClearFilters}
@@ -697,7 +687,7 @@ function OnlineDonations() {
                 Filtreleri Temizle
               </button>
             )}
-            
+
             <div className="flex gap-3 ml-auto">
               <button
                 onClick={() => exportToCsv('online-bagislar.csv', filteredDonations as unknown as Record<string, unknown>[])}
@@ -749,7 +739,7 @@ function OnlineDonations() {
               <input
                 type="text"
                 value={formData.donorName}
-                onChange={(e) => setFormData({...formData, donorName: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, donorName: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
@@ -759,23 +749,23 @@ function OnlineDonations() {
               <input
                 type="email"
                 value={formData.donorEmail}
-                onChange={(e) => setFormData({...formData, donorEmail: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, donorEmail: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Telefon</label>
             <input
               type="tel"
               value={formData.donorPhone}
-              onChange={(e) => setFormData({...formData, donorPhone: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, donorPhone: e.target.value })}
               className="w-full border rounded px-3 py-2"
             />
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Tutar</label>
@@ -783,7 +773,7 @@ function OnlineDonations() {
                 type="number"
                 step="0.01"
                 value={formData.amount}
-                onChange={(e) => setFormData({...formData, amount: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               />
@@ -792,7 +782,7 @@ function OnlineDonations() {
               <label className="block text-sm font-medium mb-1">Para Birimi</label>
               <select
                 value={formData.currency}
-                onChange={(e) => setFormData({...formData, currency: e.target.value as OnlineDonation['currency']})}
+                onChange={(e) => setFormData({ ...formData, currency: e.target.value as OnlineDonation['currency'] })}
                 className="w-full border rounded px-3 py-2"
               >
                 <option value="TRY">TRY</option>
@@ -801,13 +791,13 @@ function OnlineDonations() {
               </select>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Platform</label>
               <select
                 value={formData.platform}
-                onChange={(e) => setFormData({...formData, platform: e.target.value as OnlineDonation['platform']})}
+                onChange={(e) => setFormData({ ...formData, platform: e.target.value as OnlineDonation['platform'] })}
                 className="w-full border rounded px-3 py-2"
               >
                 {platforms.map(platform => (
@@ -819,7 +809,7 @@ function OnlineDonations() {
               <label className="block text-sm font-medium mb-1">Ödeme Yöntemi</label>
               <select
                 value={formData.paymentMethod}
-                onChange={(e) => setFormData({...formData, paymentMethod: e.target.value as OnlineDonation['paymentMethod']})}
+                onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as OnlineDonation['paymentMethod'] })}
                 className="w-full border rounded px-3 py-2"
               >
                 {paymentMethods.map(method => (
@@ -828,24 +818,24 @@ function OnlineDonations() {
               </select>
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">İşlem No</label>
             <input
               type="text"
               value={formData.transactionId}
-              onChange={(e) => setFormData({...formData, transactionId: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, transactionId: e.target.value })}
               className="w-full border rounded px-3 py-2"
               required
             />
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Bağış Amacı</label>
               <select
                 value={formData.purpose}
-                onChange={(e) => setFormData({...formData, purpose: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, purpose: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 required
               >
@@ -864,18 +854,18 @@ function OnlineDonations() {
               <input
                 type="text"
                 value={formData.campaign}
-                onChange={(e) => setFormData({...formData, campaign: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, campaign: e.target.value })}
                 className="w-full border rounded px-3 py-2"
                 placeholder="Kampanya adı (opsiyonel)"
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Yönlendirme Kaynağı</label>
             <select
               value={formData.referralSource}
-              onChange={(e) => setFormData({...formData, referralSource: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, referralSource: e.target.value })}
               className="w-full border rounded px-3 py-2"
             >
               <option value="">Seçiniz</option>
@@ -884,22 +874,22 @@ function OnlineDonations() {
               ))}
             </select>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <label className="flex items-center">
               <input
                 type="checkbox"
                 checked={formData.isRecurring}
-                onChange={(e) => setFormData({...formData, isRecurring: e.target.checked})}
+                onChange={(e) => setFormData({ ...formData, isRecurring: e.target.checked })}
                 className="mr-2"
               />
               Düzenli Bağış
             </label>
-            
+
             {formData.isRecurring && (
               <select
                 value={formData.recurringPeriod}
-                onChange={(e) => setFormData({...formData, recurringPeriod: e.target.value as OnlineDonation['recurringPeriod']})}
+                onChange={(e) => setFormData({ ...formData, recurringPeriod: e.target.value as OnlineDonation['recurringPeriod'] })}
                 className="border rounded px-3 py-2"
               >
                 <option value="Aylık">Aylık</option>
@@ -909,17 +899,17 @@ function OnlineDonations() {
               </select>
             )}
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium mb-1">Notlar</label>
             <textarea
               value={formData.notes}
-              onChange={(e) => setFormData({...formData, notes: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               className="w-full border rounded px-3 py-2"
               rows={3}
             />
           </div>
-          
+
           <div className="flex justify-end gap-2 pt-4">
             <button
               type="button"
@@ -960,7 +950,7 @@ function OnlineDonations() {
               ))}
             </div>
           </div>
-          
+
           {/* Yönlendirme Kaynakları */}
           <div>
             <h3 className="text-lg font-medium mb-3">Yönlendirme Kaynakları</h3>
@@ -976,7 +966,7 @@ function OnlineDonations() {
               ))}
             </div>
           </div>
-          
+
           {/* Genel İstatistikler */}
           <div>
             <h3 className="text-lg font-medium mb-3">Genel İstatistikler</h3>
@@ -990,14 +980,14 @@ function OnlineDonations() {
               <div className="p-3 bg-green-50 rounded">
                 <div className="text-sm text-green-600">Başarı Oranı</div>
                 <div className="text-xl font-bold text-green-900">
-                  {filteredDonations.length > 0 ? 
+                  {filteredDonations.length > 0 ?
                     Math.round((filteredDonations.filter(d => d.status === 'başarılı').length / filteredDonations.length) * 100) : 0}%
                 </div>
               </div>
               <div className="p-3 bg-purple-50 rounded">
                 <div className="text-sm text-purple-600">Düzenli Bağış Oranı</div>
                 <div className="text-xl font-bold text-purple-900">
-                  {filteredDonations.length > 0 ? 
+                  {filteredDonations.length > 0 ?
                     Math.round((recurringCount / filteredDonations.length) * 100) : 0}%
                 </div>
               </div>
@@ -1011,7 +1001,7 @@ function OnlineDonations() {
           </div>
         </div>
       </Modal>
-      
+
       {/* Payment Modal */}
       <PaymentModal
         isOpen={isPaymentModalOpen}
