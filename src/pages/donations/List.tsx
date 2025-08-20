@@ -267,7 +267,7 @@ export default function DonationsList() {
 
       {/* Enhanced Main Card */}
       <CorporateCard className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-        <CorporateCardHeader className="border-b border-border-border">
+        <CorporateCardHeader className="border-b border-border">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -302,7 +302,7 @@ export default function DonationsList() {
                 <FormInput
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  className="pl-10 pr-4 py-3 border-border-border focus:border-bg-primary focus:ring-bg-primary"
+                  className="pl-10 pr-4 py-3 border-border focus:border-primary focus:ring-primary"
                   placeholder="Bağışçı adı, açıklama veya tutar ara..."
                 />
               </div>
@@ -312,7 +312,7 @@ export default function DonationsList() {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="px-4 py-3 border border-border-border rounded-lg focus:border-bg-primary focus:ring-bg-primary bg-white"
+                className="px-4 py-3 border border-border rounded-lg focus:border-primary focus:ring-primary bg-white"
               >
                 <option value="all">Tüm Durumlar</option>
                 <option value="completed">Tamamlandı</option>
@@ -322,7 +322,7 @@ export default function DonationsList() {
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-4 py-3 border border-border-border rounded-lg focus:border-bg-primary focus:ring-bg-primary bg-white"
+                className="px-4 py-3 border border-border rounded-lg focus:border-primary focus:ring-primary bg-white"
               >
                 <option value="all">Tüm Türler</option>
                 <option value="Nakit">Nakit</option>
@@ -338,7 +338,7 @@ export default function DonationsList() {
           </div>
 
           {/* Enhanced Table */}
-          <div className="overflow-hidden rounded-lg border border-border-border">
+          <div className="overflow-hidden rounded-lg border border-border">
             <CorporateTable
               columns={columns}
               data={filtered}

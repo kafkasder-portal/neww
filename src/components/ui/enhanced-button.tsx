@@ -56,7 +56,7 @@ const enhancedButtonVariants = cva(
         
         // Outline variants
         outline: [
-          "border-2 border-border-primary bg-transparent",
+          "border-2 border-primary bg-transparent",
           "text-primary hover:bg-interactive-hover",
           "hover:border-brand-primary-500 hover:text-brand-primary-600",
           "hover:shadow-sm hover:-translate-y-0.5",

@@ -108,7 +108,7 @@ const AppSidebar = memo(function AppSidebar() {
                             </PopoverTrigger>
                           </TooltipTrigger>
                           {isCollapsed && (
-                            <TooltipContent side="right" align="center" className="bg-white border border-border-border shadow-lg">
+                            <TooltipContent side="right" align="center" className="bg-white border border-border shadow-lg">
                               <div className="p-2">
                                 <div className="font-semibold text-foreground">{item.title}</div>
                                 {activeSubPage && (
@@ -124,7 +124,7 @@ const AppSidebar = memo(function AppSidebar() {
                         <PopoverContent
                           side="right"
                           align="start"
-                          className="w-64 p-3 bg-white border border-border-border shadow-xl rounded-xl"
+                          className="w-64 p-3 bg-white border border-border shadow-xl rounded-xl"
                           sideOffset={8}
                         >
                           <div className="grid gap-2">
@@ -210,7 +210,7 @@ const AppSidebar = memo(function AppSidebar() {
                             </PopoverTrigger>
                           </TooltipTrigger>
                           {isCollapsed && (
-                            <TooltipContent side="right" align="center" className="bg-white border border-border-border shadow-lg">
+                            <TooltipContent side="right" align="center" className="bg-white border border-border shadow-lg">
                               <div className="p-2">
                                 <div className="font-semibold text-foreground">{item.title}</div>
                                 {activeSubPage && (
@@ -226,7 +226,7 @@ const AppSidebar = memo(function AppSidebar() {
                         <PopoverContent
                           side="right"
                           align="start"
-                          className="w-64 p-3 bg-white border border-border-border shadow-xl rounded-xl"
+                          className="w-64 p-3 bg-white border border-border shadow-xl rounded-xl"
                           sideOffset={8}
                         >
                           <div className="grid gap-2">
@@ -298,7 +298,7 @@ const AppSidebar = memo(function AppSidebar() {
                     </PopoverTrigger>
                   </TooltipTrigger>
                   {isCollapsed && (
-                    <TooltipContent side="right" align="center" className="bg-white border border-border-border shadow-lg">
+                    <TooltipContent side="right" align="center" className="bg-white border border-border shadow-lg">
                       <div className="p-2">
                         <div className="font-bold text-foreground">Ahmet Kaya</div>
                 <div className="text-xs text-muted-foreground">
@@ -312,7 +312,7 @@ const AppSidebar = memo(function AppSidebar() {
                 <PopoverContent
                   side="right"
                   align="end"
-                  className="w-72 p-4 bg-white border border-border-border shadow-xl rounded-xl"
+                  className="w-72 p-4 bg-white border border-border shadow-xl rounded-xl"
                   sideOffset={8}
                 >
                   <div className="grid gap-3">
@@ -374,7 +374,7 @@ const AppSidebar = memo(function AppSidebar() {
                         Hesap Ayarları
                       </Button>
 
-                      <div className="border-t border-border-border pt-2 mt-2">
+                      <div className="border-t border-border pt-2 mt-2">
                         <Button
                           variant="ghost"
                           size="sm"

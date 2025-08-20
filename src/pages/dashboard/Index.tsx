@@ -249,7 +249,7 @@ export default function DashboardIndex() {
         ) : (
           <>
             <CorporateCard className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-              <CorporateCardHeader className="border-b border-border-border">
+              <CorporateCardHeader className="border-b border-border">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
@@ -317,7 +317,7 @@ export default function DashboardIndex() {
             </CorporateCard>
 
             <CorporateCard className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-              <CorporateCardHeader className="border-b border-border-border">
+              <CorporateCardHeader className="border-b border-border">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center">
@@ -384,7 +384,7 @@ export default function DashboardIndex() {
 
       {/* Enhanced Dashboard Charts */}
       <CorporateCard className="mt-8 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-        <CorporateCardHeader className="border-b border-border-border">
+        <CorporateCardHeader className="border-b border-border">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -422,7 +422,7 @@ export default function DashboardIndex() {
       {/* Enhanced Recent Activity Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
         <CorporateCard className="lg:col-span-2 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-          <CorporateCardHeader className="border-b border-border-border">
+          <CorporateCardHeader className="border-b border-border">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -484,7 +484,7 @@ export default function DashboardIndex() {
         </CorporateCard>
 
         <CorporateCard className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-          <CorporateCardHeader className="border-b border-border-border">
+          <CorporateCardHeader className="border-b border-border">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
                 <Calendar className="h-5 w-5 text-bg-secondary" />
@@ -501,7 +501,7 @@ export default function DashboardIndex() {
             ) : (
               <div className="space-y-4">
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                  <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border-border rounded focus:ring-bg-primary focus:ring-2" onChange={() => { }} />
+                  <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border rounded focus:ring-bg-primary focus:ring-2" onChange={() => { }} />
                   <div className="flex-1">
                     <p className="text-sm font-medium text-foreground">Başvuru değerlendirmeleri</p>
                     <p className="text-xs text-muted-foreground">15 başvuru bekliyor</p>
@@ -509,7 +509,7 @@ export default function DashboardIndex() {
                 </div>
 
                 <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                  <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border-border rounded focus:ring-bg-primary focus:ring-2" defaultChecked onChange={() => { }} />
+                  <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border rounded focus:ring-bg-primary focus:ring-2" defaultChecked onChange={() => { }} />
                   <div className="flex-1">
                     <p className="text-sm font-medium text-foreground line-through">Aylık rapor hazırlama</p>
                     <p className="text-xs text-muted-foreground">Tamamlandı</p>
@@ -517,7 +517,7 @@ export default function DashboardIndex() {
                 </div>
 
                 <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
-                  <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border-border rounded focus:ring-bg-primary focus:ring-2" onChange={() => { }} />
+                  <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border rounded focus:ring-bg-primary focus:ring-2" onChange={() => { }} />
                   <div className="flex-1">
                     <p className="text-sm font-medium text-foreground">Bağışçı toplantısı</p>
                     <p className="text-xs text-muted-foreground">14:00 - Konferans Salonu</p>

@@ -22,13 +22,13 @@ const enhancedCardVariants = cva(
       variant: {
         // Default card
         default: [
-          "border-border-primary bg-background shadow-sm",
+          "border-primary bg-background shadow-sm",
           "hover:shadow-md hover:-translate-y-1",
         ],
         
         // Interactive card (clickable)
         interactive: [
-          "border-border-primary bg-background shadow-sm cursor-pointer",
+          "border-primary bg-background shadow-sm cursor-pointer",
           "hover:shadow-lg hover:-translate-y-2 hover:border-brand-primary-300",
           "active:translate-y-0 active:shadow-md",
           "transition-all duration-200",
@@ -36,13 +36,13 @@ const enhancedCardVariants = cva(
         
         // Elevated card
         elevated: [
-          "border-border-secondary bg-background shadow-md",
+          "border-secondary bg-background shadow-md",
           "hover:shadow-xl hover:-translate-y-2",
         ],
         
         // Outlined card
         outlined: [
-          "border-2 border-border-primary bg-background shadow-none",
+          "border-2 border-primary bg-background shadow-none",
           "hover:border-brand-primary-400 hover:shadow-sm hover:-translate-y-1",
         ],
         
