@@ -67,25 +67,13 @@ const recentActivities = [
 
 export default function DashboardIndex() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">
-            Dernek faaliyetlerinizin genel görünümü
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            <FileText className="h-4 w-4 mr-2" />
-            Rapor Al
-          </Button>
-          <Button size="sm">
-            <Calendar className="h-4 w-4 mr-2" />
-            Yeni Etkinlik
-          </Button>
-        </div>
+      <div className="border-b pb-6">
+        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Dernek faaliyetlerinizin genel görünümü
+        </p>
       </div>
 
       {/* Stats Cards */}
