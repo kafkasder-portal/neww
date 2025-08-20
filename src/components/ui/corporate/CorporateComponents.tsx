@@ -352,14 +352,17 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string
 }
 
-export const FormInput: React.FC<FormInputProps> = ({ className, ...props }) => {
-  return (
-    <input
-      className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', className)}
-      {...props}
-    />
-  )
-}
+export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <input
+        ref={ref}
+        className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500', className)}
+        {...props}
+      />
+    )
+  }
+)
 
 interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string
@@ -776,6 +779,3 @@ export {
   CorporateCardSubtitle as CardSubtitle,
   CorporateCardTitle as CardTitle
 }
-
-
-
