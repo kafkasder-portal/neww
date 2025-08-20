@@ -230,14 +230,12 @@ export const safeJSONParse = <T = unknown>(jsonString: string, fallback: T): T =
 
     // Additional check for dangerous patterns
     if (sanitized.includes('__proto__') || sanitized.includes('constructor') || sanitized.includes('prototype')) {
-      // eslint-disable-next-line no-console
       console.warn('Potentially dangerous JSON detected');
       return fallback;
     }
 
     return JSON.parse(sanitized);
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.warn('JSON parsing failed:', error);
     return fallback;
   }

@@ -21,7 +21,6 @@ const requestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRe
 
   // Log request in development
   if (env.isDevelopment) {
-    // eslint-disable-next-line no-console
     console.log(`🚀 ${config.method?.toUpperCase()} ${config.url}`, { headers: config.headers, data: config.data, params: config.params });
   }
 
@@ -59,7 +58,6 @@ const responseInterceptor = (response: AxiosResponse): AxiosResponse => {
 
   // Log response in development
   if (env.isDevelopment) {
-    // eslint-disable-next-line no-console
     console.log(`✅ ${response.config.method?.toUpperCase()} ${response.config.url} (${duration}ms)`, { status: response.status, data: response.data });
   }
 
@@ -73,7 +71,6 @@ const responseErrorInterceptor = async (error: AxiosError): Promise<AxiosError> 
 
   // Log error in development
   if (env.isDevelopment) {
-    // eslint-disable-next-line no-console
     console.error(`❌ ${config?.method?.toUpperCase()} ${config?.url} (${duration}ms)`, { status: error.response?.status, message: error.message, data: error.response?.data });
   }
 

@@ -670,14 +670,16 @@ export class FilterManager {
           case 'number':
             filters[field.key] = Number(value)
             break
-          case 'dateRange':
+          case 'dateRange': {
             const dateRange = this.getDateRangeFromURL(params, field.key)
             if (dateRange) filters[field.key] = dateRange
             break
-          case 'numberRange':
+          }
+          case 'numberRange': {
             const numberRange = this.getNumberRangeFromURL(params, field.key)
             if (numberRange) filters[field.key] = numberRange
             break
+          }
           default:
             filters[field.key] = value
         }

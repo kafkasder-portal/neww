@@ -114,7 +114,6 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
       onSubmit(formData);
       onClose();
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error('Form submission error:', error);
     } finally {
       setIsSubmitting(false);
@@ -500,7 +499,6 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
                         const file = e.target.files?.[0];
                         if (file) {
                           // Handle file upload
-                          // eslint-disable-next-line no-console
                           console.log('File selected:', file.name);
                         }
                       }}
