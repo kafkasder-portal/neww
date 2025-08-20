@@ -185,14 +185,15 @@ export default defineConfig({
     //     proxyTimeout: 30000,
     //   },
     // },
-    // Hot Module Replacement optimizations for Cursor
+    // Hot Module Replacement optimizations for cloud environment
     hmr: {
-      port: 5174,
-      timeout: 15000,
+      port: 5173,
+      timeout: 30000,
       overlay: false,
-      clientPort: 5174,
-      // Cursor için özel HMR ayarları
-      host: 'localhost'
+      // Use same port as dev server for cloud compatibility
+      clientPort: 5173,
+      // Allow all hosts for cloud environment
+      host: true
     },
     // File watching optimizations for Cursor
     watch: {
