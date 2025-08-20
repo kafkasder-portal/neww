@@ -385,16 +385,19 @@ interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> 
   className?: string
 }
 
-export const FormSelect: React.FC<FormSelectProps> = ({ children, className, ...props }) => {
-  return (
-    <select
-      className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white', className)}
-      {...props}
-    >
-      {children}
-    </select>
-  )
-}
+export const FormSelect = React.forwardRef<HTMLSelectElement, FormSelectProps>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <select
+        ref={ref}
+        className={cn('w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white', className)}
+        {...props}
+      >
+        {children}
+      </select>
+    )
+  }
+)
 
 /* ========================================
  * SIDEBAR-ALIGNED MODAL COMPONENTS
