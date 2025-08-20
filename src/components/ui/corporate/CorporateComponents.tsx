@@ -363,6 +363,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
     )
   }
 )
+FormInput.displayName = 'FormInput'
 
 interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string
@@ -379,6 +380,7 @@ export const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaPr
     )
   }
 )
+FormTextarea.displayName = 'FormTextarea'
 
 interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   children: React.ReactNode
@@ -398,6 +400,7 @@ export const FormSelect = React.forwardRef<HTMLSelectElement, FormSelectProps>(
     )
   }
 )
+FormSelect.displayName = 'FormSelect'
 
 /* ========================================
  * SIDEBAR-ALIGNED MODAL COMPONENTS
