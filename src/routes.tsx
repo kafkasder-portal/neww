@@ -213,7 +213,7 @@ function ProtectedAppLayout() {
   }
 
   return (
-    <SidebarProvider defaultOpen={false}>
+    <SidebarProvider defaultOpen={true}>
       <AppSidebar />
       <MainContent>
         <Routes>
