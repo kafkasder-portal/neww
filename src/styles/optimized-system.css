@@ -415,7 +415,11 @@
     border-color: hsl(var(--brand-primary) / 0.2);
   }
   .card-financial-primary {
-    @apply card-pattern;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
     background: linear-gradient(135deg, hsl(var(--brand-primary) / 0.03) 0%, hsl(var(--brand-primary) / 0.08) 100%);
     border-color: hsl(var(--brand-primary) / 0.2);
   }
