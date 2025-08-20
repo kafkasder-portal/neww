@@ -124,9 +124,9 @@ const AppSidebar = memo(function AppSidebar() {
                                   <>
                                     <span className="flex-1 truncate font-medium">{item.title}</span>
                                     {item.badge && (
-                                      <SidebarMenuBadge className="bg-accent text-white">
+                                      <span className="badge-info text-xs">
                                         {item.badge}
-                                      </SidebarMenuBadge>
+                                      </span>
                                     )}
                                   </>
                                 )}
@@ -218,9 +218,9 @@ const AppSidebar = memo(function AppSidebar() {
                                   <>
                                     <span className="flex-1 truncate font-medium">{item.title}</span>
                                     {item.badge && (
-                                      <SidebarMenuBadge className="bg-accent text-white">
+                                      <span className="badge-info text-xs">
                                         {item.badge}
-                                      </SidebarMenuBadge>
+                                      </span>
                                     )}
                                   </>
                                 )}
