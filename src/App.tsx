@@ -1,12 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Toaster } from 'sonner'
 import ErrorBoundary from './components/ErrorBoundary'
 import OfflineIndicator from './components/OfflineIndicator'
 import { OnboardingModal } from './components/onboarding/OnboardingModal'
 import { OnboardingTestButton } from './components/onboarding/OnboardingTestButton'
 import PWAPrompt from './components/PWAPrompt'
+import PremiumSidebar from './components/PremiumSidebar'
 import { onboardingSteps } from './constants/onboardingSteps.tsx'
 import { LanguageProvider } from './contexts/LanguageContext'
 import { SocketProvider } from './contexts/SocketContext'
@@ -26,6 +27,51 @@ const queryClient = new QueryClient({
   },
 })
 
+// Premium Layout Component
+function PremiumLayout({ children }: { children: React.ReactNode }) {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const { session, user } = useAuthStore()
+  
+  // Don't show sidebar on login page
+  const isLoginPage = window.location.pathname === '/login'
+  
+  if (isLoginPage || !session || !user) {
+    return <>{children}</>
+  }
+
+  return (
+    <div className="flex h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      {/* Premium Sidebar */}
+      <PremiumSidebar 
+        collapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+      />
+      
+      {/* Main Content */}
+      <main className={`
+        flex-1 overflow-hidden transition-all duration-300 ease-out
+        ${sidebarCollapsed ? 'md:ml-20' : 'md:ml-80'}
+      `}>
+        <div className="h-full overflow-y-auto">
+          <div className="min-h-full">
+            {/* Premium Background Pattern */}
+            <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-primary-500/5 via-transparent to-brand-accent-500/5" />
+              <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-brand-primary-400/10 to-transparent rounded-full blur-3xl" />
+              <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-tl from-brand-accent-400/10 to-transparent rounded-full blur-3xl" />
+            </div>
+            
+            {/* Content */}
+            <div className="relative">
+              {children}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}
+
 // Inner component that uses theme-dependent hooks
 function AppContent({
   resetOnboarding,
@@ -35,11 +81,15 @@ function AppContent({
   setShowOnboarding: (show: boolean) => void
 }) {
   return (
-    <>
+    <PremiumLayout>
       <ErrorBoundary level="page">
         <Suspense fallback={
           <div className="flex items-center justify-center min-h-screen">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <div className="relative">
+              {/* Premium Loading Animation */}
+              <div className="h-16 w-16 rounded-full border-4 border-brand-primary-200 border-t-brand-primary-600 animate-spin"></div>
+              <div className="absolute inset-0 h-16 w-16 rounded-full border-4 border-transparent border-r-brand-accent-600 animate-spin animate-reverse"></div>
+            </div>
           </div>
         }>
           <AppRoutes />
@@ -47,87 +97,89 @@ function AppContent({
       </ErrorBoundary>
 
       {/* Global UI Components - sadece authenticated kullanıcılar için */}
-      <Toaster
+      <Toaster 
         position="top-right"
-        expand={true}
-        richColors
-        closeButton
+        toastOptions={{
+          className: 'glass-card',
+          style: {
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            color: 'hsl(var(--foreground))'
+          }
+        }}
       />
-      <PWAPrompt />
+      
       <OfflineIndicator />
-
+      <PWAPrompt />
+      
       {/* Onboarding */}
       <OnboardingModal
-        isOpen={false} // Disabled for now
-        onClose={() => {
-          // Onboarding close handler
-        }}
-        onComplete={() => {
-          // Onboarding complete handler
-        }}
         steps={onboardingSteps}
+        onComplete={() => setShowOnboarding(false)}
+        onSkip={() => setShowOnboarding(false)}
+        onReset={resetOnboarding}
       />
 
-      {/* Development Tools */}
+      {/* Dev Tools */}
       {process.env.NODE_ENV === 'development' && (
-        <OnboardingTestButton
-          onReset={resetOnboarding}
-          onStart={() => setShowOnboarding(true)}
-        />
+        <>
+          <OnboardingTestButton onTest={() => setShowOnboarding(true)} />
+          <ReactQueryDevtools 
+            initialIsOpen={false} 
+            buttonPosition="bottom-left"
+          />
+        </>
       )}
-    </>
+    </PremiumLayout>
   )
 }
 
-export default function App() {
-  const { initializing, initialize } = useAuthStore()
+function App() {
+  const [showOnboarding, setShowOnboarding] = useState(() => {
+    // Check if onboarding was completed
+    const completed = localStorage.getItem('onboarding-completed')
+    return !completed
+  })
 
-  // Initialize auth and performance monitoring on app start
-  useEffect(() => {
-    initialize()
-    
-    // Performance monitoring başlat
-    if (process.env.NODE_ENV === 'production') {
-      // Production'da performance monitoring'i etkinleştir
-      console.log('Performance monitoring başlatıldı')
-    }
-    
-    // Cleanup function
-    return () => {
-      PerformanceService.destroy()
-    }
-  }, [initialize])
-
-  // Show loading screen while initializing auth
-  if (initializing) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="text-muted-foreground">Uygulama yükleniyor...</p>
-        </div>
-      </div>
-    )
+  const resetOnboarding = () => {
+    localStorage.removeItem('onboarding-completed')
+    setShowOnboarding(true)
   }
 
+  useEffect(() => {
+    // Initialize performance monitoring
+    if (process.env.NODE_ENV === 'production') {
+      PerformanceService.start()
+    }
+
+    // Set up global error handlers
+    window.addEventListener('unhandledrejection', (event) => {
+      console.error('Unhandled promise rejection:', event.reason)
+    })
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('unhandledrejection', () => {})
+    }
+  }, [])
+
   return (
-    <ErrorBoundary level="global" showDetails={process.env.NODE_ENV === 'development'}>
-      <ThemeProvider>
-        <LanguageProvider>
-          <SocketProvider>
-            <QueryClientProvider client={queryClient}>
-              <Suspense fallback={
-                <div className="flex items-center justify-center min-h-screen">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                </div>
-              }>
-                <AppRoutes />
-              </Suspense>
-              <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-          </SocketProvider>
-        </LanguageProvider>
-      </ThemeProvider>
+    <ErrorBoundary level="app">
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <LanguageProvider>
+            <SocketProvider>
+              <AppContent 
+                resetOnboarding={resetOnboarding}
+                setShowOnboarding={setShowOnboarding}
+              />
+            </SocketProvider>
+          </LanguageProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </ErrorBoundary>
   )
 }
+
+export default App
