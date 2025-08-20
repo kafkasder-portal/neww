@@ -149,6 +149,46 @@ export class TurkishPaymentService {
   generatePaymentToken() {
     return `PAY_TOKEN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
+
+  /**
+   * Verify payment status with provider
+   */
+  async verifyPayment(transactionId: string, token?: string) {
+    try {
+      // Mock verification
+      return {
+        success: true,
+        verified: true,
+        transactionId,
+        status: 'completed',
+        message: 'Payment verified successfully'
+      };
+    } catch (error) {
+      return {
+        success: false,
+        verified: false,
+        error: 'Verification failed',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  }
+
+  /**
+   * Create payment form for hosted checkout
+   */
+  async createPaymentForm(paymentData: any) {
+    return {
+      success: true,
+      token: this.generatePaymentToken(),
+      paymentUrl: 'https://mock-payment-gateway.com/checkout',
+      checkoutFormContent: '<form>Mock checkout form</form>',
+      transactionId: `TXN_${Date.now()}`,
+      status: 'pending',
+      amount: paymentData.amount || 0,
+      currency: paymentData.currency || 'TRY',
+      message: 'Payment form created successfully'
+    };
+  }
 }
 
 export default TurkishPaymentService;
