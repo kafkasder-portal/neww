@@ -97,44 +97,29 @@ export default function DashboardIndex() {
         })}
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        
+      {/* Main Content */}
+      <div className="grid gap-6 lg:grid-cols-3">
+
         {/* Recent Activities */}
-        <Card className="col-span-2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="h-5 w-5" />
-              Son Aktiviteler
-            </CardTitle>
-            <CardDescription>
-              Son 24 saatteki dernek faaliyetleri
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentActivities.map((activity, index) => (
-                <div key={index} className="flex items-start space-x-4 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium leading-none">{activity.title}</p>
-                    <p className="text-sm text-muted-foreground mt-1">{activity.description}</p>
-                  </div>
-                  <div className="text-xs text-muted-foreground">{activity.time}</div>
+        <Card className="lg:col-span-2 p-6">
+          <h3 className="font-semibold mb-4">Son Aktiviteler</h3>
+          <div className="space-y-3">
+            {recentActivities.map((activity, index) => (
+              <div key={index} className="flex justify-between items-start p-3 border rounded">
+                <div>
+                  <p className="font-medium text-sm">{activity.title}</p>
+                  <p className="text-sm text-muted-foreground">{activity.description}</p>
                 </div>
-              ))}
-            </div>
-          </CardContent>
+                <span className="text-xs text-muted-foreground">{activity.time}</span>
+              </div>
+            ))}
+          </div>
         </Card>
 
         {/* Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Hızlı İşlemler</CardTitle>
-            <CardDescription>
-              Sık kullanılan işlemler
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
+        <Card className="p-6">
+          <h3 className="font-semibold mb-4">Hızlı İşlemler</h3>
+          <div className="space-y-2">
             <Button variant="outline" className="w-full justify-start">
               <Users className="h-4 w-4 mr-2" />
               Yeni Yararlanıcı
@@ -147,11 +132,7 @@ export default function DashboardIndex() {
               <Heart className="h-4 w-4 mr-2" />
               Gönüllü Ekle
             </Button>
-            <Button variant="outline" className="w-full justify-start">
-              <BarChart3 className="h-4 w-4 mr-2" />
-              Rapor Oluştur
-            </Button>
-          </CardContent>
+          </div>
         </Card>
 
       </div>
