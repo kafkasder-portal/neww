@@ -17,16 +17,15 @@ const MainContent = memo(function MainContent({
       {/* App Header */}
       <AppHeader />
 
-      {/* Main Content */}
-      <main className={cn(
-        "flex-1 overflow-auto min-h-screen bg-background",
+      {/* Content Area - SidebarInset already provides main tag */}
+      <div className={cn(
+        "flex-1 overflow-auto min-h-screen bg-background p-6",
         className
       )}>
-        {/* Content Area */}
-        <div className="max-w-7xl mx-auto p-6">
+        <div className="max-w-7xl mx-auto">
           {children}
         </div>
-      </main>
+      </div>
     </SidebarInset>
   )
 })
