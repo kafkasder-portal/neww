@@ -1,4 +1,4 @@
-import { lazy, memo, ComponentType, LazyExoticComponent } from 'react';
+import { lazy, memo, ComponentType, LazyExoticComponent, createElement } from 'react';
 import { debounce } from './debounce';
 
 // Lazy loading utility with error boundary
@@ -112,7 +112,7 @@ export const withPerformanceTracking = <P extends object>(
   return memo((props: P) => {
     const renderStart = performance.now();
     
-    const result = Component(props);
+    const result = createElement(Component, props);
     
     const renderEnd = performance.now();
     if (renderEnd - renderStart > 16) { // More than one frame (16ms)

@@ -16,8 +16,7 @@ export default defineConfig({
           process.env.NODE_ENV === 'production' && 'babel-plugin-transform-remove-console'
         ].filter(Boolean)
       },
-      // Fast Refresh optimizations
-      fastRefresh: true,
+      // Fast Refresh is enabled by default
       // Include JSX runtime for better HMR
       jsxRuntime: 'automatic',
       // Exclude node_modules from transformation for faster builds
@@ -152,21 +151,23 @@ export default defineConfig({
     // Hot Module Replacement optimizations
     hmr: {
       port: 5175,
-      timeout: 5000,
-      overlay: true,
+      timeout: 10000,
+      overlay: false,
       clientPort: 5175
     },
     // File watching optimizations
     watch: {
       usePolling: false,
-      interval: 100,
-      binaryInterval: 300,
+      interval: 300,
+      binaryInterval: 1000,
       ignored: [
         '**/node_modules/**',
         '**/.git/**',
         '**/dist/**',
         '**/coverage/**',
         '**/.nyc_output/**',
+        '**/.vscode/**',
+        '**/.idea/**',
         '**/tmp/**',
         '**/temp/**'
       ],

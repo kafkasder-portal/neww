@@ -75,8 +75,9 @@ export function useApiMutation<TData, TVariables>(
     },
     onError: (error, variables, context) => {
       // Revert optimistic update
-      if (options?.optimisticUpdate && context?.previousData) {
-        queryClient.setQueryData(options.optimisticUpdate.queryKey, context.previousData)
+      const mutationContext = context as { previousData: unknown } | undefined
+      if (options?.optimisticUpdate && mutationContext?.previousData) {
+        queryClient.setQueryData(options.optimisticUpdate.queryKey, mutationContext.previousData)
       }
       
       // Show error message
@@ -198,7 +199,7 @@ export const useCreateUser = () => {
   return useApiMutation(
     (userData: any) => api.post('/users', userData),
     {
-      invalidateQueries: [queryKeys.users.all],
+      invalidateQueries: [[...queryKeys.users.all] as unknown[]],
       successMessage: 'Kullanıcı başarıyla oluşturuldu',
       errorMessage: 'Kullanıcı oluşturulurken hata oluştu'
     }
@@ -209,7 +210,7 @@ export const useUpdateUser = () => {
   return useApiMutation(
     ({ id, ...userData }: { id: string } & any) => api.put(`/users/${id}`, userData),
     {
-      invalidateQueries: [queryKeys.users.all],
+      invalidateQueries: [[...queryKeys.users.all] as unknown[]],
       successMessage: 'Kullanıcı başarıyla güncellendi',
       errorMessage: 'Kullanıcı güncellenirken hata oluştu'
     }
@@ -220,7 +221,7 @@ export const useDeleteUser = () => {
   return useApiMutation(
     (id: string) => api.delete(`/users/${id}`),
     {
-      invalidateQueries: [queryKeys.users.all],
+      invalidateQueries: [[...queryKeys.users.all] as unknown[]],
       successMessage: 'Kullanıcı başarıyla silindi',
       errorMessage: 'Kullanıcı silinirken hata oluştu'
     }
@@ -253,7 +254,7 @@ export const useCreateDonation = () => {
   return useApiMutation(
     (donationData: any) => api.post('/donations', donationData),
     {
-      invalidateQueries: [queryKeys.donations.all, queryKeys.financial.all],
+      invalidateQueries: [[...queryKeys.donations.all] as unknown[], [...queryKeys.financial.all] as unknown[]],
       successMessage: 'Bağış başarıyla kaydedildi',
       errorMessage: 'Bağış kaydedilirken hata oluştu'
     }
@@ -296,7 +297,7 @@ export const useCreateBeneficiary = () => {
   return useApiMutation(
     (beneficiaryData: any) => api.post('/beneficiaries', beneficiaryData),
     {
-      invalidateQueries: [queryKeys.beneficiaries.all],
+      invalidateQueries: [[...queryKeys.beneficiaries.all] as unknown[]],
       successMessage: 'Yararlanıcı başarıyla eklendi',
       errorMessage: 'Yararlanıcı eklenirken hata oluştu'
     }

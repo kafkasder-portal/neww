@@ -126,7 +126,7 @@ export function useInterval(
 
     const cleanup = () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current)
+        window.clearInterval(intervalRef.current)
         intervalRef.current = null
       }
     }
@@ -138,7 +138,7 @@ export function useInterval(
 
   const clearInterval = useCallback(() => {
     if (intervalRef.current) {
-      clearInterval(intervalRef.current)
+      window.clearInterval(intervalRef.current)
       intervalRef.current = null
     }
   }, [])
@@ -171,7 +171,7 @@ export function useTimeout(
 
     const cleanup = () => {
       if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
+        window.clearTimeout(timeoutRef.current)
         timeoutRef.current = null
       }
     }
@@ -183,7 +183,7 @@ export function useTimeout(
 
   const clearTimeout = useCallback(() => {
     if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
+      window.clearTimeout(timeoutRef.current)
       timeoutRef.current = null
     }
   }, [])
