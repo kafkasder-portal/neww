@@ -144,7 +144,7 @@ export default function DashboardIndex() {
               <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-primary/5/50">
                 <CorporateCardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-bg-primary/10 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                       <Users className="w-6 h-6 text-bg-primary" />
                     </div>
                     <div className="flex items-center gap-1 text-green-600">
@@ -153,11 +153,11 @@ export default function DashboardIndex() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-sm font-medium text-text-muted-foreground">Toplam Yardım Alanlar</h3>
-                    <p className="text-2xl font-bold text-text-foreground">2,847</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">Toplam Yardım Alanlar</h3>
+                <p className="text-2xl font-bold text-foreground">2,847</p>
                     <div className="flex items-center gap-2">
                       <CorporateBadge variant="success" className="text-xs">Aktif</CorporateBadge>
-                      <span className="text-xs text-text-muted-foreground">Bu ay</span>
+                      <span className="text-xs text-muted-foreground">Bu ay</span>
                     </div>
                   </div>
                 </CorporateCardContent>
@@ -168,7 +168,7 @@ export default function DashboardIndex() {
               <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-green-500-50/50">
                 <CorporateCardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-bg-green-500-100 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
                       <Heart className="w-6 h-6 text-bg-green-500-600" />
                     </div>
                     <div className="flex items-center gap-1 text-green-600">
@@ -177,11 +177,11 @@ export default function DashboardIndex() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-sm font-medium text-text-muted-foreground">Toplam Bağışlar</h3>
-                    <p className="text-2xl font-bold text-text-foreground">₺1,245,680</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">Toplam Bağışlar</h3>
+                <p className="text-2xl font-bold text-foreground">₺1,245,680</p>
                     <div className="flex items-center gap-2">
                       <CorporateBadge variant="success" className="text-xs">Yükselen</CorporateBadge>
-                      <span className="text-xs text-text-muted-foreground">Bu ay</span>
+                      <span className="text-xs text-muted-foreground">Bu ay</span>
                     </div>
                   </div>
                 </CorporateCardContent>
@@ -192,7 +192,7 @@ export default function DashboardIndex() {
               <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-yellow-500-50/50">
                 <CorporateCardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-bg-yellow-500-100 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center">
                       <FileText className="w-6 h-6 text-bg-yellow-500-600" />
                     </div>
                     <div className="flex items-center gap-1 text-green-600">
@@ -201,11 +201,11 @@ export default function DashboardIndex() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-sm font-medium text-text-muted-foreground">Aktif Başvurular</h3>
-                    <p className="text-2xl font-bold text-text-foreground">156</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">Aktif Başvurular</h3>
+                <p className="text-2xl font-bold text-foreground">156</p>
                     <div className="flex items-center gap-2">
                       <CorporateBadge variant="warning" className="text-xs">Beklemede</CorporateBadge>
-                      <span className="text-xs text-text-muted-foreground">Değerlendirme</span>
+                      <span className="text-xs text-muted-foreground">Değerlendirme</span>
                     </div>
                   </div>
                 </CorporateCardContent>
@@ -216,7 +216,7 @@ export default function DashboardIndex() {
               <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-accent/5/50">
                 <CorporateCardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-bg-accent/10 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
                       <TrendingUp className="w-6 h-6 text-bg-accent" />
                     </div>
                     <div className="flex items-center gap-1 text-green-600">
@@ -225,11 +225,11 @@ export default function DashboardIndex() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-sm font-medium text-text-muted-foreground">Aylık Büyüme</h3>
-                    <p className="text-2xl font-bold text-text-foreground">%15.2</p>
+                    <h3 className="text-sm font-medium text-muted-foreground">Aylık Büyüme</h3>
+                <p className="text-2xl font-bold text-foreground">%15.2</p>
                     <div className="flex items-center gap-2">
                       <CorporateBadge variant="info" className="text-xs">Pozitif</CorporateBadge>
-                      <span className="text-xs text-text-muted-foreground">Geçen aya göre</span>
+                      <span className="text-xs text-muted-foreground">Geçen aya göre</span>
                     </div>
                   </div>
                 </CorporateCardContent>
@@ -252,12 +252,12 @@ export default function DashboardIndex() {
               <CorporateCardHeader className="border-b border-border-border">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-bg-green-500-100 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
                       <DollarSign className="h-5 w-5 text-bg-green-500-600" />
                     </div>
                     <div>
                       <CorporateCardTitle>Aylık Yardım Dağılımı</CorporateCardTitle>
-                      <p className="text-sm text-text-muted-foreground">Bu ayki yardım dağılımı</p>
+                      <p className="text-sm text-muted-foreground">Bu ayki yardım dağılımı</p>
                     </div>
                   </div>
                   <CorporateButton variant="outline" size="sm">
@@ -271,13 +271,13 @@ export default function DashboardIndex() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-bg-green-500-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
                         <span className="text-sm font-medium">Gıda Yardımı</span>
                       </div>
-                      <span className="text-sm font-semibold text-text-foreground">₺125,000</span>
+                      <span className="text-sm font-semibold text-foreground">₺125,000</span>
                     </div>
                     <CorporateProgress value={75} variant="success" className="h-2" />
-                    <div className="flex justify-between text-xs text-text-muted-foreground">
+                    <div className="flex justify-between text-xs text-muted-foreground">
                       <span>75% tamamlandı</span>
                       <span>₺93,750 harcandı</span>
                     </div>
@@ -286,13 +286,13 @@ export default function DashboardIndex() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-bg-primary"></div>
+                        <div className="w-3 h-3 rounded-full bg-primary"></div>
                         <span className="text-sm font-medium">Eğitim Desteği</span>
                       </div>
-                      <span className="text-sm font-semibold text-text-foreground">₺85,000</span>
+                      <span className="text-sm font-semibold text-foreground">₺85,000</span>
                     </div>
                     <CorporateProgress value={60} className="h-2" />
-                    <div className="flex justify-between text-xs text-text-muted-foreground">
+                    <div className="flex justify-between text-xs text-muted-foreground">
                       <span>60% tamamlandı</span>
                       <span>₺51,000 harcandı</span>
                     </div>
@@ -301,13 +301,13 @@ export default function DashboardIndex() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-bg-yellow-500-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                         <span className="text-sm font-medium">Sağlık Yardımı</span>
                       </div>
-                      <span className="text-sm font-semibold text-text-foreground">₺45,000</span>
+                      <span className="text-sm font-semibold text-foreground">₺45,000</span>
                     </div>
                     <CorporateProgress value={35} variant="warning" className="h-2" />
-                    <div className="flex justify-between text-xs text-text-muted-foreground">
+                    <div className="flex justify-between text-xs text-muted-foreground">
                       <span>35% tamamlandı</span>
                       <span>₺15,750 harcandı</span>
                     </div>
@@ -320,12 +320,12 @@ export default function DashboardIndex() {
               <CorporateCardHeader className="border-b border-border-border">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-bg-yellow-500-100 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center">
                       <Zap className="h-5 w-5 text-bg-yellow-500-600" />
                     </div>
                     <div>
                       <CorporateCardTitle>Hızlı İşlemler</CorporateCardTitle>
-                      <p className="text-sm text-text-muted-foreground">Sık kullanılan işlemler</p>
+                      <p className="text-sm text-muted-foreground">Sık kullanılan işlemler</p>
                     </div>
                   </div>
                   <CorporateButton variant="outline" size="sm">
@@ -338,42 +338,42 @@ export default function DashboardIndex() {
                 <div className="grid grid-cols-2 gap-4">
                   <CorporateButton
                     variant="outline"
-                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-bg-primary/5 hover:border-bg-primary/30 transition-all duration-200 group"
+                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-primary/5 hover:border-primary/30 transition-all duration-200 group"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-bg-primary/10 flex items-center justify-center group-hover:bg-bg-primary/20 transition-colors">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                       <Users className="h-6 w-6 text-bg-primary" />
                     </div>
-                    <span className="text-sm font-semibold text-text-foreground">Yeni Başvuru</span>
+                    <span className="text-sm font-semibold text-foreground">Yeni Başvuru</span>
                   </CorporateButton>
 
                   <CorporateButton
                     variant="outline"
-                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-bg-green-500-50 hover:border-bg-green-500-300 transition-all duration-200 group"
+                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-green-50 hover:border-green-300 transition-all duration-200 group"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-bg-green-500-100 flex items-center justify-center group-hover:bg-bg-green-500-200 transition-colors">
+                    <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
                       <Heart className="h-6 w-6 text-bg-green-500-600" />
                     </div>
-                    <span className="text-sm font-semibold text-text-foreground">Bağış Ekle</span>
+                    <span className="text-sm font-semibold text-foreground">Bağış Ekle</span>
                   </CorporateButton>
 
                   <CorporateButton
                     variant="outline"
-                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-bg-yellow-500-50 hover:border-bg-yellow-500-300 transition-all duration-200 group"
+                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-yellow-50 hover:border-yellow-300 transition-all duration-200 group"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-bg-yellow-500-100 flex items-center justify-center group-hover:bg-bg-yellow-500-200 transition-colors">
+                    <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
                       <FileText className="h-6 w-6 text-bg-yellow-500-600" />
                     </div>
-                    <span className="text-sm font-semibold text-text-foreground">Rapor Oluştur</span>
+                    <span className="text-sm font-semibold text-foreground">Rapor Oluştur</span>
                   </CorporateButton>
 
                   <CorporateButton
                     variant="outline"
-                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-bg-secondary/5 hover:border-bg-secondary/30 transition-all duration-200 group"
+                    className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-secondary/5 hover:border-secondary/30 transition-all duration-200 group"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-bg-secondary/10 flex items-center justify-center group-hover:bg-bg-secondary/20 transition-colors">
+                    <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
                       <MessageSquare className="h-6 w-6 text-bg-secondary" />
                     </div>
-                    <span className="text-sm font-semibold text-text-foreground">Mesaj Gönder</span>
+                    <span className="text-sm font-semibold text-foreground">Mesaj Gönder</span>
                   </CorporateButton>
                 </div>
               </CorporateCardContent>
@@ -387,12 +387,12 @@ export default function DashboardIndex() {
         <CorporateCardHeader className="border-b border-border-border">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-bg-primary/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                 <BarChart3 className="h-5 w-5 text-bg-primary" />
               </div>
               <div>
                 <CorporateCardTitle>Performans Grafikleri</CorporateCardTitle>
-                <p className="text-sm text-text-muted-foreground">Aylık ve yıllık trendler</p>
+                <p className="text-sm text-muted-foreground">Aylık ve yıllık trendler</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -425,12 +425,12 @@ export default function DashboardIndex() {
           <CorporateCardHeader className="border-b border-border-border">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-bg-primary/10 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Activity className="h-5 w-5 text-bg-primary" />
                 </div>
                 <div>
                   <CorporateCardTitle>Son Aktiviteler</CorporateCardTitle>
-                  <p className="text-sm text-text-muted-foreground">Sistem aktiviteleri</p>
+                  <p className="text-sm text-muted-foreground">Sistem aktiviteleri</p>
                 </div>
               </div>
               <CorporateButton variant="outline" size="sm">
@@ -443,40 +443,40 @@ export default function DashboardIndex() {
               <SkeletonGroup count={4} className="space-y-4" />
             ) : (
               <div className="space-y-4">
-                <div className="flex items-center gap-4 p-4 bg-bg-primary/5 rounded-xl border border-bg-primary/10">
-                  <div className="w-3 h-3 bg-bg-primary rounded-full animate-pulse"></div>
+                <div className="flex items-center gap-4 p-4 bg-primary/5 rounded-xl border border-primary/10">
+                  <div className="w-3 h-3 bg-primary rounded-full animate-pulse"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-text-foreground">Yeni yardım başvurusu alındı</p>
-                    <p className="text-xs text-text-muted-foreground">Ahmet Yılmaz tarafından</p>
+                    <p className="text-sm font-medium text-foreground">Yeni yardım başvurusu alındı</p>
+                    <p className="text-xs text-muted-foreground">Ahmet Yılmaz tarafından</p>
                   </div>
-                  <span className="text-xs text-text-muted-foreground bg-white px-2 py-1 rounded-full">2 dk önce</span>
+                  <span className="text-xs text-muted-foreground bg-white px-2 py-1 rounded-full">2 dk önce</span>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-bg-green-500-50 rounded-xl border border-bg-green-500-100">
-                  <div className="w-3 h-3 bg-bg-green-500-500 rounded-full"></div>
+                <div className="flex items-center gap-4 p-4 bg-green-50 rounded-xl border border-green-100">
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-text-foreground">Bağış işlemi tamamlandı</p>
-                    <p className="text-xs text-text-muted-foreground">₺5,000 bağış alındı</p>
+                    <p className="text-sm font-medium text-foreground">Bağış işlemi tamamlandı</p>
+                    <p className="text-xs text-muted-foreground">₺5,000 bağış alındı</p>
                   </div>
-                  <span className="text-xs text-text-muted-foreground bg-white px-2 py-1 rounded-full">5 dk önce</span>
+                  <span className="text-xs text-muted-foreground bg-white px-2 py-1 rounded-full">5 dk önce</span>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-bg-yellow-500-50 rounded-xl border border-bg-yellow-500-100">
-                  <div className="w-3 h-3 bg-bg-yellow-500-500 rounded-full"></div>
+                <div className="flex items-center gap-4 p-4 bg-yellow-50 rounded-xl border border-yellow-100">
+                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-text-foreground">Rapor oluşturuldu</p>
-                    <p className="text-xs text-text-muted-foreground">Aylık rapor hazırlandı</p>
+                    <p className="text-sm font-medium text-foreground">Rapor oluşturuldu</p>
+                    <p className="text-xs text-muted-foreground">Aylık rapor hazırlandı</p>
                   </div>
-                  <span className="text-xs text-text-muted-foreground bg-white px-2 py-1 rounded-full">10 dk önce</span>
+                  <span className="text-xs text-muted-foreground bg-white px-2 py-1 rounded-full">10 dk önce</span>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-bg-secondary/5 rounded-xl border border-bg-secondary/10">
-                  <div className="w-3 h-3 bg-bg-secondary rounded-full"></div>
+                <div className="flex items-center gap-4 p-4 bg-secondary/5 rounded-xl border border-secondary/10">
+                  <div className="w-3 h-3 bg-secondary rounded-full"></div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-text-foreground">Sistem güncellemesi</p>
-                    <p className="text-xs text-text-muted-foreground">Yeni özellikler eklendi</p>
+                    <p className="text-sm font-medium text-foreground">Sistem güncellemesi</p>
+                    <p className="text-xs text-muted-foreground">Yeni özellikler eklendi</p>
                   </div>
-                  <span className="text-xs text-text-muted-foreground bg-white px-2 py-1 rounded-full">1 saat önce</span>
+                  <span className="text-xs text-muted-foreground bg-white px-2 py-1 rounded-full">1 saat önce</span>
                 </div>
               </div>
             )}
@@ -486,12 +486,12 @@ export default function DashboardIndex() {
         <CorporateCard className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
           <CorporateCardHeader className="border-b border-border-border">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-bg-secondary/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
                 <Calendar className="h-5 w-5 text-bg-secondary" />
               </div>
               <div>
                 <CorporateCardTitle>Bugünün Görevleri</CorporateCardTitle>
-                <p className="text-sm text-text-muted-foreground">Günlük görevler</p>
+                <p className="text-sm text-muted-foreground">Günlük görevler</p>
               </div>
             </div>
           </CorporateCardHeader>
@@ -500,27 +500,27 @@ export default function DashboardIndex() {
               <SkeletonGroup count={3} className="space-y-4" />
             ) : (
               <div className="space-y-4">
-                <div className="flex items-center gap-3 p-3 bg-bg-muted rounded-lg">
+                <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                   <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border-border rounded focus:ring-bg-primary focus:ring-2" onChange={() => { }} />
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-text-foreground">Başvuru değerlendirmeleri</p>
-                    <p className="text-xs text-text-muted-foreground">15 başvuru bekliyor</p>
+                    <p className="text-sm font-medium text-foreground">Başvuru değerlendirmeleri</p>
+                    <p className="text-xs text-muted-foreground">15 başvuru bekliyor</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3 bg-bg-green-500-50 rounded-lg">
+                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
                   <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border-border rounded focus:ring-bg-primary focus:ring-2" defaultChecked onChange={() => { }} />
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-text-foreground line-through">Aylık rapor hazırlama</p>
-                    <p className="text-xs text-text-muted-foreground">Tamamlandı</p>
+                    <p className="text-sm font-medium text-foreground line-through">Aylık rapor hazırlama</p>
+                    <p className="text-xs text-muted-foreground">Tamamlandı</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3 bg-bg-yellow-500-50 rounded-lg">
+                <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
                   <input type="checkbox" className="w-4 h-4 text-bg-primary bg-white border-border-border rounded focus:ring-bg-primary focus:ring-2" onChange={() => { }} />
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-text-foreground">Bağışçı toplantısı</p>
-                    <p className="text-xs text-text-muted-foreground">14:00 - Konferans Salonu</p>
+                    <p className="text-sm font-medium text-foreground">Bağışçı toplantısı</p>
+                    <p className="text-xs text-muted-foreground">14:00 - Konferans Salonu</p>
                   </div>
                 </div>
               </div>

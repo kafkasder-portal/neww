@@ -110,7 +110,7 @@ export default function DonationsList() {
       title: 'Bağış Tarihi',
       render: (item: Donation) => (
         <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-text-muted-foreground" />
+          <Calendar className="w-4 h-4 text-muted-foreground" />
           <span className="font-medium">{new Date(item.date).toLocaleDateString('tr-TR')}</span>
         </div>
       )
@@ -120,7 +120,7 @@ export default function DonationsList() {
       title: 'Bağışçı',
       render: (item: Donation) => (
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-bg-primary/10 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
             <User className="w-4 h-4 text-bg-primary" />
           </div>
           <span className="font-medium">{item.donor_name}</span>
@@ -132,7 +132,7 @@ export default function DonationsList() {
       title: 'Bağış Şekli',
       render: (item: Donation) => (
         <div className="flex items-center gap-2">
-          <Building className="w-4 h-4 text-text-muted-foreground" />
+          <Building className="w-4 h-4 text-muted-foreground" />
           <span>{item.donation_type}</span>
         </div>
       )
@@ -212,18 +212,18 @@ export default function DonationsList() {
           <CorporateCardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-text-muted-foreground">Toplam Bağış</p>
-                <p className="text-2xl font-bold text-text-foreground">
+                <p className="text-sm font-medium text-muted-foreground">Toplam Bağış</p>
+                <p className="text-2xl font-bold text-foreground">
                   ₺{totalAmount.toLocaleString('tr-TR')}
                 </p>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-bg-green-500-100 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
                 <TrendingUp className="w-6 h-6 text-bg-green-500-600" />
               </div>
             </div>
             <div className="mt-4">
               <CorporateProgress value={75} variant="success" className="h-2" />
-              <p className="text-xs text-text-muted-foreground mt-1">Bu ay %75 artış</p>
+              <p className="text-xs text-muted-foreground mt-1">Bu ay %75 artış</p>
             </div>
           </CorporateCardContent>
         </CorporateCard>
@@ -232,16 +232,16 @@ export default function DonationsList() {
           <CorporateCardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-text-muted-foreground">Tamamlanan</p>
+                <p className="text-sm font-medium text-muted-foreground">Tamamlanan</p>
                 <p className="text-2xl font-bold text-bg-green-500-600">{completedDonations}</p>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-bg-green-500-100 flex items-center justify-center">
-                <div className="w-6 h-6 bg-bg-green-500-500 rounded-full"></div>
+              <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                  <div className="w-6 h-6 bg-green-500 rounded-full"></div>
               </div>
             </div>
             <div className="mt-4">
               <CorporateProgress value={completedDonations / filtered.length * 100} variant="success" className="h-2" />
-              <p className="text-xs text-text-muted-foreground mt-1">Başarı oranı</p>
+              <p className="text-xs text-muted-foreground mt-1">Başarı oranı</p>
             </div>
           </CorporateCardContent>
         </CorporateCard>
@@ -250,16 +250,16 @@ export default function DonationsList() {
           <CorporateCardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-text-muted-foreground">Bekleyen</p>
+                <p className="text-sm font-medium text-muted-foreground">Bekleyen</p>
                 <p className="text-2xl font-bold text-bg-yellow-500-600">{pendingDonations}</p>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-bg-yellow-500-100 flex items-center justify-center">
-                <div className="w-6 h-6 bg-bg-yellow-500-500 rounded-full animate-pulse"></div>
+              <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center">
+                  <div className="w-6 h-6 bg-yellow-500 rounded-full animate-pulse"></div>
               </div>
             </div>
             <div className="mt-4">
               <CorporateProgress value={pendingDonations / filtered.length * 100} variant="warning" className="h-2" />
-              <p className="text-xs text-text-muted-foreground mt-1">Bekleme oranı</p>
+              <p className="text-xs text-muted-foreground mt-1">Bekleme oranı</p>
             </div>
           </CorporateCardContent>
         </CorporateCard>
@@ -270,12 +270,12 @@ export default function DonationsList() {
         <CorporateCardHeader className="border-b border-border-border">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-bg-primary/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                 <DollarSign className="h-5 w-5 text-bg-primary" />
               </div>
               <div>
                 <CorporateCardTitle>Bağış Listesi</CorporateCardTitle>
-                <p className="text-sm text-text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                   {filtered.length} bağış bulundu
                 </p>
               </div>
@@ -298,7 +298,7 @@ export default function DonationsList() {
           <div className="flex flex-col lg:flex-row gap-4 mb-6">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <FormInput
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -347,13 +347,13 @@ export default function DonationsList() {
           </div>
 
           {/* Enhanced Summary */}
-          <div className="mt-6 p-4 bg-bg-muted rounded-lg border border-border-border">
+          <div className="mt-6 p-4 bg-muted rounded-lg border border-border">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <span className="text-sm font-medium text-text-foreground">
+                <span className="text-sm font-medium text-muted-foreground">
                   {filtered.length} Kayıt
                 </span>
-                <span className="text-sm font-medium text-text-foreground">
+                <span className="text-sm font-medium text-foreground">
                   Toplam: ₺{totalAmount.toLocaleString('tr-TR')} TRY
                 </span>
               </div>

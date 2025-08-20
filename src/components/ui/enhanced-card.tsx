@@ -297,7 +297,7 @@ const EnhancedCardTitle = React.forwardRef<HTMLHeadingElement, EnhancedCardTitle
     <Comp
       ref={ref}
       className={cn(
-        "text-xl font-semibold leading-none tracking-tight text-text-primary",
+        "text-xl font-semibold leading-none tracking-tight text-primary",
         className
       )}
       {...props}
@@ -311,7 +311,7 @@ const EnhancedCardDescription = React.forwardRef<HTMLParagraphElement, EnhancedC
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn("text-sm text-text-secondary leading-relaxed", className)}
+      className={cn("text-sm text-secondary leading-relaxed", className)}
       {...props}
     />
   )

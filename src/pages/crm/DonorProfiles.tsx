@@ -102,19 +102,19 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
   const getTierColor = (donorTier: string) => {
     switch (donorTier) {
       case 'platinum': return 'bg-secondary/10 text-secondary/90'
-      case 'gold': return 'bg-bg-yellow-500-100 text-bg-yellow-500-800'
-      case 'silver': return 'bg-border-border text-text-foreground'
-      case 'bronze': return 'bg-bg-red-500-100 text-bg-red-500-800'
+      case 'gold': return 'bg-yellow-100 text-yellow-800'
+      case 'silver': return 'bg-border-border text-foreground'
+      case 'bronze': return 'bg-red-100 text-red-800'
       default: return 'bg-primary/10 text-primary/90'
     }
   }
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-bg-green-500-100 text-bg-green-500-800'
-      case 'inactive': return 'bg-bg-red-500-100 text-bg-red-500-800'
-      case 'prospect': return 'bg-bg-yellow-500-100 text-bg-yellow-500-800'
-      case 'lapsed': return 'bg-border-border text-text-foreground'
+      case 'active': return 'bg-green-100 text-green-800'
+      case 'inactive': return 'bg-red-100 text-red-800'
+      case 'prospect': return 'bg-yellow-100 text-yellow-800'
+      case 'lapsed': return 'bg-border-border text-foreground'
       default: return 'bg-primary/10 text-primary/90'
     }
   }
@@ -303,7 +303,7 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
               Uygula
             </CorporateButton>
           </div>
-          <div className="text-sm text-text-muted-foreground">
+          <div className="text-sm text-muted-foreground">
             {filteredDonors.length} sonuç bulundu
           </div>
         </div>

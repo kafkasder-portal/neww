@@ -235,8 +235,8 @@ export default function CRMManagement() {
                 <p className="text-xs text-gray-600">Ahmet Yılmaz - 2 saat önce</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3 p-3 bg-bg-green-500-50 rounded-lg">
-              <div className="w-8 h-8 bg-bg-green-500-500 rounded-full flex items-center justify-center">
+            <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
+              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                 <Gift className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1">
@@ -244,8 +244,8 @@ export default function CRMManagement() {
                 <p className="text-xs text-gray-600">Fatma Demir - 5,000 TL - 4 saat önce</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3 p-3 bg-bg-blue-500-50 rounded-lg">
-              <div className="w-8 h-8 bg-bg-blue-500-500 rounded-full flex items-center justify-center">
+            <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                 <Send className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1">

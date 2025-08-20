@@ -57,7 +57,7 @@ const enhancedButtonVariants = cva(
         // Outline variants
         outline: [
           "border-2 border-border-primary bg-transparent",
-          "text-text-primary hover:bg-interactive-hover",
+          "text-primary hover:bg-interactive-hover",
           "hover:border-brand-primary-500 hover:text-brand-primary-600",
           "hover:shadow-sm hover:-translate-y-0.5",
           "focus-visible:ring-brand-primary-500",
@@ -81,8 +81,8 @@ const enhancedButtonVariants = cva(
         
         // Ghost variants
         ghost: [
-          "bg-transparent text-text-primary",
-          "hover:bg-interactive-hover hover:text-text-primary",
+          "bg-transparent text-primary",
+        "hover:bg-interactive-hover hover:text-primary",
           "hover:-translate-y-0.5",
           "focus-visible:ring-neutral-500",
         ],
