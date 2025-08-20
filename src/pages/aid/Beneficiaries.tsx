@@ -49,10 +49,6 @@ export default function Beneficiaries() {
     }
   }
 
-
-
-
-
   const handleInputChange = (field: keyof FormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
@@ -245,9 +241,10 @@ export default function Beneficiaries() {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
       const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-      console.log('Environment Variables:')
-      console.log('VITE_SUPABASE_URL:', supabaseUrl)
-      console.log('VITE_SUPABASE_ANON_KEY:', supabaseKey ? 'Set (hidden)' : 'Missing')
+      console.debug('Supabase config:', {
+        url: supabaseUrl ? 'Present' : 'Missing',
+        key: supabaseKey ? 'Present' : 'Missing'
+      })
 
       if (!supabaseUrl || !supabaseKey) {
         toast.error('Supabase environment variables are missing')
@@ -269,7 +266,6 @@ export default function Beneficiaries() {
         })
         toast.error(`Connection failed: ${error?.message || 'Unknown error'}`)
       } else {
-        console.log('Connection successful:', data)
         toast.success('Supabase connection successful!')
       }
     } catch (err) {
@@ -285,10 +281,8 @@ export default function Beneficiaries() {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
       const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-      console.log('Supabase Config:', {
-        url: supabaseUrl ? 'Set' : 'Missing',
-        key: supabaseKey ? 'Set' : 'Missing',
-        urlValue: supabaseUrl?.includes('supabase.co') ? 'Valid' : 'Placeholder'
+      console.debug('Supabase config check:', {
+        url: supabaseUrl ? 'Valid' : 'Placeholder'
       })
 
       if (!supabaseUrl || !supabaseKey || supabaseUrl.includes('your-project')) {
@@ -307,7 +301,6 @@ export default function Beneficiaries() {
       }
 
       // Test Supabase connection
-      console.log('Testing Supabase connection...')
       const { error: testError } = await supabase
         .from('beneficiaries')
         .select('count')
@@ -334,12 +327,8 @@ export default function Beneficiaries() {
         return
       }
 
-      console.log('Supabase connection successful, creating demo data...')
-
       // Demo veri setlerini oluştur
       const demoDataSets = createDemoDataSets()
-
-      console.log('Demo data to insert:', demoDataSets)
 
       // Normal demo kayıtlar�� oluştur
       const { data: normalData, error: normalError } = await supabase
@@ -567,7 +556,6 @@ export default function Beneficiaries() {
           </div>
         </div>
       </Modal>
-
 
     </div>
   )

@@ -122,7 +122,6 @@ export default function CreditCardDonations() {
   const totalCommission = filteredDonations.reduce((sum, donation) => sum + donation.commission, 0)
   const totalNetAmount = filteredDonations.reduce((sum, donation) => sum + donation.netAmount, 0)
 
-
   const columns: Column<CreditCardDonation>[] = [
     { key: 'date', header: 'Tarih' },
     { key: 'transactionId', header: 'İşlem No' },

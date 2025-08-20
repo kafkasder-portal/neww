@@ -9,8 +9,6 @@ import { getRequestColumns, getItemColumns, getPaymentColumns } from '@component
 // Mock data kaldırıldı - gerçek API'den veri gelecek
 import type { ProvisionRequest, ProvisionItem, Payment } from '@/types/provision'
 
-
-
 export default function BulkProvisioning() {
   const [requests] = useState<ProvisionRequest[]>([])
   const [items] = useState<ProvisionItem[]>([])
@@ -76,7 +74,6 @@ export default function BulkProvisioning() {
 
   const handleApprovalSubmit = (approvalData: { status: string; notes: string }) => {
     // Approval submission logic here
-    console.log('Approval data:', approvalData)
     setIsApprovalModalOpen(false)
     setSelectedRequest(null)
   }

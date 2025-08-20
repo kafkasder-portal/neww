@@ -92,8 +92,7 @@ export const ChartDashboard = () => {
 
   const handleExport = () => {
     // Grafik export işlevi
-    console.log('Grafik export ediliyor...')
-  }
+    }
 
   const renderChart = (type: ChartType) => {
     const config = chartConfigs[type]

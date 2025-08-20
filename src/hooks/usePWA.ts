@@ -31,17 +31,14 @@ export function usePWA(): PWAState & PWAActions {
   //   updateServiceWorker,
   // } = useRegisterSW({
   //   onRegistered(r: ServiceWorkerRegistration) {
-  //     console.log('SW Registered: ' + r)
-  //   },
+  //     //   },
   //   onRegisterError(error: Error) {
-  //     console.log('SW registration error', error)
-  //   },
+  //     //   },
   // })
   
   const needRefresh = false
   const updateServiceWorker = async () => {
-    console.log('Service worker update not available')
-  }
+    }
 
   useEffect(() => {
     // Check if app is already installed

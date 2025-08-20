@@ -350,19 +350,16 @@ class CachingServiceClass {
    */
   private async setIndexedDBCache(): Promise<void> {
     // Implementation would go here
-    console.log('Setting IndexedDB cache')
-  }
+    }
 
   private async getIndexedDBCache<T>(): Promise<CacheEntry<T> | null> {
     // Implementation would go here
-    console.log('Getting IndexedDB cache')
     return null
   }
 
   private async deleteIndexedDBCache(): Promise<void> {
     // Implementation would go here
-    console.log('Deleting IndexedDB cache')
-  }
+    }
 
   private async clearIndexedDBCache(): Promise<void> {
     // IndexedDB implementation placeholder

@@ -245,14 +245,14 @@ class StockAlertService {
 
     // Kategori filtresi
     if (rule.categoryFilter && rule.categoryFilter.length > 0) {
-      if (!rule.categoryFilter.includes(item.category)) {
+      if (!rule.categoryFilter.includes(item.categoryId)) {
         return false
       }
     }
 
     // Lokasyon filtresi
     if (rule.locationFilter && rule.locationFilter.length > 0) {
-      if (!rule.locationFilter.includes(item.location)) {
+      if (!rule.locationFilter.includes(item.locationId)) {
         return false
       }
     }
@@ -332,20 +332,26 @@ class StockAlertService {
   // Uyarı oluşturma ve bildirim gönderme
   async createAlert(trigger: AlertTrigger): Promise<StockAlert> {
     try {
+      // Convert 'expired' type to 'expiry_warning' to match StockAlert interface
+      const alertType = trigger.type === 'expired' ? 'expiry_warning' : trigger.type;
+      
       const alert: Omit<StockAlert, 'id'> = {
         itemId: trigger.item.id,
         itemName: trigger.item.name,
-        itemCode: trigger.item.code,
-        location: trigger.item.location,
-        type: trigger.type,
+        itemCode: trigger.item.code || trigger.item.itemCode || '',
+        locationName: trigger.item.location?.name || '',
+        type: alertType,
+        alertType: alertType,
         severity: trigger.severity,
         message: trigger.message,
-        threshold: trigger.threshold,
+        threshold: trigger.threshold || 0, // Provide default value of 0 when threshold is undefined
         currentStock: trigger.item.currentStock,
         isResolved: false,
+        isRead: false,
+        isActive: true,
         createdAt: new Date().toISOString(),
-        resolvedAt: null,
-        resolvedBy: null
+        resolvedAt: undefined,
+        resolvedBy: undefined
       }
 
       const { data, error } = await supabase
@@ -386,9 +392,7 @@ class StockAlertService {
       // E-posta bildirimi
       if (this.config.enableEmailNotifications && this.config.recipients.length > 0) {
         // E-posta gönderme servisi burada çağrılabilir
-        console.log('E-posta bildirimi gönderilecek:', {
-          recipients: this.config.recipients,
-          subject: this.getNotificationTitle(trigger.type),
+        console.debug('E-posta bildirimi gönderiliyor:', {
           message: trigger.message,
           alert
         })
@@ -397,11 +401,7 @@ class StockAlertService {
       // SMS bildirimi
       if (this.config.enableSMSNotifications && this.config.recipients.length > 0) {
         // SMS gönderme servisi burada çağrılabilir
-        console.log('SMS bildirimi gönderilecek:', {
-          recipients: this.config.recipients,
-          message: trigger.message
-        })
-      }
+        }
     } catch (error) {
       console.error('Bildirim gönderilirken hata oluştu:', error)
     }

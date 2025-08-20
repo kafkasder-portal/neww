@@ -105,8 +105,7 @@ class PerformanceMonitor {
     this.metrics.set(name, { ...existing, ...metrics })
 
     if (this.config.logToConsole) {
-      console.log(`Performance metric [${name}]:`, metrics)
-    }
+      }
   }
 
   // Warn about slow renders

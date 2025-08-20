@@ -369,7 +369,7 @@ export function useMemoryMonitor(interval = 5000) {
   const logMemoryUsage = useCallback(() => {
     const memory = memoryInfoRef.current
     if (memory) {
-      console.log('Memory Usage:', {
+      console.debug('Memory usage:', {
         used: `${(memory.usedJSHeapSize / 1024 / 1024).toFixed(2)} MB`,
         total: `${(memory.totalJSHeapSize / 1024 / 1024).toFixed(2)} MB`,
         limit: `${(memory.jsHeapSizeLimit / 1024 / 1024).toFixed(2)} MB`

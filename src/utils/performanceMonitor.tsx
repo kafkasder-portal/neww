@@ -283,16 +283,10 @@ export class PerformanceMonitor {
       const navigationEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[]
       if (navigationEntries.length > 0) {
         const nav = navigationEntries[0]
-        console.log('[Performance] Navigation timing:', {
-          domContentLoaded: nav.domContentLoadedEventEnd - nav.domContentLoadedEventStart,
-          loadComplete: nav.loadEventEnd - nav.loadEventStart,
-          totalTime: nav.loadEventEnd - nav.fetchStart
-        })
-      }
+        }
     }
 
-    console.log('[Performance] Global monitoring started')
-  }
+    }
 }
 
 // Create profiler callback

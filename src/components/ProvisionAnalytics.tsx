@@ -13,7 +13,6 @@ import {
 } from 'recharts'
 import type { ProvisionRequest } from '../types/provision'
 
-
 interface ProvisionAnalyticsProps {
   requests: ProvisionRequest[]
 }

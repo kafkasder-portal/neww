@@ -89,8 +89,7 @@ export default function App() {
     // Performance monitoring başlat
     if (process.env.NODE_ENV === 'production') {
       // Production'da performance monitoring'i etkinleştir
-      console.log('Performance monitoring başlatıldı')
-    }
+      }
     
     // Cleanup function
     return () => {

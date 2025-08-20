@@ -573,8 +573,6 @@ function OnlineDonations() {
     setActiveFilters(filter.filters)
   }
 
-
-
   // Analytics hesaplamaları zaten useMemo ile tanımlandı
 
   return (

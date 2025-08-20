@@ -23,7 +23,6 @@ import { useDesignSystem } from '@/hooks/useDesignSystem'
 export default function MessageAnalytics() {
   const { colors, styles, utils } = useDesignSystem()
 
-
   const [timeFilter, setTimeFilter] = useState('week')
   const [typeFilter, setTypeFilter] = useState('all')
 

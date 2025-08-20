@@ -319,12 +319,6 @@ export function BudgetEditDialog({ open, onOpenChange, budget, onSuccess }: Budg
     setLoading(true)
     try {
       // API call to update budget
-      console.log('Updating budget:', {
-        budgetId: budget?.id,
-        formData,
-        revisionNote: hasChanges ? revisionNote : undefined
-      })
-      
       // Mock API delay
       await new Promise(resolve => setTimeout(resolve, 1000))
       

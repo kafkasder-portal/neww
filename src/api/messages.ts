@@ -593,9 +593,8 @@ export const messagesApi = {
     //   .subscribe()
 
     // Mock subscription
-    console.log(`Subscribed to conversation ${conversationId}`)
     return {
-      unsubscribe: () => console.log(`Unsubscribed from conversation ${conversationId}`)
+      unsubscribe: () => console.debug('Unsubscribed from conversation:', conversationId)
     }
   },
 
@@ -614,9 +613,8 @@ export const messagesApi = {
     //   .subscribe()
 
     // Mock subscription
-    console.log(`Subscribed to notifications for user ${userId}`)
     return {
-      unsubscribe: () => console.log(`Unsubscribed from notifications for user ${userId}`)
+      unsubscribe: () => console.debug('Unsubscribed from notifications:', userId)
     }
   },
 

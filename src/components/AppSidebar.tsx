@@ -2,7 +2,7 @@ import { Bell, Building2, ChevronUp, HelpCircle, LogOut, Search, Settings, Spark
 import { memo, startTransition } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { navigationItems, supportItems } from '../constants/navigation'
-import { Avatar } from './ui/avatar'
+import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
 import { Button } from './ui/button'
 import {
   Popover,
@@ -58,7 +58,6 @@ const AppSidebar = memo(function AppSidebar() {
   return (
     <TooltipProvider>
       <Sidebar variant="inset" collapsible="icon" className="border-border bg-background">
-
 
         {/* Main Content */}
         <SidebarContent className="bg-gradient-to-b from-bg-muted to-white">

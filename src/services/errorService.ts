@@ -284,8 +284,6 @@ class ErrorService {
             onClick: () => {
               console.group('Error Details')
               console.error('Error:', error)
-              console.log('Context:', errorLog.context)
-              console.log('Error ID:', errorLog.id)
               console.groupEnd()
             }
           }

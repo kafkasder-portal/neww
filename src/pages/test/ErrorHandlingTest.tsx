@@ -20,8 +20,6 @@ const ErrorHandlingTest: React.FC = () => {
 
     errors.forEach((error, index) => {
       const message = getErrorMessage(error)
-      console.log(`Error ${index + 1}:`, { original: error, message })
-      
       if (index < 3) {
         toast.info(`Test ${index + 1}: ${message}`)
       }
@@ -34,8 +32,7 @@ const ErrorHandlingTest: React.FC = () => {
     
     operations.forEach(op => {
       const message = createOperationErrorMessage(op, error)
-      console.log(`${op} operation:`, message)
-    })
+      })
     
     toast.info('Check console for operation messages')
   }
@@ -54,13 +51,7 @@ const ErrorHandlingTest: React.FC = () => {
       const isNetwork = isNetworkError(error)
       const isAuth = isAuthError(error)
       
-      console.log(`Error ${index + 1}:`, {
-        message,
-        isNetwork,
-        isAuth,
-        original: error
       })
-    })
 
     toast.info('Check console for error classifications')
   }

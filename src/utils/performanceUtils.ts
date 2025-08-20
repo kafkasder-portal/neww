@@ -82,21 +82,19 @@ export const measurePerformance = (name: string, fn: () => void) => {
   const start = performance.now();
   fn();
   const end = performance.now();
-  console.log(`${name} took ${end - start} milliseconds`);
-};
+  };
 
 export const measureAsyncPerformance = async (name: string, fn: () => Promise<any>) => {
   const start = performance.now();
   await fn();
   const end = performance.now();
-  console.log(`${name} took ${end - start} milliseconds`);
-};
+  };
 
 // Memory usage monitoring
 export const logMemoryUsage = (label: string) => {
   if ('memory' in performance) {
     const memory = (performance as any).memory;
-    console.log(`${label} - Memory Usage:`, {
+    console.debug(`${label} - Memory usage:`, {
       used: `${Math.round(memory.usedJSHeapSize / 1024 / 1024)} MB`,
       total: `${Math.round(memory.totalJSHeapSize / 1024 / 1024)} MB`,
       limit: `${Math.round(memory.jsHeapSizeLimit / 1024 / 1024)} MB`

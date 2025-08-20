@@ -238,13 +238,6 @@ export class AIAssistantManager {
     const timestamp = new Date()
     
     // Machine learning için feedback data store edilebilir
-    console.log('AI Feedback:', {
-      commandId,
-      feedback,
-      details,
-      timestamp
-    })
-
     // Pattern'ları güncelle
     if (feedback === 'negative') {
       // Başarısız pattern'ları azalt

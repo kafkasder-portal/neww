@@ -50,7 +50,6 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
     resolved?: boolean
   }>({})
 
-
   const { 
     getErrorLogs, 
     getErrorStats, 

@@ -20,6 +20,8 @@ import {
   YAxis
 } from 'recharts'
 
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
 interface VarianceData {
   category: string
   budgeted: number
@@ -36,8 +38,9 @@ interface MonthlyVarianceData {
 }
 
 interface BudgetVarianceChartProps {
-  categoryData: VarianceData[]
-  monthlyData: MonthlyVarianceData[]
+  data?: VarianceData[]
+  categoryData?: VarianceData[]
+  monthlyData?: MonthlyVarianceData[]
   title?: string
   className?: string
 }
@@ -45,15 +48,19 @@ interface BudgetVarianceChartProps {
 // Use design system colors instead of hardcoded hex values
 
 export function BudgetVarianceChart({
+  data,
   categoryData,
   monthlyData,
   title = "Bütçe Varyans Analizi",
   className = ""
 }: BudgetVarianceChartProps) {
+  // Use data prop if provided, otherwise use categoryData
+  const chartCategoryData = categoryData || data || []
+  const chartMonthlyData = monthlyData || []
   const { colors, styles } = useDesignSystem()
 
   // Prepare data for pie chart
-  const pieData = categoryData.map(item => ({
+  const pieData = chartCategoryData.map(item => ({
     name: item.category,
     value: Math.abs(item.variance),
     variance: item.variance
@@ -116,7 +123,7 @@ export function BudgetVarianceChart({
           <TabsContent value="category-bar">
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={categoryData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <BarChart data={chartCategoryData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis
                     dataKey="category"
@@ -126,7 +133,7 @@ export function BudgetVarianceChart({
                     fontSize={12}
                   />
                   <YAxis
-                    tickFormatter={(value) => formatCurrency(value, 'TRY', 'tr-TR', { notation: 'compact' })}
+                    tickFormatter={(value) => formatCurrency(value, 'TRY', 'tr-TR')}
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
@@ -141,11 +148,11 @@ export function BudgetVarianceChart({
           <TabsContent value="monthly-line">
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={monthlyData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <LineChart data={chartMonthlyData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis
-                    tickFormatter={(value) => formatCurrency(value, 'TRY', 'tr-TR', { notation: 'compact' })}
+                    tickFormatter={(value) => formatCurrency(value, 'TRY', 'tr-TR')}
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
@@ -187,7 +194,7 @@ export function BudgetVarianceChart({
                       fontSize={12}
                     />
                     <YAxis
-                      tickFormatter={(value) => formatCurrency(value, 'TRY', 'tr-TR', { notation: 'compact' })}
+                      tickFormatter={(value) => formatCurrency(value, 'TRY', 'tr-TR')}
                     />
                     <Tooltip
                       content={({ active, payload, label }) => {
@@ -208,12 +215,8 @@ export function BudgetVarianceChart({
                         return null
                       }}
                     />
-                    <Bar
-                      dataKey="variance"
-                      fill={(entry: any) => entry.variance > 0 ? colors.semantic.danger : colors.semantic.success}
-                      name="Varyans"
-                    >
-                      {categoryData.map((entry, index) => (
+                    <Bar dataKey="variance" name="Varyans">
+                      {chartCategoryData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.variance > 0 ? colors.semantic.danger : colors.semantic.success} />
                       ))}
                     </Bar>
@@ -235,12 +238,13 @@ export function BudgetVarianceChart({
                     labelLine={false}
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                     outerRadius={80}
-                    fill="colors.chart[1]"
+                    fill={colors.chart[1]}
                     dataKey="value"
                   >
-                    {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
+                    {pieData.map((entry, index) => {
+                      const colorArray = Object.values(colors.chart);
+                      return <Cell key={`cell-${index}`} fill={colorArray[index % colorArray.length]} />;
+                    })}
                   </Pie>
                   <Tooltip content={<PieTooltip />} />
                   <Legend />
@@ -258,7 +262,7 @@ export function BudgetVarianceChart({
                 <p className="text-sm text-muted-foreground">Toplam Bütçelenen</p>
                 <p className="text-2xl font-bold text-blue-600">
                   {formatCurrency(
-                    categoryData.reduce((sum, item) => sum + item.budgeted, 0),
+                    chartCategoryData.reduce((sum, item) => sum + item.budgeted, 0),
                     'TRY',
                     'tr-TR'
                   )}
@@ -273,7 +277,7 @@ export function BudgetVarianceChart({
                 <p className="text-sm text-muted-foreground">Toplam Gerçekleşen</p>
                 <p className="text-2xl font-bold text-green-600">
                   {formatCurrency(
-                    categoryData.reduce((sum, item) => sum + item.actual, 0),
+                    chartCategoryData.reduce((sum, item) => sum + item.actual, 0),
                     'TRY',
                     'tr-TR'
                   )}
@@ -286,12 +290,12 @@ export function BudgetVarianceChart({
             <CorporateCardContent className="pt-4">
               <div className="text-center">
                 <p className="text-sm text-muted-foreground">Toplam Varyans</p>
-                <p className={`text-2xl font-bold ${categoryData.reduce((sum, item) => sum + item.variance, 0) > 0
+                <p className={`text-2xl font-bold ${chartCategoryData.reduce((sum, item) => sum + item.variance, 0) > 0
                     ? 'text-red-600'
                     : 'text-green-600'
                   }`}>
                   {formatCurrency(
-                    categoryData.reduce((sum, item) => sum + item.variance, 0),
+                    chartCategoryData.reduce((sum, item) => sum + item.variance, 0),
                     'TRY',
                     'tr-TR'
                   )}

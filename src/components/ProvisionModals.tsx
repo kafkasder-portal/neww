@@ -200,8 +200,6 @@ export function ProvisionModals({
           try {
             // API çağrısı - gerçek implementasyon yapılana kadar console log
             // eslint-disable-next-line no-console
-            console.log('Yeni talep eklendi:', requestData)
-
             // Burada normalde API'ye POST isteği gönderilecek
             // await api.post('/provision-requests', requestData)
 

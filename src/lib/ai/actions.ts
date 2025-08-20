@@ -166,4 +166,3 @@ export const getAllActions = (): CommandAction[] => actions
 export const findActionById = (id: string): CommandAction | undefined =>
   actions.find(a => a.id === id)
 
-

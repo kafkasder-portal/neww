@@ -235,7 +235,6 @@ export const useAuth = () => {
 
       // Use mock auth if enabled or Supabase not configured
       if (shouldUseMockAuth()) {
-        console.log('🔧 Using mock authentication');
         const result = await mockAuth.login(credentials);
 
         // Store tokens

@@ -187,8 +187,6 @@ export const useUsersCount = (filters: Record<string, string> = {}) => {
   )
 }
 
-
-
 export const useUser = (id: string, options: Record<string, unknown> = {}) => {
   return useApiQuery(
     queryKeys.users.detail(id),
@@ -275,8 +273,6 @@ export const useInstitutionsCount = (filters: Record<string, string> = {}) => {
   )
 }
 
-
-
 export const useInstitution = (id: string, options: Record<string, unknown> = {}) => {
   return useApiQuery(
     queryKeys.institutions.detail(id),
@@ -362,8 +358,6 @@ export const useMessageTemplatesCount = (filters: Record<string, string> = {}) =
     () => fetch(`/api/message-templates/count?${new URLSearchParams(filters)}`).then(res => res.json())
   )
 }
-
-
 
 export const useMessageTemplate = (id: string, options: Record<string, unknown> = {}) => {
   return useApiQuery(

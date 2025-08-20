@@ -226,8 +226,7 @@ export default function UnitRoles() {
                       <button
                         onClick={() => {
                           // View details action
-                          console.log('View details for role:', role.id)
-                        }}
+                          }}
                         className="text-blue-600 hover:text-blue-900"
                       >
                         <Search className="h-4 w-4" />

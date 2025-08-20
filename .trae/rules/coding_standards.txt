@@ -1,0 +1,7 @@
+# Trae AI Kodlama Standartları
+
+1.  **Türkçe Açıklama:** Yapılan tüm kod değişiklikleri için mutlaka Türkçe ve anlaşılır bir açıklama yapılmalıdır.
+2.  **Kod Okunabilirliği:** Karmaşık veya anlaşılması zor olan kod blokları için yorum satırları eklenmelidir.
+3.  **Mevcut Stile Uyum:** Projedeki mevcut kodlama stiline ve formatına sadık kalınmalıdır.
+4.  **Performans Odaklılık:** Kod yazarken performans ve optimizasyon her zaman öncelikli olmalıdır.
+5.  **Güvenlik:** Güvenlik açıklarına karşı dikkatli olunmalı ve gerekli önlemler alınmalıdır.

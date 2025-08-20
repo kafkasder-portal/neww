@@ -172,7 +172,7 @@ export default function DonorProfiles({ donors, onDonorSelect, onRefresh }: Dono
             />
           </div>
           <div className="ml-4">
-<div className="text-sm font-medium text-gray-900">{donor.name}</div>
+<div className="text-sm font-medium text-gray-900">{`${donor.firstName} ${donor.lastName}`}</div>
             <div className="text-sm text-gray-500">{donor.email}</div>
           </div>
         </div>

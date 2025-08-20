@@ -290,8 +290,7 @@ export function initializeSecurity(): void {
   
   // Log configuration in development
   if (process.env.NODE_ENV === 'development') {
-    console.log('🔒 Security utilities initialized');
-  }
+    }
 }
 
 export default {

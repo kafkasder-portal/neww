@@ -54,10 +54,8 @@ export const initSentry = () => {
         }
       }
     })
-    
-    console.log('Sentry initialized for production')
   } else {
-    console.log('Sentry not initialized (development mode or missing DSN)')
+    console.log('Sentry not initialized - development mode or missing DSN')
   }
 }
 

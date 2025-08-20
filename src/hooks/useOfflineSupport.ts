@@ -211,8 +211,7 @@ export const useBackgroundSync = () => {
       })
 
       setLastSyncTime(Date.now())
-      console.log('Background sync tamamlandı')
-    } catch (error) {
+      } catch (error) {
       console.warn('Background sync hatası:', error)
     }
   }

@@ -27,8 +27,7 @@ export default function DonorProfilesWrapper() {
 
   const handleDonorSelect = (donor: Donor) => {
     // Handle donor selection
-    console.log('Selected donor:', donor)
-  }
+    }
 
   const handleRefresh = () => {
     loadDonors()

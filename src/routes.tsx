@@ -1,7 +1,7 @@
 import { lazy, startTransition, useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AICommandCenter from './components/AICommandCenter'
-import { AppSidebar } from './components/AppSidebar'
+import { AppSidebar } from './components/sidebar/AppSidebar'
 import ChatContainer from './components/Chat/ChatContainer'
 import CommandPalette from './components/CommandPalette'
 import {

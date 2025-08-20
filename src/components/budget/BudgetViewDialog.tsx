@@ -23,6 +23,7 @@ interface BudgetViewDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   budget: AdvancedBudget | null
+  onClose: () => void
 }
 
 export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialogProps) {
@@ -72,9 +73,11 @@ export function BudgetViewDialog({ open, onOpenChange, budget }: BudgetViewDialo
             <div className="flex items-center gap-2">
               {getStatusBadge(budget.status)}
               <CorporateBadge variant="outline">
-                {budget.budgetType === 'annual' ? 'Yıllık' : 
-                 budget.budgetType === 'monthly' ? 'Aylık' : 
-                 budget.budgetType === 'project' ? 'Proje' : 'Diğer'}
+                {budget.budgetType === 'annual' ? 'Yıllık' :
+                 budget.budgetType === 'project' ? 'Proje' :
+                 budget.budgetType === 'grant' ? 'Hibe' :
+                 budget.budgetType === 'campaign' ? 'Kampanya' :
+                 budget.budgetType === 'department' ? 'Departman' : 'Diğer'}
               </CorporateBadge>
             </div>
           </div>

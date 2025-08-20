@@ -350,8 +350,6 @@ export default function Applications() {
     toast.success('Filtre yüklendi')
   }
 
-
-
   const getStatusBadge = (status: string) => {
     const statusMap = {
       pending: { label: 'Bekliyor', class: 'bg-yellow-100 text-yellow-800 border-yellow-200', icon: Clock },

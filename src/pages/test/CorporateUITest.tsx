@@ -116,8 +116,7 @@ const CorporateUITest: React.FC = () => {
                     <CorporateSearch
                         placeholder="Ara..."
                         value={searchValue}
-                        onChange={(e) => setSearchValue(e.target.value)}
-                        onSearch={() => console.log('Search:', searchValue)}
+                        onChange={setSearchValue}
                     />
                 </CorporateCardContent>
             </CorporateCard>
@@ -128,28 +127,24 @@ const CorporateUITest: React.FC = () => {
                     <CorporateCardTitle>Tablo Bileşeni</CorporateCardTitle>
                 </CorporateCardHeader>
                 <CorporateCardContent>
-                    <CorporateTable>
-                        <CorporateTableHeader>
-                            <CorporateTableHeaderCell>ID</CorporateTableHeaderCell>
-                            <CorporateTableHeaderCell>İsim</CorporateTableHeaderCell>
-                            <CorporateTableHeaderCell>Email</CorporateTableHeaderCell>
-                            <CorporateTableHeaderCell>Durum</CorporateTableHeaderCell>
-                            <CorporateTableHeaderCell>Rol</CorporateTableHeaderCell>
-                        </CorporateTableHeader>
-                        {mockTableData.map((row) => (
-                            <CorporateTableRow key={row.id}>
-                                <CorporateTableCell>{row.id}</CorporateTableCell>
-                                <CorporateTableCell>{row.name}</CorporateTableCell>
-                                <CorporateTableCell>{row.email}</CorporateTableCell>
-                                <CorporateTableCell>
+                    <CorporateTable
+                        columns={[
+                            { key: 'id', title: 'ID' },
+                            { key: 'name', title: 'İsim' },
+                            { key: 'email', title: 'Email' },
+                            { 
+                                key: 'status', 
+                                title: 'Durum',
+                                render: (row) => (
                                     <CorporateBadge variant={row.status === 'active' ? 'success' : 'neutral'}>
                                         {row.status}
                                     </CorporateBadge>
-                                </CorporateTableCell>
-                                <CorporateTableCell>{row.role}</CorporateTableCell>
-                            </CorporateTableRow>
-                        ))}
-                    </CorporateTable>
+                                ) 
+                            },
+                            { key: 'role', title: 'Rol' }
+                        ]}
+                        data={mockTableData}
+                    />
                 </CorporateCardContent>
             </CorporateCard>
 
@@ -249,13 +244,13 @@ const CorporateUITest: React.FC = () => {
             {/* Statistics Cards */}
             <div className="grid grid-cols-2">
                 <StatisticsCard
-                    number="₺847,500"
-                    label="Aylık Bağış"
+                    title="Aylık Bağış"
+                    value="₺847,500"
                     change={{ value: 12.5, isPositive: true }}
                 />
                 <StatisticsCard
-                    number="1,247"
-                    label="Aktif Kullanıcı"
+                    title="Aktif Kullanıcı"
+                    value="1,247"
                     change={{ value: 2.1, isPositive: false }}
                 />
             </div>

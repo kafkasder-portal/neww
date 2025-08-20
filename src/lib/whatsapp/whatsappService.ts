@@ -60,13 +60,11 @@ export class WhatsAppService {
   private setupEventHandlers() {
     // QR kod oluşturma
     this.client.on('qr', (qr) => {
-      console.log('QR Code alındı, tarayın:')
       qrcode.generate(qr, { small: true })
     })
 
     // Hazır olduğunda
     this.client.on('ready', () => {
-      console.log('WhatsApp client hazır!')
       this.isReady = true
     })
 
@@ -77,13 +75,11 @@ export class WhatsAppService {
 
     // Bağlantı durumu
     this.client.on('disconnected', (reason) => {
-      console.log('WhatsApp bağlantısı kesildi:', reason)
       this.isReady = false
     })
 
     this.client.on('auth_failure', (msg) => {
-      console.log('WhatsApp kimlik doğrulama hatası:', msg)
-    })
+      })
   }
 
   private async handleIncomingMessage(message: Message) {

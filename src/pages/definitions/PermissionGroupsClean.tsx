@@ -41,7 +41,6 @@ export default function PermissionGroupsClean() {
   ])
 
   const handleSearch = () => {
-    console.log('Searching...', { searchId, statusFilter, nameFilter })
     if (searchId || statusFilter || nameFilter) {
       setShowClearButton(true)
     }
@@ -55,12 +54,10 @@ export default function PermissionGroupsClean() {
   }
 
   const handleAdd = () => {
-    console.log('Adding new permission group...')
-  }
+    }
 
   const handleViewDetails = (id: number) => {
-    console.log('Viewing details for permission group:', id)
-  }
+    }
 
   return (
     <div className="relative min-h-screen bg-background">

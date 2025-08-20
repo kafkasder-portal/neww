@@ -124,8 +124,7 @@ const CRMAnalytics: React.FC = () => {
 
   const handleExportReport = () => {
     // Export functionality
-    console.log('Rapor dışa aktarılıyor...');
-  };
+    };
 
   const StatCard = ({ title, value, icon: Icon, trend, trendValue }: {
     title: string;

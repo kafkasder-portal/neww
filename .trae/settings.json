@@ -1,0 +1,8 @@
+{
+  "ai.performance.mode": "ultimate",
+  "ai.coding.language": "tr",
+  "terminal.performance.optimization": true,
+  "ui.theme": "dark_performance",
+  "files.indexing.strategy": "aggressive",
+  "cache.strategy": "memory_intensive"
+}

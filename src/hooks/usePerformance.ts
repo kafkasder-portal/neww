@@ -146,7 +146,7 @@ export const usePerformanceMonitor = (componentName: string) => {
     const timeSinceLastRender = currentTime - lastRenderTime.current;
     
     if (process.env.NODE_ENV === 'development') {
-      console.log(`${componentName} - Render #${renderCount.current}, Time since last: ${timeSinceLastRender.toFixed(2)}ms`);
+      console.debug(`${componentName} render time: ${timeSinceLastRender.toFixed(2)}ms`);
     }
     
     lastRenderTime.current = currentTime;
@@ -156,7 +156,7 @@ export const usePerformanceMonitor = (componentName: string) => {
     renderCount: renderCount.current,
     logPerformance: (action: string) => {
       if (process.env.NODE_ENV === 'development') {
-        console.log(`${componentName} - ${action} at render #${renderCount.current}`);
+        console.debug('Performance log:', { component: componentName, action })
       }
     }
   };

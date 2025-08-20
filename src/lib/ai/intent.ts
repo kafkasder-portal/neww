@@ -45,4 +45,3 @@ function similarity(a: string, b: string): number {
   return denom ? overlap / denom : 0
 }
 
-

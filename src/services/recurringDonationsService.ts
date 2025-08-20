@@ -630,13 +630,11 @@ export class RecurringDonationsService {
   // Notifications
   private static async sendPaymentReceipt(paymentId: string): Promise<void> {
     // Implementation for sending payment receipt via email/SMS
-    console.log('Sending payment receipt for payment:', paymentId)
-  }
+    }
 
   private static async sendPaymentFailureNotification(recurringDonationId: string, reason: string): Promise<void> {
     // Implementation for sending payment failure notification
-    console.log('Sending payment failure notification for subscription:', recurringDonationId, 'Reason:', reason)
-  }
+    }
 
   // Subscription Management Requests
   static async createSubscriptionChangeRequest(

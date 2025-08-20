@@ -44,8 +44,7 @@ export const OfflineProvider: React.FC<OfflineProviderProps> = ({ children }) =>
   
   const clearQueue = () => {
     // Implementation would clear the queue
-    console.log('Clear queue called')
-  }
+    }
 
   // Auto-process queue when coming back online
   useEffect(() => {

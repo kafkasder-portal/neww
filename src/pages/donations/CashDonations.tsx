@@ -233,7 +233,6 @@ export default function CashDonations() {
         }
       } catch (error) {
         // If not JSON, treat as simple string data
-        console.log('Scanned data:', data)
         // You can add custom logic here to handle different data formats
       }
 

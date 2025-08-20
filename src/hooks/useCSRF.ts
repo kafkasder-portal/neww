@@ -118,7 +118,6 @@ export const useCSRF = (): UseCSRFReturn => {
     const refreshTime = Math.max(timeUntilExpiry - 10 * 60 * 1000, 60 * 1000); // At least 1 minute
 
     const timeoutId = setTimeout(() => {
-      console.log('Auto-refreshing CSRF token...');
       fetchCSRFToken();
     }, refreshTime);
 

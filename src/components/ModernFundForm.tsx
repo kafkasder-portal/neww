@@ -501,8 +501,7 @@ const ModernFundForm: React.FC<ModernFundFormProps> = ({
                         if (file) {
                           // Handle file upload
                           // eslint-disable-next-line no-console
-                          console.log('File selected:', file.name);
-                        }
+                          }
                       }}
                     />
                   </div>

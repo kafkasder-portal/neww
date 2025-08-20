@@ -109,11 +109,7 @@ export const validateEnv = () => {
   }
 
   if (env.DEBUG_MODE) {
-    console.log('🔧 Environment loaded:', {
-      APP_NAME: env.APP_NAME,
-      APP_VERSION: env.APP_VERSION,
-      APP_ENVIRONMENT: env.APP_ENVIRONMENT,
-      SUPABASE_CONFIGURED: !env.VITE_PUBLIC_SUPABASE_URL.includes('placeholder'),
+    console.log('Environment variables:', {
       API_BASE_URL: env.API_BASE_URL
     });
   }

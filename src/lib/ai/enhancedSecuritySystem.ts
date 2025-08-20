@@ -905,8 +905,7 @@ export class EnhancedSecuritySystem {
   private async storeSecurityEvent(event: SecurityEvent): Promise<void> {
     try {
       // Skip storing for now since the table doesn't exist
-      console.log('Security event would be stored:', event.type)
-    } catch (error) {
+      } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Store Security Event Error'))
     }
   }
@@ -914,8 +913,7 @@ export class EnhancedSecuritySystem {
   private async storePrivacyAudit(audit: PrivacyAudit): Promise<void> {
     try {
       // Skip storing for now since the table doesn't exist
-      console.log('Privacy audit would be stored:', audit.dataType)
-    } catch (error) {
+      } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Store Privacy Audit Error'))
     }
   }
@@ -923,8 +921,7 @@ export class EnhancedSecuritySystem {
   private async storeComplianceChecks(checks: ComplianceCheck[]): Promise<void> {
     try {
       // Skip storing for now since the table doesn't exist
-      console.log('Compliance checks would be stored:', checks.length, 'items')
-    } catch (error) {
+      } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Store Compliance Checks Error'))
     }
   }
@@ -932,8 +929,7 @@ export class EnhancedSecuritySystem {
   private async storeThreatDetections(threats: ThreatDetection[]): Promise<void> {
     try {
       // Skip storing for now since the table doesn't exist
-      console.log('Threat detections would be stored:', threats.length, 'items')
-    } catch (error) {
+      } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Store Threat Detections Error'))
     }
   }
@@ -941,8 +937,7 @@ export class EnhancedSecuritySystem {
   private async storeDataClassification(classification: DataClassification): Promise<void> {
     try {
       // Skip storing for now since the table doesn't exist
-      console.log('Data classification would be stored:', classification.dataType)
-    } catch (error) {
+      } catch (error) {
       logSystemError(error instanceof Error ? error : new Error('Store Data Classification Error'))
     }
   }

@@ -73,7 +73,9 @@ class PerformanceMonitoringService {
   constructor() {
     this.initializeWebVitals()
     this.initializeNavigationTiming()
-    this.startPeriodicFlush()
+    // Geçici olarak periyodik flush'ı devre dışı bırak
+    // this.startPeriodicFlush()
+    console.info('PerformanceService başlatıldı - metrik gönderimi devre dışı')
   }
 
   /**
@@ -340,19 +342,28 @@ class PerformanceMonitoringService {
    */
   private checkAndFlush() {
     if (this.metrics.length >= this.batchSize) {
-      this.flushMetrics()
+      // Geçici olarak sadece console'a log yaz
+      console.debug('Performans metrikleri batch doldu:', this.metrics.slice(-3))
+      this.metrics = [] // Metrikleri temizle
+      // this.flushMetrics()
     }
   }
 
   private checkAndFlushAPI() {
     if (this.apiMetrics.length >= this.batchSize) {
-      this.flushAPIMetrics()
+      // Geçici olarak sadece console'a log yaz
+      console.debug('API metrikleri batch doldu:', this.apiMetrics.slice(-3))
+      this.apiMetrics = [] // Metrikleri temizle
+      // this.flushAPIMetrics()
     }
   }
 
   private checkAndFlushRender() {
     if (this.renderMetrics.length >= this.batchSize) {
-      this.flushRenderMetrics()
+      // Geçici olarak sadece console'a log yaz
+      console.debug('Render metrikleri batch doldu:', this.renderMetrics.slice(-3))
+      this.renderMetrics = [] // Metrikleri temizle
+      // this.flushRenderMetrics()
     }
   }
 
@@ -366,6 +377,13 @@ class PerformanceMonitoringService {
     this.metrics = []
 
     try {
+      // Network durumunu kontrol et
+      if (!navigator.onLine) {
+        console.warn('Ağ bağlantısı yok, metrikler yerel olarak saklanıyor')
+        this.metrics.unshift(...metricsToSend)
+        return
+      }
+
       // Get auth token
       const token = localStorage.getItem('accessToken')
       const headers: Record<string, string> = {
@@ -376,6 +394,9 @@ class PerformanceMonitoringService {
         headers['Authorization'] = `Bearer ${token}`
       }
 
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 saniye timeout
+
       const response = await fetch('/api/analytics/performance', {
         method: 'POST',
         headers,
@@ -383,27 +404,42 @@ class PerformanceMonitoringService {
           type: 'performance',
           metrics: metricsToSend,
         }),
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
+
+      console.debug(`Performans metrikleri başarıyla gönderildi: ${metricsToSend.length} metrik`)
     } catch (error) {
-      // Hata durumunda metrikleri geri koy
-      this.metrics.unshift(...metricsToSend)
+      // Hata durumunda metrikleri geri koy (maksimum 100 metrik sakla)
+      if (this.metrics.length < 100) {
+        this.metrics.unshift(...metricsToSend.slice(0, 100 - this.metrics.length))
+      }
       
-      errorService.handleError(error as Error, {
-        category: ErrorCategory.SYSTEM,
-        severity: ErrorSeverity.MEDIUM,
-        context: {
-          component: 'PerformanceService',
-          action: 'flush-metrics',
-          additionalData: {
-            metricsCount: metricsToSend.length,
-            retryable: true,
-          }
+      // Sadece kritik olmayan hataları logla
+      if (error instanceof Error && !error.name.includes('AbortError')) {
+        console.warn('Performans metrik gönderimi başarısız:', error.message)
+        
+        // ErrorService varsa kullan, yoksa sadece console'a yaz
+        if (typeof errorService !== 'undefined') {
+          errorService.handleError(error as Error, {
+            category: ErrorCategory.SYSTEM,
+            severity: ErrorSeverity.LOW, // Severity'yi LOW yap
+            context: {
+              component: 'PerformanceService',
+              action: 'flush-metrics',
+              additionalData: {
+                metricsCount: metricsToSend.length,
+                retryable: true,
+              }
+            }
+          })
         }
-      })
+      }
     }
   }
 
@@ -417,6 +453,15 @@ class PerformanceMonitoringService {
     this.apiMetrics = []
 
     try {
+      // Network durumunu kontrol et
+      if (!navigator.onLine) {
+        console.warn('Ağ bağlantısı yok, API metrikleri yerel olarak saklanıyor')
+        if (this.apiMetrics.length < 50) {
+          this.apiMetrics.unshift(...metricsToSend.slice(0, 50 - this.apiMetrics.length))
+        }
+        return
+      }
+
       // Get auth token
       const token = localStorage.getItem('accessToken')
       const headers: Record<string, string> = {
@@ -427,17 +472,35 @@ class PerformanceMonitoringService {
         headers['Authorization'] = `Bearer ${token}`
       }
 
-      await fetch('/api/analytics/api-performance', {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 saniye timeout
+
+      const response = await fetch('/api/analytics/api-performance', {
         method: 'POST',
         headers,
         body: JSON.stringify({
           type: 'api-performance',
           metrics: metricsToSend,
         }),
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      console.debug(`API metrikleri başarıyla gönderildi: ${metricsToSend.length} metrik`)
     } catch (error) {
-      this.apiMetrics.unshift(...metricsToSend)
-      console.warn('API metrik gönderimi başarısız:', error)
+      // Hata durumunda metrikleri geri koy (maksimum 50 metrik sakla)
+      if (this.apiMetrics.length < 50) {
+        this.apiMetrics.unshift(...metricsToSend.slice(0, 50 - this.apiMetrics.length))
+      }
+      
+      if (error instanceof Error && !error.name.includes('AbortError')) {
+        console.warn('API metrik gönderimi başarısız:', error.message)
+      }
     }
   }
 
@@ -451,6 +514,15 @@ class PerformanceMonitoringService {
     this.renderMetrics = []
 
     try {
+      // Network durumunu kontrol et
+      if (!navigator.onLine) {
+        console.warn('Ağ bağlantısı yok, render metrikleri yerel olarak saklanıyor')
+        if (this.renderMetrics.length < 50) {
+          this.renderMetrics.unshift(...metricsToSend.slice(0, 50 - this.renderMetrics.length))
+        }
+        return
+      }
+
       // Get auth token
       const token = localStorage.getItem('accessToken')
       const headers: Record<string, string> = {
@@ -461,17 +533,35 @@ class PerformanceMonitoringService {
         headers['Authorization'] = `Bearer ${token}`
       }
 
-      await fetch('/api/analytics/render-performance', {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 saniye timeout
+
+      const response = await fetch('/api/analytics/render-performance', {
         method: 'POST',
         headers,
         body: JSON.stringify({
           type: 'render-performance',
           metrics: metricsToSend,
         }),
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      console.debug(`Render metrikleri başarıyla gönderildi: ${metricsToSend.length} metrik`)
     } catch (error) {
-      this.renderMetrics.unshift(...metricsToSend)
-      console.warn('Render metrik gönderimi başarısız:', error)
+      // Hata durumunda metrikleri geri koy (maksimum 50 metrik sakla)
+      if (this.renderMetrics.length < 50) {
+        this.renderMetrics.unshift(...metricsToSend.slice(0, 50 - this.renderMetrics.length))
+      }
+      
+      if (error instanceof Error && !error.name.includes('AbortError')) {
+        console.warn('Render metrik gönderimi başarısız:', error.message)
+      }
     }
   }
 
@@ -480,24 +570,42 @@ class PerformanceMonitoringService {
    */
   private startPeriodicFlush() {
     setInterval(() => {
-      this.flushMetrics()
-      this.flushAPIMetrics()
-      this.flushRenderMetrics()
+      // Geçici olarak sadece console'a log yaz
+      if (this.metrics.length > 0) {
+        console.debug('Periyodik performans metrikleri:', this.metrics.slice(-3))
+        this.metrics = []
+      }
+      if (this.apiMetrics.length > 0) {
+        console.debug('Periyodik API metrikleri:', this.apiMetrics.slice(-3))
+        this.apiMetrics = []
+      }
+      if (this.renderMetrics.length > 0) {
+        console.debug('Periyodik render metrikleri:', this.renderMetrics.slice(-3))
+        this.renderMetrics = []
+      }
+      // this.flushMetrics()
+      // this.flushAPIMetrics()
+      // this.flushRenderMetrics()
     }, this.flushInterval)
 
-    // Sayfa kapatılırken kalan metrikleri gönder
+    // Sayfa kapatılırken kalan metrikleri logla
     window.addEventListener('beforeunload', () => {
-      this.flushMetrics()
-      this.flushAPIMetrics()
-      this.flushRenderMetrics()
+      console.debug('Sayfa kapatılıyor - son metrikler:', {
+        performance: this.metrics.slice(-3),
+        api: this.apiMetrics.slice(-3),
+        render: this.renderMetrics.slice(-3)
+      })
+      // this.flushMetrics()
+      // this.flushAPIMetrics()
+      // this.flushRenderMetrics()
     })
 
-    // Visibility change'de flush yap
+    // Visibility change'de logla
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
-        this.flushMetrics()
-        this.flushAPIMetrics()
-        this.flushRenderMetrics()
+        // this.flushMetrics()
+        // this.flushAPIMetrics()
+        // this.flushRenderMetrics()
       }
     })
   }
@@ -570,10 +678,21 @@ class PerformanceMonitoringService {
       this.observer.disconnect()
     }
     
-    // Kalan metrikleri gönder
-    this.flushMetrics()
-    this.flushAPIMetrics()
-    this.flushRenderMetrics()
+    // Kalan metrikleri logla (gönderme devre dışı)
+    console.debug('PerformanceService temizleniyor - son metrikler:', {
+      performance: this.metrics.length,
+      api: this.apiMetrics.length,
+      render: this.renderMetrics.length
+    })
+    
+    // Metrikleri temizle
+    this.metrics = []
+    this.apiMetrics = []
+    this.renderMetrics = []
+    
+    // this.flushMetrics()
+    // this.flushAPIMetrics()
+    // this.flushRenderMetrics()
   }
 }
 

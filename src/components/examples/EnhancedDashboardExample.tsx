@@ -10,7 +10,6 @@ import {
   Users
 } from 'lucide-react'
 import React, { useState } from 'react'
-import { KPICard } from '@/components/ui/corporate/CorporateComponents'
 
 import {
   Alert,
@@ -41,6 +40,7 @@ import {
   StatisticsCard,
   StatusIndicator,
   Table,
+  TableBody,
   TableCell,
   TableHeader,
   TableHeaderCell,
@@ -178,7 +178,7 @@ const EnhancedDashboardExample: React.FC = () => {
             title={item.title}
             description={item.description}
             iconBgColor={item.iconBgColor}
-            onClick={() => console.log(`Clicked: ${item.title}`)}
+            onClick={() => console.debug('Quick access clicked:', item.title)}
           />
         ))}
       </div>
@@ -200,39 +200,47 @@ const EnhancedDashboardExample: React.FC = () => {
               />
             </div>
 
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderCell>Bağışçı</TableHeaderCell>
-                  <TableHeaderCell>E-posta</TableHeaderCell>
-                  <TableHeaderCell>Durum</TableHeaderCell>
-                  <TableHeaderCell>Tutar</TableHeaderCell>
-                  <TableHeaderCell>Tarih</TableHeaderCell>
-                </TableRow>
-              </TableHeader>
-              <tbody>
-                {filteredData.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell>
-                      <div className="flex items-center space-x-3">
-                        <Avatar size="sm">
-                          {item.name.charAt(0)}
-                        </Avatar>
-                        <span className="font-medium">{item.name}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>{item.email}</TableCell>
-                    <TableCell>
-                      <Badge variant={item.status === 'Aktif' ? 'success' : 'neutral'}>
-                        {item.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="font-semibold">{item.amount}</TableCell>
-                    <TableCell>{item.date}</TableCell>
-                  </TableRow>
-                ))}
-              </tbody>
-            </Table>
+            <Table
+              columns={[
+                {
+                  key: 'donor',
+                  title: 'Bağışçı',
+                  render: (item) => (
+                    <div className="flex items-center space-x-3">
+                      <Avatar size="sm">
+                        {item.name.charAt(0)}
+                      </Avatar>
+                      <span className="font-medium">{item.name}</span>
+                    </div>
+                  )
+                },
+                {
+                  key: 'email',
+                  title: 'E-posta',
+                  render: (item) => item.email
+                },
+                {
+                  key: 'status',
+                  title: 'Durum',
+                  render: (item) => (
+                    <Badge variant={item.status === 'Aktif' ? 'success' : 'neutral'}>
+                      {item.status}
+                    </Badge>
+                  )
+                },
+                {
+                  key: 'amount',
+                  title: 'Tutar',
+                  render: (item) => <span className="font-semibold">{item.amount}</span>
+                },
+                {
+                  key: 'date',
+                  title: 'Tarih',
+                  render: (item) => item.date
+                }
+              ]}
+              data={filteredData}
+            />
           </CardContent>
           <CardFooter>
             <Button variant="outline" size="sm">

@@ -321,7 +321,6 @@ export default function DonationNumbers() {
     setIsModalOpen(true)
   }
 
-
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
     alert('Panoya kopyalandı!')

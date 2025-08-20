@@ -33,16 +33,13 @@ export function SocketProvider({ children }: SocketProviderProps) {
   const [reconnectAttempts] = useState(0)
 
   const emit = (event: string, data?: any) => {
-    console.log('Mock socket emit:', event, data)
-  }
+    }
 
   const on = (event: string, _callback: (data: any) => void) => {
-    console.log('Mock socket on:', event)
-  }
+    }
 
   const off = (event: string, _callback?: (data: any) => void) => {
-    console.log('Mock socket off:', event)
-  }
+    }
 
   const mockSocket: MockSocket = {
     emit,

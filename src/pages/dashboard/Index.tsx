@@ -59,12 +59,12 @@ export default function DashboardIndex() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-bg-muted via-white to-bg-primary/5/30">
+    <div className="min-h-screen bg-gradient-to-br from-bg-soft via-white to-bg-primary/5">
       {/* Enhanced Welcome Section */}
       <div className="relative overflow-hidden">
-        <CorporateCard className="bg-gradient-to-r from-bg-primary via-bg-primary/80 to-bg-primary/90 text-white shadow-2xl border-0 relative overflow-hidden">
+        <CorporateCard className="bg-gradient-to-r from-sidebar-primary via-sidebar-primary/90 to-sidebar-primary text-white shadow-2xl border-0 relative overflow-hidden">
           {/* Background Pattern */}
-          <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/90 to-bg-primary/90/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-sidebar-primary/95 to-sidebar-primary/90"></div>
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24"></div>
           <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-white/5 rounded-full -translate-x-16 -translate-y-16"></div>
@@ -80,7 +80,7 @@ export default function DashboardIndex() {
                     <h1 className="text-3xl sm:text-4xl font-bold mb-2">
                       Hoş Geldiniz, Ahmet Kaya
                     </h1>
-                    <p className="text-bg-primary/10 text-lg">
+                    <p className="text-white/80 text-lg">
                       Dernek Yönetim Paneli - {new Date().toLocaleDateString('tr-TR', {
                         weekday: 'long',
                         year: 'numeric',
@@ -141,11 +141,11 @@ export default function DashboardIndex() {
         ) : (
           <>
             <div className="group">
-              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-primary/5/50">
+              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-primary/5 shadow-md">
                 <CorporateCardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                      <Users className="w-6 h-6 text-bg-primary" />
+                      <Users className="w-6 h-6 text-primary" />
                     </div>
                     <div className="flex items-center gap-1 text-green-600">
                       <ArrowUpRight className="w-4 h-4" />
@@ -165,11 +165,11 @@ export default function DashboardIndex() {
             </div>
 
             <div className="group">
-              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-green-500-50/50">
+              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-green-50 shadow-md">
                 <CorporateCardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
-                      <Heart className="w-6 h-6 text-bg-green-500-600" />
+                      <Heart className="w-6 h-6 text-green-600" />
                     </div>
                     <div className="flex items-center gap-1 text-green-600">
                       <ArrowUpRight className="w-4 h-4" />
@@ -189,11 +189,11 @@ export default function DashboardIndex() {
             </div>
 
             <div className="group">
-              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-yellow-500-50/50">
+              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-yellow-50 shadow-md">
                 <CorporateCardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center">
-                      <FileText className="w-6 h-6 text-bg-yellow-500-600" />
+                      <FileText className="w-6 h-6 text-yellow-600" />
                     </div>
                     <div className="flex items-center gap-1 text-green-600">
                       <ArrowUpRight className="w-4 h-4" />
@@ -213,11 +213,11 @@ export default function DashboardIndex() {
             </div>
 
             <div className="group">
-              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-bg-accent/5/50">
+              <CorporateCard className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 bg-gradient-to-br from-white to-accent/5 shadow-md">
                 <CorporateCardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-                      <TrendingUp className="w-6 h-6 text-bg-accent" />
+                      <TrendingUp className="w-6 h-6 text-accent" />
                     </div>
                     <div className="flex items-center gap-1 text-green-600">
                       <ArrowUpRight className="w-4 h-4" />
@@ -253,7 +253,7 @@ export default function DashboardIndex() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-                      <DollarSign className="h-5 w-5 text-bg-green-500-600" />
+                      <DollarSign className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
                       <CorporateCardTitle>Aylık Yardım Dağılımı</CorporateCardTitle>
@@ -321,7 +321,7 @@ export default function DashboardIndex() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center">
-                      <Zap className="h-5 w-5 text-bg-yellow-500-600" />
+                      <Zap className="h-5 w-5 text-yellow-600" />
                     </div>
                     <div>
                       <CorporateCardTitle>Hızlı İşlemler</CorporateCardTitle>
@@ -341,7 +341,7 @@ export default function DashboardIndex() {
                     className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-primary/5 hover:border-primary/30 transition-all duration-200 group"
                   >
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                      <Users className="h-6 w-6 text-bg-primary" />
+                      <Users className="h-6 w-6 text-primary" />
                     </div>
                     <span className="text-sm font-semibold text-foreground">Yeni Başvuru</span>
                   </CorporateButton>
@@ -351,7 +351,7 @@ export default function DashboardIndex() {
                     className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-green-50 hover:border-green-300 transition-all duration-200 group"
                   >
                     <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
-                      <Heart className="h-6 w-6 text-bg-green-500-600" />
+                      <Heart className="h-6 w-6 text-green-600" />
                     </div>
                     <span className="text-sm font-semibold text-foreground">Bağış Ekle</span>
                   </CorporateButton>
@@ -361,7 +361,7 @@ export default function DashboardIndex() {
                     className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-yellow-50 hover:border-yellow-300 transition-all duration-200 group"
                   >
                     <div className="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
-                      <FileText className="h-6 w-6 text-bg-yellow-500-600" />
+                      <FileText className="h-6 w-6 text-yellow-600" />
                     </div>
                     <span className="text-sm font-semibold text-foreground">Rapor Oluştur</span>
                   </CorporateButton>
@@ -371,7 +371,7 @@ export default function DashboardIndex() {
                     className="h-24 flex flex-col items-center justify-center gap-3 hover:bg-secondary/5 hover:border-secondary/30 transition-all duration-200 group"
                   >
                     <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
-                      <MessageSquare className="h-6 w-6 text-bg-secondary" />
+                      <MessageSquare className="h-6 w-6 text-secondary" />
                     </div>
                     <span className="text-sm font-semibold text-foreground">Mesaj Gönder</span>
                   </CorporateButton>
@@ -388,7 +388,7 @@ export default function DashboardIndex() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <BarChart3 className="h-5 w-5 text-bg-primary" />
+                <BarChart3 className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <CorporateCardTitle>Performans Grafikleri</CorporateCardTitle>
@@ -426,7 +426,7 @@ export default function DashboardIndex() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Activity className="h-5 w-5 text-bg-primary" />
+                  <Activity className="h-5 w-5 text-primary" />
                 </div>
                 <div>
                   <CorporateCardTitle>Son Aktiviteler</CorporateCardTitle>
@@ -440,7 +440,12 @@ export default function DashboardIndex() {
           </CorporateCardHeader>
           <CorporateCardContent className="p-6">
             {isLoading ? (
-              <SkeletonGroup count={4} className="space-y-4" />
+              <SkeletonGroup className="space-y-4">
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+              </SkeletonGroup>
             ) : (
               <div className="space-y-4">
                 <div className="flex items-center gap-4 p-4 bg-primary/5 rounded-xl border border-primary/10">
@@ -487,7 +492,7 @@ export default function DashboardIndex() {
           <CorporateCardHeader className="border-b border-border">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
-                <Calendar className="h-5 w-5 text-bg-secondary" />
+                <Calendar className="h-5 w-5 text-secondary" />
               </div>
               <div>
                 <CorporateCardTitle>Bugünün Görevleri</CorporateCardTitle>
@@ -497,7 +502,11 @@ export default function DashboardIndex() {
           </CorporateCardHeader>
           <CorporateCardContent className="p-6">
             {isLoading ? (
-              <SkeletonGroup count={3} className="space-y-4" />
+              <SkeletonGroup className="space-y-4">
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+              </SkeletonGroup>
             ) : (
               <div className="space-y-4">
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">

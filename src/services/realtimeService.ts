@@ -68,8 +68,7 @@ class RealtimeService {
     // Connection status is managed by individual channels in modern Supabase
     // We'll track connection status through channel subscription status
     this.isConnected = true // Assume connected by default
-    console.log('Realtime service initialized')
-  }
+    }
 
   // Generic subscription method
   subscribe<T>(
@@ -210,14 +209,11 @@ class RealtimeService {
         // Convert presence state to PresenceUser array
         const presenceUsers = Object.values(newState).flat() as unknown as PresenceUser[]
         this.userPresence.set(channelName, { [channelName]: presenceUsers })
-        console.log('Presence sync:', presenceUsers)
-      })
+        })
       .on('presence', { event: 'join' }, ({ key, newPresences }: { key: string; newPresences: PresenceUser[] }) => {
-        console.log('User joined:', key, newPresences)
         toast.success(`${newPresences[0]?.userName || 'Bir kullanıcı'} katıldı`)
       })
       .on('presence', { event: 'leave' }, ({ key, leftPresences }: { key: string; leftPresences: PresenceUser[] }) => {
-        console.log('User left:', key, leftPresences)
         toast.info(`${leftPresences[0]?.userName || 'Bir kullanıcı'} ayrıldı`)
       })
       .subscribe(async (status) => {

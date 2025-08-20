@@ -125,8 +125,8 @@ export interface StockAlert {
   locationName: string
   currentStock: number
   threshold: number
-  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
-  alertType: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
+  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning' | 'critical_stock'
+  alertType: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning' | 'critical_stock'
   message: string
   severity: 'low' | 'medium' | 'high' | 'critical'
   isRead: boolean
@@ -142,7 +142,7 @@ export interface StockAlert {
 export interface AlertRule {
   id: string
   name: string
-  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
+  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning' | 'critical_stock'
   threshold: number
   isActive: boolean
   description?: string
@@ -156,7 +156,7 @@ export interface AlertRule {
 export interface StockAlertRule {
   id: string
   name: string
-  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
+  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning' | 'critical_stock'
   threshold: number
   isActive: boolean
   description?: string
@@ -171,11 +171,13 @@ export interface StockAlertRule {
   itemId?: string
   notificationMethods?: string[]
   recipients?: string[]
+  categoryFilter?: string[]
+  locationFilter?: string[]
 }
 
 export interface AlertRuleForm {
   name: string
-  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning'
+  type: 'low_stock' | 'out_of_stock' | 'overstock' | 'expiry_warning' | 'critical_stock'
   threshold: number
   description?: string
   isActive?: boolean

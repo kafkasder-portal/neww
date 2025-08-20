@@ -188,7 +188,6 @@ export default function FundingDefinitions() {
   const totalCollected = filteredDefinitions.reduce((sum, def) => sum + def.collectedAmount, 0)
   const activeCount = filteredDefinitions.filter(def => def.isActive).length
 
-
   const columns: Column<FundingDefinition>[] = [
     { key: 'code', header: 'Kod' },
     { key: 'name', header: 'Fon Adı' },

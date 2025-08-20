@@ -98,17 +98,6 @@ export default function BulkSend() {
 
   const handleSend = () => {
     // Gönderim işlemi burada yapılacak
-    console.log('Mesaj gönderiliyor...', {
-      messageType,
-      selectedGroups,
-      customRecipients,
-      subject,
-      content,
-      priority,
-      scheduleType,
-      scheduledDate,
-      scheduledTime
-    })
     alert('Mesaj başarıyla gönderildi!')
   }
 

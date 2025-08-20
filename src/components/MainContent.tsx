@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { useLocation } from 'react-router-dom'
 import { allPages } from '../constants/navigation'
 import { cn } from '../lib/utils'
-import { AppHeader } from './AppHeader'
+import { AppHeader } from './header/AppHeader'
 import { SidebarInset } from './ui/sidebar'
 
 interface MainContentProps {
@@ -47,7 +47,6 @@ const MainContent = memo(function MainContent({
         <div className="absolute inset-0 bg-gradient-to-br from-bg-muted/50 via-transparent to-bg-primary/5/30 pointer-events-none"></div>
 
         <div className="relative z-10">
-
 
           {/* Enhanced Content Area */}
           <div className="flex-1 p-6 bg-card rounded-lg border">

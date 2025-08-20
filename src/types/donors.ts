@@ -313,6 +313,8 @@ export interface DonorSearchFilters {
   donorSegment?: string[]
   donorTier?: ('platinum' | 'gold' | 'silver' | 'bronze' | 'standard')[]
   relationshipStatus?: ('prospect' | 'active' | 'lapsed' | 'churned')[]
+  status?: string
+  minTotalDonation?: number
   
   totalDonatedRange?: {
     min?: number

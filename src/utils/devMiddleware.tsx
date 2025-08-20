@@ -32,7 +32,7 @@ class HotReloadManager {
 
   private processUpdates() {
     if (this.updateQueue.size > 0) {
-      console.log('[HMR] Processing updates for:', Array.from(this.updateQueue))
+      console.debug('Processing hot reload updates:', Array.from(this.updateQueue))
       this.updateQueue.clear()
     }
   }
@@ -99,8 +99,6 @@ export class HotReloadErrorBoundary extends React.Component<ErrorBoundaryProps, 
       
       // Try to recover from hot reload errors
       if (error.message.includes('Cannot read property') || error.message.includes('is not a function')) {
-        console.log('[HMR] Attempting to recover from hot reload error...')
-        
         // Reset error state after a short delay
         setTimeout(() => {
           this.setState({ hasError: false, error: null })
@@ -226,7 +224,7 @@ export class HotReloadPerformanceMonitor {
       this.reloadTimes.shift()
     }
 
-    console.log('[HMR] Reload completed in ' + reloadTime.toFixed(2) + 'ms')
+    console.debug(`Hot reload completed in ${reloadTime.toFixed(2)}ms`)
     
     this.startTime = 0
   }
@@ -247,8 +245,8 @@ export class HotReloadPerformanceMonitor {
 
   logStats() {
     const stats = this.getStats()
-    console.log('[HMR] Performance Stats:', {
-      'Average reload time': stats.average.toFixed(2) + 'ms',
+    console.debug('Hot reload stats:', {
+      'Average reload': stats.average.toFixed(2) + 'ms',
       'Fastest reload': stats.min.toFixed(2) + 'ms',
       'Slowest reload': stats.max.toFixed(2) + 'ms',
       'Total reloads': stats.total

@@ -165,8 +165,6 @@ const mockSacrificeShares: SacrificeShare[] = [
   }
 ]
 
-  
-
 export default function SacrificeShares() {
   const [sacrificeShares, setSacrificeShares] = useState<SacrificeShare[]>(mockSacrificeShares)
   // Removed unused sharePayments state to satisfy linter
@@ -646,8 +644,7 @@ export default function SacrificeShares() {
               <button
                 onClick={() => {
                   const unpaidShares = filteredShares.filter(share => share.paymentStatus === 'beklemede')
-                  console.log('Ödeme hatırlatması gönderilecek:', unpaidShares.length, 'hisse')
-                }}
+                  }}
                 className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
               >
                 Ödeme Hatırlatması
@@ -655,8 +652,7 @@ export default function SacrificeShares() {
               <button
                 onClick={() => {
                   const unthankfulShares = filteredShares.filter(share => !share.thankYouSent && share.paymentStatus === 'ödendi')
-                  console.log('Teşekkür mesajı gönderilecek:', unthankfulShares.length, 'hisse')
-                }}
+                  }}
                 className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
               >
                 Toplu Teşekkür
@@ -1157,7 +1153,6 @@ export default function SacrificeShares() {
             <div className="flex gap-2">
               <button
                 onClick={() => {
-                  console.log('Makbuz yazdırılıyor:', selectedShare.shareNumber)
                   setIsReceiptModalOpen(false)
                 }}
                 className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
@@ -1166,7 +1161,6 @@ export default function SacrificeShares() {
               </button>
               <button
                 onClick={() => {
-                  console.log('E-makbuz gönderiliyor:', selectedShare.donorEmail)
                   setIsReceiptModalOpen(false)
                 }}
                 className="flex-1 bg-green-500 text-white hover:bg-green-600"

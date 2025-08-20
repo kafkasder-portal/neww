@@ -67,8 +67,6 @@ const PerformanceOptimized = () => {
     { id: '3', title: 'Item 3', content: 'This is the third item content' },
   ]);
 
-
-
   // Memoize expensive calculations
   const totalWordCount = useMemo(() => {
     return items.reduce((total, item) => {
@@ -79,8 +77,7 @@ const PerformanceOptimized = () => {
   // Memoize callback functions
   const handleItemClick = useCallback((id: string) => {
     // eslint-disable-next-line no-console
-    console.log(`Item ${id} clicked`);
-  }, []);
+    }, []);
 
   const handleAddItem = useCallback(() => {
     const newId = (items.length + 1).toString();
@@ -109,7 +106,6 @@ const PerformanceOptimized = () => {
       </div>
 
       <OptimizedList items={items} onItemClick={handleItemClick} />
-
 
     </div>
   );

@@ -41,8 +41,7 @@ export default function PermissionGroups() {
 
   const handleSearch = () => {
     // Implement search logic
-    console.log('Searching...', { searchId, statusFilter, nameFilter })
-  }
+    }
 
   const handleClear = () => {
     setSearchId('')
@@ -52,13 +51,11 @@ export default function PermissionGroups() {
 
   const handleAdd = () => {
     // Implement add logic
-    console.log('Adding new permission group...')
-  }
+    }
 
   const handleViewDetails = (id: number) => {
     // Implement view details logic
-    console.log('Viewing details for permission group:', id)
-  }
+    }
 
   return (
     <div className="relative min-h-screen bg-gray-50">

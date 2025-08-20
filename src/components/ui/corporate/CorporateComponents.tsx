@@ -74,6 +74,22 @@ export const CorporateCardSubtitle: React.FC<CorporateCardSubtitleProps> = ({
   )
 }
 
+interface CorporateCardDescriptionProps {
+  children: React.ReactNode
+  className?: string
+}
+
+export const CorporateCardDescription: React.FC<CorporateCardDescriptionProps> = ({
+  children,
+  className
+}) => {
+  return (
+    <p className={cn('text-sm text-gray-500 mt-2', className)}>
+      {children}
+    </p>
+  )
+}
+
 interface CorporateCardContentProps {
   children: React.ReactNode
   className?: string
@@ -152,7 +168,7 @@ export const KPICard: React.FC<KPICardProps> = ({
  * ======================================== */
 
 interface CorporateButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'ghost' | 'outline' | 'icon'
+  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'danger' | 'ghost' | 'outline' | 'icon'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   children: React.ReactNode
   className?: string
@@ -166,12 +182,14 @@ export const CorporateButton: React.FC<CorporateButtonProps> = ({
   ...props
 }) => {
   const variantClasses = {
+    default: 'bg-gray-100 text-gray-900 hover:bg-gray-200',
     primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
     secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/90',
     success: 'bg-green-500 text-white hover:bg-green-600',
     danger: 'bg-red-500 text-white hover:bg-red-600',
     ghost: 'bg-transparent hover:bg-gray-100',
-    outline: 'border border-gray-300 bg-transparent hover:bg-gray-50'
+    outline: 'border border-gray-300 bg-transparent hover:bg-gray-50',
+    icon: 'bg-transparent hover:bg-gray-100 p-2'
   }
 
   const sizeClasses = {
@@ -316,6 +334,7 @@ export const TableHeader = CorporateTableHeader
 export const TableHeaderCell = CorporateTableHeaderCell
 export const TableRow = CorporateTableRow
 export const TableCell = CorporateTableCell
+export const TableBody = React.Fragment
 
 /* ========================================
  * SIDEBAR-ALIGNED FORM COMPONENTS
@@ -541,18 +560,23 @@ export const Progress = CorporateProgress
  * ======================================== */
 
 interface BadgeProps {
-  variant?: 'success' | 'warning' | 'danger' | 'info' | 'neutral'
+  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral' | 'outline' | 'destructive'
   children: React.ReactNode
   className?: string
 }
 
 export const CorporateBadge: React.FC<BadgeProps> = ({ variant = 'neutral', children, className }) => {
   const variantClasses = {
+    default: 'bg-gray-100 text-gray-800 border-gray-200',
+    primary: 'bg-blue-100 text-blue-800 border-blue-200',
+    secondary: 'bg-purple-100 text-purple-800 border-purple-200',
     success: 'bg-green-100 text-green-800 border-green-200',
     warning: 'bg-yellow-100 text-yellow-800 border-yellow-200',
     danger: 'bg-red-100 text-red-800 border-red-200',
     info: 'bg-blue-100 text-blue-800 border-blue-200',
-    neutral: 'bg-gray-100 text-gray-800 border-gray-200'
+    neutral: 'bg-gray-100 text-gray-800 border-gray-200',
+    outline: 'bg-transparent text-gray-700 border-gray-300',
+    destructive: 'bg-red-100 text-red-800 border-red-200'
   }
 
   return (
@@ -771,11 +795,10 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 export {
   CorporateCard as Card,
   CorporateCardContent as CardContent,
+  CorporateCardDescription as CardDescription,
   CorporateCardFooter as CardFooter,
   CorporateCardHeader as CardHeader,
   CorporateCardSubtitle as CardSubtitle,
   CorporateCardTitle as CardTitle
 }
-
-
 

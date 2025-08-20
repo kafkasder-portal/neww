@@ -56,4 +56,3 @@ $env:GENERATE_SOURCEMAP = "false"
 $ProgressPreference = 'SilentlyContinue'
 
 Write-Host "✅ Terminal hanging issues fixed!" -ForegroundColor Green
-Write-Host "Ready to start development server..." -ForegroundColor Green

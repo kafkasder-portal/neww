@@ -295,8 +295,6 @@ export function BudgetCreateDialog({ open, onOpenChange, onSuccess }: BudgetCrea
     setLoading(true)
     try {
       // API call to create budget
-      console.log('Creating budget:', formData)
-      
       // Mock API delay
       await new Promise(resolve => setTimeout(resolve, 1000))
       

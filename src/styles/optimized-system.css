@@ -3,7 +3,8 @@
  * Unified CSS System - All patterns and colors in one file
  * ======================================== */
 
-@tailwind base;
+/* Import Tailwind base styles */
+@import 'tailwindcss/base';
 @tailwind components;
 @tailwind utilities;
 
@@ -361,7 +362,12 @@
   }
 
   .card-interactive {
-    @apply card-pattern cursor-pointer;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
   }
 
   .card-interactive:hover {
@@ -400,11 +406,14 @@
   }
 
   .card-financial {
-    @apply card-pattern;
-    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted) / 0.3) 100%);
-    border-color: hsl(var(--border));
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, hsl(var(--brand-primary) / 0.03) 0%, hsl(var(--brand-primary) / 0.08) 100%);
+    border-color: hsl(var(--brand-primary) / 0.2);
   }
-
   .card-financial-primary {
     @apply card-pattern;
     background: linear-gradient(135deg, hsl(var(--brand-primary) / 0.03) 0%, hsl(var(--brand-primary) / 0.08) 100%);

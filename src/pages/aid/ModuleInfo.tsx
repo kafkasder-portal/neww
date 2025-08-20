@@ -127,7 +127,6 @@ export default function ModuleInfo() {
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null)
   const [expandedFAQ, setExpandedFAQ] = useState<string | null>(null)
 
-
   useEffect(() => {
     loadData()
   }, [])

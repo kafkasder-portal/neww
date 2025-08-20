@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CorporateButton, CorporateBadge, CorporateCard, CorporateCardContent, CorporateCardHeader, CorporateCardTitle } from '@/components/ui/corporate/CorporateComponents'
 import { CardDescription } from '@/components/ui/card'
-
+import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -24,7 +24,8 @@ import {
   DollarSign,
   Target,
   BarChart3,
-  Calendar
+  Calendar,
+  PieChart
 } from 'lucide-react'
 import { 
   AdvancedBudget, 
@@ -38,6 +39,7 @@ import { BudgetCreateDialog } from './BudgetCreateDialog'
 import { BudgetEditDialog } from './BudgetEditDialog'
 import { BudgetViewDialog } from './BudgetViewDialog'
 import { BudgetVarianceChart } from './BudgetVarianceChart'
+import { BudgetComparisonChart } from './BudgetComparisonChart'
 
 interface BudgetManagementProps {
   className?: string
@@ -439,7 +441,7 @@ export function BudgetManagement({ className }: BudgetManagementProps) {
                     </CardDescription>
                   </CorporateCardHeader>
                   <CorporateCardContent>
-                    <BudgetVarianceChart data={dashboardData.categoryPerformance} />
+                    <BudgetVarianceChart data={dashboardData.categoryPerformance.map(item => ({...item, category: item.categoryName, variancePercentage: item.variancePercent}))} />
                   </CorporateCardContent>
                 </CorporateCard>
               </div>

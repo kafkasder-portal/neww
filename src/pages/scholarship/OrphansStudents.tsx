@@ -302,7 +302,6 @@ function AddStudentForm({ onClose }: { onClose: () => void }) {
         return;
       }
 
-      console.log('Yeni ��ğrenci eklendi:', data);
       alert('Öğrenci başarıyla eklendi');
       onClose();
     } catch (error) {
