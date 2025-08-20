@@ -7,6 +7,13 @@
 export class TurkishPaymentService {
 
   /**
+   * Get available payment providers
+   */
+  getAvailableProviders(): string[] {
+    return ['iyzico', 'paytr', 'garanti', 'isbank'];
+  }
+
+  /**
    * Process a payment
    */
   async processPayment(paymentData: {
