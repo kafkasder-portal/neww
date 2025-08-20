@@ -77,26 +77,21 @@ export default function DashboardIndex() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {statsData.map((stat, index) => {
           const Icon = stat.icon
           return (
-            <Card key={index}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {stat.title}
-                </CardTitle>
-                <Icon className={`h-4 w-4 ${stat.color}`} />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <div className="text-xs text-muted-foreground flex items-center gap-1">
-                  <Badge variant={stat.change.startsWith('+') ? 'default' : 'destructive'} className="text-xs">
-                    {stat.change}
-                  </Badge>
-                  <span>geçen ay</span>
+            <Card key={index} className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">{stat.title}</p>
+                  <p className="text-2xl font-semibold mt-1">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {stat.change} geçen ay
+                  </p>
                 </div>
-              </CardContent>
+                <Icon className={`h-8 w-8 ${stat.color}`} />
+              </div>
             </Card>
           )
         })}
