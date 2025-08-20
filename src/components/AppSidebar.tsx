@@ -285,8 +285,8 @@ const AppSidebar = memo(function AppSidebar() {
           </SidebarGroup>
         </SidebarContent>
 
-        {/* Enhanced Footer - User Profile */}
-        <SidebarFooter className="border-t border-sidebar-border bg-gradient-to-r from-bg-muted to-white">
+        {/* Premium Footer - User Profile */}
+        <SidebarFooter className="px-6 py-6 border-t border-white/10">
           <SidebarMenu>
             <SidebarMenuItem>
               <Popover>
@@ -295,21 +295,28 @@ const AppSidebar = memo(function AppSidebar() {
                     <PopoverTrigger asChild>
                       <SidebarMenuButton
                         size="lg"
-                        className="data-[state=open]:bg-primary/5 data-[state=open]:text-primary/80 hover:bg-primary/5 transition-all duration-200"
-                        tooltip={isCollapsed ? "Ahmet Kaya" : undefined}
+                        className="hover:bg-white/10 transition-all duration-300 rounded-xl p-3"
+                        tooltip={isCollapsed ? "Admin Kullanıcı" : undefined}
                       >
-                        <Avatar className="h-10 w-10 rounded-xl border-2 border-bg-primary/20 shadow-md">
-                          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-bg-primary to-bg-primary rounded-xl">
-                            <User className="h-5 w-5 text-white" />
-                          </div>
-                        </Avatar>
+                        <div className="relative">
+                          <Avatar className="h-10 w-10 rounded-2xl ring-2 ring-white/20">
+                            <div className="h-full w-full rounded-2xl bg-gradient-to-br from-brand-accent-400 to-brand-accent-600 flex items-center justify-center">
+                              <User className="h-5 w-5 text-white" />
+                            </div>
+                          </Avatar>
+                          <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-semantic-success border-2 border-white"></div>
+                        </div>
                         {!isCollapsed && (
                           <>
-                            <div className="grid flex-1 text-left text-sm leading-tight">
-                              <span className="truncate font-bold text-foreground">Ahmet Kaya</span>
-                <span className="truncate text-xs text-muted-foreground">Yönetici</span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-semibold text-white truncate">
+                                Admin Kullanıcı
+                              </p>
+                              <p className="text-xs text-sidebar-text-muted truncate">
+                                admin@dernekpanel.com
+                              </p>
                             </div>
-                            <ChevronUp className="ml-auto size-4 text-muted-foreground" />
+                            <ChevronUp className="ml-auto h-4 w-4 text-sidebar-text-muted" />
                           </>
                         )}
                       </SidebarMenuButton>
