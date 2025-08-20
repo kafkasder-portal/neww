@@ -57,11 +57,45 @@ const AppSidebar = memo(function AppSidebar() {
 
   return (
     <TooltipProvider>
-      <Sidebar variant="inset" collapsible="icon" className="border-border bg-background">
+      <Sidebar variant="inset" collapsible="icon" className="sidebar-premium border-0">
+        {/* Premium Header */}
+        <SidebarHeader className="px-6 py-6 border-b border-white/10">
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-brand-primary-500 via-brand-primary-600 to-brand-accent-500 flex items-center justify-center shadow-lg">
+                <Building2 className="h-7 w-7 text-white" />
+              </div>
+              <div className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-gradient-to-br from-brand-accent-400 to-brand-accent-600 animate-glow"></div>
+            </div>
+            {!isCollapsed && (
+              <div className="space-y-1">
+                <h1 className="text-xl font-bold text-white tracking-tight">
+                  DernekPanel
+                </h1>
+                <p className="text-sm text-sidebar-text-muted font-medium">
+                  Premium Yönetim Sistemi
+                </p>
+              </div>
+            )}
+          </div>
+        </SidebarHeader>
 
+        {/* Search - Only show when expanded */}
+        {!isCollapsed && (
+          <div className="px-6 py-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-sidebar-text-muted" />
+              <input
+                type="text"
+                placeholder="Arama..."
+                className="input-premium pl-10 text-sm"
+              />
+            </div>
+          </div>
+        )}
 
         {/* Main Content */}
-        <SidebarContent className="bg-gradient-to-b from-bg-muted to-white">
+        <SidebarContent className="px-2">
           {/* Support Section - Moved to top */}
           <SidebarGroup>
             <SidebarGroupLabel className="text-muted-foreground font-semibold text-xs uppercase tracking-wider px-4 py-2">
@@ -82,18 +116,10 @@ const AppSidebar = memo(function AppSidebar() {
                             <PopoverTrigger asChild>
                               <SidebarMenuButton
                                 isActive={isActive}
-                                className={`w-full transition-all duration-200 hover:bg-primary/5 hover:border-primary/20 ${isActive
-                ? 'bg-primary/10 border-primary/30 text-primary/80 shadow-sm'
-                : 'bg-white border-transparent text-foreground'
-              }`}
+                                className={`sidebar-nav-item w-full ${isActive ? 'active' : ''}`}
                                 tooltip={isCollapsed ? item.title : undefined}
                               >
-                                <div className={`p-2 rounded-lg transition-all duration-200 ${isActive
-                                  ? 'bg-primary text-white shadow-md'
-                : 'bg-muted/80 text-muted-foreground'
-                                  }`}>
-                                  <Icon className="size-4 flex-shrink-0" />
-                                </div>
+                                <Icon className="h-5 w-5 flex-shrink-0" />
                                 {!isCollapsed && (
                                   <>
                                     <span className="flex-1 truncate font-medium">{item.title}</span>
@@ -124,11 +150,11 @@ const AppSidebar = memo(function AppSidebar() {
                         <PopoverContent
                           side="right"
                           align="start"
-                          className="w-64 p-3 bg-white border border-border shadow-xl rounded-xl"
+                          className="w-64 p-3 glass-card shadow-premium"
                           sideOffset={8}
                         >
                           <div className="grid gap-2">
-                            <div className="font-bold text-sm mb-3 px-2 py-2 bg-primary/5 text-primary/80 rounded-lg">
+                            <div className="font-bold text-sm mb-3 px-3 py-2 bg-gradient-to-r from-brand-primary-500/20 to-brand-accent-500/20 text-white rounded-xl border border-white/20">
                               {item.title}
                             </div>
                             {item.subPages.map((subPage) => (
@@ -136,9 +162,9 @@ const AppSidebar = memo(function AppSidebar() {
                                 key={subPage.href}
                                 variant={location.pathname === subPage.href ? "secondary" : "ghost"}
                                 size="sm"
-                                className={`w-full justify-start h-auto p-3 rounded-lg transition-all duration-200 ${location.pathname === subPage.href
-                                  ? 'bg-primary/10 text-primary/80 border border-primary/20'
-                : 'hover:bg-muted'
+                                className={`w-full justify-start h-auto p-3 rounded-xl transition-all duration-300 ${location.pathname === subPage.href
+                                  ? 'bg-gradient-to-r from-brand-primary-500/30 to-brand-accent-500/30 text-white border border-white/30 shadow-md'
+                : 'hover:bg-white/10 text-sidebar-text hover:text-white'
                                   }`}
                                 onClick={() => startTransition(() => navigate(subPage.href))}
                               >
@@ -165,8 +191,8 @@ const AppSidebar = memo(function AppSidebar() {
           </SidebarGroup>
 
           {/* Main Navigation - Moved to bottom */}
-          <SidebarGroup className="mt-auto">
-            <SidebarGroupLabel className="text-muted-foreground font-semibold text-xs uppercase tracking-wider px-4 py-2">
+          <SidebarGroup className="mt-auto border-t border-white/10 pt-4">
+            <SidebarGroupLabel className="text-sidebar-text-muted font-semibold text-xs uppercase tracking-wider px-4 py-2">
               Ana Menü
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -184,18 +210,10 @@ const AppSidebar = memo(function AppSidebar() {
                             <PopoverTrigger asChild>
                               <SidebarMenuButton
                                 isActive={isActive}
-                                className={`w-full transition-all duration-200 hover:bg-secondary/5 hover:border-secondary/20 ${isActive
-                ? 'bg-secondary/10 border-secondary/30 text-secondary/80 shadow-sm'
-                : 'bg-white border-transparent text-foreground'
-              }`}
+                                className={`sidebar-nav-item w-full ${isActive ? 'active' : ''}`}
                                 tooltip={isCollapsed ? item.title : undefined}
                               >
-                                <div className={`p-2 rounded-lg transition-all duration-200 ${isActive
-                                  ? 'bg-secondary text-white shadow-md'
-                : 'bg-muted/80 text-muted-foreground'
-                                  }`}>
-                                  <Icon className="size-4 flex-shrink-0" />
-                                </div>
+                                <Icon className="h-5 w-5 flex-shrink-0" />
                                 {!isCollapsed && (
                                   <>
                                     <span className="flex-1 truncate font-medium">{item.title}</span>
@@ -226,11 +244,11 @@ const AppSidebar = memo(function AppSidebar() {
                         <PopoverContent
                           side="right"
                           align="start"
-                          className="w-64 p-3 bg-white border border-border shadow-xl rounded-xl"
+                          className="w-64 p-3 glass-card shadow-premium"
                           sideOffset={8}
                         >
                           <div className="grid gap-2">
-                            <div className="font-bold text-sm mb-3 px-2 py-2 bg-secondary/5 text-secondary/80 rounded-lg">
+                            <div className="font-bold text-sm mb-3 px-3 py-2 bg-gradient-to-r from-brand-secondary-500/20 to-brand-primary-500/20 text-white rounded-xl border border-white/20">
                               {item.title}
                             </div>
                             {item.subPages.map((subPage) => (
@@ -238,9 +256,9 @@ const AppSidebar = memo(function AppSidebar() {
                                 key={subPage.href}
                                 variant={location.pathname === subPage.href ? "secondary" : "ghost"}
                                 size="sm"
-                                className={`w-full justify-start h-auto p-3 rounded-lg transition-all duration-200 ${location.pathname === subPage.href
-                                  ? 'bg-secondary/10 text-secondary/80 border border-secondary/20'
-                : 'hover:bg-muted'
+                                className={`w-full justify-start h-auto p-3 rounded-xl transition-all duration-300 ${location.pathname === subPage.href
+                                  ? 'bg-gradient-to-r from-brand-secondary-500/30 to-brand-primary-500/30 text-white border border-white/30 shadow-md'
+                : 'hover:bg-white/10 text-sidebar-text hover:text-white'
                                   }`}
                                 onClick={() => startTransition(() => navigate(subPage.href))}
                               >
@@ -397,4 +415,3 @@ const AppSidebar = memo(function AppSidebar() {
 })
 
 export { AppSidebar }
-
