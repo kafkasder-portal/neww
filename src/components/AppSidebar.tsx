@@ -420,4 +420,5 @@ const AppSidebar = memo(function AppSidebar() {
   )
 })
 
+export default AppSidebar
 export { AppSidebar }
