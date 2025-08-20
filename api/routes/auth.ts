@@ -47,7 +47,7 @@ const supabase = createClient(
  */
 router.get('/csrf-token', (req: Request, res: Response): void => {
   const sessionToken = req.headers['x-session-token'] as string || 'default-session';
-  const csrfToken = generateCSRFToken(sessionToken);
+  const csrfToken = generateCSRFToken();
   
   res.json({
     csrfToken,
