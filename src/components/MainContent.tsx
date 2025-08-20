@@ -1,6 +1,5 @@
 import React, { memo } from 'react'
 import { cn } from '../lib/utils'
-import { AppHeader } from './AppHeader'
 import { SidebarInset } from './ui/sidebar'
 
 interface MainContentProps {
@@ -14,9 +13,6 @@ const MainContent = memo(function MainContent({
 }: MainContentProps) {
   return (
     <SidebarInset>
-      {/* App Header */}
-      <AppHeader />
-
       {/* Content Area - SidebarInset already provides main tag */}
       <div className={cn(
         "flex-1 overflow-auto min-h-screen bg-background p-6",
