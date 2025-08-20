@@ -3,7 +3,7 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 // import cors from 'cors';
 // Express-validator temporarily removed due to compatibility issues
-import * as DOMPurify from 'isomorphic-dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import * as crypto from 'crypto';
 
 // Type definitions
