@@ -117,12 +117,12 @@ router.post('/initiate',
       };
 
       // Initiate payment with selected provider
-      const paymentResponse = await paymentService.processPayment(provider, paymentRequest);
+      const paymentResponse = await paymentService.createPaymentForm(paymentRequest);
 
       if (!paymentResponse.success) {
         return res.status(400).json({
           error: 'Payment initiation failed',
-          details: paymentResponse.errorMessage
+          details: paymentResponse.error
         });
       }
 
@@ -193,7 +193,7 @@ router.post('/verify',
       }
 
       // Verify payment with provider
-      const verification = await paymentService.verifyPayment(provider, token);
+      const verification = await paymentService.verifyPayment(token);
 
       let transactionStatus = 'failed';
       let donationStatus = 'cancelled';

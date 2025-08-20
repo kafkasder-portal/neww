@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx --watch server.ts",
+    "dev": "npx tsx --watch server.ts",
     "dev:safe": "tsx --watch --no-warnings server.ts",
     "build": "tsc",
     "start": "node dist/server.js",

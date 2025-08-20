@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { z, ZodSchema, ZodError } from 'zod';
 // Express-validator temporarily removed due to compatibility issues
-import * as DOMPurify from 'isomorphic-dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import { securityLogger } from './security';
 
 // Common validation schemas
@@ -180,7 +180,7 @@ export const validateRequest = (schema: ZodSchema) => {
       }
       
       securityLogger('VALIDATION_UNEXPECTED_ERROR', {
-        error: error.message,
+        error: error instanceof Error ? error.message : 'Unknown error',
         path: req.path,
         method: req.method
       }, req);

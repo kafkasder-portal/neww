@@ -241,8 +241,8 @@ router.get('/performance/summary', authenticateUser, requireRole('admin'), async
         const summary = {
             totalMetrics: data.length,
             averageResponseTime: 0,
-            slowestRequests: [],
-            fastestRequests: [],
+            slowestRequests: [] as any[],
+            fastestRequests: [] as any[],
             errors: 0,
             successRate: 0
         };
