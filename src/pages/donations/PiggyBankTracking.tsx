@@ -1,14 +1,14 @@
 import { getStatusBadgeClasses } from '@/utils/statusColors'
 import type { Column } from '@components/DataTable'
 import { DataTable } from '@components/DataTable'
+import { LazyQRScannerModal } from '@components/LazyQRScannerModal'
 import { MapModal } from '@components/MapModal'
 import { Modal } from '@components/Modal'
+import { QRCodeModal } from '@components/QRCodeModal'
 import { exportToCsv } from '@lib/exportToCsv'
 import { generateQRCode, generateUniqueBankNumber } from '@utils/qrCodeUtils'
 import { QrCode } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { LazyQRScannerModal } from '@components/LazyQRScannerModal'
-import { QRCodeModal } from '@components/QRCodeModal'
 
 interface PiggyBank {
   id: string
@@ -111,7 +111,7 @@ const mockPiggyBanks: PiggyBank[] = [
     material: 'plastik',
     capacity: 2000,
     weight: 1.2,
-    qrCode: 'KB001QR',
+    qrCode: '', // QR kodu yok - test için
     notes: 'Düzenli toplama yapılıyor',
     assignedBy: 'Admin',
     createdDate: '2024-01-15',
@@ -170,7 +170,7 @@ const mockPiggyBanks: PiggyBank[] = [
     material: 'plastik',
     capacity: 1500,
     weight: 0.8,
-    qrCode: 'KB003QR',
+    qrCode: '', // QR kodu yok - test için
     notes: 'Kilit arızası - tamir edilecek',
     assignedBy: 'Admin',
     createdDate: '2024-03-10',
@@ -197,7 +197,7 @@ const mockPiggyBanks: PiggyBank[] = [
     material: 'plastik',
     capacity: 1000,
     weight: 0.9,
-    qrCode: 'KB004QR',
+    qrCode: '', // QR kodu yok - test için
     assignedBy: 'Admin',
     createdDate: '2024-04-05',
     lastModified: '2024-11-18',
@@ -352,10 +352,12 @@ export default function PiggyBankTracking() {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false)
   const [isQRScannerModalOpen, setIsQRScannerModalOpen] = useState(false)
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false)
+  const [isBulkQRModalOpen, setIsBulkQRModalOpen] = useState(false)
   const [editingBank, setEditingBank] = useState<PiggyBank | null>(null)
   const [selectedBank, setSelectedBank] = useState<PiggyBank | null>(null)
   const [selectedBankForMap, setSelectedBankForMap] = useState<PiggyBank | null>(null)
   const [selectedBankForQR, setSelectedBankForQR] = useState<PiggyBank | null>(null)
+  const [bulkQRBanks, setBulkQRBanks] = useState<PiggyBank[]>([])
   const [activeTab, setActiveTab] = useState<'banks' | 'collections' | 'assignments' | 'analytics'>('banks')
   const [formData, setFormData] = useState({
     bankNumber: '',
@@ -468,6 +470,24 @@ export default function PiggyBankTracking() {
       )
     },
     {
+      key: 'qrCode',
+      header: 'QR Kod',
+      render: (_, row: PiggyBank) => (
+        <div className="text-center">
+          {row.qrCode ? (
+            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
+              <QrCode className="w-3 h-3 mr-1" />
+              Var
+            </span>
+          ) : (
+            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-100 text-red-800">
+              Yok
+            </span>
+          )}
+        </div>
+      )
+    },
+    {
       key: 'status',
       header: 'Durum',
       render: (_, row: PiggyBank) => (
@@ -496,9 +516,18 @@ export default function PiggyBankTracking() {
           <button
             onClick={() => handleOpenQRCode(row)}
             className="text-orange-600 hover:text-orange-800 px-2 py-1 rounded"
+            disabled={!row.qrCode}
           >
-            QR Kod
+            QR Görüntüle
           </button>
+          {!row.qrCode && (
+            <button
+              onClick={() => handleAssignSingleQR(row)}
+              className="text-indigo-600 hover:text-indigo-800 px-2 py-1 rounded"
+            >
+              QR Ata
+            </button>
+          )}
           <button
             onClick={() => handleCollect(row)}
             className="text-purple-600 hover:text-purple-800 px-2 py-1 rounded"
@@ -658,6 +687,51 @@ export default function PiggyBankTracking() {
     setIsQRScannerModalOpen(false)
   }
 
+  const handleBulkQRAssignment = () => {
+    // QR kodu olmayan kumbaraları filtrele
+    const banksWithoutQR = piggyBanks.filter(bank => !bank.qrCode || bank.qrCode === '')
+    setBulkQRBanks(banksWithoutQR)
+    setIsBulkQRModalOpen(true)
+  }
+
+  const handleAssignQRToBanks = () => {
+    const updatedBanks = piggyBanks.map(bank => {
+      if (bulkQRBanks.some(b => b.id === bank.id)) {
+        const qrCode = generateQRCode({
+          bankNumber: bank.bankNumber,
+          assignedTo: bank.assignedTo,
+          location: bank.location,
+          contactPerson: bank.contactPerson,
+          contactPhone: bank.contactPhone
+        })
+        return { ...bank, qrCode }
+      }
+      return bank
+    })
+
+    setPiggyBanks(updatedBanks)
+    setIsBulkQRModalOpen(false)
+    setBulkQRBanks([])
+    alert(`${bulkQRBanks.length} kumbaraya QR kod atandı!`)
+  }
+
+  const handleAssignSingleQR = (bank: PiggyBank) => {
+    const qrCode = generateQRCode({
+      bankNumber: bank.bankNumber,
+      assignedTo: bank.assignedTo,
+      location: bank.location,
+      contactPerson: bank.contactPerson,
+      contactPhone: bank.contactPhone
+    })
+
+    const updatedBanks = piggyBanks.map(b =>
+      b.id === bank.id ? { ...b, qrCode } : b
+    )
+
+    setPiggyBanks(updatedBanks)
+    alert(`${bank.bankNumber} numaralı kumbaraya QR kod atandı!`)
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -749,8 +823,9 @@ export default function PiggyBankTracking() {
   const locations = [...new Set(piggyBanks.map(b => b.location))]
 
   return (
-    <div className="space-y-6 bg-background min-h-screen">
-      <div className="bg-card p-6 bg-card rounded-lg border rounded-lg shadow border">
+    <div className="space-y-6 bg-background min-h-screen py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-card p-6 bg-card rounded-lg border rounded-lg shadow border">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold">Kumbara Takibi</h2>
@@ -758,8 +833,8 @@ export default function PiggyBankTracking() {
               <button
                 onClick={() => setActiveTab('banks')}
                 className={`px-4 py-2 text-sm ${activeTab === 'banks'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
                   }`}
               >
                 Kumbaralar
@@ -767,8 +842,8 @@ export default function PiggyBankTracking() {
               <button
                 onClick={() => setActiveTab('collections')}
                 className={`px-4 py-2 text-sm ${activeTab === 'collections'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
                   }`}
               >
                 Toplamalar
@@ -776,8 +851,8 @@ export default function PiggyBankTracking() {
               <button
                 onClick={() => setActiveTab('assignments')}
                 className={`px-4 py-2 text-sm ${activeTab === 'assignments'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
                   }`}
               >
                 Atamalar
@@ -785,8 +860,8 @@ export default function PiggyBankTracking() {
               <button
                 onClick={() => setActiveTab('analytics')}
                 className={`px-4 py-2 text-sm ${activeTab === 'analytics'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
                   }`}
               >
                 Analitik
@@ -801,6 +876,13 @@ export default function PiggyBankTracking() {
               >
                 <QrCode className="w-4 h-4" />
                 QR Tara
+              </button>
+              <button
+                onClick={handleBulkQRAssignment}
+                className="bg-orange-500 text-white hover:bg-orange-600 flex items-center gap-2"
+              >
+                <QrCode className="w-4 h-4" />
+                Toplu QR Atama
               </button>
               <button
                 onClick={openAddModal}
@@ -891,7 +973,9 @@ export default function PiggyBankTracking() {
               </button>
             </div>
 
-            <DataTable columns={bankColumns} data={filteredBanks} />
+            <div className="overflow-x-auto">
+              <DataTable columns={bankColumns} data={filteredBanks} />
+            </div>
           </>
         )}
 
@@ -905,7 +989,9 @@ export default function PiggyBankTracking() {
                 placeholder="Kumbara no, toplayan kişi ile ara..."
               />
             </div>
-            <DataTable columns={collectionColumns} data={filteredCollections} />
+            <div className="overflow-x-auto">
+              <DataTable columns={collectionColumns} data={filteredCollections} />
+            </div>
           </>
         )}
 
@@ -919,7 +1005,9 @@ export default function PiggyBankTracking() {
                 placeholder="Atanan yer, kişi ile ara..."
               />
             </div>
-            <DataTable columns={assignmentColumns} data={filteredAssignments} />
+            <div className="overflow-x-auto">
+              <DataTable columns={assignmentColumns} data={filteredAssignments} />
+            </div>
           </>
         )}
 
@@ -1285,7 +1373,15 @@ export default function PiggyBankTracking() {
       <LazyQRScannerModal
         isOpen={isQRScannerModalOpen}
         onClose={() => setIsQRScannerModalOpen(false)}
-        onScanSuccess={handleQRScanResult}
+        onScan={(data: string) => {
+          try {
+            const bankData = JSON.parse(data)
+            handleQRScanResult(bankData)
+          } catch {
+            // Eğer JSON parse edilemezse, data'yı bankNumber olarak kullan
+            handleQRScanResult({ bankNumber: data })
+          }
+        }}
       />
 
       {/* QR Kod Görüntüleme Modal */}
@@ -1293,9 +1389,58 @@ export default function PiggyBankTracking() {
         <QRCodeModal
           isOpen={isQRCodeModalOpen}
           onClose={() => setIsQRCodeModalOpen(false)}
-          bank={selectedBankForQR}
+          qrData={selectedBankForQR.qrCode || ''}
+          title={`${selectedBankForQR.bankNumber} - QR Kod`}
         />
       )}
+
+      {/* Toplu QR Atama Modal */}
+      <Modal
+        isOpen={isBulkQRModalOpen}
+        onClose={() => setIsBulkQRModalOpen(false)}
+        title="Toplu QR Kod Atama"
+      >
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-medium mb-2">QR Kodu Olmayan Kumbaralar</h4>
+            <div className="max-h-60 overflow-y-auto bg-gray-50 p-3 rounded">
+              {bulkQRBanks.length === 0 ? (
+                <p className="text-gray-500">Tüm kumbaralarda QR kod mevcut!</p>
+              ) : (
+                <div className="space-y-2">
+                  {bulkQRBanks.map(bank => (
+                    <div key={bank.id} className="flex justify-between items-center bg-white p-2 rounded">
+                      <div>
+                        <span className="font-medium">{bank.bankNumber}</span>
+                        <span className="text-sm text-gray-600 ml-2">{bank.assignedTo}</span>
+                      </div>
+                      <span className="text-xs text-gray-500">{bank.location}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-2 pt-4 border-t">
+            <button
+              onClick={() => setIsBulkQRModalOpen(false)}
+              className="px-4 py-2 border rounded hover:bg-gray-50"
+            >
+              İptal
+            </button>
+            {bulkQRBanks.length > 0 && (
+              <button
+                onClick={handleAssignQRToBanks}
+                className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+              >
+                {bulkQRBanks.length} Kumbaraya QR Kod Ata
+              </button>
+            )}
+          </div>
+        </div>
+      </Modal>
+      </div>
     </div>
   )
 }

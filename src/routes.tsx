@@ -1,7 +1,6 @@
 import { lazy, startTransition, useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AICommandCenter from './components/AICommandCenter'
-import { AppSidebar } from './components/sidebar/AppSidebar'
 import ChatContainer from './components/Chat/ChatContainer'
 import CommandPalette from './components/CommandPalette'
 import {
@@ -19,6 +18,7 @@ import {
 } from './components/loading/ModuleSuspenseWrapper'
 import { MainContent } from './components/MainContent'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { AppSidebar } from './components/sidebar/AppSidebar'
 import { SidebarProvider } from './components/ui/sidebar'
 import { useAICommandCenter } from './hooks/useAICommandCenter'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
@@ -103,7 +103,7 @@ const ScholarshipModuleInfo = lazy(() => import('./pages/scholarship/ModuleInfo'
 
 // Aid
 const AidIndex = lazy(() => import('./pages/aid/Index'))
-const Beneficiaries = lazy(() => import('./pages/aid/Beneficiaries'))
+const Beneficiaries = lazy(() => import('./pages/beneficiaries/Index'))
 const BeneficiariesDetail = lazy(() => import('./pages/aid/BeneficiariesDetail'))
 const Reports = lazy(() => import('./pages/aid/Reports'))
 const Applications = lazy(() => import('./pages/aid/Applications'))
@@ -321,6 +321,8 @@ function ProtectedAppLayout() {
           <Route path="/aid" element={withAidSuspense(AidIndex)} />
           <Route path="/aid/beneficiaries" element={withAidSuspense(Beneficiaries)} />
           <Route path="/aid/beneficiaries/:id" element={withAidSuspense(BeneficiariesDetail)} />
+          <Route path="/beneficiaries" element={withAidSuspense(Beneficiaries)} />
+          <Route path="/beneficiaries/:id" element={withAidSuspense(BeneficiariesDetail)} />
           <Route path="/aid/reports" element={withAidSuspense(Reports)} />
           <Route path="/aid/applications" element={withAidSuspense(Applications)} />
           <Route path="/aid/cash-vault" element={withAidSuspense(CashVault)} />

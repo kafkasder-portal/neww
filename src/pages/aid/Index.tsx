@@ -29,6 +29,14 @@ interface DashboardStats {
   activeAidRecords: number
 }
 
+// Utility function for currency formatting
+const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('tr-TR', {
+    style: 'currency',
+    currency: 'TRY'
+  }).format(amount)
+}
+
 export default function AidIndex() {
   const [stats, setStats] = useState<DashboardStats>({
     totalBeneficiaries: 0,
@@ -338,9 +346,9 @@ export default function AidIndex() {
                         </div>
                         <div className="flex-shrink-0 ml-4">
                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${application.status === 'pending' ? 'bg-warning/10 text-warning' :
-                              application.status === 'approved' ? 'bg-success/10 text-success' :
-                                application.status === 'rejected' ? 'bg-danger/10 text-danger' :
-                                  'bg-ink-4/10 text-ink-4'
+                            application.status === 'approved' ? 'bg-success/10 text-success' :
+                              application.status === 'rejected' ? 'bg-danger/10 text-danger' :
+                                'bg-ink-4/10 text-ink-4'
                             }`}>
                             {application.status === 'pending' ? 'Bekliyor' :
                               application.status === 'approved' ? 'Onaylandı' :

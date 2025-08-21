@@ -49,8 +49,8 @@ const MainContent = memo(function MainContent({
         <div className="relative z-10">
 
           {/* Enhanced Content Area */}
-          <div className="flex-1 p-6 bg-card rounded-lg border">
-            <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="flex-1 p-4 sm:p-6 bg-card rounded-lg border">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
               <div className="animate-fade-in-up">
                 {children}
               </div>
